@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JavaCUP.Runtime;
 
-public abstract class lr_parser
+public abstract class LRParser
 {
 	protected internal const int _error_sync_size = 3;
 
@@ -96,7 +96,7 @@ public abstract class lr_parser
 
 	
 	
-	public lr_parser()
+	public LRParser()
 	{
 		_done_parsing = false;
 		stack = new Stack<Symbol>();
@@ -215,7 +215,7 @@ public abstract class lr_parser
 	}
 
 	
-	public abstract Symbol do_action(int i1, lr_parser P_1, Stack<Symbol> s, int i2);
+	public abstract Symbol do_action(int i1, LRParser P_1, Stack<Symbol> s, int i2);
 
 	protected internal short get_reduce(int state, int sym)
 	{
@@ -386,7 +386,7 @@ public abstract class lr_parser
 	
 	protected internal virtual bool try_parse_ahead(bool debug)
 	{
-		virtual_parse_stack virtual_parse_stack2 = new virtual_parse_stack(stack);
+		VirtualParseStack virtual_parse_stack2 = new VirtualParseStack(stack);
 		while (true)
 		{
 			int num = get_action(virtual_parse_stack2.Top(), cur_err_token().sym);
@@ -551,7 +551,7 @@ public abstract class lr_parser
 	public abstract int start_production();
 
 		
-	public lr_parser(Scanner s)
+	public LRParser(Scanner s)
 		: this()
 	{
 		setScanner(s);
@@ -564,11 +564,12 @@ public abstract class lr_parser
 			debug_message("# Stack dump requested, but stack is null");
 			return;
 		}
+		var st = stack.ToArray();
 		debug_message("============ Parse Stack Dump ============");
 		for (int i = 0; i < stack.Count; i++)
 		{
-			debug_message(("Symbol: ")+(((Symbol)stack[i]).sym)+(" State: ")
-				+(((Symbol)stack[i]).parse_state)
+			debug_message(("Symbol: ")+(((Symbol)st[i]).sym)+(" State: ")
+				+(((Symbol)st[i]).parse_state)
 				);
 		}
 		debug_message("==========================================");
@@ -577,19 +578,20 @@ public abstract class lr_parser
 	
 	public virtual void debug_stack()
 	{
-		var stringBuffer = new StringBuilder("## STACK:");
-		for (int i = 0; i < stack.Count; i++)
+		var stringBuilder = new StringBuilder("## STACK:");
+		var st = stack.ToArray();
+		for (int i = 0; i < st.Length; i++)
 		{
-			Symbol symbol = (Symbol)stack[i];
-			stringBuffer.Append((" <state ")+(symbol.parse_state)+(", sym ")
+			var symbol = st[i];
+			stringBuilder.Append((" <state ")+(symbol.parse_state)+(", sym ")
 				+(symbol.sym)
 				+(">")
 				);
 			int num = i;
 			if (((3 != -1) ? (num % 3) : 0) == 2 || i == stack.Count - 1)
 			{
-				debug_message(stringBuffer.ToString());
-				stringBuffer = new StringBuilder("         ");
+				debug_message(stringBuilder.ToString());
+				stringBuilder = new StringBuilder("         ");
 			}
 		}
 	}
@@ -671,19 +673,19 @@ public abstract class lr_parser
 	
 	protected internal static short[][] unpackFromStrings(string[] sa)
 	{
-		StringBuilder stringBuffer = new StringBuilder(sa[0]);
+		StringBuilder stringBuilder = new StringBuilder(sa[0]);
 		int i;
 		for (i = 1; i < (nint)sa.LongLength; i++)
 		{
-			stringBuffer.Append(sa[i]);
+			stringBuilder.Append(sa[i]);
 		}
 		i = 0;
-		int num = (int)(((uint)stringBuffer[i] << 16) | stringBuffer[i+1]);
+		int num = (int)(((uint)stringBuilder[i] << 16) | stringBuilder[i+1]);
 		i += 2;
 		short[][] array = new short[num][];
 		for (int j = 0; j < num; j++)
 		{
-			int num2 = (int)(((uint)stringBuffer[i] << 16) | stringBuffer[i+1]);
+			int num2 = (int)(((uint)stringBuilder[i] << 16) | stringBuilder[i+1]);
 			i += 2;
 			array[j] = new short[num2];
 			for (int k = 0; k < num2; k++)
@@ -692,7 +694,7 @@ public abstract class lr_parser
 				int num3 = k;
 				int index = i;
 				i++;
-				obj[num3] = (short)(stringBuffer[(index)] - 2);
+				obj[num3] = (short)(stringBuilder[(index)] - 2);
 			}
 		}
 		return array;

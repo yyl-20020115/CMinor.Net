@@ -1,14 +1,10 @@
-
-
-
-
 namespace JavaCUP;
 
-public class reduce_action : parse_action
+public class ReduceAction : ParseAction
 {
-	protected internal production _reduce_with;
+	protected internal Production _reduce_with;
 
-	public virtual production reduce_with()
+	public virtual Production reduce_with()
 	{
 		return _reduce_with;
 	}
@@ -16,35 +12,32 @@ public class reduce_action : parse_action
 	
 	
 	
-	public reduce_action(production prod)
+	public ReduceAction(Production prod)
 	{
 		if (prod == null)
 		{
 			
-			throw new internal_error("Attempt to create a reduce_action with a null production");
+			throw new InternalError("Attempt to create a reduce_action with a null production");
 		}
 		_reduce_with = prod;
 	}
 
 	
 	
-	public virtual bool Equals(reduce_action other)
+	public virtual bool Equals(ReduceAction other)
 	{
 		return (other != null && other.reduce_with() == reduce_with()) ? true : false;
 	}
 
-	public override int kind()
-	{
-		return 2;
-	}
+    public override int Kind => 2;
 
-	
-	
-	public override bool Equals(object other)
+
+
+    public override bool Equals(object other)
 	{
-		if (other is reduce_action)
+		if (other is ReduceAction)
 		{
-			bool result = Equals((reduce_action)other);
+			bool result = Equals((ReduceAction)other);
 			
 			return result;
 		}

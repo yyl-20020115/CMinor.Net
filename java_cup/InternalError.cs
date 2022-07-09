@@ -1,13 +1,11 @@
 using System;
-
 namespace JavaCUP;
 
-
-public class internal_error : System.Exception
+public class InternalError : System.Exception
 {
 	
 	
-	public internal_error(string msg)
+	public InternalError(string msg)
 		: base(msg)
 	{
 	}

@@ -2,29 +2,28 @@ using System.Collections.Generic;
 
 namespace JavaCUP;
 
-public class symbol_set
+public class SymbolSet
 {
 	protected internal Dictionary<string, _Symbol> _all = new(11);
 
-	public symbol_set()
+	public SymbolSet()
 	{
 	}
 	
-	public symbol_set Clone()
+	public SymbolSet Clone()
     {
-		return new symbol_set() { _all = new Dictionary<string, _Symbol>(this._all) };
+		return new SymbolSet() { _all = new Dictionary<string, _Symbol>(this._all) };
     }
-	public virtual bool add(_Symbol sym)
+	public virtual bool Add(_Symbol sym)
 	{
-		not_null(sym);
+		NotNull(sym);
 		var b = _all.ContainsKey(sym.Name);
 		_all.Add(sym.Name, sym);
 		return !b;
 	}
 
 	
-	
-	public virtual IEnumerable<_Symbol> all()
+	public virtual IEnumerable<_Symbol> All()
 	{
 		return _all.Values;
 	}
@@ -32,18 +31,18 @@ public class symbol_set
 	
 	
 	
-	protected internal virtual void not_null(object obj)
+	protected internal virtual void NotNull(object obj)
 	{
 		if (obj == null)
 		{
 			
-			throw new internal_error("Null object used in set operation");
+			throw new InternalError("Null object used in set operation");
 		}
 	}
 
 	
 	
-	public virtual bool contains(_Symbol sym)
+	public virtual bool Contains(_Symbol sym)
 	{
 		return _all.ContainsKey(sym.Name);
 	}
@@ -51,12 +50,12 @@ public class symbol_set
 	
 	
 	
-	public virtual bool is_subset_of(symbol_set other)
+	public virtual bool IsSubSetOf(SymbolSet other)
 	{
-		not_null(other);
-		foreach(var s in this.all())
+		NotNull(other);
+		foreach(var s in this.All())
         {
-			if (!other.contains(s))
+			if (!other.Contains(s))
 				return false;
         }
 		return true;
@@ -65,9 +64,9 @@ public class symbol_set
 	
 	
 	
-	public virtual void remove(_Symbol sym)
+	public virtual void Remove(_Symbol sym)
 	{
-		not_null(sym);
+		NotNull(sym);
 		_all.Remove(sym.Name);
 	}
 
@@ -77,23 +76,23 @@ public class symbol_set
 
 
 
-    public virtual bool Equals(symbol_set other)
+    public virtual bool Equals(SymbolSet other)
 	{
 		//Discarded unreachable code: IL_001c
 		if (other == null || other.Count != Count)
 		{
 			return false;
 		}
-		internal_error internal_error2;
+		InternalError internal_error2;
 		try
 		{
-			return is_subset_of(other);
+			return IsSubSetOf(other);
 		}
-		catch (internal_error x)
+		catch (InternalError x)
 		{
 			internal_error2 = x;
 		}
-		internal_error internal_error3 = internal_error2;
+		InternalError internal_error3 = internal_error2;
 		internal_error3.crash();
 		return false;
 	}
@@ -101,34 +100,32 @@ public class symbol_set
 	
 	
 	
-	public symbol_set(symbol_set other)
+	public SymbolSet(SymbolSet other)
 	{
 		_all = new (11);
-		not_null(other);
+		NotNull(other);
 		_all = new Dictionary<string, _Symbol>(other._all);// other._all.clone();
 	}
 
 	
 	
 	
-	public virtual bool is_superset_of(symbol_set other)
+	public virtual bool IsSuperSetOf(SymbolSet other)
 	{
-		not_null(other);
-		bool result = other.is_subset_of(this);
-		
-		return result;
+		NotNull(other);
+		return other.IsSubSetOf(this);
 	}
 
 	
 	
 	
-	public virtual bool add(symbol_set other)
+	public virtual bool Add(SymbolSet other)
 	{
 		int num = 0;
-		not_null(other);
-		foreach (var s in other.all())
+		NotNull(other);
+		foreach (var s in other.All())
 		{
-			num = (this.add(s)||num!=0)?1:0;
+			num = (this.Add(s)||num!=0)?1:0;
 		}
 		return num != 0;
 	}
@@ -136,12 +133,12 @@ public class symbol_set
 	
 	
 	
-	public virtual void remove(symbol_set other)
+	public virtual void remove(SymbolSet other)
 	{
-		not_null(other);
-		foreach(var s in other.all())
+		NotNull(other);
+		foreach(var s in other.All())
         {
-			this.remove(s);
+			this.Remove(s);
         }
 	}
 
@@ -149,11 +146,11 @@ public class symbol_set
 	
 	public override bool Equals(object other)
 	{
-		if (!(other is symbol_set))
+		if (!(other is SymbolSet))
 		{
 			return false;
 		}
-		bool result = Equals((symbol_set)other);
+		bool result = Equals((SymbolSet)other);
 		
 		return result;
 	}
@@ -164,7 +161,7 @@ public class symbol_set
 	{
 		int num = 0;
 		int num2 = 0;
-		foreach(var s in this.all())
+		foreach(var s in this.All())
         {
 			if (num2++ >= 5) break;
 			num ^= s.GetHashCode();
@@ -178,7 +175,7 @@ public class symbol_set
 		string str = "{";
 		int num = 0;
 		
-		foreach(var symbol in this.all())
+		foreach(var symbol in this.All())
 		{
 			if (num != 0)
 			{

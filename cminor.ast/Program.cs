@@ -12,7 +12,7 @@ public class Program : AstNode
     private List<ExternalDeclaration> declarations = new();
     private FunctionDefinition mainFunction;
     private List<FunctionDefinition> functions = new();
-    private List<GlobalVariableSymbol> globalVariables = new();
+    private List<GlobalVariableDeclaration> globalVariables = new();
     private List<StringSymbol> stringSymbols = new();
     private StringSymbol boolStringSymbol;
 
@@ -24,7 +24,7 @@ public class Program : AstNode
 
     public virtual List<ExternalDeclaration> Declarations => declarations;
     public virtual FunctionDefinition MainFunction { get => mainFunction; set => this.mainFunction = value; }
-    public virtual List<GlobalVariableSymbol> GlobalVariables { get => globalVariables; set => this.globalVariables = value; }
+    public virtual List<GlobalVariableDeclaration> GlobalVariables { get => globalVariables; set => this.globalVariables = value; }
     public virtual List<FunctionDefinition> Functions { get => functions; set => this.functions = value; }
     public virtual List<StringSymbol> StringSymbols { get => stringSymbols; set => this.stringSymbols = value; }
     public virtual StringSymbol BooleanStringSymbol { get => boolStringSymbol; set => boolStringSymbol = value; }

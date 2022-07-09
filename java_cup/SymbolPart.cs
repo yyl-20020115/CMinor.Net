@@ -4,14 +4,14 @@
 
 namespace JavaCUP;
 
-public class symbol_part : production_part
+public class SymbolPart : ProductionPart
 {
 	protected internal _Symbol _the_symbol;
 
 	
 	
 	
-	public symbol_part(_Symbol sym)
+	public SymbolPart(_Symbol sym)
 		: this(sym, null)
 	{
 	}
@@ -39,20 +39,20 @@ public class symbol_part : production_part
 	
 	
 	
-	public symbol_part(_Symbol sym, string lab)
+	public SymbolPart(_Symbol sym, string lab)
 		: base(lab)
 	{
 		if (sym == null)
 		{
 			
-			throw new internal_error("Attempt to construct a symbol_part with a null symbol");
+			throw new InternalError("Attempt to construct a symbol_part with a null symbol");
 		}
 		_the_symbol = sym;
 	}
 
 	
 	
-	public virtual bool Equals(symbol_part other)
+	public virtual bool Equals(SymbolPart other)
 	{
 		return (other != null && base.Equals(other) && object.Equals(the_symbol(), other.the_symbol())) ? true : false;
 	}
@@ -66,11 +66,11 @@ public class symbol_part : production_part
 	
 	public override bool Equals(object other)
 	{
-		if (!(other is symbol_part))
+		if (!(other is SymbolPart))
 		{
 			return false;
 		}
-		bool result = Equals((symbol_part)other);
+		bool result = Equals((SymbolPart)other);
 		
 		return result;
 	}

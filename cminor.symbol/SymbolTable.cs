@@ -1,4 +1,3 @@
-
 using CMinor.AST;
 using CMinor.Parser;
 using CMinor.Semantic;
@@ -8,170 +7,159 @@ namespace CMinor.Symbol;
 
 public class SymbolTable
 {
-	
-	internal class Scope
-	{
-		
-		private Dictionary<string,Symbol> symbols =new();
+    internal class Scope
+    {
+        private Dictionary<string, Symbol> symbols = new();
+        private Scope m_parentScope;
+        internal SymbolTable this_00240;
 
-		private Scope m_parentScope;
+        private void declareSymbol(string P_0, Symbol P_1)
+        {
+            Symbol symbol = probe(P_0);
+            if (symbol == null)
+            {
+                symbols.Add(P_0, P_1);
+            }
+            else
+            {
+                access_0024000(this_00240).log(P_1.Location, ("cannot re-declare symbol '") + (P_0) + ("' in same scope (previously declared at ")
+                    + (symbol.Location)
+                    + (")")
+                    );
+            }
+        }
 
-		
-		internal SymbolTable this_00240;
+        public virtual Symbol probe(string P_0)
+        {
+            return this.symbols.TryGetValue(P_0, out var s) ? s : null;
+        }
 
-		
-		private void declareSymbol(string P_0, Symbol P_1)
-		{
-			Symbol symbol = probe(P_0);
-			if (symbol == null)
-			{
-				symbols.Add(P_0, P_1);
-			}
-			else
-			{
-				access_0024000(this_00240).log(P_1.Location, ("cannot re-declare symbol '")+(P_0)+("' in same scope (previously declared at ")
-					+(symbol.Location)
-					+(")")
-					);
-			}
-		}
+        public Scope(SymbolTable P_0)
+        {
+            this_00240 = P_0;
 
-		
-		
-		public virtual Symbol probe(string P_0)
-		{
-			return this.symbols.TryGetValue(P_0, out var s) ? s : null;
-		}
+            symbols = new();
+            this.m_parentScope = null;
+        }
 
-		
-		
-		public Scope(SymbolTable P_0)
-		{
-			this_00240 = P_0;
-			
-			symbols = new ();
-			this.m_parentScope = null;
-		}
 
-		
-		
-		public Scope(SymbolTable P_0, Scope P_1)
-		{
-			this_00240 = P_0;
-			
-			symbols = new ();
-			this.m_parentScope = P_1;
-		}
+        public Scope(SymbolTable P_0, Scope P_1)
+        {
+            this_00240 = P_0;
 
-		
-		
-		public virtual bool ContainsKey(string P_0)
-		{
-			bool result = symbols.ContainsKey(P_0);
-			
-			return result;
-		}
+            symbols = new();
+            this.m_parentScope = P_1;
+        }
 
-		public virtual Scope parentScope()
-		{
-			return this.m_parentScope;
-		}
 
-		public virtual bool hasParentScope()
-		{
-			return this.m_parentScope != null;
-		}
 
-		
-		
-		
-		internal static void access_0024100(Scope P_0, string P_1, Symbol P_2)
-		{
-			P_0.declareSymbol(P_1, P_2);
-		}
-	}
+        public virtual bool ContainsKey(string P_0)
+        {
+            bool result = symbols.ContainsKey(P_0);
 
-	private Scope currentScope;
+            return result;
+        }
 
-	private ErrorLogger errorLogger;
+        public virtual Scope parentScope()
+        {
+            return this.m_parentScope;
+        }
 
-	
-	
-	internal static ErrorLogger access_0024000(SymbolTable P_0)
-	{
-		return P_0.errorLogger;
-	}
+        public virtual bool hasParentScope()
+        {
+            return this.m_parentScope != null;
+        }
 
-	
-	
-	public virtual Symbol lookup(LocationInfo info, string identifier)
-	{
-		Scope scope = currentScope;
-		while (true)
-		{
-			Symbol symbol = scope.probe(identifier);
-			if (symbol != null)
-			{
-				return symbol;
-			}
-			if (!scope.hasParentScope())
-			{
-				break;
-			}
-			scope = scope.parentScope();
-		}
-		errorLogger.log(info, ("symbol '")+(identifier)+("' has not been declared")
-			);
-		return null;
-	}
 
-	
-	
-	public SymbolTable(ErrorLogger errorLogger)
-	{
-		currentScope = new Scope(this);
-		this.errorLogger = errorLogger;
-	}
 
-	
-	
-	public virtual void enterScope()
-	{
-		currentScope = new Scope(this, currentScope);
-	}
 
-	
-	
-	public virtual void exitScope()
-	{
-		currentScope = currentScope.parentScope();
-	}
+        internal static void access_0024100(Scope P_0, string P_1, Symbol P_2)
+        {
+            P_0.declareSymbol(P_1, P_2);
+        }
+    }
 
-	
-	
-	public virtual Symbol probe(LocationInfo info, string identifier)
-	{
-		Symbol symbol = currentScope.probe(identifier);
-		if (symbol == null)
-		{
-			errorLogger.log(info, ("symbol '")+(identifier)+("' has not been declared")
-				);
-		}
-		return symbol;
-	}
+    private Scope currentScope;
 
-	
-	
-	public virtual void lookupIdentifier(Identifier identifier)
-	{
-		identifier.Symbol = lookup(identifier.getLocation(), identifier.Name);
-	}
+    private ErrorLogger errorLogger;
 
-	
-	
-	public virtual void declareSymbol(Identifier identifier, Symbol symbol)
-	{
-		Scope.access_0024100(currentScope, identifier.Name, symbol);
-		identifier.Symbol = symbol;
-	}
+
+
+    internal static ErrorLogger access_0024000(SymbolTable P_0)
+    {
+        return P_0.errorLogger;
+    }
+
+
+
+    public virtual Symbol lookup(LocationInfo info, string identifier)
+    {
+        Scope scope = currentScope;
+        while (true)
+        {
+            Symbol symbol = scope.probe(identifier);
+            if (symbol != null)
+            {
+                return symbol;
+            }
+            if (!scope.hasParentScope())
+            {
+                break;
+            }
+            scope = scope.parentScope();
+        }
+        errorLogger.log(info, ("symbol '") + (identifier) + ("' has not been declared")
+            );
+        return null;
+    }
+
+
+
+    public SymbolTable(ErrorLogger errorLogger)
+    {
+        currentScope = new Scope(this);
+        this.errorLogger = errorLogger;
+    }
+
+
+
+    public virtual void enterScope()
+    {
+        currentScope = new Scope(this, currentScope);
+    }
+
+
+
+    public virtual void exitScope()
+    {
+        currentScope = currentScope.parentScope();
+    }
+
+
+
+    public virtual Symbol probe(LocationInfo info, string identifier)
+    {
+        Symbol symbol = currentScope.probe(identifier);
+        if (symbol == null)
+        {
+            errorLogger.log(info, ("symbol '") + (identifier) + ("' has not been declared")
+                );
+        }
+        return symbol;
+    }
+
+
+
+    public virtual void lookupIdentifier(Identifier identifier)
+    {
+        identifier.Symbol = lookup(identifier.getLocation(), identifier.Name);
+    }
+
+
+
+    public virtual void DeclareSymbol(Identifier identifier, Symbol symbol)
+    {
+        Scope.access_0024100(currentScope, identifier.Name, symbol);
+        identifier.Symbol = symbol;
+    }
 }

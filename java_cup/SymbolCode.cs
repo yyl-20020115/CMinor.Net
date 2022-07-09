@@ -1,10 +1,6 @@
-
-
-
-
 namespace JavaCUP;
 
-public class sym
+public class SymbolCode
 {
 	public const int NON = 8;
 
@@ -66,9 +62,4 @@ public class sym
 
 	public const int CODE_STRING = 29;
 
-	
-	
-	public sym()
-	{
 	}
-}

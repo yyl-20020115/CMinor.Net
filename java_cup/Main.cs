@@ -4,7 +4,7 @@ using System.IO;
 
 namespace JavaCUP;
 
-public class Main
+public class MainProgram
 {
 	protected internal static bool print_progress = true;
 
@@ -64,11 +64,11 @@ public class Main
 
 	protected internal static TextWriter symbol_class_file;
 
-	protected internal static lalr_state start_state;
+	protected internal static LalrState start_state;
 
-	protected internal static parse_action_table action_table;
+	protected internal static ParseActionTable action_table;
 
-	protected internal static parse_reduce_table reduce_table;
+	protected internal static ParseReduceTable reduce_table;
 
 	
 	protected internal static void parse_args(string[] argv)
@@ -79,7 +79,7 @@ public class Main
 			if (String.Equals(argv[i], "-package"))
 			{
 				i++;
-				if (i >= num || java.lang.String.instancehelper_startsWith(argv[i], "-") || java.lang.String.instancehelper_endsWith(argv[i], ".cup"))
+				if (i >= num || argv[i].StartsWith( "-") || argv[i].EndsWith(".cup"))
 				{
 					usage("-package must have a name argument");
 				}
@@ -88,7 +88,7 @@ public class Main
 			else if (String.Equals(argv[i], "-parser"))
 			{
 				i++;
-				if (i >= num || java.lang.String.instancehelper_startsWith(argv[i], "-") || java.lang.String.instancehelper_endsWith(argv[i], ".cup"))
+				if (i >= num || (argv[i].StartsWith("-") || (argv[i].EndsWith(".cup"))))
 				{
 					usage("-parser must have a name argument");
 				}
@@ -97,7 +97,7 @@ public class Main
 			else if (String.Equals(argv[i], "-symbols"))
 			{
 				i++;
-				if (i >= num || java.lang.String.instancehelper_startsWith(argv[i], "-") || java.lang.String.instancehelper_endsWith(argv[i], ".cup"))
+				if (i >= num || (argv[i].StartsWith("-") || (argv[i].EndsWith(".cup"))))
 				{
 					usage("-symbols must have a name argument");
 				}
@@ -110,18 +110,12 @@ public class Main
 			else if (String.Equals(argv[i], "-expect"))
 			{
 				i++;
-				if (i >= num || java.lang.String.instancehelper_startsWith(argv[i], "-") || java.lang.String.instancehelper_endsWith(argv[i], ".cup"))
+				if (i >= num || (argv[i].StartsWith("-") || (argv[i].EndsWith(".cup"))))
 				{
 					usage("-expect must have a name argument");
 				}
-				try
-				{
-					expect_conflicts = int.parseInt(argv[i]);
-				}
-				catch (NumberFormatException)
-				{
+				if (!int.TryParse(argv[i], out expect_conflicts))
 					goto IL_0161;
-				}
 			}
 			else if (String.Equals(argv[i], "-compact_red"))
 			{
@@ -180,14 +174,10 @@ public class Main
 				Console.Out.WriteLine("CUP v0.10k");
 				Environment.Exit(1);
 			}
-			else if (!java.lang.String.instancehelper_startsWith(argv[i], "-") && i == num - 1)
+			else if (!(argv[i].StartsWith("-") && i == num - 1))
 			{
-				try
-				{
-					java.lang.System.setIn(new FileInputStream(argv[i]));
-				}
-				catch (FileNotFoundException)
-				{
+				if(!File.Exists(argv[i]))
+                {
 					goto IL_032f;
 				}
 			}
@@ -227,40 +217,31 @@ public class Main
 		}
 		catch (System.Exception x)
 		{
-			System.Exception ex = ByteCodeHelper.MapException<System.Exception>(x, ByteCodeHelper.MapFlags.None);
-			if (ex == null)
-			{
-				throw;
-			}
-			ex2 = ex;
+			ex2 = x;
 		}
 		System.Exception ex3 = ex2;
-		lexer.emit_error("Internal error: Unexpected exception");
+		Lexer.emit_error("Internal error: Unexpected exception");
 		throw ex3;
 	}
 
 	
 	protected internal static void check_unused()
 	{
-		Enumeration enumeration = terminal.all();
-		while (enumeration.hasMoreElements())
+		foreach(var terminal2 in Terminal.all())
 		{
-			terminal terminal2 = (terminal)enumeration.nextElement();
-			if (terminal2 != terminal.___003C_003EEOF && terminal2 != terminal.___003C_003Eerror && terminal2.UseCount== 0)
+			if (terminal2 != Terminal.___003C_003EEOF && terminal2 != Terminal.___003C_003Eerror && terminal2.UseCount== 0)
 			{
 				emit.unused_term++;
 				if (!emit.nowarn)
 				{
 					Console.Error.WriteLine(("Warning: Terminal \"")+(terminal2.Name)+("\" was declared but never used")
 						);
-					lexer.warning_count++;
+					Lexer.warning_count++;
 				}
 			}
 		}
-		enumeration = non_terminal.all();
-		while (enumeration.hasMoreElements())
+		foreach(var non_terminal2 in NonTerminal.all())
 		{
-			non_terminal non_terminal2 = (non_terminal)enumeration.nextElement();
 			if (non_terminal2.UseCount== 0)
 			{
 				emit.unused_term++;
@@ -268,7 +249,7 @@ public class Main
 				{
 					Console.Error.WriteLine(("Warning: Non terminal \"")+(non_terminal2.Name)+("\" was declared but never used")
 						);
-					lexer.warning_count++;
+					Lexer.warning_count++;
 				}
 			}
 		}
@@ -282,30 +263,28 @@ public class Main
 		{
 			Console.Error.WriteLine("  Computing non-terminal nullability...");
 		}
-		non_terminal.compute_nullability();
+		NonTerminal.compute_nullability();
 		nullability_end = Stopwatch.GetTimestamp();
 		if (opt_do_debug || print_progress)
 		{
 			Console.Error.WriteLine("  Computing first sets...");
 		}
-		non_terminal.compute_first_sets();
+		NonTerminal.compute_first_sets();
 		first_end = Stopwatch.GetTimestamp();
 		if (opt_do_debug || print_progress)
 		{
 			Console.Error.WriteLine("  Building state machine...");
 		}
-		start_state = lalr_state.build_machine(emit.start_production);
+		start_state = LalrState.build_machine(emit.start_production);
 		machine_end = Stopwatch.GetTimestamp();
 		if (opt_do_debug || print_progress)
 		{
 			Console.Error.WriteLine("  Filling in tables...");
 		}
-		action_table = new parse_action_table();
-		reduce_table = new parse_reduce_table();
-		Enumeration enumeration = lalr_state.all();
-		while (enumeration.hasMoreElements())
+		action_table = new ParseActionTable();
+		reduce_table = new ParseReduceTable();
+		foreach(var lalr_state2 in LalrState.all())
 		{
-			lalr_state lalr_state2 = (lalr_state)enumeration.nextElement();
 			lalr_state2.build_table_entries(action_table, reduce_table);
 		}
 		table_end = Stopwatch.GetTimestamp();
@@ -318,7 +297,7 @@ public class Main
 		if (emit.num_conflicts > expect_conflicts)
 		{
 			Console.Error.WriteLine("*** More conflicts encountered than expected -- parser generation aborted");
-			lexer.error_count++;
+			Lexer.error_count++;
 		}
 	}
 
@@ -326,17 +305,13 @@ public class Main
 	protected internal static void open_files()
 	{
 		string text = (emit.parser_class_name)+(".java");
-		File file = new File(text);
+		FileInfo file = new FileInfo(text);
 		try
 		{
-			parser_class_file = new TextWriter(new BufferedOutputStream(new FileStream(file), 4096));
+			parser_class_file = new StreamWriter(file.FullName);
 		}
 		catch (System.Exception x)
 		{
-			if (ByteCodeHelper.MapException<System.Exception>(x, ByteCodeHelper.MapFlags.Unused) == null)
-			{
-				throw;
-			}
 			goto IL_0052;
 		}
 		goto IL_008c;
@@ -348,18 +323,14 @@ public class Main
 		goto IL_008c;
 		IL_008c:
 		text = (emit.symbol_const_class_name)+(".java");
-		file = new File(text);
+		file = new FileInfo(text);
 		try
 		{
-			symbol_class_file = new TextWriter(new BufferedOutputStream(new FileStream(file), 4096));
+			symbol_class_file = new StreamWriter(file.FullName);
 			return;
 		}
 		catch (System.Exception x2)
 		{
-			if (ByteCodeHelper.MapException<System.Exception>(x2, ByteCodeHelper.MapFlags.Unused) == null)
-			{
-				throw;
-			}
 		}
 		
 		Console.Error.WriteLine(("Can't open \"")+(text)+("\" for output")
@@ -373,7 +344,7 @@ public class Main
 	protected internal static void emit_parser()
 	{
 		emit.symbols(symbol_class_file, include_non_terms, sym_interface);
-		emit.parser(parser_class_file, action_table, reduce_table, start_state.index(), emit.start_production, opt_compact_red, suppress_scanner);
+		emit.parser(parser_class_file, action_table, reduce_table, start_state.Index(), emit.start_production, opt_compact_red, suppress_scanner);
 	}
 
 	
@@ -382,10 +353,10 @@ public class Main
 		Console.Error.WriteLine("===== Terminals =====");
 		int num = 0;
 		int num2 = 0;
-		while (num < terminal.number())
+		while (num < Terminal.number())
 		{
 			Console.Error.Write(("[")+(num)+("]")
-				+(terminal.find(num).Name)
+				+(Terminal.find(num).Name)
 				+(" ")
 				);
 			int num3 = num2 + 1;
@@ -401,10 +372,10 @@ public class Main
 		Console.Error.WriteLine("===== Non terminals =====");
 		num = 0;
 		num2 = 0;
-		while (num < non_terminal.number())
+		while (num < NonTerminal.number())
 		{
 			Console.Error.Write(("[")+(num)+("]")
-				+(non_terminal.find(num).Name)
+				+(NonTerminal.find(num).Name)
 				+(" ")
 				);
 			int num4 = num2 + 1;
@@ -418,9 +389,9 @@ public class Main
 		Console.Error.WriteLine();
 		Console.Error.WriteLine();
 		Console.Error.WriteLine("===== Productions =====");
-		for (num = 0; num < production.number(); num++)
+		for (num = 0; num < Production.number(); num++)
 		{
-			production production2 = production.find(num);
+			Production production2 = Production.find(num);
 			Console.Error.Write(("[")+(num)+("] ")
 				+(production2.lhs().the_symbol().Name)
 				+(" ::= ")
@@ -433,7 +404,7 @@ public class Main
 				}
 				else
 				{
-					Console.Error.Write((((symbol_part)production2.rhs(i)).the_symbol().Name)+(" "));
+					Console.Error.Write((((SymbolPart)production2.rhs(i)).the_symbol().Name)+(" "));
 				}
 			}
 			Console.Error.WriteLine();
@@ -444,15 +415,13 @@ public class Main
 	
 	public static void dump_machine()
 	{
-		lalr_state[] array = new lalr_state[lalr_state.number()];
-		Enumeration enumeration = lalr_state.all();
-		while (enumeration.hasMoreElements())
+		LalrState[] array = new LalrState[LalrState.number()];
+		foreach(var lalr_state2 in LalrState.all())
 		{
-			lalr_state lalr_state2 = (lalr_state)enumeration.nextElement();
-			array[lalr_state2.index()] = lalr_state2;
+			array[lalr_state2.Index()] = lalr_state2;
 		}
 		Console.Error.WriteLine("===== Viable Prefix Recognizer =====");
-		for (int i = 0; i < lalr_state.number(); i++)
+		for (int i = 0; i < LalrState.number(); i++)
 		{
 			if (array[i] == start_state)
 			{
@@ -497,24 +466,24 @@ public class Main
 		if (!no_summary)
 		{
 			Console.Error.WriteLine("------- CUP v0.10k Parser Generation Summary -------");
-			Console.Error.WriteLine(("  ")+(lexer.error_count)+(" error")
-				+(plural(lexer.error_count))
+			Console.Error.WriteLine(("  ")+(Lexer.error_count)+(" error")
+				+(plural(Lexer.error_count))
 				+(" and ")
-				+(lexer.warning_count)
+				+(Lexer.warning_count)
 				+(" warning")
-				+(plural(lexer.warning_count))
+				+(plural(Lexer.warning_count))
 				);
-			Console.Error.Write(("  ")+(terminal.number())+(" terminal")
-				+(plural(terminal.number()))
+			Console.Error.Write(("  ")+(Terminal.number())+(" terminal")
+				+(plural(Terminal.number()))
 				+(", ")
 				);
-			Console.Error.Write((non_terminal.number())+(" non-terminal")+(plural(non_terminal.number()))
+			Console.Error.Write((NonTerminal.number())+(" non-terminal")+(plural(NonTerminal.number()))
 				+(", and ")
 				);
-			Console.Error.WriteLine((production.number())+(" production")+(plural(production.number()))
+			Console.Error.WriteLine((Production.number())+(" production")+(plural(Production.number()))
 				+(" declared, ")
 				);
-			Console.Error.WriteLine(("  producing ")+(lalr_state.number())+(" unique parse states.")
+			Console.Error.WriteLine(("  producing ")+(LalrState.number())+(" unique parse states.")
 				);
 			Console.Error.WriteLine(("  ")+(emit.unused_term)+(" terminal")
 				+(plural(emit.unused_term))
@@ -659,14 +628,14 @@ public class Main
 		string str = ((num5 < 10u) ? "   " : ((num5 < 100u) ? "  " : ((num5 >= 1000u) ? "" : " ")));
 		long num6 = time_val * 1000u;
 		long num7 = ((total_time != -1) ? (num6 / total_time) : (-num6));
-		StringBuilder stringBuilder = ((num == 0) ? "" : "-")+(str)+(num5)
+		string stringBuilder = ((num == 0) ? "" : "-")+(str)+(num5)
 			+(".");
 		long num8 = 1000L;
-		StringBuilder stringBuilder2 = stringBuilder+(((num8 != -1) ? (num4 % num8) : 0) / 100L);
+		string stringBuilder2 = stringBuilder+(((num8 != -1) ? (num4 % num8) : 0) / 100L);
 		long num9 = 100L;
-		StringBuilder stringBuilder3 = stringBuilder2+(((num9 != -1) ? (num4 % num9) : 0) / 10L);
+		string stringBuilder3 = stringBuilder2+(((num9 != -1) ? (num4 % num9) : 0) / 10L);
 		long num10 = 10L;
-		StringBuilder stringBuilder4 = stringBuilder3+((num10 != -1) ? (num4 % num10) : 0)+("sec")+(" (")
+		string stringBuilder4 = stringBuilder3+((num10 != -1) ? (num4 % num10) : 0)+("sec")+(" (")
 			+(num7 / 10L)
 			+(".");
 		long num11 = 10L;
@@ -674,16 +643,9 @@ public class Main
 		
 		return result;
 	}
-
 	
 	
-	private Main()
-	{
-	}
-
-	
-	
-	public static void main(string[] argv)
+	public static void Main(string[] argv)
 	{
 		int output_produced = 0;
 		start_time = Stopwatch.GetTimestamp();
@@ -701,7 +663,7 @@ public class Main
 		}
 		parse_grammar_spec();
 		parse_end = Stopwatch.GetTimestamp();
-		if (lexer.error_count == 0)
+		if (Lexer.error_count == 0)
 		{
 			if (print_progress)
 			{
@@ -715,7 +677,7 @@ public class Main
 			}
 			build_parser();
 			build_end = Stopwatch.GetTimestamp();
-			if (lexer.error_count != 0)
+			if (Lexer.error_count != 0)
 			{
 				opt_dump_tables = false;
 			}
@@ -753,7 +715,7 @@ public class Main
 		{
 			emit_summary((byte)output_produced != 0);
 		}
-		if (lexer.error_count != 0)
+		if (Lexer.error_count != 0)
 		{
 			Environment.Exit(100);
 		}

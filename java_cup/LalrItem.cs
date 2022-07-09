@@ -7,16 +7,16 @@ using System.Collections.Generic;
 
 namespace JavaCUP;
 
-public class lalr_item : lr_item_core
+public class LalrItem : LRItemCore
 {
-	protected internal terminal_set _lookahead;
+	protected internal TerminalSet _lookahead;
 
-	protected internal Stack<terminal_set> _propagate_items;
+	protected internal Stack<LalrItem> _propagate_items = new();
 
 	protected internal bool needs_propagation;
 
 	
-	public lalr_item(production prod, int pos, terminal_set look)
+	public LalrItem(Production prod, int pos, TerminalSet look)
 		: base(prod, pos)
 	{
 		_lookahead = look;
@@ -24,18 +24,18 @@ public class lalr_item : lr_item_core
 		needs_propagation = true;
 	}
 
-	public virtual terminal_set lookahead()
+	public virtual TerminalSet lookahead()
 	{
 		return _lookahead;
 	}
 
-	public virtual Stack<terminal_set> propagate_items()
+	public virtual Stack<LalrItem> propagate_items()
 	{
 		return _propagate_items;
 	}
 
 	
-	public virtual void propagate_lookaheads(terminal_set incoming)
+	public virtual void propagate_lookaheads(TerminalSet incoming)
 	{
 		int num = 0;
 		if (!needs_propagation && (incoming == null || incoming.IsEmpty))
@@ -48,25 +48,26 @@ public class lalr_item : lr_item_core
 		}
 		if (num != 0 || needs_propagation)
 		{
+			var lt = propagate_items().ToArray();
 			needs_propagation = false;
-			for (int i = 0; i < propagate_items().Count; i++)
+			for (int i = 0; i < lt.Length; i++)
 			{
-				((lalr_item)propagate_items()[i]).propagate_lookaheads(lookahead());
+				lt[i].propagate_lookaheads(lookahead());
 			}
 		}
 	}
 
 	
 	
-	public virtual void add_propagate(lalr_item prop_to)
+	public virtual void add_propagate(LalrItem prop_to)
 	{
-		_propagate_items.push(prop_to);
+		_propagate_items.Push(prop_to);
 		needs_propagation = true;
 	}
 
 	
 	
-	public virtual bool Equals(lalr_item other)
+	public virtual bool Equals(LalrItem other)
 	{
 		if (other == null)
 		{
@@ -80,7 +81,7 @@ public class lalr_item : lr_item_core
 	
 	
 	
-	public lalr_item(production prod, terminal_set look)
+	public LalrItem(Production prod, TerminalSet look)
 		: this(prod, 0, look)
 	{
 	}
@@ -88,51 +89,51 @@ public class lalr_item : lr_item_core
 	
 	
 	
-	public lalr_item(production prod)
-		: this(prod, 0, new terminal_set())
+	public LalrItem(Production prod)
+		: this(prod, 0, new TerminalSet())
 	{
 	}
 
 	
 	
 	
-	public virtual lalr_item shift()
+	public virtual LalrItem shift()
 	{
 		if (dot_at_end())
 		{
 			
-			throw new internal_error("Attempt to shift past end of an lalr_item");
+			throw new InternalError("Attempt to shift past end of an lalr_item");
 		}
-		production prod = the_production();
+		Production prod = the_production();
 		int pos = dot_pos() + 1;
-		lalr_item lalr_item2 = new lalr_item(prod, pos, new terminal_set(lookahead()));
+		LalrItem lalr_item2 = new LalrItem(prod, pos, new TerminalSet(lookahead()));
 		add_propagate(lalr_item2);
 		return lalr_item2;
 	}
 
 	
 	
-	public virtual terminal_set calc_lookahead(terminal_set lookahead_after)
+	public virtual TerminalSet calc_lookahead(TerminalSet lookahead_after)
 	{
 		if (dot_at_end())
 		{
 			
-			throw new internal_error("Attempt to calculate a lookahead set with a completed item");
+			throw new InternalError("Attempt to calculate a lookahead set with a completed item");
 		}
-		terminal_set terminal_set2 = new terminal_set();
+		TerminalSet terminal_set2 = new TerminalSet();
 		for (int i = dot_pos() + 1; i < the_production().rhs_length(); i++)
 		{
-			production_part production_part2 = the_production().rhs(i);
+			ProductionPart production_part2 = the_production().rhs(i);
 			if (!production_part2.is_action())
 			{
-				_Symbol symbol2 = ((symbol_part)production_part2).the_symbol();
+				_Symbol symbol2 = ((SymbolPart)production_part2).the_symbol();
 				if (!symbol2.IsNonTerminal)
 				{
-					terminal_set2.Add((terminal)symbol2);
+					terminal_set2.Add((Terminal)symbol2);
 					return terminal_set2;
 				}
-				terminal_set2.Add(((non_terminal)symbol2).first_set());
-				if (!((non_terminal)symbol2).nullable())
+				terminal_set2.Add(((NonTerminal)symbol2).first_set());
+				if (!((NonTerminal)symbol2).nullable())
 				{
 					return terminal_set2;
 				}
@@ -152,15 +153,15 @@ public class lalr_item : lr_item_core
 		}
 		for (int i = dot_pos() + 1; i < the_production().rhs_length(); i++)
 		{
-			production_part production_part2 = the_production().rhs(i);
+			ProductionPart production_part2 = the_production().rhs(i);
 			if (!production_part2.is_action())
 			{
-				_Symbol symbol2 = ((symbol_part)production_part2).the_symbol();
+				_Symbol symbol2 = ((SymbolPart)production_part2).the_symbol();
 				if (!symbol2.IsNonTerminal)
 				{
 					return false;
 				}
-				if (!((non_terminal)symbol2).nullable())
+				if (!((NonTerminal)symbol2).nullable())
 				{
 					return false;
 				}
@@ -173,11 +174,11 @@ public class lalr_item : lr_item_core
 	
 	public override bool Equals(object other)
 	{
-		if (!(other is lalr_item))
+		if (!(other is LalrItem))
 		{
 			return false;
 		}
-		bool result = Equals((lalr_item)other);
+		bool result = Equals((LalrItem)other);
 		
 		return result;
 	}
@@ -201,11 +202,11 @@ public class lalr_item : lr_item_core
 		if (lookahead() != null)
 		{
 			str = (str)+("{");
-			for (int i = 0; i < terminal.number(); i++)
+			for (int i = 0; i < Terminal.number(); i++)
 			{
 				if (lookahead().Contains(i))
 				{
-					str = (str)+(terminal.find(i).Name)+(" ")
+					str = (str)+(Terminal.find(i).Name)+(" ")
 						;
 				}
 			}

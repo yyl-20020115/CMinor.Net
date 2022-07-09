@@ -1,6 +1,6 @@
 namespace JavaCUP;
 
-public abstract class production_part
+public abstract class ProductionPart
 {
 	protected internal string _label;
 
@@ -8,7 +8,7 @@ public abstract class production_part
 
 
 
-    public virtual bool Equals(production_part other)
+    public virtual bool Equals(ProductionPart other)
 	{
 		if (other == null)
 		{
@@ -25,7 +25,7 @@ public abstract class production_part
 
 	
 	
-	public production_part(string lab)
+	public ProductionPart(string lab)
 	{
 		_label = lab;
 	}
@@ -36,11 +36,11 @@ public abstract class production_part
 	
 	public override bool Equals(object other)
 	{
-		if (!(other is production_part))
+		if (!(other is ProductionPart))
 		{
 			return false;
 		}
-		bool result = Equals((production_part)other);
+		bool result = Equals((ProductionPart)other);
 		
 		return result;
 	}

@@ -94,7 +94,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 
 	private const int MAX_STRING_LITERAL_LENGTH = 64;
 
-	private StringBuilder stringBuffer;
+	private StringBuilder stringBuilder;
 
 
 	private Dictionary<string, string> stringTable = new();
@@ -115,7 +115,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 		zzLexicalState = 0;
 		zzBuffer = new char[16384];
 		zzAtBOL = true;
-		stringBuffer = new StringBuilder(64);
+		stringBuilder = new StringBuilder(64);
 		stringTable = new ();
 		yyline = 1;
 		zzReader = input;
@@ -382,7 +382,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	
 	private JavaCUP.Runtime.Symbol checkCharLiteralLength()
 	{
-		if (stringBuffer.Length > 1)
+		if (stringBuilder.Length > 1)
 		{
 			yybegin(8);
 			JavaCUP.Runtime.Symbol result = makeErrorToken("more than one character inside character literal");
@@ -409,7 +409,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	
 	private JavaCUP.Runtime.Symbol checkStringLiteralLength()
 	{
-		if (stringBuffer.Length > 64)
+		if (stringBuilder.Length > 64)
 		{
 			yybegin(6);
 			JavaCUP.Runtime.Symbol result = makeErrorToken("maximum string literal length exceeded (maximum number of characters allowed is 64)");
@@ -448,7 +448,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	
 	private char getLastBufferChar()
 	{		
-		return stringBuffer[stringBuffer.Length-1];
+		return stringBuilder[stringBuilder.Length-1];
 	}
 
 	
@@ -812,7 +812,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 43:
 			{
-				stringBuffer.Append('\n');
+				stringBuilder.Append('\n');
 				JavaCUP.Runtime.Symbol symbol = checkCharLiteralLength();
 				if (symbol != null)
 				{
@@ -828,7 +828,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 44:
 			{
-				stringBuffer.Append('\0');
+				stringBuilder.Append('\0');
 				JavaCUP.Runtime.Symbol symbol = checkCharLiteralLength();
 				if (symbol != null)
 				{
@@ -838,7 +838,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 42:
 			{
-				stringBuffer.Append('\0');
+				stringBuilder.Append('\0');
 				JavaCUP.Runtime.Symbol symbol = checkStringLiteralLength();
 				if (symbol != null)
 				{
@@ -868,7 +868,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 26:
 			{
-				stringBuffer.Append(getLastChar());
+				stringBuilder.Append(getLastChar());
 				JavaCUP.Runtime.Symbol symbol = checkCharLiteralLength();
 				if (symbol != null)
 				{
@@ -890,7 +890,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 23:
 			{
-				stringBuffer.Append(getLastChar());
+				stringBuilder.Append(getLastChar());
 				JavaCUP.Runtime.Symbol symbol = checkStringLiteralLength();
 				if (symbol != null)
 				{
@@ -926,7 +926,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 41:
 			{
-				stringBuffer.Append('\n');
+				stringBuilder.Append('\n');
 				JavaCUP.Runtime.Symbol symbol = checkStringLiteralLength();
 				if (symbol != null)
 				{
@@ -1027,7 +1027,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 19:
 				yybegin(2);
-					stringBuffer.Length = 0;
+					stringBuilder.Length = 0;
 				continue;
 			case 50:
 			{
@@ -1053,7 +1053,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			case 24:
 			{
 				yybegin(0);
-				JavaCUP.Runtime.Symbol result14 = new JavaCUP.Runtime.Symbol(35, stringBuffer);
+				JavaCUP.Runtime.Symbol result14 = new JavaCUP.Runtime.Symbol(35, stringBuilder);
 				
 				return result14;
 			}
@@ -1077,7 +1077,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 20:
 				yybegin(4);
-					stringBuffer.Length = 0;
+					stringBuilder.Length = 0;
 				continue;
 			case 5:
 			{

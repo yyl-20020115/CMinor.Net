@@ -1,14 +1,10 @@
-
-
-
-
 namespace JavaCUP;
 
-public class parse_reduce_table
+public class ParseReduceTable
 {
 	protected internal int _num_states;
 
-	public parse_reduce_row[] under_state;
+	public ParseReduceRow[] under_state;
 
 	public virtual int num_states()
 	{
@@ -17,13 +13,13 @@ public class parse_reduce_table
 
 	
 	
-	public parse_reduce_table()
+	public ParseReduceTable()
 	{
-		_num_states = lalr_state.number();
-		under_state = new parse_reduce_row[_num_states];
+		_num_states = LalrState.number();
+		under_state = new ParseReduceRow[_num_states];
 		for (int i = 0; i < _num_states; i++)
 		{
-			under_state[i] = new parse_reduce_row();
+			under_state[i] = new ParseReduceRow();
 		}
 	}
 
@@ -42,17 +38,17 @@ public class parse_reduce_table
 			{
 				int num3 = num2;
 				_ = under_state[i];
-				if (num3 >= parse_reduce_row.Count)
+				if (num3 >= ParseReduceRow.Count)
 				{
 					break;
 				}
-				lalr_state lalr_state2 = under_state[i].under_non_term[num2];
+				LalrState lalr_state2 = under_state[i].under_non_term[num2];
 				if (lalr_state2 != null)
 				{
 					str = (str)+(" [non term ")+(num2)
 						+("->")
 						;
-					str = (str)+("state ")+(lalr_state2.index())
+					str = (str)+("state ")+(lalr_state2.Index())
 						+("]")
 						;
 					num++;

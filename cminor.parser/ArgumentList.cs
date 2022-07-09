@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace CMinor.Parser;
 
-internal class ArgumentList : List<AstNode>
+public class ArgumentList : List<Expression>
 {	
-	internal ArgumentList()
+	public ArgumentList()
 	{
 	}
 }

@@ -2,24 +2,24 @@ using System.Collections.Generic;
 
 namespace JavaCUP;
 
-public class terminal : _Symbol
+public class Terminal : _Symbol
 {
 	private int _precedence_num;
 
 	private int _precedence_side;
 
-	protected internal static Dictionary<string,terminal> _all =new();
+	protected internal static Dictionary<string,Terminal> _all =new();
 
-	protected internal static Dictionary<int,terminal> _all_by_index = new();
+	protected internal static Dictionary<int,Terminal> _all_by_index = new();
 
 	protected internal static int next_index;
 
-	internal static terminal ___003C_003EEOF;
+	internal static Terminal ___003C_003EEOF;
 
-	internal static terminal ___003C_003Eerror;
+	internal static Terminal ___003C_003Eerror;
 
 	
-	public static terminal EOF
+	public static Terminal EOF
 	{
 		
 		get
@@ -29,7 +29,7 @@ public class terminal : _Symbol
 	}
 
 	
-	public static terminal error
+	public static Terminal error
 	{
 		
 		get
@@ -56,14 +56,14 @@ public class terminal : _Symbol
 
 	
 	
-	public terminal(string nm, string tp)
+	public Terminal(string nm, string tp)
 		: this(nm, tp, -1, -1)
 	{
 	}
 
 	
 	
-	public static IEnumerable<terminal> all()
+	public static IEnumerable<Terminal> all()
 	{
 		return _all.Values;
 	}
@@ -79,20 +79,20 @@ public class terminal : _Symbol
 
 	
 	
-	public static terminal find(int idx)
+	public static Terminal find(int idx)
 	{
 		return _all_by_index.TryGetValue(idx, out var t)?t: null;
 	}
 
 	
-	public terminal(string nm, string tp, int precedence_side, int precedence_num)
+	public Terminal(string nm, string tp, int precedence_side, int precedence_num)
 		: base(nm, tp)
 	{
 		var c = _all.ContainsKey(nm);
 		_all.Add(nm, this);
 		if (c)
 		{
-			new internal_error(("Duplicate terminal (")+(nm)+(") created")
+			new InternalError(("Duplicate terminal (")+(nm)+(") created")
 				).crash();
 		}
 		_index = next_index++;
@@ -105,14 +105,14 @@ public class terminal : _Symbol
 
 	
 	
-	public terminal(string nm)
+	public Terminal(string nm)
 		: this(nm, null)
 	{
 	}
 
 	
 	
-	public static terminal find(string with_name)
+	public static Terminal find(string with_name)
 	{
 		return with_name!=null && _all.TryGetValue(with_name, out var t)?t: null;
 
@@ -131,12 +131,12 @@ public class terminal : _Symbol
 	}
 
 	
-	static terminal()
+	static Terminal()
 	{
 		_all = new ();
 		_all_by_index = new ();
 		next_index = 0;
-		___003C_003EEOF = new terminal("EOF");
-		___003C_003Eerror = new terminal("error");
+		___003C_003EEOF = new Terminal("EOF");
+		___003C_003Eerror = new Terminal("error");
 	}
 }

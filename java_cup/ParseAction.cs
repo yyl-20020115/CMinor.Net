@@ -1,10 +1,6 @@
-
-
-
-
 namespace JavaCUP;
 
-public class parse_action
+public class ParseAction
 {
 	public const int ERROR = 0;
 
@@ -14,21 +10,18 @@ public class parse_action
 
 	public const int NONASSOC = 3;
 
-	public virtual int kind()
+    public virtual int Kind => 0;
+
+
+
+    public virtual bool Equals(ParseAction other)
 	{
-		return 0;
+		return (other != null && other.Kind== 0) ? true : false;
 	}
 
 	
 	
-	public virtual bool Equals(parse_action other)
-	{
-		return (other != null && other.kind() == 0) ? true : false;
-	}
-
-	
-	
-	public parse_action()
+	public ParseAction()
 	{
 	}
 
@@ -36,9 +29,9 @@ public class parse_action
 	
 	public override bool Equals(object other)
 	{
-		if (other is parse_action)
+		if (other is ParseAction)
 		{
-			bool result = Equals((parse_action)other);
+			bool result = Equals((ParseAction)other);
 			
 			return result;
 		}

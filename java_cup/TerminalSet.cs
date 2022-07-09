@@ -3,22 +3,22 @@ using System.Collections.Generic;
 
 namespace JavaCUP;
 
-public class terminal_set
+public class TerminalSet
 {
-	internal static terminal_set empty_set = new();
+	internal static TerminalSet empty_set = new();
 
 	protected internal BitSet _elements = new();
 
-    public static terminal_set EMPTY => empty_set;
+    public static TerminalSet EMPTY => empty_set;
 
 
-    public terminal_set()
+    public TerminalSet()
 	{
-		_elements = new BitSet(terminal.number());
+		_elements = new BitSet(Terminal.number());
 	}
 
 	
-	public virtual bool Add(terminal_set other)
+	public virtual bool Add(TerminalSet other)
 	{
 		IsNotNull(other);
 		var obj = _elements.Clone();
@@ -29,7 +29,7 @@ public class terminal_set
 	
 	
 	
-	public virtual bool Add(terminal sym)
+	public virtual bool Add(Terminal sym)
 	{
 		IsNotNull(sym);
 		int num = (_elements.Get(sym.Index) ? 1 : 0);
@@ -42,7 +42,7 @@ public class terminal_set
 
     public virtual bool IsEmpty => Equals(empty_set);
 
-    public terminal_set(terminal_set other)
+    public TerminalSet(TerminalSet other)
 	{
 		IsNotNull(other);
 		_elements = other._elements.Clone();
@@ -52,7 +52,7 @@ public class terminal_set
 
     public virtual bool Contains(int indx) => _elements.Get(indx);
 
-    public virtual bool InterestWith(terminal_set other)
+    public virtual bool InterestWith(TerminalSet other)
 	{
 		IsNotNull(other);
 		var bitSet = other._elements.Clone();
@@ -63,7 +63,7 @@ public class terminal_set
 	
 	
 	
-	public virtual bool IsSubsetOf(terminal_set other)
+	public virtual bool IsSubsetOf(TerminalSet other)
 	{
 		IsNotNull(other);
 		var bitSet = other._elements.Clone();
@@ -78,36 +78,36 @@ public class terminal_set
 	{
 		if (obj == null)
 		{	
-			throw new internal_error("Null object used in set operation");
+			throw new InternalError("Null object used in set operation");
 		}
 		return true;
 	}
 
 
 
-    public virtual bool Equals(terminal_set other) => other != null && _elements.Equals(other._elements);
+    public virtual bool Equals(TerminalSet other) => other != null && _elements.Equals(other._elements);
 
 
-    public virtual bool Contains(terminal sym) => IsNotNull(sym) && _elements.Get(sym.Index);
+    public virtual bool Contains(Terminal sym) => IsNotNull(sym) && _elements.Get(sym.Index);
 
-    public virtual bool IsSuperSetOf(terminal_set other) => IsNotNull(other) && other.IsSubsetOf(this);
-
-
+    public virtual bool IsSuperSetOf(TerminalSet other) => IsNotNull(other) && other.IsSubsetOf(this);
 
 
-    public virtual void Remove(terminal sym)
+
+
+    public virtual void Remove(Terminal sym)
 	{
 		IsNotNull(sym);
 		_elements.Clear(sym.Index);
 	}
 
-    public override bool Equals(object other) => other is terminal_set t && Equals(t);
+    public override bool Equals(object other) => other is TerminalSet t && Equals(t);
 
     public override string ToString()
 	{
 		string str = "{";
 		int num = 0;
-		for (int i = 0; i < terminal.number(); i++)
+		for (int i = 0; i < Terminal.number(); i++)
 		{
 			if (_elements.Get(i))
 			{
@@ -119,7 +119,7 @@ public class terminal_set
 				{
 					num = 1;
 				}
-				str = (str)+(terminal.find(i).Name);
+				str = (str)+(Terminal.find(i).Name);
 			}
 		}
 		return (str)+("}");

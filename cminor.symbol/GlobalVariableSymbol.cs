@@ -6,15 +6,15 @@ namespace CMinor.Symbol;
 
 public class GlobalVariableSymbol : Symbol
 {
-	public GlobalVariableSymbol(LocationInfo info, string identifier, Types type)
-		: base(info, identifier, type)
-	{
-	}
+    public GlobalVariableSymbol(LocationInfo info, string identifier, Types type)
+        : base(info, identifier, type)
+    {
+    }
 
     public virtual string Label => ("global_") + (Identifier);
 
     public override void Accept(SymbolVisitor v)
-	{
-		v.Visit(this);
-	}
+    {
+        v.Visit(this);
+    }
 }

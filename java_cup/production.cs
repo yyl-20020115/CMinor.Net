@@ -2,23 +2,23 @@ using System.Collections.Generic;
 
 namespace JavaCUP;
 
-public class production
+public class Production
 {
-	protected internal static Dictionary<int, production> _all = new();
+	protected internal static Dictionary<int, Production> _all = new();
 
 	protected internal static int next_index;
 
-	protected internal symbol_part _lhs;
+	protected internal SymbolPart _lhs;
 
 	protected internal int _rhs_prec;
 
 	protected internal int _rhs_assoc;
 
-	protected internal production_part[] _rhs;
+	protected internal ProductionPart[] _rhs;
 
 	protected internal int _rhs_length;
 
-	protected internal action_part _action;
+	protected internal ActionPart _action;
 
 	protected internal int _index;
 
@@ -28,17 +28,17 @@ public class production
 
 	protected internal bool _nullable;
 
-	protected internal terminal_set _first_set;
+	protected internal TerminalSet _first_set;
 
 	
-	protected internal virtual string declare_labels(production_part[] rhs, int rhs_len, string final_action)
+	protected internal virtual string declare_labels(ProductionPart[] rhs, int rhs_len, string final_action)
 	{
 		string text = "";
 		for (int i = 0; i < rhs_len; i++)
 		{
 			if (!rhs[i].is_action())
 			{
-				symbol_part symbol_part2 = (symbol_part)rhs[i];
+				SymbolPart symbol_part2 = (SymbolPart)rhs[i];
 				if (symbol_part2.Label!= null)
 				{
 					text = (text)+(make_declaration(symbol_part2.Label, symbol_part2.the_symbol().StackType, rhs_len - i - 1));
@@ -49,7 +49,7 @@ public class production
 	}
 
 	
-	protected internal virtual int merge_adjacent_actions(production_part[] rhs_parts, int len)
+	protected internal virtual int merge_adjacent_actions(ProductionPart[] rhs_parts, int len)
 	{
 		if (rhs_parts == null || len == 0)
 		{
@@ -71,7 +71,7 @@ public class production
 			{
 				if (rhs_parts[num2] != null && rhs_parts[num2].is_action() && rhs_parts[i].is_action())
 				{
-					rhs_parts[num2] = new action_part((((action_part)rhs_parts[num2]).code_string())+(((action_part)rhs_parts[i]).code_string()));
+					rhs_parts[num2] = new ActionPart((((ActionPart)rhs_parts[num2]).CodeString)+(((ActionPart)rhs_parts[i]).CodeString));
 					num++;
 				}
 				else
@@ -85,7 +85,7 @@ public class production
 
 	
 	
-	protected internal virtual action_part strip_trailing_action(production_part[] rhs_parts, int len)
+	protected internal virtual ActionPart strip_trailing_action(ProductionPart[] rhs_parts, int len)
 	{
 		if (rhs_parts == null || len == 0)
 		{
@@ -93,7 +93,7 @@ public class production
 		}
 		if (rhs_parts[len - 1].is_action())
 		{
-			action_part result = (action_part)rhs_parts[len - 1];
+			ActionPart result = (ActionPart)rhs_parts[len - 1];
 			rhs_parts[len - 1] = null;
 			return result;
 		}
@@ -109,24 +109,24 @@ public class production
 			if (rhs(i).is_action())
 			{
 				string str = declare_labels(_rhs, i, "");
-				non_terminal non_terminal2 = non_terminal.create_new();
+				NonTerminal non_terminal2 = NonTerminal.create_new();
 				non_terminal2.is_embedded_action = true;
-				new action_production(this, non_terminal2, null, 0, (str)+(((action_part)rhs(i)).code_string()));
-				_rhs[i] = new symbol_part(non_terminal2);
+				new ActionProduction(this, non_terminal2, null, 0, (str)+(((ActionPart)rhs(i)).CodeString));
+				_rhs[i] = new SymbolPart(non_terminal2);
 			}
 		}
 	}
 
 	
 	
-	public production(non_terminal lhs_sym, production_part[] rhs_parts, int rhs_l, string action_str)
+	public Production(NonTerminal lhs_sym, ProductionPart[] rhs_parts, int rhs_l, string action_str)
 	{
 		_rhs_prec = -1;
 		_rhs_assoc = -1;
 		_num_reductions = 0;
 		_nullable_known = false;
 		_nullable = false;
-		_first_set = new terminal_set();
+		_first_set = new TerminalSet();
 		int rhs_len = rhs_l;
 		if (rhs_l >= 0)
 		{
@@ -143,7 +143,7 @@ public class production
 		if (lhs_sym == null)
 		{
 			
-			throw new internal_error("Attempt to construct a production with a null LHS");
+			throw new InternalError("Attempt to construct a production with a null LHS");
 		}
 		if (rhs_l > 0)
 		{
@@ -152,24 +152,24 @@ public class production
 		string text = declare_labels(rhs_parts, rhs_len, action_str);
 		action_str = ((action_str != null) ? (text)+(action_str).ToString() : text);
 		lhs_sym.NoteUse();
-		_lhs = new symbol_part(lhs_sym);
+		_lhs = new SymbolPart(lhs_sym);
 		_rhs_length = merge_adjacent_actions(rhs_parts, _rhs_length);
-		action_part action_part2 = strip_trailing_action(rhs_parts, _rhs_length);
+		ActionPart action_part2 = strip_trailing_action(rhs_parts, _rhs_length);
 		if (action_part2 != null)
 		{
 			_rhs_length--;
 		}
-		_rhs = new production_part[_rhs_length];
+		_rhs = new ProductionPart[_rhs_length];
 		for (int i = 0; i < _rhs_length; i++)
 		{
 			_rhs[i] = rhs_parts[i];
 			if (!_rhs[i].is_action())
 			{
-				((symbol_part)_rhs[i]).the_symbol().NoteUse();
-				if (((symbol_part)_rhs[i]).the_symbol() is terminal)
+				((SymbolPart)_rhs[i]).the_symbol().NoteUse();
+				if (((SymbolPart)_rhs[i]).the_symbol() is Terminal)
 				{
-					_rhs_prec = ((terminal)((symbol_part)_rhs[i]).the_symbol()).precedence_num();
-					_rhs_assoc = ((terminal)((symbol_part)_rhs[i]).the_symbol()).precedence_side();
+					_rhs_prec = ((Terminal)((SymbolPart)_rhs[i]).the_symbol()).precedence_num();
+					_rhs_assoc = ((Terminal)((SymbolPart)_rhs[i]).the_symbol()).precedence_side();
 				}
 			}
 		}
@@ -177,12 +177,12 @@ public class production
 		{
 			action_str = "";
 		}
-		if (action_part2 != null && action_part2.code_string() != null)
+		if (action_part2 != null && action_part2.CodeString!= null)
 		{
-			action_str = (action_str)+("\t\t")+(action_part2.code_string())
+			action_str = (action_str)+("\t\t")+(action_part2.CodeString)
 				;
 		}
-		_action = new action_part(action_str);
+		_action = new ActionPart(action_str);
 		remove_embedded_actions();
 		_index = next_index++;
 		var hashtable = _all;
@@ -252,14 +252,14 @@ public class production
 	
 	
 	
-	public virtual production_part rhs(int indx)
+	public virtual ProductionPart rhs(int indx)
 	{
 		if (indx >= 0 && indx < _rhs_length)
 		{
 			return _rhs[indx];
 		}
 		
-		throw new internal_error("Index out of range for right hand side of production");
+		throw new InternalError("Index out of range for right hand side of production");
 	}
 
 	public virtual bool nullable_known()
@@ -279,13 +279,13 @@ public class production
 		return P_0;
 	}
 
-	public virtual terminal_set first_set()
+	public virtual TerminalSet first_set()
 	{
 		return _first_set;
 	}
 
 	
-	public virtual bool Equals(production other)
+	public virtual bool Equals(Production other)
 	{
 		if (other == null)
 		{
@@ -299,12 +299,12 @@ public class production
 		return _index;
 	}
 
-	public virtual symbol_part lhs()
+	public virtual SymbolPart lhs()
 	{
 		return _lhs;
 	}
 
-	public virtual action_part action()
+	public virtual ActionPart action()
 	{
 		return _action;
 	}
@@ -312,7 +312,7 @@ public class production
 	
 	
 	
-	public production(non_terminal lhs_sym, production_part[] rhs_parts, int rhs_l)
+	public Production(NonTerminal lhs_sym, ProductionPart[] rhs_parts, int rhs_l)
 		: this(lhs_sym, rhs_parts, rhs_l, null)
 	{
 	}
@@ -320,7 +320,7 @@ public class production
 	
 	
 	
-	public production(non_terminal lhs_sym, production_part[] rhs_parts, int rhs_l, string action_str, int prec_num, int prec_side)
+	public Production(NonTerminal lhs_sym, ProductionPart[] rhs_parts, int rhs_l, string action_str, int prec_num, int prec_side)
 		: this(lhs_sym, rhs_parts, rhs_l, action_str)
 	{
 		set_precedence_num(prec_num);
@@ -330,7 +330,7 @@ public class production
 	
 	
 	
-	public production(non_terminal lhs_sym, production_part[] rhs_parts, int rhs_l, int prec_num, int prec_side)
+	public Production(NonTerminal lhs_sym, ProductionPart[] rhs_parts, int rhs_l, int prec_num, int prec_side)
 		: this(lhs_sym, rhs_parts, rhs_l, null)
 	{
 		set_precedence_num(prec_num);
@@ -339,14 +339,14 @@ public class production
 
 	
 	
-	public static IEnumerable<production> all()
+	public static IEnumerable<Production> all()
 	{
 		return _all.Values;
 	}
 
 	
 	
-	public static production find(int indx)
+	public static Production find(int indx)
 	{
 		return _all.TryGetValue(indx, out var p) ? p : null;
 	}
@@ -406,17 +406,17 @@ public class production
 		}
 		for (int i = 0; i < rhs_length(); i++)
 		{
-			production_part production_part2 = rhs(i);
+			ProductionPart production_part2 = rhs(i);
 			if (!production_part2.is_action())
 			{
-				_Symbol symbol2 = ((symbol_part)production_part2).the_symbol();
+				_Symbol symbol2 = ((SymbolPart)production_part2).the_symbol();
 				if (!symbol2.IsNonTerminal)
 				{
 					bool result3 = set_nullable(false);
 					
 					return result3;
 				}
-				if (!((non_terminal)symbol2).nullable())
+				if (!((NonTerminal)symbol2).nullable())
 				{
 					return false;
 				}
@@ -429,26 +429,26 @@ public class production
 
 	
 	
-	public virtual terminal_set check_first_set()
+	public virtual TerminalSet check_first_set()
 	{
 		for (int i = 0; i < rhs_length(); i++)
 		{
 			if (!rhs(i).is_action())
 			{
-				_Symbol symbol2 = ((symbol_part)rhs(i)).the_symbol();
+				_Symbol symbol2 = ((SymbolPart)rhs(i)).the_symbol();
 				if (!symbol2.IsNonTerminal)
 				{
-					_first_set.Add((terminal)symbol2);
+					_first_set.Add((Terminal)symbol2);
 					break;
 				}
-				_first_set.Add(((non_terminal)symbol2).first_set());
-				if (!((non_terminal)symbol2).nullable())
+				_first_set.Add(((NonTerminal)symbol2).first_set());
+				if (!((NonTerminal)symbol2).nullable())
 				{
 					break;
 				}
 			}
 		}
-		terminal_set result = first_set();
+		TerminalSet result = first_set();
 		
 		return result;
 	}
@@ -457,11 +457,11 @@ public class production
 	
 	public override bool Equals(object other)
 	{
-		if (!(other is production))
+		if (!(other is Production))
 		{
 			return false;
 		}
-		bool result = Equals((production)other);
+		bool result = Equals((Production)other);
 		
 		return result;
 	}
@@ -474,7 +474,7 @@ public class production
 	
 	public override string ToString()
 	{
-		internal_error internal_error2;
+		InternalError internal_error2;
 		try
 		{
 			string str = ("production [")+(index())+("]: ")
@@ -487,9 +487,9 @@ public class production
 					;
 			}
 			str = (str)+(";");
-			if (action() != null && action().code_string() != null)
+			if (action() != null && action().CodeString!= null)
 			{
-				str = (str)+(" {")+(action().code_string())
+				str = (str)+(" {")+(action().CodeString)
 					+("}")
 					;
 			}
@@ -503,11 +503,11 @@ public class production
 			}
 			return str;
 		}
-		catch (internal_error x)
+		catch (InternalError x)
 		{
 			internal_error2 = x;// ByteCodeHelper.MapException<internal_error>(x, ByteCodeHelper.MapFlags.NoRemapping);
 		}
-		internal_error internal_error3 = internal_error2;
+		InternalError internal_error3 = internal_error2;
 		internal_error3.crash();
 		return null;
 	}
@@ -523,7 +523,7 @@ public class production
 		{
 			if (!rhs(i).is_action())
 			{
-				str = (str)+(((symbol_part)rhs(i)).the_symbol().Name)+(" ")
+				str = (str)+(((SymbolPart)rhs(i)).the_symbol().Name)+(" ")
 					;
 			}
 		}

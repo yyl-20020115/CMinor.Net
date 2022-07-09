@@ -7,11 +7,11 @@ using System;
 
 namespace JavaCUP;
 
-public class parse_action_table
+public class ParseActionTable
 {
 	protected internal int _num_states;
 
-	public parse_action_row[] under_state;
+	public ParseActionRow[] under_state;
 
 	public virtual int num_states()
 	{
@@ -20,13 +20,13 @@ public class parse_action_table
 
 	
 	
-	public parse_action_table()
+	public ParseActionTable()
 	{
-		_num_states = lalr_state.number();
-		under_state = new parse_action_row[_num_states];
+		_num_states = LalrState.number();
+		under_state = new ParseActionRow[_num_states];
 		for (int i = 0; i < _num_states; i++)
 		{
-			under_state[i] = new parse_action_row();
+			under_state[i] = new ParseActionRow();
 		}
 	}
 
@@ -42,27 +42,25 @@ public class parse_action_table
 			{
 				int num2 = num;
 				_ = under_state[i];
-				if (num2 >= parse_action_row.Count)
+				if (num2 >= ParseActionRow.Count)
 				{
 					break;
 				}
-				parse_action parse_action2 = under_state[i].under_term[num];
-				if (parse_action2 != null && parse_action2.kind() == 2)
+				ParseAction parse_action2 = under_state[i].under_term[num];
+				if (parse_action2 != null && parse_action2.Kind== 2)
 				{
-					((reduce_action)parse_action2).reduce_with().note_reduction_use();
+					((ReduceAction)parse_action2).reduce_with().note_reduction_use();
 				}
 				num++;
 			}
 		}
-		Enumeration enumeration = production.all();
-		while (enumeration.hasMoreElements())
+		foreach(var production2 in Production.all())
 		{
-			production production2 = (production)enumeration.nextElement();
 			if (production2.num_reductions() == 0 && !emit.nowarn)
 			{
 				Console.Error.WriteLine(("*** Production \"")+(production2.to_simple_string())+("\" never reduced")
 					);
-				lexer.warning_count++;
+				Lexer.warning_count++;
 			}
 		}
 	}
@@ -83,11 +81,11 @@ public class parse_action_table
 			{
 				int num3 = num2;
 				_ = under_state[i];
-				if (num3 >= parse_action_row.Count)
+				if (num3 >= ParseActionRow.Count)
 				{
 					break;
 				}
-				if (under_state[i].under_term[num2].kind() != 0)
+				if (under_state[i].under_term[num2].Kind!= 0)
 				{
 					str = (str)+(" [term ")+(num2)
 						+(":")

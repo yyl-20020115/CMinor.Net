@@ -24,7 +24,7 @@ public class emit
 
 	public static string scan_code;
 
-	public static production start_production;
+	public static Production start_production;
 
 	public static Stack<string> import_list =new();
 
@@ -114,26 +114,26 @@ public class emit
 
 	protected internal static int do_escaped(TextWriter @out, char c)
 	{
-		StringBuilder stringBuffer = new StringBuilder();
+		var stringBuilder = new StringBuilder();
 		if (c <= 'ÿ')
 		{
-			stringBuffer.Append(int.toOctalString(c));
-			while (stringBuffer.Length < 3)
+			stringBuilder.Append(int.toOctalString(c));
+			while (stringBuilder.Length < 3)
 			{
-				stringBuffer.Insert(0, '0');
+				stringBuilder.Insert(0, '0');
 			}
 		}
 		else
 		{
-			stringBuffer.Append(int.toHexString(c));
-			while (stringBuffer.Length < 4)
+			stringBuilder.Append(int.toHexString(c));
+			while (stringBuilder.Length < 4)
 			{
-				stringBuffer.Insert(0, '0');
+				stringBuilder.Insert(0, '0');
 			}
-			stringBuffer.Insert(0, 'u');
+			stringBuilder.Insert(0, 'u');
 		}
-		stringBuffer.Insert(0, '\\');
-		@out.Write(stringBuffer);
+		stringBuilder.Insert(0, '\\');
+		@out.Write(stringBuilder);
 		if (c == '\0')
 		{
 			return 2;
@@ -174,21 +174,21 @@ public class emit
 	protected internal static void emit_production_table(TextWriter @out)
 	{
 		long num = Stopwatch.GetTimestamp();
-		production[] array = new production[production.number()];
-		Enumeration enumeration = production.all();
+		Production[] array = new Production[Production.number()];
+		Enumeration enumeration = Production.all();
 		while (enumeration.hasMoreElements())
 		{
-			production production2 = (production)enumeration.nextElement();
+			Production production2 = (Production)enumeration.nextElement();
 			array[production2.index()] = production2;
 		}
-		int num2 = production.number();
+		int num2 = Production.number();
 		int[] array2 = new int[2];
 		int num3 = (array2[1] = 2);
 		num3 = (array2[0] = num2);
 		short[][] array3 = (short[][])ByteCodeHelper.multianewarray(typeof(short[][]).TypeHandle, array2);
-		for (int i = 0; i < production.number(); i++)
+		for (int i = 0; i < Production.number(); i++)
 		{
-			production production2 = array[i];
+			Production production2 = array[i];
 			array3[i][0] = (short)production2.lhs().the_symbol().Index;
 			array3[i][1] = (short)production2.rhs_length();
 		}
@@ -206,13 +206,13 @@ public class emit
 
 	
 	
-	protected internal static void do_action_table(TextWriter @out, parse_action_table act_tab, bool compact_reduces)
+	protected internal static void do_action_table(TextWriter @out, ParseActionTable act_tab, bool compact_reduces)
 	{
 		long num = Stopwatch.GetTimestamp();
 		short[][] array = new short[act_tab.num_states()][];
 		for (int i = 0; i < act_tab.num_states(); i++)
 		{
-			parse_action_row parse_action_row2 = act_tab.under_state[i];
+			ParseActionRow parse_action_row2 = act_tab.under_state[i];
 			if (compact_reduces)
 			{
 				parse_action_row2.compute_default();
@@ -221,27 +221,27 @@ public class emit
 			{
 				parse_action_row2.default_reduce = -1;
 			}
-			short[] array2 = new short[2 * parse_action_row.Count];
+			short[] array2 = new short[2 * ParseActionRow.Count];
 			int num2 = 0;
-			for (int j = 0; j < parse_action_row.Count; j++)
+			for (int j = 0; j < ParseActionRow.Count; j++)
 			{
-				parse_action parse_action2 = parse_action_row2.under_term[j];
-				if (parse_action2.kind() == 0)
+				ParseAction parse_action2 = parse_action_row2.under_term[j];
+				if (parse_action2.Kind== 0)
 				{
 					continue;
 				}
-				if (parse_action2.kind() == 1)
+				if (parse_action2.Kind== 1)
 				{
 					int num3 = num2;
 					num2++;
 					array2[num3] = (short)j;
 					int num4 = num2;
 					num2++;
-					array2[num4] = (short)(((shift_action)parse_action2).shift_to().index() + 1);
+					array2[num4] = (short)(((ShiftAction)parse_action2).ShiftTo.Index() + 1);
 				}
-				else if (parse_action2.kind() == 2)
+				else if (parse_action2.Kind== 2)
 				{
-					int num5 = ((reduce_action)parse_action2).reduce_with().index();
+					int num5 = ((ReduceAction)parse_action2).reduce_with().index();
 					if (num5 != parse_action_row2.default_reduce)
 					{
 						int num6 = num2;
@@ -252,12 +252,12 @@ public class emit
 						array2[num7] = (short)(-(num5 + 1));
 					}
 				}
-				else if (parse_action2.kind() != 3)
+				else if (parse_action2.Kind!= 3)
 				{
-					string msg = ("Unrecognized action code ")+(parse_action2.kind())+(" found in parse table")
+					string msg = ("Unrecognized action code ")+(parse_action2.Kind)+(" found in parse table")
 						;
 					
-					throw new internal_error(msg);
+					throw new InternalError(msg);
 				}
 			}
 			array[i] = new short[num2 + 2];
@@ -294,25 +294,25 @@ public class emit
 	}
 
 	
-	protected internal static void do_reduce_table(TextWriter @out, parse_reduce_table red_tab)
+	protected internal static void do_reduce_table(TextWriter @out, ParseReduceTable red_tab)
 	{
 		long num = Stopwatch.GetTimestamp();
 		short[][] array = new short[red_tab.num_states()][];
 		for (int i = 0; i < red_tab.num_states(); i++)
 		{
 			_ = red_tab.under_state[i];
-			short[] array2 = new short[2 * parse_reduce_row.Count];
+			short[] array2 = new short[2 * ParseReduceRow.Count];
 			int num2 = 0;
 			int num3 = 0;
 			while (true)
 			{
 				int num4 = num3;
 				_ = red_tab.under_state[i];
-				if (num4 >= parse_reduce_row.Count)
+				if (num4 >= ParseReduceRow.Count)
 				{
 					break;
 				}
-				lalr_state lalr_state2 = red_tab.under_state[i].under_non_term[num3];
+				LalrState lalr_state2 = red_tab.under_state[i].under_non_term[num3];
 				if (lalr_state2 != null)
 				{
 					int num5 = num2;
@@ -320,7 +320,7 @@ public class emit
 					array2[num5] = (short)num3;
 					int num6 = num2;
 					num2++;
-					array2[num6] = (short)lalr_state2.index();
+					array2[num6] = (short)lalr_state2.Index();
 				}
 				num3++;
 			}
@@ -350,7 +350,7 @@ public class emit
 
 	
 	
-	protected internal static void emit_action_code(TextWriter @out, production start_prod)
+	protected internal static void emit_action_code(TextWriter @out, Production start_prod)
 	{
 		long num = Stopwatch.GetTimestamp();
 		@out.WriteLine();
@@ -390,10 +390,10 @@ public class emit
 		@out.WriteLine(("      switch (")+(pre("act_num"))+(")")
 			);
 		@out.WriteLine("        {");
-		Enumeration enumeration = production.all();
+		Enumeration enumeration = Production.all();
 		while (enumeration.hasMoreElements())
 		{
-			production production2 = (production)enumeration.nextElement();
+			Production production2 = (Production)enumeration.nextElement();
 			@out.WriteLine("          /*. . . . . . . . . . . . . . . . . . . .*/");
 			@out.WriteLine(("          case ")+(production2.index())+(": // ")
 				+(production2.to_simple_string())
@@ -403,10 +403,10 @@ public class emit
 				);
 			for (int i = 0; i < production2.rhs_length(); i++)
 			{
-				if (production2.rhs(i) is symbol_part)
+				if (production2.rhs(i) is SymbolPart)
 				{
-					_Symbol symbol2 = ((symbol_part)production2.rhs(i)).the_symbol();
-					if (symbol2 is non_terminal && ((non_terminal)symbol2).is_embedded_action)
+					_Symbol symbol2 = ((SymbolPart)production2.rhs(i)).the_symbol();
+					if (symbol2 is NonTerminal && ((NonTerminal)symbol2).is_embedded_action)
 					{
 						int i2 = production2.rhs_length() - i - 1;
 						@out.WriteLine(("              // propagate RESULT from ")+(symbol2.Name));
@@ -428,9 +428,9 @@ public class emit
 					}
 				}
 			}
-			if (production2.action() != null && production2.action().code_string() != null && !production2.action().Equals(""))
+			if (production2.action() != null && production2.action().CodeString!= null && !production2.action().Equals(""))
 			{
-				@out.WriteLine(production2.action().code_string());
+				@out.WriteLine(production2.action().CodeString);
 			}
 			if (lr_values())
 			{
@@ -520,7 +520,7 @@ public class emit
 		@out.WriteLine();
 		@out.WriteLine("//----------------------------------------------------");
 		@out.WriteLine("// The following code was generated by CUP v0.10k");
-		@out.WriteLine(("// ")+(new Date()));
+		@out.WriteLine(("// ")+(new DateTime()));
 		@out.WriteLine("//----------------------------------------------------");
 		@out.WriteLine();
 		emit_package(@out);
@@ -531,10 +531,10 @@ public class emit
 			+(" {")
 			);
 		@out.WriteLine("  /* terminals */");
-		Enumeration enumeration = terminal.all();
+		Enumeration enumeration = Terminal.all();
 		while (enumeration.hasMoreElements())
 		{
-			terminal terminal2 = (terminal)enumeration.nextElement();
+			Terminal terminal2 = (Terminal)enumeration.nextElement();
 			@out.WriteLine(("  public static final int ")+(terminal2.Name)+(" = ")
 				+(terminal2.Index)
 				+(";")
@@ -544,10 +544,10 @@ public class emit
 		{
 			@out.WriteLine();
 			@out.WriteLine("  /* non terminals */");
-			enumeration = non_terminal.all();
+			enumeration = NonTerminal.all();
 			while (enumeration.hasMoreElements())
 			{
-				non_terminal non_terminal2 = (non_terminal)enumeration.nextElement();
+				NonTerminal non_terminal2 = (NonTerminal)enumeration.nextElement();
 				@out.WriteLine(("  static final int ")+(non_terminal2.Name)+(" = ")
 					+(non_terminal2.Index)
 					+(";")
@@ -561,24 +561,25 @@ public class emit
 
 	
 	
-	public static void parser(TextWriter @out, parse_action_table action_table, parse_reduce_table reduce_table, int start_st, production start_prod, bool compact_reduces, bool suppress_scanner)
+	public static void parser(TextWriter @out, ParseActionTable action_table, ParseReduceTable reduce_table, int start_st, Production start_prod, bool compact_reduces, bool suppress_scanner)
 	{
 		long num = Stopwatch.GetTimestamp();
 		@out.WriteLine();
 		@out.WriteLine("//----------------------------------------------------");
 		@out.WriteLine("// The following code was generated by CUP v0.10k");
-		@out.WriteLine(("// ")+(new Date()));
+		@out.WriteLine(("// ")+(new DateTime()));
 		@out.WriteLine("//----------------------------------------------------");
 		@out.WriteLine();
 		emit_package(@out);
+		var il = import_list.ToArray();
 		for (int i = 0; i < import_list.Count; i++)
 		{
-			@out.WriteLine(("import ")+(import_list[i])+(";")
+			@out.WriteLine(("import ")+(il[i])+(";")
 				);
 		}
 		@out.WriteLine();
 		@out.WriteLine("/** CUP v0.10k generated parser.");
-		@out.WriteLine(("  * @version ")+(new Date()));
+		@out.WriteLine(("  * @version ")+(new DateTime()));
 		@out.WriteLine("  */");
 		@out.WriteLine(("public class ")+(parser_class_name)+(" extends java_cup.runtime.lr_parser {")
 			);
@@ -628,11 +629,11 @@ public class emit
 			);
 		@out.WriteLine();
 		@out.WriteLine("  /** <code>EOF</code> Symbol index. */");
-		@out.WriteLine(("  public int EOF_sym() {return ")+(terminal.___003C_003EEOF.Index)+(";}")
+		@out.WriteLine(("  public int EOF_sym() {return ")+(Terminal.___003C_003EEOF.Index)+(";}")
 			);
 		@out.WriteLine();
 		@out.WriteLine("  /** <code>error</code> Symbol index. */");
-		@out.WriteLine(("  public int error_sym() {return ")+(terminal.___003C_003Eerror.Index)+(";}")
+		@out.WriteLine(("  public int error_sym() {return ")+(Terminal.___003C_003Eerror.Index)+(";}")
 			);
 		@out.WriteLine();
 		if (init_code != null)

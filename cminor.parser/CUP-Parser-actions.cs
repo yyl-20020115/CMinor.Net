@@ -26,7 +26,7 @@ internal class CUP_0024Parser_0024actions
 		parser = P_0;
 	}
 
-	public JavaCUP.Runtime.Symbol CUP_0024Parser_0024do_action(int P_0, lr_parser P_1, Stack<JavaCUP.Runtime.Symbol> _P_2, int P_3)
+	public JavaCUP.Runtime.Symbol CUP_0024Parser_0024do_action(int P_0, LRParser P_1, Stack<JavaCUP.Runtime.Symbol> _P_2, int P_3)
 	{
 		var P_2 = _P_2.ToArray();
 		switch (P_0)

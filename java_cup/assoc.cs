@@ -1,10 +1,6 @@
-
-
-
-
 namespace JavaCUP;
 
-public class assoc
+public class Assoc
 {
 	public const int left = 0;
 
@@ -12,11 +8,5 @@ public class assoc
 
 	public const int nonassoc = 2;
 
-	public const int no_prec = -1;
-
-	
-	
-	public assoc()
-	{
-	}
+	public const int no_prec = -1;	
 }

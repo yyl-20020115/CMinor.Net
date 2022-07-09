@@ -1,8 +1,8 @@
 namespace JavaCUP;
 
-public class lr_item_core
+public class LRItemCore
 {
-	protected internal production _the_production;
+	protected internal Production _the_production;
 
 	protected internal int _dot_pos;
 
@@ -10,29 +10,29 @@ public class lr_item_core
 
 	protected internal _Symbol _symbol_after_dot;
 
-	public lr_item_core(production prod, int pos)
+	public LRItemCore(Production prod, int pos)
 	{
 		_symbol_after_dot = null;
 		
 		if (prod == null)
 		{
 			
-			throw new internal_error("Attempt to create an lr_item_core with a null production");
+			throw new InternalError("Attempt to create an lr_item_core with a null production");
 		}
 		_the_production = prod;
 		if (pos < 0 || pos > _the_production.rhs_length())
 		{
 			
-			throw new internal_error("Attempt to create an lr_item_core with a bad dot position");
+			throw new InternalError("Attempt to create an lr_item_core with a bad dot position");
 		}
 		_dot_pos = pos;
 		_core_hash_cache = 13 * _the_production.GetHashCode() + pos;
 		if (_dot_pos < _the_production.rhs_length())
 		{
-			production_part production_part2 = _the_production.rhs(_dot_pos);
+			ProductionPart production_part2 = _the_production.rhs(_dot_pos);
 			if (!production_part2.is_action())
 			{
-				_symbol_after_dot = ((symbol_part)production_part2).the_symbol();
+				_symbol_after_dot = ((SymbolPart)production_part2).the_symbol();
 			}
 		}
 	}
@@ -51,14 +51,14 @@ public class lr_item_core
 
 	
 	
-	public virtual bool core_equals(lr_item_core other)
+	public virtual bool core_equals(LRItemCore other)
 	{
 		return (other != null && _the_production.Equals(other._the_production) && _dot_pos == other._dot_pos) ? true : false;
 	}
 
 	
 	
-	public virtual bool Equals(lr_item_core other)
+	public virtual bool Equals(LRItemCore other)
 	{
 		bool result = core_equals(other);
 		
@@ -81,8 +81,8 @@ public class lr_item_core
 				str = (str)+("$$NULL$$ ");
 				continue;
 			}
-			production_part production_part2 = _the_production.rhs(i);
-			str = ((production_part2 != null) ? ((!production_part2.is_action()) ? ((((symbol_part)production_part2).the_symbol() == null || ((symbol_part)production_part2).the_symbol().Name== null) ? (str)+("$$NULL$$ ").ToString() : (str)+(((symbol_part)production_part2).the_symbol().Name)+(" ")
+			ProductionPart production_part2 = _the_production.rhs(i);
+			str = ((production_part2 != null) ? ((!production_part2.is_action()) ? ((((SymbolPart)production_part2).the_symbol() == null || ((SymbolPart)production_part2).the_symbol().Name== null) ? (str)+("$$NULL$$ ").ToString() : (str)+(((SymbolPart)production_part2).the_symbol().Name)+(" ")
 				) : (str)+("{ACTION} ")) : (str)+("$$NULL$$ "));
 		}
 		if (_dot_pos == _the_production.rhs_length())
@@ -95,12 +95,12 @@ public class lr_item_core
 	
 	
 	
-	public lr_item_core(production prod)
+	public LRItemCore(Production prod)
 		: this(prod, 0)
 	{
 	}
 
-	public virtual production the_production()
+	public virtual Production the_production()
 	{
 		return _the_production;
 	}
@@ -112,12 +112,12 @@ public class lr_item_core
 
 	
 	
-	public virtual non_terminal dot_before_nt()
+	public virtual NonTerminal dot_before_nt()
 	{
 		_Symbol symbol2 = symbol_after_dot();
 		if (symbol2 != null && symbol2.IsNonTerminal)
 		{
-			return (non_terminal)symbol2;
+			return (NonTerminal)symbol2;
 		}
 		return null;
 	}
@@ -125,14 +125,14 @@ public class lr_item_core
 	
 	
 	
-	public virtual lr_item_core shift_core()
+	public virtual LRItemCore shift_core()
 	{
 		if (dot_at_end())
 		{
 			
-			throw new internal_error("Attempt to shift past end of an lr_item_core");
+			throw new InternalError("Attempt to shift past end of an lr_item_core");
 		}
-		lr_item_core result = new lr_item_core(_the_production, _dot_pos + 1);
+		LRItemCore result = new LRItemCore(_the_production, _dot_pos + 1);
 		
 		return result;
 	}
@@ -141,11 +141,11 @@ public class lr_item_core
 	
 	public override bool Equals(object other)
 	{
-		if (!(other is lr_item_core))
+		if (!(other is LRItemCore))
 		{
 			return false;
 		}
-		bool result = Equals((lr_item_core)other);
+		bool result = Equals((LRItemCore)other);
 		
 		return result;
 	}
@@ -174,16 +174,16 @@ public class lr_item_core
 	public override string ToString()
 	{
 		//Discarded unreachable code: IL_0008
-		internal_error internal_error2;
+		InternalError internal_error2;
 		try
 		{
 			return to_simple_string();
 		}
-		catch (internal_error x)
+		catch (InternalError x)
 		{
 			internal_error2 = x;
 		}
-		internal_error internal_error3 = internal_error2;
+		InternalError internal_error3 = internal_error2;
 		internal_error3.crash();
 		return null;
 	}
