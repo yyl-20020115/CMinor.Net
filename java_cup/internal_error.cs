@@ -21,10 +21,10 @@ public class internal_error : System.Exception
 	
 	public virtual void crash()
 	{
-		Console.Error.WriteLine("JavaCUP Fatal Internal Error Detected");
-		Console.Error.WriteLine(Throwable.instancehelper_getMessage(this));
+		Console.System.Exception.WriteLine("JavaCUP Fatal Internal System.Exception Detected");
+		Console.System.Exception.WriteLine(Throwable.instancehelper_getMessage(this));
 		Throwable.instancehelper_printStackTrace(this);
-		java.lang.System.exit(-1);
+		Environment.Exit(-1);
 	}
 
 	

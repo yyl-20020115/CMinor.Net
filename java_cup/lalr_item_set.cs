@@ -101,7 +101,7 @@ public class lalr_item_set
 	
 	public virtual int size()
 	{
-		int result = _all.size();
+		int result = _all.Count;
 		
 		return result;
 	}
@@ -123,10 +123,10 @@ public class lalr_item_set
 
 	
 	
-	public virtual bool equals(lalr_item_set other)
+	public virtual bool Equals(lalr_item_set other)
 	{
 		//Discarded unreachable code: IL_001c
-		if (other == null || other.size() != size())
+		if (other == null || other.Count != size())
 		{
 			return false;
 		}
@@ -207,7 +207,7 @@ public class lalr_item_set
 	{
 		hashcode_cache = null;
 		lalr_item_set lalr_item_set2 = new lalr_item_set(this);
-		while (lalr_item_set2.size() > 0)
+		while (lalr_item_set2.Count > 0)
 		{
 			lalr_item one = lalr_item_set2.get_one();
 			non_terminal non_terminal2 = one.dot_before_nt();
@@ -237,20 +237,20 @@ public class lalr_item_set
 
 	
 	
-	public override bool equals(object other)
+	public override bool Equals(object other)
 	{
 		if (!(other is lalr_item_set))
 		{
 			return false;
 		}
-		bool result = equals((lalr_item_set)other);
+		bool result = Equals((lalr_item_set)other);
 		
 		return result;
 	}
 
 	
 	
-	public override int hashCode()
+	public override int GetHashCode()
 	{
 		int num = 0;
 		if (hashcode_cache == null)
@@ -259,7 +259,7 @@ public class lalr_item_set
 			int num2 = 0;
 			while (enumeration.hasMoreElements())
 			{
-				num ^= ((lalr_item)enumeration.nextElement()).hashCode();
+				num ^= ((lalr_item)enumeration.nextElement()).GetHashCode();
 				num2++;
 			}
 			hashcode_cache = (num);
@@ -282,7 +282,7 @@ public class lalr_item_set
 				);
 		}
 		stringBuffer+("}");
-		string result = stringBuffer.ToString();
+		string result = stringBuffer;
 		
 		return result;
 	}

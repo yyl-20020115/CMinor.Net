@@ -35,7 +35,7 @@ public class GlobalInitVisitor : Visitor
 	
 	public override void Visit(BooleanLiteral n)
 	{
-		result = ((!((Boolean)n.Value).booleanValue()) ? "0" : "1");
+		result = ((!(n.Value)) ? "0" : "1");
 	}
 
 	

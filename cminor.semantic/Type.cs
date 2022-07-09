@@ -1,37 +1,37 @@
 namespace CMinor.Semantic;
 
-public class Type
+public class Types
 {
 	private string name;
 	private bool variableType;
-	internal static Type char_type;
-	internal static Type boolean_type;
-	internal static Type integer_type;
-	internal static Type string_type;
-	internal static Type void_type;
-	internal static Type function_type;
+	internal static Types char_type;
+	internal static Types boolean_type;
+	internal static Types integer_type;
+	internal static Types string_type;
+	internal static Types void_type;
+	internal static Types function_type;
 
-    public static Type CHAR => char_type;
-
-
-    public static Type BOOLEAN => boolean_type;
+    public static Types CHAR => char_type;
 
 
-    public static Type INT => integer_type;
+    public static Types BOOLEAN => boolean_type;
 
 
-    public static Type STRING => string_type;
+    public static Types INT => integer_type;
 
 
-    public static Type VOID
+    public static Types STRING => string_type;
+
+
+    public static Types VOID
 	=> void_type;
 
 	
-	public static Type FUNCTION
+	public static Types FUNCTION
 	=> function_type;
 
 	
-	private Type(string P_0, bool P_1)
+	private Types(string P_0, bool P_1)
 	{
 		name = P_0;
 		variableType = P_1;
@@ -42,13 +42,13 @@ public class Type
     public virtual bool isVariableType => variableType;
 
 
-    static Type()
+    static Types()
 	{
-		char_type = new Type("char", true);
-		boolean_type = new Type("bool", true);
-		integer_type = new Type("int", true);
-		string_type = new Type("string", true);
-		void_type = new Type("void", false);
-		function_type = new Type("function", false);
+		char_type = new Types("char", true);
+		boolean_type = new Types("bool", true);
+		integer_type = new Types("int", true);
+		string_type = new Types("string", true);
+		void_type = new Types("void", false);
+		function_type = new Types("function", false);
 	}
 }

@@ -47,7 +47,7 @@ internal class FormatStringVisitor : Visitor
 
 	
 	
-	public override void visit(AstNode P_0)
+	public override void Visit(AstNode P_0)
 	{
 		logger.log(P_0.getLocation(), ("format string visitor in ")+(P_0.DotLabel)+(" is a stub")
 			);
@@ -64,21 +64,21 @@ internal class FormatStringVisitor : Visitor
 		actualArguments.Add(P_0);
 		result+(escape(literalContent));
 		literalContent.setLength(0);
-		Type type = P_0.Type;
-		if (type == Type.char_type)
+		Types type = P_0.Type;
+		if (type == Types.char_type)
 		{
 			result+("%c");
 		}
-		else if (type == Type.boolean_type)
+		else if (type == Types.boolean_type)
 		{
 			result+("%s");
 			program.BooleanStringSymbol = stringTable.getSymbol("false\0true");
 		}
-		else if (type == Type.integer_type)
+		else if (type == Types.integer_type)
 		{
 			result+("%d");
 		}
-		else if (type == Type.string_type)
+		else if (type == Types.string_type)
 		{
 			result+("%s");
 		}
@@ -95,7 +95,7 @@ internal class FormatStringVisitor : Visitor
 	
 	public override void Visit(BooleanLiteral P_0)
 	{
-		literalContent+((!((Boolean)P_0.Value).booleanValue()) ? "false" : "true");
+		literalContent+((!(P_0.Value)) ? "false" : "true");
 	}
 
 	

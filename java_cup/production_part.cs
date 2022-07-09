@@ -15,7 +15,7 @@ public abstract class production_part
 
 	
 	
-	public virtual bool equals(production_part other)
+	public virtual bool Equals(production_part other)
 	{
 		if (other == null)
 		{
@@ -41,20 +41,20 @@ public abstract class production_part
 
 	
 	
-	public override bool equals(object other)
+	public override bool Equals(object other)
 	{
 		if (!(other is production_part))
 		{
 			return false;
 		}
-		bool result = equals((production_part)other);
+		bool result = Equals((production_part)other);
 		
 		return result;
 	}
 
 	
 	
-	public override int hashCode()
+	public override int GetHashCode()
 	{
 		int result = ((label() != null) ? String.instancehelper_hashCode(label()) : 0);
 		

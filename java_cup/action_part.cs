@@ -15,9 +15,9 @@ public class action_part : production_part
 
 	
 	
-	public virtual bool equals(action_part other)
+	public virtual bool Equals(action_part other)
 	{
-		return (other != null && base.equals(other) && String.instancehelper_equals(other.code_string(), code_string())) ? true : false;
+		return (other != null && base.Equals(other) && String.instancehelper_equals(other.code_string(), code_string())) ? true : false;
 	}
 
 	
@@ -40,32 +40,30 @@ public class action_part : production_part
 
 	
 	
-	public override bool equals(object other)
+	public override bool Equals(object other)
 	{
 		if (!(other is action_part))
 		{
 			return false;
 		}
-		bool result = equals((action_part)other);
+		bool result = Equals((action_part)other);
 		
 		return result;
 	}
 
 	
 	
-	public override int hashCode()
+	public override int GetHashCode()
 	{
-		return base.hashCode() ^ ((code_string() != null) ? String.instancehelper_hashCode(code_string()) : 0);
+		return base.GetHashCode() ^ ((code_string() != null) ? (code_string.GetHashCode()) : 0);
 	}
 
 	
 	
 	public override string ToString()
 	{
-		string result = (base)+("{")+(code_string())
+		return (base.ToString())+("{")+(code_string())
 			+("}")
-			.ToString();
-		
-		return result;
+			;
 	}
 }

@@ -282,7 +282,7 @@ public class production
 		if (action_part2 != null && action_part2.code_string() != null)
 		{
 			action_str = (action_str)+("\t\t")+(action_part2.code_string())
-				.ToString();
+				;
 		}
 		_action = new action_part(action_str);
 		remove_embedded_actions();
@@ -352,7 +352,7 @@ public class production
 			+("-")
 			+(offset)
 			+(")).value;\n")
-			.ToString();
+			;
 		
 		return result;
 	}
@@ -398,7 +398,7 @@ public class production
 	}
 
 	
-	public virtual bool equals(production other)
+	public virtual bool Equals(production other)
 	{
 		if (other == null)
 		{
@@ -470,7 +470,7 @@ public class production
 	
 	public static int number()
 	{
-		int result = _all.size();
+		int result = _all.Count;
 		
 		return result;
 	}
@@ -580,18 +580,18 @@ public class production
 
 	
 	
-	public override bool equals(object other)
+	public override bool Equals(object other)
 	{
 		if (!(other is production))
 		{
 			return false;
 		}
-		bool result = equals((production)other);
+		bool result = Equals((production)other);
 		
 		return result;
 	}
 
-	public override int hashCode()
+	public override int GetHashCode()
 	{
 		return _index * 13;
 	}
@@ -632,20 +632,20 @@ public class production
 		try
 		{
 			string str = ("production [")+(index())+("]: ")
-				.ToString();
+				;
 			str = (str)+((lhs() == null) ? "$$NULL-LHS$$" : lhs());
 			str = (str)+(" :: = ");
 			for (int i = 0; i < rhs_length(); i++)
 			{
 				str = (str)+(rhs(i))+(" ")
-					.ToString();
+					;
 			}
 			str = (str)+(";");
 			if (action() != null && action().code_string() != null)
 			{
 				str = (str)+(" {")+(action().code_string())
 					+("}")
-					.ToString();
+					;
 			}
 			if (nullable_known())
 			{
@@ -678,7 +678,7 @@ public class production
 			if (!rhs(i).is_action())
 			{
 				str = (str)+(((symbol_part)rhs(i)).the_symbol().name())+(" ")
-					.ToString();
+					;
 			}
 		}
 		return str;

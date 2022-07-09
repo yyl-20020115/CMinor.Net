@@ -6,17 +6,17 @@ namespace CMinor.AST;
 
 public abstract class Expression : Statement
 {
-	private Type type;
-	
-	protected internal Expression(LocationInfo info)
-		: base(info)
-	{
-	}
+    private Types type;
 
-    public virtual Type Type { get => type; set => this.type = value; }
+    protected internal Expression(LocationInfo info)
+        : base(info)
+    {
+    }
+
+    public virtual Types Type { get => type; set => this.type = value; }
 
     public override void Accept(Visitor v)
-	{
-		v.Visit(this);
-	}
+    {
+        v.Visit(this);
+    }
 }

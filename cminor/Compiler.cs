@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Runtime.Serialization;
 
 using CMinor.AST;
@@ -147,7 +148,7 @@ public class Compiler
 		for (int i = 0; i < num5; i++)
 		{
 			string text2 = args[i];
-			if (arrayList != null && ((IList)arrayList).size() == 0)
+			if (arrayList != null && ((IList)arrayList).Count == 0)
 			{
 				if (isFlag(text2))
 				{
@@ -218,13 +219,13 @@ public class Compiler
 				throw new UsageError("more than one input file given");
 			}
 			string message = ("cannot recognize argument \"")+(text2)+("\"")
-				.ToString();
+				;
 			
 			throw new UsageError(message);
 		}
 		if (arrayList != null)
 		{
-			if (((IList)arrayList).size() <= 0)
+			if (((IList)arrayList).Count <= 0)
 			{
 				
 				throw new UsageError("-o flag missing argument");
@@ -314,10 +315,10 @@ public class Compiler
 		catch
 		{
 			//try-fault
-			P_0.close();
+			P_0.Close();
 			throw;
 		}
-		P_0.close();
+		P_0.Close();
 		return result;
 		IL_004b:
 		System.Exception ex3 = ex2;
@@ -331,7 +332,7 @@ public class Compiler
 		catch
 		{
 			//try-fault
-			P_0.close();
+			P_0.Close();
 			throw;
 		}
 	}
@@ -353,16 +354,6 @@ public class Compiler
 		parseArgs(args);
 	}
 
-	
-	
-	[LineNumberTable(new byte[]
-	{
-		97, 178, 100, 122, 130, 127, 6, 130, 113, 187,
-		103, 139, 104, 121, 105, 153, 105, 252, 69, 105,
-		208, 107, 191, 4, 168, 104, 120, 105, 101, 104,
-		105, 120, 105, 103, 165, 105, 121, 105, 121, 120,
-		105, 201
-	})]
 	public virtual void execute()
 	{
 		if (helpMode)
@@ -423,7 +414,7 @@ public class Compiler
 			rootNode.resolveSymbols(errorLogger);
 			output = ((num2 == 0) ? new TextWriter(new FileOutputStream(name)) : java.lang.System.@out);
 			rootNode.printDotCode(output);
-			output.close();
+			output.Close();
 			return;
 		}
 		rootNode.resolveSymbols(errorLogger);
@@ -440,7 +431,7 @@ public class Compiler
 		}
 		output = ((num2 == 0) ? new TextWriter(new FileOutputStream(name)) : java.lang.System.@out);
 		rootNode.generateCode(output);
-		output.close();
+		output.Close();
 	}
 
 	
@@ -452,43 +443,6 @@ public class Compiler
 		return result;
 	}
 
-	
-	[LineNumberTable(new byte[]
-	{
-		160,
-		100,
-		103,
-		byte.MaxValue,
-		53,
-		83,
-		229,
-		47,
-		98,
-		113,
-		101,
-		230,
-		78,
-		229,
-		52,
-		98,
-		113,
-		230,
-		74,
-		229,
-		56,
-		98,
-		127,
-		11,
-		230,
-		70,
-		226,
-		60,
-		98,
-		127,
-		11,
-		108,
-		166
-	})]
 	public static void main(string[] args)
 	{
 		UsageError usageError;
@@ -544,20 +498,20 @@ public class Compiler
 			goto IL_0054;
 		}
 		UsageError @this = usageError;
-		Console.Error.WriteLine(Throwable.instancehelper_getMessage(@this));
+		Console.System.Exception.WriteLine(Throwable.instancehelper_getMessage(@this));
 		printUsage();
-		java.lang.System.exit(1);
+		Environment.Exit(1);
 		return;
 		IL_0054:
 		System.Exception this2 = ex3;
-		Console.Error.WriteLine(("internal compiler error (crap!): ")+(Throwable.instancehelper_getMessage(this2)));
+		Console.System.Exception.WriteLine(("internal compiler error (crap!): ")+(Throwable.instancehelper_getMessage(this2)));
 		Throwable.instancehelper_printStackTrace(this2, java.lang.System.err);
-		java.lang.System.exit(1);
+		Environment.Exit(1);
 		return;
 		IL_0050:
 		FileNotFoundException this3 = ex;
-		Console.Error.WriteLine(("error when using file: ")+(Throwable.instancehelper_getMessage(this3)));
-		java.lang.System.exit(1);
+		Console.System.Exception.WriteLine(("error when using file: ")+(Throwable.instancehelper_getMessage(this3)));
+		Environment.Exit(1);
 		return;
 		IL_004d:
 		object obj = parsingError;
@@ -567,14 +521,14 @@ public class Compiler
 		goto IL_0083;
 		IL_0083:
 		this2 = (System.Exception)obj;
-		Console.Error.WriteLine(Throwable.instancehelper_getMessage(this2));
-		java.lang.System.exit(1);
+		Console.System.Exception.WriteLine(Throwable.instancehelper_getMessage(this2));
+		Environment.Exit(1);
 	}
 
 	
 	static Compiler()
 	{
-		flags = new HashSet();
+		flags = new ();
 		flags.Add("-o");
 		flags.Add("-h");
 		flags.Add("-t");

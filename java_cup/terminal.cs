@@ -83,7 +83,7 @@ public class terminal : symbol
 	
 	public static int number()
 	{
-		int result = _all.size();
+		int result = _all.Count;
 		
 		return result;
 	}
@@ -148,7 +148,7 @@ public class terminal : symbol
 	{
 		string result = (base)+("[")+(index())
 			+("]")
-			.ToString();
+			;
 		
 		return result;
 	}

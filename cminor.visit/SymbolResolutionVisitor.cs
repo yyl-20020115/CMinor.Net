@@ -50,7 +50,7 @@ public class SymbolResolutionVisitor : Visitor
 			Statement statement = (Statement)iterator.next();
 			statement.Accept(this);
 		}
-		numLocals -= n.Declarations.size();
+		numLocals -= n.Declarations.Count;
 	}
 
 	
@@ -94,7 +94,7 @@ public class SymbolResolutionVisitor : Visitor
 
 	
 	
-	public override void visit(AstNode n)
+	public override void Visit(AstNode n)
 	{
 		logger.log(n.getLocation(), ("symbol resolution in ")+(n.DotLabel)+(" is a stub")
 			);
@@ -142,7 +142,7 @@ public class SymbolResolutionVisitor : Visitor
 	{
 		IList parameters = n.Parameters;
 		
-		ArrayList arrayList = new ArrayList(parameters.size());
+		ArrayList arrayList = new ArrayList(parameters.Count);
 		int num = 8;
 		Iterator iterator = parameters.iterator();
 		while (iterator.hasNext())
@@ -167,7 +167,7 @@ public class SymbolResolutionVisitor : Visitor
 		}
 		table.enterScope();
 		int i = 0;
-		for (int num2 = parameters.size(); i < num2; i++)
+		for (int num2 = parameters.Count; i < num2; i++)
 		{
             table.declareSymbol(((Parameter)parameters.get(i)).Identifier, (Symbol.Symbol)((IList)arrayList).get(i));
 		}
@@ -243,7 +243,7 @@ public class SymbolResolutionVisitor : Visitor
 
 	
 	
-	public override void visit(Assignment n)
+	public override void Visit(Assignment n)
 	{
 		table.lookupIdentifier(n.Identifier);
 		n.Value.Accept(this);
@@ -253,7 +253,7 @@ public class SymbolResolutionVisitor : Visitor
 	
 	public override void Visit(FunctionCall n)
 	{
-		table.lookupIdentifier(n.getIdentifier());
+		table.lookupIdentifier(n.Identifier);
 		Iterator iterator = n.Arguments.iterator();
 		while (iterator.hasNext())
 		{

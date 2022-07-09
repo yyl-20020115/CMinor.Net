@@ -14,6 +14,6 @@ public class ErrorLogger
     public virtual void log(LocationInfo info, string msg)
 	{
 		this.numErrors++;
-		Console.Error.WriteLine((info)+(": ")+(msg));
+		Console.System.Exception.WriteLine((info)+(": ")+(msg));
 	}
 }

@@ -6,18 +6,18 @@ namespace CMinor.AST;
 
 public class TypeSpecifier : AstNode
 {
-	internal Type type;
-	
-	public TypeSpecifier(LocationInfo info, Type type)
-		: base(info)
-	{
-		this.type = type;
-	}
+    internal Types type;
 
-    public virtual Type Type => type;
+    public TypeSpecifier(LocationInfo info, Types type)
+        : base(info)
+    {
+        this.type = type;
+    }
+
+    public virtual Types Type => type;
 
     public override void Accept(Visitor v)
-	{
-		v.Visit(this);
-	}
+    {
+        v.Visit(this);
+    }
 }

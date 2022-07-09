@@ -6,7 +6,7 @@ namespace CMinor.Symbol;
 
 public class LocalVariableSymbol : StackVariableSymbol
 {	
-	public LocalVariableSymbol(LocationInfo info, string identifier, Type type)
+	public LocalVariableSymbol(LocationInfo info, string identifier, Types type)
 		: base(info, identifier, type)
 	{
 	}

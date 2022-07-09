@@ -28,7 +28,7 @@ public abstract class lr_parser
 
 	protected internal int lookahead_pos;
 
-	public virtual Symbol parse()
+	public virtual Symbol Parse()
 	{
 		Symbol symbol = null;
 		production_tab = production_table();
@@ -118,22 +118,22 @@ public abstract class lr_parser
 	
 	public virtual void report_error(string message, object info)
 	{
-		Console.Error.WriteLine(message);
+		Console.System.Exception.WriteLine(message);
 		if (info is Symbol)
 		{
 			if (((Symbol)info).left != -1)
 			{
-				Console.Error.WriteLine((" at character ")+(((Symbol)info).left)+(" of input")
+				Console.System.Exception.WriteLine((" at character ")+(((Symbol)info).left)+(" of input")
 					);
 			}
 			else
 			{
-				Console.Error.WriteLine("");
+				Console.System.Exception.WriteLine("");
 			}
 		}
 		else
 		{
-			Console.Error.WriteLine("");
+			Console.System.Exception.WriteLine("");
 		}
 	}
 
@@ -167,7 +167,7 @@ public abstract class lr_parser
 	
 	public virtual Symbol scan()
 	{
-		Symbol symbol = getScanner().next_token();
+		Symbol symbol = getScanner().NextToken();
 		Symbol result = ((symbol == null) ? new Symbol(EOF_sym()) : symbol);
 		
 		return result;
@@ -255,7 +255,7 @@ public abstract class lr_parser
 		{
 			if (debug)
 			{
-				debug_message("# Error recovery fails");
+				debug_message("# System.Exception recovery fails");
 			}
 			return false;
 		}
@@ -274,7 +274,7 @@ public abstract class lr_parser
 			{
 				if (debug)
 				{
-					debug_message("# Error recovery fails at EOF");
+					debug_message("# System.Exception recovery fails at EOF");
 				}
 				return false;
 			}
@@ -304,7 +304,7 @@ public abstract class lr_parser
 	
 	public virtual void debug_message(string mess)
 	{
-		Console.Error.WriteLine(mess);
+		Console.System.Exception.WriteLine(mess);
 	}
 
 	
@@ -389,14 +389,14 @@ public abstract class lr_parser
 		virtual_parse_stack virtual_parse_stack2 = new virtual_parse_stack(stack);
 		while (true)
 		{
-			int num = get_action(virtual_parse_stack2.top(), cur_err_token().sym);
+			int num = get_action(virtual_parse_stack2.Top(), cur_err_token().sym);
 			if (num == 0)
 			{
 				return false;
 			}
 			if (num > 0)
 			{
-				virtual_parse_stack2.push(num - 1);
+				virtual_parse_stack2.Push(num - 1);
 				if (debug)
 				{
 					debug_message(("# Parse-ahead shifts Symbol #")+(cur_err_token().sym)+(" into state #")
@@ -417,20 +417,20 @@ public abstract class lr_parser
 			int num3 = production_tab[-num - 1][1];
 			for (int i = 0; i < num3; i++)
 			{
-				virtual_parse_stack2.pop();
+				virtual_parse_stack2.Pop();
 			}
 			if (debug)
 			{
 				debug_message(("# Parse-ahead reduces: handle size = ")+(num3)+(" lhs = #")
 					+(num2)
 					+(" from state #")
-					+(virtual_parse_stack2.top())
+					+(virtual_parse_stack2.Top())
 					);
 			}
-			virtual_parse_stack2.push(get_reduce(virtual_parse_stack2.top(), num2));
+			virtual_parse_stack2.Push(get_reduce(virtual_parse_stack2.Top(), num2));
 			if (debug)
 			{
-				debug_message(("# Goto state #")+(virtual_parse_stack2.top()));
+				debug_message(("# Goto state #")+(virtual_parse_stack2.Top()));
 			}
 		}
 		if (debug)
@@ -453,65 +453,6 @@ public abstract class lr_parser
 		cur_token = scan();
 		lookahead_pos = 0;
 	}
-
-	
-	
-	[LineNumberTable(new byte[]
-	{
-		158,
-		118,
-		98,
-		226,
-		70,
-		135,
-		131,
-		107,
-		127,
-		11,
-		byte.MaxValue,
-		21,
-		69,
-		235,
-		69,
-		223,
-		8,
-		167,
-		110,
-		108,
-		111,
-		114,
-		174,
-		136,
-		240,
-		73,
-		161,
-		102,
-		191,
-		16,
-		167,
-		184,
-		110,
-		143,
-		176,
-		137,
-		108,
-		238,
-		61,
-		232,
-		71,
-		189,
-		103,
-		103,
-		109,
-		142,
-		byte.MaxValue,
-		12,
-		69,
-		134,
-		110,
-		225,
-		69
-	})]
 	protected internal virtual void parse_lookahead(bool debug)
 	{
 		Symbol symbol = null;
@@ -609,20 +550,13 @@ public abstract class lr_parser
 
 	public abstract int start_production();
 
-	
-	
+		
 	public lr_parser(Scanner s)
 		: this()
 	{
 		setScanner(s);
 	}
 
-	
-	[LineNumberTable(new byte[]
-	{
-		162, 4, 136, 109, 161, 171, 144, 31, 59, 230,
-		69, 109
-	})]
 	public virtual void dump_stack()
 	{
 		if (stack == null)
@@ -631,7 +565,7 @@ public abstract class lr_parser
 			return;
 		}
 		debug_message("============ Parse Stack Dump ============");
-		for (int i = 0; i < stack.size(); i++)
+		for (int i = 0; i < stack.Count; i++)
 		{
 			debug_message(("Symbol: ")+(((Symbol)stack.elementAt(i)).sym)+(" State: ")
 				+(((Symbol)stack.elementAt(i)).parse_state)
@@ -641,23 +575,18 @@ public abstract class lr_parser
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		162, 52, 107, 115, 114, 127, 38, 127, 0, 108,
-		235, 59, 233, 72
-	})]
 	public virtual void debug_stack()
 	{
-		StringBuilder stringBuffer = new StringBuilder("## STACK:");
-		for (int i = 0; i < stack.size(); i++)
+		var stringBuffer = new StringBuilder("## STACK:");
+		for (int i = 0; i < stack.Count; i++)
 		{
-			Symbol symbol = (Symbol)stack.elementAt(i);
-			stringBuffer+((" <state ")+(symbol.parse_state)+(", sym ")
+			Symbol symbol = (Symbol)stack[i];
+			stringBuffer.Append((" <state ")+(symbol.parse_state)+(", sym ")
 				+(symbol.sym)
 				+(">")
 				);
 			int num = i;
-			if (((3 != -1) ? (num % 3) : 0) == 2 || i == stack.size() - 1)
+			if (((3 != -1) ? (num % 3) : 0) == 2 || i == stack.Count - 1)
 			{
 				debug_message(stringBuffer);
 				stringBuffer = new StringBuilder("         ");
@@ -666,68 +595,6 @@ public abstract class lr_parser
 	}
 
 	
-	
-	[LineNumberTable(new byte[]
-	{
-		162,
-		77,
-		226,
-		70,
-		108,
-		108,
-		140,
-		171,
-		166,
-		166,
-		140,
-		191,
-		11,
-		107,
-		120,
-		167,
-		178,
-		109,
-		240,
-		70,
-		191,
-		8,
-		167,
-		110,
-		108,
-		108,
-		114,
-		174,
-		108,
-		191,
-		11,
-		167,
-		184,
-		110,
-		142,
-		172,
-		136,
-		108,
-		238,
-		61,
-		232,
-		71,
-		125,
-		byte.MaxValue,
-		53,
-		69,
-		103,
-		103,
-		109,
-		142,
-		191,
-		6,
-		166,
-		172,
-		169,
-		172,
-		139,
-		214
-	})]
 	public virtual Symbol debug_parse()
 	{
 		Symbol symbol = null;
@@ -739,7 +606,7 @@ public abstract class lr_parser
 		user_init();
 		cur_token = scan();
 		debug_message(("# Current Symbol is #")+(cur_token.sym));
-		stack.removeAllElements();
+		stack.Clear();
 		stack.Push(new Symbol(0, start_state()));
 		tos = 0;
 		_done_parsing = false;
@@ -748,7 +615,7 @@ public abstract class lr_parser
 			if (cur_token.used_by_parser)
 			{
 				
-				throw new Error("Symbol recycling detected (fix your scanner).");
+				throw new System.Exception("Symbol recycling detected (fix your scanner).");
 			}
 			int num = get_action(((Symbol)stack.Peek()).parse_state, cur_token.sym);
 			if (num > 0)
@@ -808,15 +675,15 @@ public abstract class lr_parser
 		int i;
 		for (i = 1; i < (nint)sa.LongLength; i++)
 		{
-			stringBuffer+(sa[i]);
+			stringBuffer.Append(sa[i]);
 		}
 		i = 0;
-		int num = (int)(((uint)stringBuffer.charAt(i) << 16) | stringBuffer.charAt(i + 1));
+		int num = (int)(((uint)stringBuffer[i] << 16) | stringBuffer[i+1]);
 		i += 2;
 		short[][] array = new short[num][];
 		for (int j = 0; j < num; j++)
 		{
-			int num2 = (int)(((uint)stringBuffer.charAt(i) << 16) | stringBuffer.charAt(i + 1));
+			int num2 = (int)(((uint)stringBuffer[i] << 16) | stringBuffer[i+1]);
 			i += 2;
 			array[j] = new short[num2];
 			for (int k = 0; k < num2; k++)
@@ -825,7 +692,7 @@ public abstract class lr_parser
 				int num3 = k;
 				int index = i;
 				i++;
-				obj[num3] = (short)(stringBuffer.charAt(index) - 2);
+				obj[num3] = (short)(stringBuffer[(index)] - 2);
 			}
 		}
 		return array;

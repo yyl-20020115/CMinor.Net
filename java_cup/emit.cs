@@ -70,7 +70,7 @@ public class emit
 	{
 		string result = (prefix)+(parser_class_name)+("$")
 			+(str)
-			.ToString();
+			;
 		
 		return result;
 	}
@@ -131,7 +131,7 @@ public class emit
 		if (c <= 'ÿ')
 		{
 			stringBuffer+(int.toOctalString(c));
-			while (stringBuffer.length() < 3)
+			while (stringBuffer.Length < 3)
 			{
 				stringBuffer.insert(0, '0');
 			}
@@ -139,7 +139,7 @@ public class emit
 		else
 		{
 			stringBuffer+(int.toHexString(c));
-			while (stringBuffer.length() < 4)
+			while (stringBuffer.Length < 4)
 			{
 				stringBuffer.insert(0, '0');
 			}
@@ -297,9 +297,9 @@ public class emit
 			{
 				parse_action_row2.default_reduce = -1;
 			}
-			short[] array2 = new short[2 * parse_action_row.size()];
+			short[] array2 = new short[2 * parse_action_row.Count];
 			int num2 = 0;
-			for (int j = 0; j < parse_action_row.size(); j++)
+			for (int j = 0; j < parse_action_row.Count; j++)
 			{
 				parse_action parse_action2 = parse_action_row2.under_term[j];
 				if (parse_action2.kind() == 0)
@@ -331,7 +331,7 @@ public class emit
 				else if (parse_action2.kind() != 3)
 				{
 					string msg = ("Unrecognized action code ")+(parse_action2.kind())+(" found in parse table")
-						.ToString();
+						;
 					
 					throw new internal_error(msg);
 				}
@@ -384,14 +384,14 @@ public class emit
 		for (int i = 0; i < red_tab.num_states(); i++)
 		{
 			_ = red_tab.under_state[i];
-			short[] array2 = new short[2 * parse_reduce_row.size()];
+			short[] array2 = new short[2 * parse_reduce_row.Count];
 			int num2 = 0;
 			int num3 = 0;
 			while (true)
 			{
 				int num4 = num3;
 				_ = red_tab.under_state[i];
-				if (num4 >= parse_reduce_row.size())
+				if (num4 >= parse_reduce_row.Count)
 				{
 					break;
 				}
@@ -617,7 +617,7 @@ public class emit
 					}
 				}
 			}
-			if (production2.action() != null && production2.action().code_string() != null && !production2.action().equals(""))
+			if (production2.action() != null && production2.action().code_string() != null && !production2.action().Equals(""))
 			{
 				@out.WriteLine(production2.action().code_string());
 			}
@@ -629,7 +629,7 @@ public class emit
 					+("-")
 					+(i3)
 					+(")).right")
-					.ToString();
+					;
 				string str;
 				if (production2.rhs_length() == 0)
 				{
@@ -643,7 +643,7 @@ public class emit
 						+("-")
 						+(i)
 						+(")).left")
-						.ToString();
+						;
 				}
 				@out.WriteLine(("              ")+(pre("result"))+(" = new java_cup.runtime.Symbol(")
 					+(production2.lhs().the_symbol().index())
@@ -896,7 +896,7 @@ public class emit
 		@out.WriteLine("//----------------------------------------------------");
 		@out.WriteLine();
 		emit_package(@out);
-		for (int i = 0; i < import_list.size(); i++)
+		for (int i = 0; i < import_list.Count; i++)
 		{
 			@out.WriteLine(("import ")+(import_list.elementAt(i))+(";")
 				);

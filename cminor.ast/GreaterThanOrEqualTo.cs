@@ -5,13 +5,13 @@ namespace CMinor.AST;
 
 public class GreaterThanOrEqualTo : RelationalOperator
 {
-	public GreaterThanOrEqualTo(LocationInfo info, Expression left, Expression right)
-		: base(info, left, right)
-	{
-	}	
-	
-	public override void Accept(Visitor v)
-	{
-		v.Visit(this);
-	}
+    public GreaterThanOrEqualTo(LocationInfo info, Expression left, Expression right)
+        : base(info, left, right)
+    {
+    }
+
+    public override void Accept(Visitor v)
+    {
+        v.Visit(this);
+    }
 }

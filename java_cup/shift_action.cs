@@ -28,7 +28,7 @@ public class shift_action : parse_action
 
 	
 	
-	public virtual bool equals(shift_action other)
+	public virtual bool Equals(shift_action other)
 	{
 		return (other != null && other.shift_to() == shift_to()) ? true : false;
 	}
@@ -40,11 +40,11 @@ public class shift_action : parse_action
 
 	
 	
-	public override bool equals(object other)
+	public override bool Equals(object other)
 	{
 		if (other is shift_action)
 		{
-			bool result = equals((shift_action)other);
+			bool result = Equals((shift_action)other);
 			
 			return result;
 		}
@@ -53,9 +53,9 @@ public class shift_action : parse_action
 
 	
 	
-	public override int hashCode()
+	public override int GetHashCode()
 	{
-		int result = shift_to().hashCode();
+		int result = shift_to().GetHashCode();
 		
 		return result;
 	}
@@ -65,7 +65,7 @@ public class shift_action : parse_action
 	public override string ToString()
 	{
 		string result = ("SHIFT(to state ")+(shift_to().index())+(")")
-			.ToString();
+			;
 		
 		return result;
 	}

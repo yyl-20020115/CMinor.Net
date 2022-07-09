@@ -8,7 +8,7 @@ public class StackVariableSymbol : Symbol
 {
 	private int offset;
 	
-	public StackVariableSymbol(LocationInfo info, string identifier, Type type)
+	public StackVariableSymbol(LocationInfo info, string identifier, Types type)
 		: base(info, identifier, type)
 	{
 	}

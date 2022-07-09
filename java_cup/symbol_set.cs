@@ -87,17 +87,17 @@ public class symbol_set
 	
 	public virtual int size()
 	{
-		int result = _all.size();
+		int result = _all.Count;
 		
 		return result;
 	}
 
 	
 	
-	public virtual bool equals(symbol_set other)
+	public virtual bool Equals(symbol_set other)
 	{
 		//Discarded unreachable code: IL_001c
-		if (other == null || other.size() != size())
+		if (other == null || other.Count != size())
 		{
 			return false;
 		}
@@ -166,20 +166,20 @@ public class symbol_set
 
 	
 	
-	public override bool equals(object other)
+	public override bool Equals(object other)
 	{
 		if (!(other is symbol_set))
 		{
 			return false;
 		}
-		bool result = equals((symbol_set)other);
+		bool result = Equals((symbol_set)other);
 		
 		return result;
 	}
 
 	
 	
-	public override int hashCode()
+	public override int GetHashCode()
 	{
 		int num = 0;
 		Enumeration enumeration = all();

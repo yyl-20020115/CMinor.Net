@@ -1,8 +1,9 @@
 using CMinor.AST;
 using CMinor.Semantic;
 using CMinor.Symbol;
-
-
+using System;
+using System.Collections;
+using System.IO;
 
 namespace CMinor.Visit;
 
@@ -96,19 +97,12 @@ public class CodeGenerationVisitor : Visitor
 
 	
 	
-	public override void visit(AstNode n)
+	public override void Visit(AstNode n)
 	{
 		Console.Error.WriteLine(("code generation in ")+(n.DotLabel)+(" is a stub")
 			);
 	}
 
-	
-	[LineNumberTable(new byte[]
-	{
-		29, 103, 144, 144, 127, 1, 127, 37, 130, 127,
-		1, 103, 130, 144, 103, 108, 103, 127, 1, 103,
-		130
-	})]
 	public override void Visit(Program n)
 	{
 		program = n;
@@ -192,34 +186,13 @@ public class CodeGenerationVisitor : Visitor
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		109,
-		103,
-		103,
-		107,
-		109,
-		167,
-		141,
-		byte.MaxValue,
-		51,
-		69,
-		240,
-		52,
-		233,
-		80,
-		223,
-		26,
-		159,
-		22
-	})]
 	public override void visit(PrintStatement n)
 	{
 		IList actualArguments = n.ActualArguments;
-		int num = actualArguments.size();
+		int num = actualArguments.Count;
 		for (int i = num - 1; i >= 0; i += -1)
 		{
-			Expression expression = (Expression)actualArguments.get(i);
+			Expression expression = (Expression)actualArguments[i];
 			expression.Accept(this);
 			if (expression.Type == Type.boolean_type)
 			{
@@ -240,16 +213,12 @@ public class CodeGenerationVisitor : Visitor
 	
 	public override void Visit(BlockStatement n)
 	{
-		Iterator iterator = n.Declarations.iterator();
-		while (iterator.hasNext())
+		foreach(Declaration declaration in n.Declarations)
 		{
-			Declaration declaration = (Declaration)iterator.next();
 			declaration.Accept(this);
 		}
-		iterator = n.Statements.iterator();
-		while (iterator.hasNext())
+		foreach(Statement statement in n.Statements)
 		{
-			Statement statement = (Statement)iterator.next();
 			statement.Accept(this);
 		}
 	}
@@ -264,13 +233,7 @@ public class CodeGenerationVisitor : Visitor
 		n.IfClause.Accept(this);
 		output.WriteLine((label)+(":"));
 	}
-
 	
-	[LineNumberTable(new byte[]
-	{
-		160, 85, 120, 108, 127, 6, 108, 127, 32, 108,
-		127, 8
-	})]
 	public override void Visit(IfElseStatement n)
 	{
 		string label = labeler.GetCurrentLabel();
@@ -286,12 +249,6 @@ public class CodeGenerationVisitor : Visitor
 		output.WriteLine((label2)+(":"));
 	}
 
-	
-	[LineNumberTable(new byte[]
-	{
-		160, 95, 120, 127, 6, 108, 127, 6, 108, 127,
-		34
-	})]
 	public override void Visit(WhileStatement n)
 	{
 		string label = labeler.GetCurrentLabel();
@@ -330,25 +287,20 @@ public class CodeGenerationVisitor : Visitor
 
 	
 	
-	public override void visit(Assignment n)
+	public override void Visit(Assignment n)
 	{
 		n.Value.Accept(this);
 		output.WriteLine(("movl %eax, ")+(SymbolLocationVisitor.get(n.Identifier.Symbol)));
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		160, 128, 103, 103, 104, 114, 16, 230, 70, 191,
-		16, 159, 23
-	})]
 	public override void Visit(FunctionCall n)
 	{
 		IList arguments = n.Arguments;
-		int num = arguments.size();
+		int num = arguments.Count;
 		for (int i = num - 1; i >= 0; i += -1)
 		{
-			((Expression)arguments.get(i)).Accept(this);
+            ((Expression)arguments[i]).Accept(this);
 			output.WriteLine("pushl %eax");
 		}
 		output.WriteLine(("call ")+(n.Symbol.Label));
@@ -358,8 +310,6 @@ public class CodeGenerationVisitor : Visitor
 				);
 		}
 	}
-
-	
 	
 	public override void Visit(IdentifierExpression n)
 	{

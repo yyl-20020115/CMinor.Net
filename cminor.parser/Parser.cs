@@ -119,7 +119,7 @@ public class Parser : lr_parser
 	
 	
 	
-	public override JavaCUP.Runtime.Symbol do_action(int act_num, lr_parser parser, Stack<Symbol> stack, int top)
+	public override JavaCUP.Runtime.Symbol do_action(int act_num, lr_parser parser, Stack<JavaCUP.Runtime.Symbol> stack, int top)
 	{
 		JavaCUP.Runtime.Symbol result = ___003C_003Eaction_obj.CUP_0024Parser_0024do_action(act_num, parser, stack, top);
 		

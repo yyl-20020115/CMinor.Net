@@ -1,39 +1,25 @@
-
 using CMinor.AST;
-
-
 
 namespace CMinor.Visit;
 
 public class DotLabelVisitor : Visitor
 {
 	private string label;
-
-	
 	
 	public DotLabelVisitor()
 	{
 	}
 
-	public virtual string getLabel()
-	{
-		return label;
-	}
-
-	public override void Visit(Program n)
+    public virtual string Label => label;
+    public override void Visit(Program n)
 	{
 		label = "PROGRAM";
-	}
-
-	
+	}	
 	
 	public override void Visit(Identifier n)
 	{
 		label = n.Name;
-	}
-
-	
-	
+	}	
 	public override void Visit(TypeSpecifier n)
 	{
 		label = n.Type.Name;
@@ -84,7 +70,7 @@ public class DotLabelVisitor : Visitor
 		label = "RETURN";
 	}
 
-	public override void visit(Assignment n)
+	public override void Visit(Assignment n)
 	{
 		label = "=";
 	}
@@ -103,21 +89,21 @@ public class DotLabelVisitor : Visitor
 	
 	public override void Visit(BooleanLiteral n)
 	{
-		label = ((!((Boolean)n.Value).booleanValue()) ? "false" : "true");
+		label = !n.Value ? "false" : "true";
 	}
 
 	
 	public override void Visit(CharacterLiteral n)
 	{
 		label = ("\\'")+(StringLiteral.escape(StringLiteral.escape(((char)n.Value))))+("\\'")
-			.ToString();
+			;
 	}
 
 	
 	
 	public override void Visit(IntegerLiteral n)
 	{
-		label = ((int)n.Value);
+		label = n.Value;
 	}
 
 	
@@ -125,7 +111,7 @@ public class DotLabelVisitor : Visitor
 	public override void Visit(StringLiteral n)
 	{
 		label = ("\\\"")+(StringLiteral.escape(StringLiteral.escape((string)n.Value)))+("\\\"")
-			.ToString();
+			;
 	}
 
 	public override void Visit(Negative n)

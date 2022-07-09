@@ -5,14 +5,14 @@ namespace JavaCUP.Runtime;
 
 public class virtual_parse_stack
 {
-	protected internal Stack<symbol> real_stack;
+	protected internal Stack<Symbol> real_stack;
 
 	protected internal int real_next;
 
 	protected internal Stack<int> vstack;
 
 	
-	public virtual_parse_stack(Stack<symbol> shadowing_stack)
+	public virtual_parse_stack(Stack<Symbol> shadowing_stack)
 	{
 		if (shadowing_stack == null)
 		{
@@ -22,27 +22,25 @@ public class virtual_parse_stack
 		real_stack = shadowing_stack;
 		vstack = new Stack<int>();
 		real_next = 0;
-		get_from_real();
+		GetFromReal();
 	}
 
 	
 	
 	
-	public virtual int top()
+	public virtual int Top()
 	{
 		if (vstack.Count == 0)
 		{
 			
 			throw new Exception("Internal parser error: top() called on empty virtual stack");
 		}
-		int result = ((int)vstack.Peek());
-		
-		return result;
+		return ((int)vstack.Peek());
 	}
 
 	
 	
-	public virtual void push(int state_num)
+	public virtual void Push(int state_num)
 	{
 		vstack.Push((state_num));
 	}
@@ -50,40 +48,33 @@ public class virtual_parse_stack
 	
 	
 	
-	public virtual void pop()
+	public virtual void Pop()
 	{
 		if (vstack.Count == 0)
-		{
-			
+		{	
 			throw new Exception("Internal parser error: pop from empty virtual stack");
 		}
 		vstack.Pop();
 		if (vstack.Count == 0)
 		{
-			get_from_real();
+			GetFromReal();
 		}
 	}
 
 	
 	
-	protected internal virtual void get_from_real()
+	protected internal virtual void GetFromReal()
 	{
 		if (real_next < real_stack.Count)
 		{
-			Symbol symbol =
-				real_stack.elementAt(real_stack.size() - 1 - real_next);
+			Symbol symbol = this.real_stack.ToArray()[this.real_stack.Count - 1 - real_next];
+				//real_stack.elementAt(real_stack.Count - 1 - real_next);
 			
 			real_next++;
-			Stack<int> stack = vstack;
-			
-			stack.Push((symbol.parse_state));
+
+			vstack.Push(symbol.parse_state);
 		}
 	}
 
-	
-	
-	public virtual bool empty()
-	{		
-		return vstack.Count == 0;
-	}
+    public virtual bool IsEmpty => vstack.Count == 0;
 }

@@ -5,18 +5,18 @@ namespace CMinor.AST;
 
 public class Initialization : Declaration
 {
-	private ConstantExpression value;
+    private ConstantExpression value;
 
-	public Initialization(LocationInfo info, TypeSpecifier type, Identifier name, ConstantExpression value)
-		: base(info, type, name)
-	{
-		this.value = value;
-	}
+    public Initialization(LocationInfo info, TypeSpecifier type, Identifier name, ConstantExpression value)
+        : base(info, type, name)
+    {
+        this.value = value;
+    }
 
     public virtual ConstantExpression Value => value;
 
     public override void Accept(Visitor v)
-	{
-		v.Visit(this);
-	}
+    {
+        v.Visit(this);
+    }
 }

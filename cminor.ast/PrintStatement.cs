@@ -7,33 +7,33 @@ namespace CMinor.AST;
 
 public class PrintStatement : Statement
 {
-	public const string TRUE_STRING = "true";
+    public const string TRUE_STRING = "true";
 
-	public const string FALSE_STRING = "false";
+    public const string FALSE_STRING = "false";
 
-	public const string BOOL_STRING = "false\0true";
+    public const string BOOL_STRING = "false\0true";
 
-	internal static int offset;
+    internal static int offset;
 
-	public const string CHAR_FORMAT = "%c";
+    public const string CHAR_FORMAT = "%c";
 
-	public const string INT_FORMAT = "%d";
+    public const string INT_FORMAT = "%d";
 
-	public const string STRING_FORMAT = "%s";
+    public const string STRING_FORMAT = "%s";
 
-	private IList arguments;
+    private IList arguments;
 
-	private StringSymbol symbol;
+    private StringSymbol symbol;
 
-	private IList actualArguments;
+    private IList actualArguments;
 
     public static int OFFSET => offset;
 
-	public PrintStatement(LocationInfo info, IList arguments)
-		: base(info)
-	{
-		this.arguments = arguments;
-	}
+    public PrintStatement(LocationInfo info, IList arguments)
+        : base(info)
+    {
+        this.arguments = arguments;
+    }
 
     public virtual IList Arguments => arguments;
 
@@ -43,13 +43,13 @@ public class PrintStatement : Statement
     public virtual IList ActualArguments { get => actualArguments; set => this.actualArguments = value; }
 
     public override void Accept(Visitor v)
-	{
-		v.visit(this);
-	}
+    {
+        v.visit(this);
+    }
 
-	
-	static PrintStatement()
-	{
-		offset = ("false").Length + 1;
-	}
+
+    static PrintStatement()
+    {
+        offset = ("false").Length + 1;
+    }
 }

@@ -135,7 +135,7 @@ public class ChildVisitor : Visitor
 
 	
 	
-	public override void visit(Assignment n)
+	public override void Visit(Assignment n)
 	{
 		children.Add(n.Identifier);
 		children.Add(n.Value);
@@ -145,7 +145,7 @@ public class ChildVisitor : Visitor
 	
 	public override void Visit(FunctionCall n)
 	{
-		children.Add(n.getIdentifier());
+		children.Add(n.Identifier);
 		children.addAll(n.Arguments);
 	}
 

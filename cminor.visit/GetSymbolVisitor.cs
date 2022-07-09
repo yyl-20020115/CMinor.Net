@@ -28,7 +28,7 @@ public class GetSymbolVisitor : Visitor
 		return symbols;
 	}
 
-	public override void visit(AstNode n)
+	public override void Visit(AstNode n)
 	{
 	}
 

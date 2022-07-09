@@ -1,5 +1,6 @@
 using CMinor.Parser;
 using CMinor.Semantic;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -94,8 +95,8 @@ public class Lexer : JavaCUP.Runtime.Scanner
 
 	private StringBuilder stringBuffer;
 
-	
-	private Dictionary stringTable;
+
+	private Dictionary<string, string> stringTable = new();
 
 	private ErrorLogger logger;
 
@@ -108,20 +109,15 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		161, 59, 232, 159, 98, 199, 240, 94, 231, 160,
-		125, 109, 107, 103, 103
-	})]
-	public Lexer(Reader @in)
+	public Lexer(TextReader input)
 	{
 		zzLexicalState = 0;
 		zzBuffer = new char[16384];
 		zzAtBOL = true;
 		stringBuffer = new StringBuilder(64);
-		stringTable = new HashMap();
+		stringTable = new ();
 		yyline = 1;
-		zzReader = @in;
+		zzReader = input;
 	}
 
 	public virtual void setFilename(string filename)
@@ -140,15 +136,15 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	{
 		int num = 0;
 		int num2 = P_1;
-		int num3 = java.lang.String.instancehelper_length(P_0);
+		int num3 = P_0.Length;
 		while (num < num3)
 		{
 			int index = num;
 			num++;
-			int num4 = java.lang.String.instancehelper_charAt(P_0, index);
+			int num4 = P_0[index];
 			int index2 = num;
 			num++;
-			int num5 = java.lang.String.instancehelper_charAt(P_0, index2);
+			int num5 = P_0[index2];
 			do
 			{
 				int num6 = num2;
@@ -167,40 +163,35 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	{
 		int num = 0;
 		int num2 = P_1;
-		int num3 = java.lang.String.instancehelper_length(P_0);
+		int num3 = P_0.Length;
 		while (num < num3)
 		{
 			int index = num;
 			num++;
-			int num4 = (int)((uint)java.lang.String.instancehelper_charAt(P_0, index) << 16);
+			int num4 = (int)((uint)P_0[index] << 16);
 			int num5 = num2;
 			num2++;
 			int index2 = num;
 			num++;
-			P_2[num5] = num4 | java.lang.String.instancehelper_charAt(P_0, index2);
+			P_2[num5] = num4 | P_0[index2];
 		}
 		return num2;
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		160, 96, 98, 98, 103, 100, 108, 109, 102, 113,
-		98
-	})]
 	private static int zzUnpackTrans(string P_0, int P_1, int[] P_2)
 	{
 		int num = 0;
 		int num2 = P_1;
-		int num3 = java.lang.String.instancehelper_length(P_0);
+		int num3 = P_0.Length;
 		while (num < num3)
 		{
 			int index = num;
 			num++;
-			int num4 = java.lang.String.instancehelper_charAt(P_0, index);
+			int num4 = P_0[index];
 			int index2 = num;
 			num++;
-			int num5 = java.lang.String.instancehelper_charAt(P_0, index2);
+			int num5 = P_0[index2];
 			num5 += -1;
 			do
 			{
@@ -220,15 +211,15 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	{
 		int num = 0;
 		int num2 = P_1;
-		int num3 = java.lang.String.instancehelper_length(P_0);
+		int num3 = P_0.Length;
 		while (num < num3)
 		{
 			int index = num;
 			num++;
-			int num4 = java.lang.String.instancehelper_charAt(P_0, index);
+			int num4 = P_0[index];
 			int index2 = num;
 			num++;
-			int num5 = java.lang.String.instancehelper_charAt(P_0, index2);
+			int num5 = P_0[index2];
 			do
 			{
 				int num6 = num2;
@@ -280,7 +271,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	
 	private string yytext()
 	{
-		string result = java.lang.String.newhelper(zzBuffer, zzStartRead, zzMarkedPos - zzStartRead);
+		string result = new string(zzBuffer, zzStartRead, zzMarkedPos - zzStartRead);
 		
 		return result;
 	}
@@ -312,10 +303,6 @@ public class Lexer : JavaCUP.Runtime.Scanner
 		}
 		catch (System.Exception x)
 		{
-			if (ByteCodeHelper.MapException<ArrayIndexOutOfBoundsException>(x, ByteCodeHelper.MapFlags.Unused) == null)
-			{
-				throw;
-			}
 			goto IL_001a;
 		}
 		goto IL_0028;
@@ -326,7 +313,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 		IL_0028:
 		string message = text;
 		
-		throw new Error(message);
+		throw new System.Exception(message);
 	}
 
 	
@@ -339,41 +326,11 @@ public class Lexer : JavaCUP.Runtime.Scanner
 		zzEndRead = zzStartRead;
 		if (zzReader != null)
 		{
-			zzReader.close();
+			zzReader.Close();
 		}
 	}
 
 	
-	
-	[LineNumberTable(new byte[]
-	{
-		161,
-		105,
-		105,
-		byte.MaxValue,
-		6,
-		69,
-		115,
-		115,
-		115,
-		199,
-		143,
-		110,
-		117,
-		199,
-		191,
-		7,
-		100,
-		110,
-		162,
-		99,
-		108,
-		100,
-		130,
-		126,
-		226,
-		69
-	})]
 	private bool zzRefill()
 	{
 		if (zzStartRead > 0)
@@ -390,7 +347,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			ByteCodeHelper.arraycopy_primitive_2(zzBuffer, 0, dest, 0, zzBuffer.Length);
 			zzBuffer = dest;
 		}
-		int num = zzReader.read(zzBuffer, zzEndRead, (int)((nint)zzBuffer.LongLength - zzEndRead));
+		int num = zzReader.Read(zzBuffer, zzEndRead, (int)((nint)zzBuffer.LongLength - zzEndRead));
 		if (num > 0)
 		{
 			zzEndRead += num;
@@ -398,7 +355,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 		}
 		if (num == 0)
 		{
-			int num2 = zzReader.read();
+			int num2 = zzReader.Read();
 			if (num2 == -1)
 			{
 				return true;
@@ -425,7 +382,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	
 	private JavaCUP.Runtime.Symbol checkCharLiteralLength()
 	{
-		if (stringBuffer.length() > 1)
+		if (stringBuffer.Length > 1)
 		{
 			yybegin(8);
 			JavaCUP.Runtime.Symbol result = makeErrorToken("more than one character inside character literal");
@@ -443,7 +400,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 		string text2 = (string)stringTable.get(text);
 		if (text2 == null)
 		{
-			stringTable.put(text, text);
+			stringTable.Add(text, text);
 			return text;
 		}
 		return text2;
@@ -453,7 +410,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	
 	private JavaCUP.Runtime.Symbol checkStringLiteralLength()
 	{
-		if (stringBuffer.length() > 64)
+		if (stringBuffer.Length > 64)
 		{
 			yybegin(6);
 			JavaCUP.Runtime.Symbol result = makeErrorToken("maximum string literal length exceeded (maximum number of characters allowed is 64)");
@@ -475,7 +432,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 		if (32 <= lastChar && lastChar <= 126)
 		{
 			string result = ("'")+((char)lastChar)+("'")
-				.ToString();
+				;
 			
 			return result;
 		}
@@ -500,7 +457,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	
 	private char getLastBufferChar()
 	{
-		char result = stringBuffer.charAt(stringBuffer.length() - 1);
+		char result = stringBuffer.charAt(stringBuffer.Length - 1);
 		
 		return result;
 	}
@@ -534,10 +491,10 @@ public class Lexer : JavaCUP.Runtime.Scanner
 		{
 			int index = num;
 			num++;
-			int num3 = java.lang.String.instancehelper_charAt(P_0, index);
+			int num3 = P_0[index];
 			int index2 = num;
 			num++;
-			int num4 = java.lang.String.instancehelper_charAt(P_0, index2);
+			int num4 = P_0[index2];
 			do
 			{
 				int num5 = num2;
@@ -612,14 +569,14 @@ public class Lexer : JavaCUP.Runtime.Scanner
 
 	
 	
-	public Lexer(InputStream @in)
-		: this(new InputStreamReader(@in))
+	public Lexer(Stream @in)
+		: this(new StreamReader(@in))
 	{
 	}
 
 	
 	
-	private void yyreset(Reader P_0)
+	private void yyreset(TextReader P_0)
 	{
 		zzReader = P_0;
 		zzAtBOL = true;
@@ -663,7 +620,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 
 	
 	
-	public virtual JavaCUP.Runtime.Symbol next_token()
+	public virtual JavaCUP.Runtime.Symbol NextToken()
 	{
 		int num = zzEndRead;
 		char[] array = zzBuffer;
@@ -882,7 +839,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 44:
 			{
-				stringBuffer+('\0');
+				stringBuffer.Append('\0');
 				JavaCUP.Runtime.Symbol symbol = checkCharLiteralLength();
 				if (symbol != null)
 				{
@@ -892,7 +849,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 42:
 			{
-				stringBuffer+('\0');
+				stringBuffer.Append('\0');
 				JavaCUP.Runtime.Symbol symbol = checkStringLiteralLength();
 				if (symbol != null)
 				{
@@ -922,7 +879,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 26:
 			{
-				stringBuffer+(getLastChar());
+				stringBuffer.Append(getLastChar());
 				JavaCUP.Runtime.Symbol symbol = checkCharLiteralLength();
 				if (symbol != null)
 				{
@@ -944,7 +901,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 23:
 			{
-				stringBuffer+(getLastChar());
+				stringBuffer.Append(getLastChar());
 				JavaCUP.Runtime.Symbol symbol = checkStringLiteralLength();
 				if (symbol != null)
 				{
@@ -980,7 +937,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 41:
 			{
-				stringBuffer+('\n');
+				stringBuffer.Append('\n');
 				JavaCUP.Runtime.Symbol symbol = checkStringLiteralLength();
 				if (symbol != null)
 				{
@@ -1081,7 +1038,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 19:
 				yybegin(2);
-				stringBuffer.setLength(0);
+					stringBuffer.Length = 0;
 				continue;
 			case 50:
 			{
@@ -1131,7 +1088,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 20:
 				yybegin(4);
-				stringBuffer.setLength(0);
+					stringBuffer.Length = 0;
 				continue;
 			case 5:
 			{
@@ -1230,26 +1187,6 @@ public class Lexer : JavaCUP.Runtime.Scanner
 		}
 	}
 
-	[LineNumberTable(new byte[]
-	{
-		159,
-		182,
-		byte.MaxValue,
-		42,
-		83,
-		239,
-		69,
-		234,
-		100,
-		234,
-		104,
-		234,
-		160,
-		89,
-		byte.MaxValue,
-		4,
-		73
-	})]
 	static Lexer()
 	{
 		ZZ_LEXSTATE = new int[14]
@@ -1261,7 +1198,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 		ZZ_ACTION = zzUnpackAction();
 		ZZ_ROWMAP = zzUnpackRowMap();
 		ZZ_TRANS = zzUnpackTrans();
-		ZZ_ERROR_MSG = new string[3] { "Unkown internal scanner error", "Error: could not match input", "Error: pushback value was too large" };
+		ZZ_ERROR_MSG = new string[3] { "Unkown internal scanner error", "System.Exception: could not match input", "System.Exception: pushback value was too large" };
 		ZZ_ATTRIBUTE = zzUnpackAttribute();
 	}
 }

@@ -5,13 +5,13 @@ namespace CMinor.AST;
 
 public class LogicalOr : BinaryLogicalOperator
 {
-	public LogicalOr(LocationInfo info, Expression left, Expression right)
-		: base(info, left, right)
-	{
-	}
+    public LogicalOr(LocationInfo info, Expression left, Expression right)
+        : base(info, left, right)
+    {
+    }
 
-	public override void Accept(Visitor v)
-	{
-		v.Visit(this);
-	}
+    public override void Accept(Visitor v)
+    {
+        v.Visit(this);
+    }
 }

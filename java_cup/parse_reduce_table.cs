@@ -41,14 +41,14 @@ public class parse_reduce_table
 		{
 			str = (str)+("From state #")+(i)
 				+("\n")
-				.ToString();
+				;
 			int num = 0;
 			int num2 = 0;
 			while (true)
 			{
 				int num3 = num2;
 				_ = under_state[i];
-				if (num3 >= parse_reduce_row.size())
+				if (num3 >= parse_reduce_row.Count)
 				{
 					break;
 				}
@@ -57,10 +57,10 @@ public class parse_reduce_table
 				{
 					str = (str)+(" [non term ")+(num2)
 						+("->")
-						.ToString();
+						;
 					str = (str)+("state ")+(lalr_state2.index())
 						+("]")
-						.ToString();
+						;
 					num++;
 					if (num == 3)
 					{

@@ -179,7 +179,7 @@ public class non_terminal : symbol
 	
 	public static int number()
 	{
-		int result = _all.size();
+		int result = _all.Count;
 		
 		return result;
 	}
@@ -244,7 +244,7 @@ public class non_terminal : symbol
 	
 	public virtual int num_productions()
 	{
-		int result = _productions.size();
+		int result = _productions.Count;
 		
 		return result;
 	}
@@ -261,7 +261,7 @@ public class non_terminal : symbol
 		string result = (base)+("[")+(index())
 			+("]")
 			+((!nullable()) ? "" : "*")
-			.ToString();
+			;
 		
 		return result;
 	}

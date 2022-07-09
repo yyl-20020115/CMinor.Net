@@ -1,8 +1,3 @@
-
-
-
-
-
 namespace JavaCUP;
 
 public class lalr_state
@@ -261,36 +256,36 @@ public class lalr_state
 	protected internal virtual void report_reduce_reduce(lalr_item itm1, lalr_item itm2)
 	{
 		int num = 0;
-		Console.Error.WriteLine(("*** Reduce/Reduce conflict found in state #")+(index()));
-		Console.Error.print("  between ");
-		Console.Error.WriteLine(itm1.to_simple_string());
-		Console.Error.print("  and     ");
-		Console.Error.WriteLine(itm2.to_simple_string());
-		Console.Error.print("  under symbols: {");
+		Console.System.Exception.WriteLine(("*** Reduce/Reduce conflict found in state #")+(index()));
+		Console.System.Exception.print("  between ");
+		Console.System.Exception.WriteLine(itm1.to_simple_string());
+		Console.System.Exception.print("  and     ");
+		Console.System.Exception.WriteLine(itm2.to_simple_string());
+		Console.System.Exception.print("  under symbols: {");
 		for (int i = 0; i < terminal.number(); i++)
 		{
 			if (itm1.lookahead().contains(i) && itm2.lookahead().contains(i))
 			{
 				if (num != 0)
 				{
-					Console.Error.print(", ");
+					Console.System.Exception.print(", ");
 				}
 				else
 				{
 					num = 1;
 				}
-				Console.Error.print(terminal.find(i).name());
+				Console.System.Exception.print(terminal.find(i).name());
 			}
 		}
-		Console.Error.WriteLine("}");
-		Console.Error.print("  Resolved in favor of ");
+		Console.System.Exception.WriteLine("}");
+		Console.System.Exception.print("  Resolved in favor of ");
 		if (itm1.the_production().index() < itm2.the_production().index())
 		{
-			Console.Error.WriteLine("the first production.\n");
+			Console.System.Exception.WriteLine("the first production.\n");
 		}
 		else
 		{
-			Console.Error.WriteLine("the second production.\n");
+			Console.System.Exception.WriteLine("the second production.\n");
 		}
 		emit.num_conflicts++;
 		lexer.warning_count++;
@@ -305,9 +300,9 @@ public class lalr_state
 	})]
 	protected internal virtual void report_shift_reduce(lalr_item red_itm, int conflict_sym)
 	{
-		Console.Error.WriteLine(("*** Shift/Reduce conflict found in state #")+(index()));
-		Console.Error.print("  between ");
-		Console.Error.WriteLine(red_itm.to_simple_string());
+		Console.System.Exception.WriteLine(("*** Shift/Reduce conflict found in state #")+(index()));
+		Console.System.Exception.print("  between ");
+		Console.System.Exception.WriteLine(red_itm.to_simple_string());
 		Enumeration enumeration = items().all();
 		while (enumeration.hasMoreElements())
 		{
@@ -317,28 +312,28 @@ public class lalr_state
 				symbol symbol2 = lalr_item2.symbol_after_dot();
 				if (!symbol2.is_non_term() && symbol2.index() == conflict_sym)
 				{
-					Console.Error.WriteLine(("  and     ")+(lalr_item2.to_simple_string()));
+					Console.System.Exception.WriteLine(("  and     ")+(lalr_item2.to_simple_string()));
 				}
 			}
 		}
-		Console.Error.WriteLine(("  under symbol ")+(terminal.find(conflict_sym).name()));
-		Console.Error.WriteLine("  Resolved in favor of shifting.\n");
+		Console.System.Exception.WriteLine(("  under symbol ")+(terminal.find(conflict_sym).name()));
+		Console.System.Exception.WriteLine("  Resolved in favor of shifting.\n");
 		emit.num_conflicts++;
 		lexer.warning_count++;
 	}
 
 	
 	
-	public virtual bool equals(lalr_state other)
+	public virtual bool Equals(lalr_state other)
 	{
-		return (other != null && items().equals(other.items())) ? true : false;
+		return (other != null && items().Equals(other.items())) ? true : false;
 	}
 
 	
 	
 	public static int number()
 	{
-		int result = _all.size();
+		int result = _all.Count;
 		
 		return result;
 	}
@@ -491,7 +486,7 @@ public class lalr_state
 					while (enumeration3.hasMoreElements())
 					{
 						lalr_item lalr_item3 = (lalr_item)enumeration3.nextElement();
-						for (int i = 0; i < lalr_item3.propagate_items().size(); i++)
+						for (int i = 0; i < lalr_item3.propagate_items().Count; i++)
 						{
 							lalr_item itm = (lalr_item)lalr_item3.propagate_items().elementAt(i);
 							lalr_item lalr_item4 = lalr_state4.items().find(itm);
@@ -596,22 +591,22 @@ public class lalr_state
 
 	
 	
-	public override bool equals(object other)
+	public override bool Equals(object other)
 	{
 		if (!(other is lalr_state))
 		{
 			return false;
 		}
-		bool result = equals((lalr_state)other);
+		bool result = Equals((lalr_state)other);
 		
 		return result;
 	}
 
 	
 	
-	public override int hashCode()
+	public override int GetHashCode()
 	{
-		int result = items().hashCode();
+		int result = items().GetHashCode();
 		
 		return result;
 	}
@@ -623,7 +618,7 @@ public class lalr_state
 		string text = ("lalr_state [")+(index())+("]: ")
 			+(_items)
 			+("\n")
-			.ToString();
+			;
 		for (lalr_transition lalr_transition2 = transitions(); lalr_transition2 != null; lalr_transition2 = lalr_transition2.next())
 		{
 			text = (text)+(lalr_transition2);
@@ -635,8 +630,8 @@ public class lalr_state
 	
 	static lalr_state()
 	{
-		_all = new Hashtable();
-		_all_kernels = new Hashtable();
+		_all = new ();
+		_all_kernels = new ();
 		next_index = 0;
 	}
 }

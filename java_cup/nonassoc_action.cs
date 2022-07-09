@@ -1,20 +1,12 @@
-
-
-
 namespace JavaCUP;
 
 public class nonassoc_action : parse_action
 {
-	
-	
-	
 	public nonassoc_action()
 	{
 	}
 
-	
-	
-	public override bool equals(parse_action other)
+	public override bool Equalsparse_action other)
 	{
 		return (other != null && other.kind() == 3) ? true : false;
 	}
@@ -26,18 +18,18 @@ public class nonassoc_action : parse_action
 
 	
 	
-	public override bool equals(object other)
+	public override bool Equalsobject other)
 	{
 		if (other is parse_action)
 		{
-			bool result = equals((parse_action)other);
+			bool result = Equals(parse_action)other);
 			
 			return result;
 		}
 		return false;
 	}
 
-	public override int hashCode()
+	public override int GetHashCode()
 	{
 		return 212853537;
 	}

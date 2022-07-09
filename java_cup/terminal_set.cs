@@ -34,7 +34,7 @@ public class terminal_set
 		not_null(other);
 		BitSet obj = (BitSet)_elements.clone();
 		_elements.or(other._elements);
-		return (!_elements.equals(obj)) ? true : false;
+		return (!_elements.Equals(obj)) ? true : false;
 	}
 
 	
@@ -55,7 +55,7 @@ public class terminal_set
 	
 	public virtual bool empty()
 	{
-		bool result = equals(___003C_003EEMPTY);
+		bool result = Equals(___003C_003EEMPTY);
 		
 		return result;
 	}
@@ -86,7 +86,7 @@ public class terminal_set
 		not_null(other);
 		BitSet bitSet = (BitSet)other._elements.clone();
 		bitSet.xor(_elements);
-		return (!bitSet.equals(other._elements)) ? true : false;
+		return (!bitSet.Equals(other._elements)) ? true : false;
 	}
 
 	
@@ -97,7 +97,7 @@ public class terminal_set
 		not_null(other);
 		BitSet bitSet = (BitSet)other._elements.clone();
 		bitSet.or(_elements);
-		bool result = bitSet.equals(other._elements);
+		bool result = bitSet.Equals(other._elements);
 		
 		return result;
 	}
@@ -116,13 +116,13 @@ public class terminal_set
 
 	
 	
-	public virtual bool equals(terminal_set other)
+	public virtual bool Equals(terminal_set other)
 	{
 		if (other == null)
 		{
 			return false;
 		}
-		bool result = _elements.equals(other._elements);
+		bool result = _elements.Equals(other._elements);
 		
 		return result;
 	}
@@ -160,13 +160,13 @@ public class terminal_set
 
 	
 	
-	public override bool equals(object other)
+	public override bool Equals(object other)
 	{
 		if (!(other is terminal_set))
 		{
 			return false;
 		}
-		bool result = equals((terminal_set)other);
+		bool result = Equals((terminal_set)other);
 		
 		return result;
 	}

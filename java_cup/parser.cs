@@ -1,8 +1,8 @@
 
 
 using JavaCUP.Runtime;
-
-
+using System;
+using System.Collections.Generic;
 
 namespace JavaCUP;
 
@@ -105,7 +105,7 @@ public class parser : lr_parser
 	
 	
 	
-	public override Symbol do_action(int act_num, lr_parser parser, Stack stack, int top)
+	public override Symbol do_action(int act_num, lr_parser parser, Stack<Symbol> stack, int top)
 	{
 		Symbol result = ___003C_003Eaction_obj.CUP_0024parser_0024do_action(act_num, parser, stack, top);
 		
@@ -156,8 +156,8 @@ public class parser : lr_parser
 	{
 		done_parsing();
 		lexer.emit_error(message);
-		Console.Error.WriteLine("Can't recover from previous error(s), giving up.");
-		java.lang.System.exit(1);
+		Console.System.Exception.WriteLine("Can't recover from previous error(s), giving up.");
+		Environment.Exit(1);
 	}
 
 	

@@ -23,9 +23,9 @@ public class TypeCheckVisitor : Visitor
 
 		
 		
-		public override bool test(Type P_0)
+		public override bool test(Types P_0)
 		{
-			return P_0 == Type.integer_type;
+			return P_0 == Types.integer_type;
 		}
 
 		public override string desc()
@@ -35,9 +35,9 @@ public class TypeCheckVisitor : Visitor
 
 		
 		
-		public override Type synth()
+		public override Types synth()
 		{
-			return Type.integer_type;
+			return Types.integer_type;
 		}
 	}
 
@@ -54,9 +54,9 @@ public class TypeCheckVisitor : Visitor
 
 		
 		
-		public override bool test(Type P_0)
+		public override bool test(Types P_0)
 		{
-			return (P_0 == Type.integer_type || P_0 == Type.char_type || P_0 == Type.boolean_type) ? true : false;
+			return (P_0 == Types.integer_type || P_0 == Types.char_type || P_0 == Types.boolean_type) ? true : false;
 		}
 
 		public override string desc()
@@ -66,9 +66,9 @@ public class TypeCheckVisitor : Visitor
 
 		
 		
-		public override Type synth()
+		public override Types synth()
 		{
-			return Type.boolean_type;
+			return Types.boolean_type;
 		}
 	}
 
@@ -85,9 +85,9 @@ public class TypeCheckVisitor : Visitor
 
 		
 		
-		public override bool test(Type P_0)
+		public override bool test(Types P_0)
 		{
-			return P_0 == Type.integer_type;
+			return P_0 == Types.integer_type;
 		}
 
 		public override string desc()
@@ -97,9 +97,9 @@ public class TypeCheckVisitor : Visitor
 
 		
 		
-		public override Type synth()
+		public override Types synth()
 		{
-			return Type.boolean_type;
+			return Types.boolean_type;
 		}
 	}
 
@@ -116,9 +116,9 @@ public class TypeCheckVisitor : Visitor
 
 		
 		
-		public override bool test(Type P_0)
+		public override bool test(Types P_0)
 		{
-			return P_0 == Type.boolean_type;
+			return P_0 == Types.boolean_type;
 		}
 
 		public override string desc()
@@ -128,9 +128,9 @@ public class TypeCheckVisitor : Visitor
 
 		
 		
-		public override Type synth()
+		public override Types synth()
 		{
-			return Type.boolean_type;
+			return Types.boolean_type;
 		}
 	}
 
@@ -143,11 +143,11 @@ public class TypeCheckVisitor : Visitor
 		{
 		}
 
-		public abstract bool test(Type P_0);
+		public abstract bool test(Types P_0);
 
 		public abstract string desc();
 
-		public abstract Type synth();
+		public abstract Types synth();
 
 		
 		
@@ -203,7 +203,7 @@ public class TypeCheckVisitor : Visitor
 		if (num == 0)
 		{
 			logger.log(P_0.getLocation(), ("a ")+(P_2)+(" may not have type ")
-				+(Type.void_type.Name)
+				+(Types.void_type.Name)
 				);
 		}
 		return (byte)num != 0;
@@ -211,7 +211,7 @@ public class TypeCheckVisitor : Visitor
 
 	
 	
-	private void checkMatch(AstNode P_0, Type P_1, Type P_2, string P_3)
+	private void checkMatch(AstNode P_0, Types P_1, Types P_2, string P_3)
 	{
 		if (P_1 != P_2)
 		{
@@ -243,7 +243,7 @@ public class TypeCheckVisitor : Visitor
 		}
 		formatStringVisitor.finish();
 		P_0.ActualArguments = arrayList;
-		string result = stringBuffer.ToString();
+		string result = stringBuffer;
 		
 		return result;
 	}
@@ -253,8 +253,8 @@ public class TypeCheckVisitor : Visitor
 	private void checkCondition(AstNode P_0, Expression P_1, string P_2)
 	{
 		P_1.Accept(this);
-		Type type = P_1.Type;
-		if (type != Type.boolean_type)
+		Types type = P_1.Type;
+		if (type != Types.boolean_type)
 		{
 			logger.log(P_0.getLocation(), ("condition in ")+(P_2)+(" must be of type ")
 				+(type.Name)
@@ -272,7 +272,7 @@ public class TypeCheckVisitor : Visitor
 		Iterator iterator = P_0.iterator();
 		while (iterator.hasNext())
 		{
-			Type type = (Type)iterator.next();
+			Types type = (Types)iterator.next();
 			if (num != 0)
 			{
 				stringBuffer+(", ");
@@ -283,7 +283,7 @@ public class TypeCheckVisitor : Visitor
 			}
 			stringBuffer+(type.Name);
 		}
-		string result = stringBuffer.ToString();
+		string result = stringBuffer;
 		
 		return result;
 	}
@@ -302,8 +302,8 @@ public class TypeCheckVisitor : Visitor
 	{
 		requireType(P_0, P_0.Arg1, P_1, P_2);
 		requireType(P_0, P_0.Arg2, P_1, P_2);
-		Type type = P_0.Arg1.Type;
-		Type type2 = P_0.Arg2.Type;
+		Types type = P_0.Arg1.Type;
+		Types type2 = P_0.Arg2.Type;
 		checkMatch(P_0, type, type2, P_1);
 		P_0.Type = P_2.synth();
 	}
@@ -314,7 +314,7 @@ public class TypeCheckVisitor : Visitor
 	{
 		inPrintStatement = false;
 		P_1.Accept(this);
-		Type type = P_1.Type;
+		Types type = P_1.Type;
 		if (!P_3.test(type))
 		{
 			logger.log(P_0.getLocation(), (P_2)+(" operator requires operands of ")+(P_3.desc())
@@ -327,7 +327,7 @@ public class TypeCheckVisitor : Visitor
 
 	
 	
-	public override void visit(AstNode n)
+	public override void Visit(AstNode n)
 	{
 		logger.log(n.getLocation(), ("type checking in ")+(n.DotLabel)+(" is a stub")
 			);
@@ -345,11 +345,11 @@ public class TypeCheckVisitor : Visitor
 		stringTable = new StringTable();
 		inPrintStatement = false;
 		FunctionSymbol symbol = n.MainFunction.Symbol;
-		if (symbol.ReturnType != Type.integer_type)
+		if (symbol.ReturnType != Types.integer_type)
 		{
-			logger.log(n.getLocation(), ("main function must have return type ")+(Type.integer_type.Name));
+			logger.log(n.getLocation(), ("main function must have return type ")+(Types.integer_type.Name));
 		}
-		if (symbol.Parameters.size() != 0)
+		if (symbol.Parameters.Count != 0)
 		{
 			logger.log(n.getLocation(), "main function must take no parameters");
 		}
@@ -524,8 +524,8 @@ public class TypeCheckVisitor : Visitor
 	
 	public override void Visit(ReturnVoidStatement n)
 	{
-		Type returnType = currentFunction.ReturnType;
-		if (returnType != Type.void_type)
+		Types returnType = currentFunction.ReturnType;
+		if (returnType != Types.void_type)
 		{
 			logger.log(n.getLocation(), ("return statement missing value in function ")+(currentFunction.Identifier));
 		}
@@ -550,15 +550,15 @@ public class TypeCheckVisitor : Visitor
 	public override void Visit(ReturnValueStatement n)
 	{
 		n.Value.Accept(this);
-		Type returnType = currentFunction.ReturnType;
-		Type type = n.Value.Type;
+		Types returnType = currentFunction.ReturnType;
+		Types type = n.Value.Type;
 		if (returnType != type)
 		{
-			string msg = ((returnType != Type.void_type) ? ("return statement in function ")+(currentFunction.Identifier)+(" requires expression of type ")
+			string msg = ((returnType != Types.void_type) ? ("return statement in function ")+(currentFunction.Identifier)+(" requires expression of type ")
 				+(returnType.Name)
 				+(", got ")
 				+(type.Name)
-				.ToString() : ("function with ")+(Type.void_type.Name)+(" return type cannot return a value")
+				.ToString() : ("function with ")+(Types.void_type.Name)+(" return type cannot return a value")
 				);
 			logger.log(n.getLocation(), msg);
 		}
@@ -567,13 +567,13 @@ public class TypeCheckVisitor : Visitor
 
 	
 	
-	public override void visit(Assignment n)
+	public override void Visit(Assignment n)
 	{
 		inPrintStatement = false;
 		Expression value = n.Value;
 		value.Accept(this);
-		Type type = n.Identifier.Symbol.Type;
-		Type type2 = value.Type;
+		Types type = n.Identifier.Symbol.Type;
+		Types type2 = value.Type;
 		checkMatch(n, type, type2, "variable assignment");
 		n.Type = type;
 	}
@@ -618,9 +618,9 @@ public class TypeCheckVisitor : Visitor
 			Expression expression = (Expression)iterator.next();
 			expression.Accept(this);
 		}
-		Symbol symbol = n.getIdentifier().Symbol;
-		Type type = symbol.getType();
-		if (type != Type.function_type)
+		Symbol symbol = n.Identifier.Symbol;
+		Types type = symbol.getType();
+		if (type != Types.function_type)
 		{
 			logger.log(n.getLocation(), ("symbol ")+(symbol.getIdentifier())+(" called as function but is of type ")
 				+(type.Name)
@@ -631,8 +631,8 @@ public class TypeCheckVisitor : Visitor
 		FunctionSymbol functionSymbol = (FunctionSymbol)symbol;
 		n.Symbol = functionSymbol;
 		IList parameters = functionSymbol.Parameters;
-		int initialCapacity = arguments.size();
-		int initialCapacity2 = parameters.size();
+		int initialCapacity = arguments.Count;
+		int initialCapacity2 = parameters.Count;
 		ArrayList arrayList = new ArrayList(initialCapacity);
 		ArrayList arrayList2 = new ArrayList(initialCapacity2);
 		Iterator iterator2 = arguments.iterator();
@@ -647,7 +647,7 @@ public class TypeCheckVisitor : Visitor
 			ParameterSymbol parameterSymbol = (ParameterSymbol)iterator2.next();
 			((IList)arrayList2).Add((object)parameterSymbol.Type);
 		}
-		if (!((IList)arrayList).equals((object)arrayList2))
+		if (!((IList)arrayList).Equals((object)arrayList2))
 		{
 			logger.log(n.getLocation(), ("actual and formal parameters in function call do not match\n\treceived: ")+(typeListString(arrayList))+("\n\texpected: ")
 				+(typeListString(arrayList2))
@@ -667,21 +667,21 @@ public class TypeCheckVisitor : Visitor
 	
 	public override void Visit(BooleanLiteral n)
 	{
-		n.Type = Type.boolean_type;
+		n.Type = Types.boolean_type;
 	}
 
 	
 	
 	public override void Visit(CharacterLiteral n)
 	{
-		n.Type = Type.char_type;
+		n.Type = Types.char_type;
 	}
 
 	
 	
 	public override void Visit(IntegerLiteral n)
 	{
-		n.Type = Type.integer_type;
+		n.Type = Types.integer_type;
 	}
 
 	
@@ -692,7 +692,7 @@ public class TypeCheckVisitor : Visitor
 		{
 			n.Symbol = stringTable.getSymbol((string)n.Value);
 		}
-		n.Type = Type.string_type;
+		n.Type = Types.string_type;
 	}
 
 	

@@ -6,7 +6,7 @@ namespace CMinor.Symbol;
 
 public class GlobalVariableSymbol : Symbol
 {
-	public GlobalVariableSymbol(LocationInfo info, string identifier, Type type)
+	public GlobalVariableSymbol(LocationInfo info, string identifier, Types type)
 		: base(info, identifier, type)
 	{
 	}

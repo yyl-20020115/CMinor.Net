@@ -60,7 +60,7 @@ public class lalr_transition
 	public override string ToString()
 	{
 		string str = ("transition on ")+(on_symbol().name())+(" to state [")
-			.ToString();
+			;
 		str = (str)+(_to_state.index());
 		return (str)+("]");
 	}

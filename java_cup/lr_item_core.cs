@@ -1,8 +1,3 @@
-
-
-using IKVM.Runtime;
-
-
 namespace JavaCUP;
 
 public class lr_item_core
@@ -15,13 +10,6 @@ public class lr_item_core
 
 	protected internal symbol _symbol_after_dot;
 
-	
-	
-	[LineNumberTable(new byte[]
-	{
-		159, 176, 232, 160, 70, 231, 159, 187, 162, 99,
-		176, 135, 114, 176, 167, 182, 147, 114, 104, 145
-	})]
 	public lr_item_core(production prod, int pos)
 	{
 		_symbol_after_dot = null;
@@ -38,7 +26,7 @@ public class lr_item_core
 			throw new internal_error("Attempt to create an lr_item_core with a bad dot position");
 		}
 		_dot_pos = pos;
-		_core_hash_cache = 13 * _the_production.hashCode() + pos;
+		_core_hash_cache = 13 * _the_production.GetHashCode() + pos;
 		if (_dot_pos < _the_production.rhs_length())
 		{
 			production_part production_part2 = _the_production.rhs(_dot_pos);
@@ -65,12 +53,12 @@ public class lr_item_core
 	
 	public virtual bool core_equals(lr_item_core other)
 	{
-		return (other != null && _the_production.equals(other._the_production) && _dot_pos == other._dot_pos) ? true : false;
+		return (other != null && _the_production.Equals(other._the_production) && _dot_pos == other._dot_pos) ? true : false;
 	}
 
 	
 	
-	public virtual bool equals(lr_item_core other)
+	public virtual bool Equals(lr_item_core other)
 	{
 		bool result = core_equals(other);
 		
@@ -78,13 +66,6 @@ public class lr_item_core
 	}
 
 	
-	
-	[LineNumberTable(new byte[]
-	{
-		160, 107, 191, 23, 152, 134, 155, 179, 105, 187,
-		142, 223, 1, 109, 99, 127, 1, 104, 127, 1,
-		159, 0, 159, 19, 251, 42, 233, 91, 115, 155
-	})]
 	public virtual string to_simple_string()
 	{
 		string str = ((_the_production.lhs() == null || _the_production.lhs().the_symbol() == null || _the_production.lhs().the_symbol().name() == null) ? "$$NULL$$" : _the_production.lhs().the_symbol().name());
@@ -158,13 +139,13 @@ public class lr_item_core
 
 	
 	
-	public override bool equals(object other)
+	public override bool Equals(object other)
 	{
 		if (!(other is lr_item_core))
 		{
 			return false;
 		}
-		bool result = equals((lr_item_core)other);
+		bool result = Equals((lr_item_core)other);
 		
 		return result;
 	}
@@ -174,7 +155,7 @@ public class lr_item_core
 		return _core_hash_cache;
 	}
 
-	public override int hashCode()
+	public override int GetHashCode()
 	{
 		return _core_hash_cache;
 	}
@@ -183,7 +164,7 @@ public class lr_item_core
 	
 	protected internal virtual int obj_hash()
 	{
-		int result = base.hashCode();
+		int result = base.GetHashCode();
 		
 		return result;
 	}
@@ -200,7 +181,7 @@ public class lr_item_core
 		}
 		catch (internal_error x)
 		{
-			internal_error2 = ByteCodeHelper.MapException<internal_error>(x, ByteCodeHelper.MapFlags.NoRemapping);
+			internal_error2 = x;
 		}
 		internal_error internal_error3 = internal_error2;
 		internal_error3.crash();

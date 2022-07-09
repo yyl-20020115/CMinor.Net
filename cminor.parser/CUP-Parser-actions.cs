@@ -1,6 +1,7 @@
 using CMinor.AST;
 using CMinor.Semantic;
 using JavaCUP.Runtime;
+using System.Collections.Generic;
 
 namespace CMinor.Parser;
 
@@ -25,7 +26,7 @@ internal class CUP_0024Parser_0024actions
 		parser = P_0;
 	}
 
-	public JavaCUP.Runtime.Symbol CUP_0024Parser_0024do_action(int P_0, lr_parser P_1, Stack P_2, int P_3)
+	public JavaCUP.Runtime.Symbol CUP_0024Parser_0024do_action(int P_0, lr_parser P_1, Stack<JavaCUP.Runtime.Symbol> P_2, int P_3)
 	{
 		switch (P_0)
 		{
@@ -649,31 +650,31 @@ internal class CUP_0024Parser_0024actions
 		case 13:
 		{
 			
-			TypeSpecifier o6 = new TypeSpecifier(info(), Type.void_type);
+			TypeSpecifier o6 = new TypeSpecifier(info(), Types.void_type);
 			return new JavaCUP.Runtime.Symbol(4, ((JavaCUP.Runtime.Symbol)P_2.elementAt(P_3 - 0)).left, ((JavaCUP.Runtime.Symbol)P_2.elementAt(P_3 - 0)).right, o6);
 		}
 		case 12:
 		{
 			
-			TypeSpecifier o6 = new TypeSpecifier(info(), Type.string_type);
+			TypeSpecifier o6 = new TypeSpecifier(info(), Types.string_type);
 			return new JavaCUP.Runtime.Symbol(4, ((JavaCUP.Runtime.Symbol)P_2.elementAt(P_3 - 0)).left, ((JavaCUP.Runtime.Symbol)P_2.elementAt(P_3 - 0)).right, o6);
 		}
 		case 11:
 		{
 			
-			TypeSpecifier o6 = new TypeSpecifier(info(), Type.integer_type);
+			TypeSpecifier o6 = new TypeSpecifier(info(), Types.integer_type);
 			return new JavaCUP.Runtime.Symbol(4, ((JavaCUP.Runtime.Symbol)P_2.elementAt(P_3 - 0)).left, ((JavaCUP.Runtime.Symbol)P_2.elementAt(P_3 - 0)).right, o6);
 		}
 		case 10:
 		{
 			
-			TypeSpecifier o6 = new TypeSpecifier(info(), Type.char_type);
+			TypeSpecifier o6 = new TypeSpecifier(info(), Types.char_type);
 			return new JavaCUP.Runtime.Symbol(4, ((JavaCUP.Runtime.Symbol)P_2.elementAt(P_3 - 0)).left, ((JavaCUP.Runtime.Symbol)P_2.elementAt(P_3 - 0)).right, o6);
 		}
 		case 9:
 		{
 			
-			TypeSpecifier o6 = new TypeSpecifier(info(), Type.boolean_type);
+			TypeSpecifier o6 = new TypeSpecifier(info(), Types.boolean_type);
 			return new JavaCUP.Runtime.Symbol(4, ((JavaCUP.Runtime.Symbol)P_2.elementAt(P_3 - 0)).left, ((JavaCUP.Runtime.Symbol)P_2.elementAt(P_3 - 0)).right, o6);
 		}
 		case 8:

@@ -42,7 +42,7 @@ public class lexer
 	
 	public static void emit_error(string message)
 	{
-		Console.Error.WriteLine(("Error at ")+(current_line)+("(")
+		Console.System.Exception.WriteLine(("System.Exception at ")+(current_line)+("(")
 			+(current_position)
 			+("): ")
 			+(message)
@@ -90,7 +90,7 @@ public class lexer
 				}
 				else
 				{
-					next_char4 = java.lang.System.@in.read();
+					next_char4 = java.lang.System.@in.Read();
 				}
 			}
 		}
@@ -361,7 +361,7 @@ public class lexer
 			stringBuffer+(array, 0, 1);
 			advance();
 		}
-		string text = stringBuffer.ToString();
+		string text = stringBuffer;
 		int integer = (int)keywords.get(text);
 		if (integer != null)
 		{
@@ -378,7 +378,7 @@ public class lexer
 	
 	public static void emit_warn(string message)
 	{
-		Console.Error.WriteLine(("Warning at ")+(current_line)+("(")
+		Console.System.Exception.WriteLine(("Warning at ")+(current_line)+("(")
 			+(current_position)
 			+("): ")
 			+(message)
@@ -426,7 +426,7 @@ public class lexer
 		char_symbols.put((124), (19));
 		char_symbols.put((91), (25));
 		char_symbols.put((93), (26));
-		next_char = java.lang.System.@in.read();
+		next_char = java.lang.System.@in.Read();
 		if (next_char == -1)
 		{
 			next_char2 = -1;
@@ -434,21 +434,21 @@ public class lexer
 			next_char4 = -1;
 			return;
 		}
-		next_char2 = java.lang.System.@in.read();
+		next_char2 = java.lang.System.@in.Read();
 		if (next_char2 == -1)
 		{
 			next_char3 = -1;
 			next_char4 = -1;
 			return;
 		}
-		next_char3 = java.lang.System.@in.read();
+		next_char3 = java.lang.System.@in.Read();
 		if (next_char3 == -1)
 		{
 			next_char4 = -1;
 		}
 		else
 		{
-			next_char4 = java.lang.System.@in.read();
+			next_char4 = java.lang.System.@in.Read();
 		}
 	}
 

@@ -44,7 +44,7 @@ public class parse_action_table
 			{
 				int num2 = num;
 				_ = under_state[i];
-				if (num2 >= parse_action_row.size())
+				if (num2 >= parse_action_row.Count)
 				{
 					break;
 				}
@@ -62,7 +62,7 @@ public class parse_action_table
 			production production2 = (production)enumeration.nextElement();
 			if (production2.num_reductions() == 0 && !emit.nowarn)
 			{
-				Console.Error.WriteLine(("*** Production \"")+(production2.to_simple_string())+("\" never reduced")
+				Console.System.Exception.WriteLine(("*** Production \"")+(production2.to_simple_string())+("\" never reduced")
 					);
 				lexer.warning_count++;
 			}
@@ -83,14 +83,14 @@ public class parse_action_table
 		{
 			str = (str)+("From state #")+(i)
 				+("\n")
-				.ToString();
+				;
 			int num = 0;
 			int num2 = 0;
 			while (true)
 			{
 				int num3 = num2;
 				_ = under_state[i];
-				if (num3 >= parse_action_row.size())
+				if (num3 >= parse_action_row.Count)
 				{
 					break;
 				}
@@ -100,7 +100,7 @@ public class parse_action_table
 						+(":")
 						+(under_state[i].under_term[num2])
 						+("]")
-						.ToString();
+						;
 					num++;
 					if (num == 2)
 					{

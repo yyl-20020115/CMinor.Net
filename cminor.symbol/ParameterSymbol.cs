@@ -6,7 +6,7 @@ namespace CMinor.Symbol;
 
 public class ParameterSymbol : StackVariableSymbol
 {
-	public ParameterSymbol(LocationInfo info, string identifier, Type type)
+	public ParameterSymbol(LocationInfo info, string identifier, Types type)
 		: base(info, identifier, type)
 	{
 	}

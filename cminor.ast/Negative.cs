@@ -5,13 +5,13 @@ namespace CMinor.AST;
 
 public class Negative : UnaryExpression
 {
-	public Negative(LocationInfo info, Expression arg)
-		: base(info, arg)
-	{
-	}
+    public Negative(LocationInfo info, Expression arg)
+        : base(info, arg)
+    {
+    }
 
-	public override void Accept(Visitor v)
-	{
-		v.Visit(this);
-	}
+    public override void Accept(Visitor v)
+    {
+        v.Visit(this);
+    }
 }

@@ -55,7 +55,7 @@ public class lalr_item : lr_item_core
 		if (num != 0 || needs_propagation)
 		{
 			needs_propagation = false;
-			for (int i = 0; i < propagate_items().size(); i++)
+			for (int i = 0; i < propagate_items().Count; i++)
 			{
 				((lalr_item)propagate_items().elementAt(i)).propagate_lookaheads(lookahead());
 			}
@@ -72,13 +72,13 @@ public class lalr_item : lr_item_core
 
 	
 	
-	public virtual bool equals(lalr_item other)
+	public virtual bool Equals(lalr_item other)
 	{
 		if (other == null)
 		{
 			return false;
 		}
-		bool result = base.equals(other);
+		bool result = base.Equals(other);
 		
 		return result;
 	}
@@ -187,22 +187,22 @@ public class lalr_item : lr_item_core
 
 	
 	
-	public override bool equals(object other)
+	public override bool Equals(object other)
 	{
 		if (!(other is lalr_item))
 		{
 			return false;
 		}
-		bool result = equals((lalr_item)other);
+		bool result = Equals((lalr_item)other);
 		
 		return result;
 	}
 
 	
 	
-	public override int hashCode()
+	public override int GetHashCode()
 	{
-		int result = base.hashCode();
+		int result = base.GetHashCode();
 		
 		return result;
 	}
@@ -227,7 +227,7 @@ public class lalr_item : lr_item_core
 				if (lookahead().contains(i))
 				{
 					str = (str)+(terminal.find(i).name())+(" ")
-						.ToString();
+						;
 				}
 			}
 			str = (str)+("}");

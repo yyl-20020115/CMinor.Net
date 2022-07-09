@@ -15,7 +15,7 @@ public abstract class Symbol : DotNode
 
 	private string identifier;
 
-	private Type type;
+	private Types type;
 	
 	public virtual void Accept(SymbolVisitor v)
 	{
@@ -26,7 +26,7 @@ public abstract class Symbol : DotNode
 
     public virtual string DotId => ("Symbol") + (instanceNumber);
 
-    protected internal Symbol(LocationInfo info, string identifier, Type type)
+    protected internal Symbol(LocationInfo info, string identifier, Types type)
 	{
 		instanceNumber = numInstances++;
 		this.identifier = identifier;
@@ -38,7 +38,7 @@ public abstract class Symbol : DotNode
 
     public virtual string Identifier => identifier;
 
-    public virtual Type Type => type;
+    public virtual Types Type => type;
 
 
 

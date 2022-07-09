@@ -28,7 +28,7 @@ public class reduce_action : parse_action
 
 	
 	
-	public virtual bool equals(reduce_action other)
+	public virtual bool Equals(reduce_action other)
 	{
 		return (other != null && other.reduce_with() == reduce_with()) ? true : false;
 	}
@@ -40,11 +40,11 @@ public class reduce_action : parse_action
 
 	
 	
-	public override bool equals(object other)
+	public override bool Equals(object other)
 	{
 		if (other is reduce_action)
 		{
-			bool result = equals((reduce_action)other);
+			bool result = Equals((reduce_action)other);
 			
 			return result;
 		}
@@ -53,7 +53,7 @@ public class reduce_action : parse_action
 
 	
 	
-	public override int hashCode()
+	public override int GetHashCode()
 	{
 		int result = reduce_with().hashCode();
 		
@@ -65,7 +65,7 @@ public class reduce_action : parse_action
 	public override string ToString()
 	{
 		string result = ("REDUCE(with prod ")+(reduce_with().index())+(")")
-			.ToString();
+			;
 		
 		return result;
 	}

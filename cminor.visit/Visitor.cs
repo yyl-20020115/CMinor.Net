@@ -7,7 +7,7 @@ namespace CMinor.Visit;
 
 public class Visitor
 {
-	public virtual void visit(AstNode n)
+	public virtual void Visit(AstNode n)
 	{
 	}
 
@@ -15,7 +15,7 @@ public class Visitor
 	
 	public virtual void Visit(Statement n)
 	{
-		visit((AstNode)n);
+		Visit((AstNode)n);
 	}
 
 	
@@ -55,7 +55,7 @@ public class Visitor
 
 	
 	
-	public virtual void visit(Assignment n)
+	public virtual void Visit(Assignment n)
 	{
 		Visit((Expression)n);
 	}
@@ -99,7 +99,7 @@ public class Visitor
 	
 	public virtual void Visit(Declaration n)
 	{
-		visit((AstNode)n);
+		Visit((AstNode)n);
 	}
 
 	
@@ -127,7 +127,7 @@ public class Visitor
 	
 	public virtual void Visit(ExternalDeclaration n)
 	{
-		visit((AstNode)n);
+		Visit((AstNode)n);
 	}
 
 	
@@ -176,7 +176,7 @@ public class Visitor
 	
 	public virtual void Visit(Identifier n)
 	{
-		visit((AstNode)n);
+		Visit((AstNode)n);
 	}
 
 	
@@ -274,7 +274,7 @@ public class Visitor
 	
 	public virtual void Visit(Parameter n)
 	{
-		visit((AstNode)n);
+		Visit((AstNode)n);
 	}
 
 	
@@ -288,7 +288,7 @@ public class Visitor
 	
 	public virtual void Visit(Program n)
 	{
-		visit((AstNode)n);
+		Visit((AstNode)n);
 	}
 
 	
@@ -323,7 +323,7 @@ public class Visitor
 	
 	public virtual void Visit(TypeSpecifier n)
 	{
-		visit((AstNode)n);
+		Visit((AstNode)n);
 	}
 
 	

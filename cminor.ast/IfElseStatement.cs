@@ -5,18 +5,18 @@ namespace CMinor.AST;
 
 public class IfElseStatement : IfStatement
 {
-	private Statement elseStatement;
-	
-	public IfElseStatement(LocationInfo info, Expression condition, Statement ifStatement, Statement elseStatement)
-		: base(info, condition, ifStatement)
-	{
-		this.elseStatement = elseStatement;
-	}
+    private Statement elseStatement;
+
+    public IfElseStatement(LocationInfo info, Expression condition, Statement ifStatement, Statement elseStatement)
+        : base(info, condition, ifStatement)
+    {
+        this.elseStatement = elseStatement;
+    }
 
     public virtual Statement ElseClause => elseStatement;
 
     public override void Accept(Visitor v)
-	{
-		v.Visit(this);
-	}
+    {
+        v.Visit(this);
+    }
 }
