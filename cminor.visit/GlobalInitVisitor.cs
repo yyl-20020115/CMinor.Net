@@ -1,7 +1,7 @@
 
 using CMinor.AST;
 
-using java.lang;
+
 
 namespace CMinor.Visit;
 
@@ -42,14 +42,14 @@ public class GlobalInitVisitor : Visitor
 	
 	public override void visit(CharacterLiteral n)
 	{
-		result = new StringBuilder().append("").append((int)((Character)n.getValue()).charValue()).toString();
+		result = ("")+((int)((Character)n.getValue()).charValue());
 	}
 
 	
 	
 	public override void visit(IntegerLiteral n)
 	{
-		result = ((Integer)n.getValue()).toString();
+		result = ((Integer)n.getValue());
 	}
 
 	

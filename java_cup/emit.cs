@@ -2,7 +2,7 @@
 
 using IKVM.Runtime;
 using java.io;
-using java.lang;
+
 
 
 namespace java_cup;
@@ -68,9 +68,9 @@ public class emit
 	
 	protected internal static string pre(string str)
 	{
-		string result = new StringBuilder().append(prefix).append(parser_class_name).append("$")
-			.append(str)
-			.toString();
+		string result = (prefix)+(parser_class_name)+("$")
+			+(str)
+			.ToString();
 		
 		return result;
 	}
@@ -81,9 +81,9 @@ public class emit
 	{
 		if (package_name != null)
 		{
-			@out.println(new StringBuilder().append("package ").append(package_name).append(";")
-				.toString());
-			@out.println();
+			@out.WriteLine(("package ")+(package_name)+(";")
+				.ToString());
+			@out.WriteLine();
 		}
 	}
 
@@ -96,7 +96,7 @@ public class emit
 	})]
 	protected internal static void do_table_as_string(PrintWriter @out, short[][] sa)
 	{
-		@out.println("new String[] {");
+		@out.WriteLine("new String[] {");
 		@out.print("    \"");
 		int nchar = 0;
 		int num = 0;
@@ -130,7 +130,7 @@ public class emit
 		StringBuilder stringBuffer = new StringBuilder();
 		if (c <= 'ÿ')
 		{
-			stringBuffer.append(Integer.toOctalString(c));
+			stringBuffer+(Integer.toOctalString(c));
 			while (stringBuffer.length() < 3)
 			{
 				stringBuffer.insert(0, '0');
@@ -138,7 +138,7 @@ public class emit
 		}
 		else
 		{
-			stringBuffer.append(Integer.toHexString(c));
+			stringBuffer+(Integer.toHexString(c));
 			while (stringBuffer.length() < 4)
 			{
 				stringBuffer.insert(0, '0');
@@ -146,7 +146,7 @@ public class emit
 			stringBuffer.insert(0, 'u');
 		}
 		stringBuffer.insert(0, '\\');
-		@out.print(stringBuffer.toString());
+		@out.print(stringBuffer.ToString());
 		if (c == '\0')
 		{
 			return 2;
@@ -168,7 +168,7 @@ public class emit
 	{
 		if (nbytes > 65500)
 		{
-			@out.println("\", ");
+			@out.WriteLine("\", ");
 			@out.print("    \"");
 		}
 		else
@@ -177,7 +177,7 @@ public class emit
 			{
 				return nchar + 1;
 			}
-			@out.println("\" +");
+			@out.WriteLine("\" +");
 			@out.print("    \"");
 		}
 		return 0;
@@ -211,15 +211,15 @@ public class emit
 			array3[i][0] = (short)production2.lhs().the_symbol().index();
 			array3[i][1] = (short)production2.rhs_length();
 		}
-		@out.println();
-		@out.println("  /** Production table. */");
-		@out.println("  protected static final short _production_table[][] = ");
+		@out.WriteLine();
+		@out.WriteLine("  /** Production table. */");
+		@out.WriteLine("  protected static final short _production_table[][] = ");
 		@out.print("    unpackFromStrings(");
 		do_table_as_string(@out, array3);
-		@out.println(");");
-		@out.println();
-		@out.println("  /** Access to production table. */");
-		@out.println("  public short[][] production_table() {return _production_table;}");
+		@out.WriteLine(");");
+		@out.WriteLine();
+		@out.WriteLine("  /** Access to production table. */");
+		@out.WriteLine("  public short[][] production_table() {return _production_table;}");
 		production_table_time = java.lang.System.currentTimeMillis() - num;
 	}
 
@@ -330,8 +330,8 @@ public class emit
 				}
 				else if (parse_action2.kind() != 3)
 				{
-					string msg = new StringBuilder().append("Unrecognized action code ").append(parse_action2.kind()).append(" found in parse table")
-						.toString();
+					string msg = ("Unrecognized action code ")+(parse_action2.kind())+(" found in parse table")
+						.ToString();
 					
 					throw new internal_error(msg);
 				}
@@ -357,15 +357,15 @@ public class emit
 				obj3[num10] = 0;
 			}
 		}
-		@out.println();
-		@out.println("  /** Parse-action table. */");
-		@out.println("  protected static final short[][] _action_table = ");
+		@out.WriteLine();
+		@out.WriteLine("  /** Parse-action table. */");
+		@out.WriteLine("  protected static final short[][] _action_table = ");
 		@out.print("    unpackFromStrings(");
 		do_table_as_string(@out, array);
-		@out.println(");");
-		@out.println();
-		@out.println("  /** Access to parse-action table. */");
-		@out.println("  public short[][] action_table() {return _action_table;}");
+		@out.WriteLine(");");
+		@out.WriteLine();
+		@out.WriteLine("  /** Access to parse-action table. */");
+		@out.WriteLine("  public short[][] action_table() {return _action_table;}");
 		action_table_time = java.lang.System.currentTimeMillis() - num;
 	}
 
@@ -418,16 +418,16 @@ public class emit
 			num2++;
 			obj2[num8] = -1;
 		}
-		@out.println();
-		@out.println("  /** <code>reduce_goto</code> table. */");
-		@out.println("  protected static final short[][] _reduce_table = ");
+		@out.WriteLine();
+		@out.WriteLine("  /** <code>reduce_goto</code> table. */");
+		@out.WriteLine("  protected static final short[][] _reduce_table = ");
 		@out.print("    unpackFromStrings(");
 		do_table_as_string(@out, array);
-		@out.println(");");
-		@out.println();
-		@out.println("  /** Access to <code>reduce_goto</code> table. */");
-		@out.println("  public short[][] reduce_table() {return _reduce_table;}");
-		@out.println();
+		@out.WriteLine(");");
+		@out.WriteLine();
+		@out.WriteLine("  /** Access to <code>reduce_goto</code> table. */");
+		@out.WriteLine("  public short[][] reduce_table() {return _reduce_table;}");
+		@out.WriteLine();
 		goto_table_time = java.lang.System.currentTimeMillis() - num;
 	}
 
@@ -542,54 +542,54 @@ public class emit
 	protected internal static void emit_action_code(PrintWriter @out, production start_prod)
 	{
 		long num = java.lang.System.currentTimeMillis();
-		@out.println();
-		@out.println("/** Cup generated class to encapsulate user supplied action code.*/");
-		@out.println(new StringBuilder().append("class ").append(pre("actions")).append(" {")
-			.toString());
+		@out.WriteLine();
+		@out.WriteLine("/** Cup generated class to encapsulate user supplied action code.*/");
+		@out.WriteLine(("class ")+(pre("actions"))+(" {")
+			.ToString());
 		if (action_code != null)
 		{
-			@out.println();
-			@out.println(action_code);
+			@out.WriteLine();
+			@out.WriteLine(action_code);
 		}
-		@out.println(new StringBuilder().append("  private final ").append(parser_class_name).append(" parser;")
-			.toString());
-		@out.println();
-		@out.println("  /** Constructor */");
-		@out.println(new StringBuilder().append("  ").append(pre("actions")).append("(")
-			.append(parser_class_name)
-			.append(" parser) {")
-			.toString());
-		@out.println("    this.parser = parser;");
-		@out.println("  }");
-		@out.println();
-		@out.println("  /** Method with the actual generated action code. */");
-		@out.println(new StringBuilder().append("  public final java_cup.runtime.Symbol ").append(pre("do_action")).append("(")
-			.toString());
-		@out.println(new StringBuilder().append("    int                        ").append(pre("act_num,")).toString());
-		@out.println(new StringBuilder().append("    java_cup.runtime.lr_parser ").append(pre("parser,")).toString());
-		@out.println(new StringBuilder().append("    java.util.Stack            ").append(pre("stack,")).toString());
-		@out.println(new StringBuilder().append("    int                        ").append(pre("top)")).toString());
-		@out.println("    throws System.Exception");
-		@out.println("    {");
-		@out.println("      /* Symbol object for return from actions */");
-		@out.println(new StringBuilder().append("      java_cup.runtime.Symbol ").append(pre("result")).append(";")
-			.toString());
-		@out.println();
-		@out.println("      /* select the action based on the action number */");
-		@out.println(new StringBuilder().append("      switch (").append(pre("act_num")).append(")")
-			.toString());
-		@out.println("        {");
+		@out.WriteLine(("  private final ")+(parser_class_name)+(" parser;")
+			.ToString());
+		@out.WriteLine();
+		@out.WriteLine("  /** Constructor */");
+		@out.WriteLine(("  ")+(pre("actions"))+("(")
+			+(parser_class_name)
+			+(" parser) {")
+			.ToString());
+		@out.WriteLine("    this.parser = parser;");
+		@out.WriteLine("  }");
+		@out.WriteLine();
+		@out.WriteLine("  /** Method with the actual generated action code. */");
+		@out.WriteLine(("  public final java_cup.runtime.Symbol ")+(pre("do_action"))+("(")
+			.ToString());
+		@out.WriteLine(("    int                        ")+(pre("act_num,")).ToString());
+		@out.WriteLine(("    java_cup.runtime.lr_parser ")+(pre("parser,")).ToString());
+		@out.WriteLine(("    java.util.Stack            ")+(pre("stack,")).ToString());
+		@out.WriteLine(("    int                        ")+(pre("top)")).ToString());
+		@out.WriteLine("    throws System.Exception");
+		@out.WriteLine("    {");
+		@out.WriteLine("      /* Symbol object for return from actions */");
+		@out.WriteLine(("      java_cup.runtime.Symbol ")+(pre("result"))+(";")
+			.ToString());
+		@out.WriteLine();
+		@out.WriteLine("      /* select the action based on the action number */");
+		@out.WriteLine(("      switch (")+(pre("act_num"))+(")")
+			.ToString());
+		@out.WriteLine("        {");
 		Enumeration enumeration = production.all();
 		while (enumeration.hasMoreElements())
 		{
 			production production2 = (production)enumeration.nextElement();
-			@out.println("          /*. . . . . . . . . . . . . . . . . . . .*/");
-			@out.println(new StringBuilder().append("          case ").append(production2.index()).append(": // ")
-				.append(production2.to_simple_string())
-				.toString());
-			@out.println("            {");
-			@out.println(new StringBuilder().append("              ").append(production2.lhs().the_symbol().stack_type()).append(" RESULT = null;")
-				.toString());
+			@out.WriteLine("          /*. . . . . . . . . . . . . . . . . . . .*/");
+			@out.WriteLine(("          case ")+(production2.index())+(": // ")
+				+(production2.to_simple_string())
+				.ToString());
+			@out.WriteLine("            {");
+			@out.WriteLine(("              ")+(production2.lhs().the_symbol().stack_type())+(" RESULT = null;")
+				.ToString());
 			for (int i = 0; i < production2.rhs_length(); i++)
 			{
 				if (production2.rhs(i) is symbol_part)
@@ -598,38 +598,38 @@ public class emit
 					if (symbol2 is non_terminal && ((non_terminal)symbol2).is_embedded_action)
 					{
 						int i2 = production2.rhs_length() - i - 1;
-						@out.println(new StringBuilder().append("              // propagate RESULT from ").append(symbol2.name()).toString());
-						@out.println(new StringBuilder().append("              if ( ((java_cup.runtime.Symbol) ").append(pre("stack")).append(".elementAt(")
-							.append(pre("top"))
-							.append("-")
-							.append(i2)
-							.append(")).value != null )")
-							.toString());
-						@out.println(new StringBuilder().append("                RESULT = (").append(production2.lhs().the_symbol().stack_type()).append(") ")
-							.append("((java_cup.runtime.Symbol) ")
-							.append(pre("stack"))
-							.append(".elementAt(")
-							.append(pre("top"))
-							.append("-")
-							.append(i2)
-							.append(")).value;")
-							.toString());
+						@out.WriteLine(("              // propagate RESULT from ")+(symbol2.name()).ToString());
+						@out.WriteLine(("              if ( ((java_cup.runtime.Symbol) ")+(pre("stack"))+(".elementAt(")
+							+(pre("top"))
+							+("-")
+							+(i2)
+							+(")).value != null )")
+							.ToString());
+						@out.WriteLine(("                RESULT = (")+(production2.lhs().the_symbol().stack_type())+(") ")
+							+("((java_cup.runtime.Symbol) ")
+							+(pre("stack"))
+							+(".elementAt(")
+							+(pre("top"))
+							+("-")
+							+(i2)
+							+(")).value;")
+							.ToString());
 					}
 				}
 			}
 			if (production2.action() != null && production2.action().code_string() != null && !production2.action().equals(""))
 			{
-				@out.println(production2.action().code_string());
+				@out.WriteLine(production2.action().code_string());
 			}
 			if (lr_values())
 			{
 				int i3 = 0;
-				string text = new StringBuilder().append("((java_cup.runtime.Symbol)").append(pre("stack")).append(".elementAt(")
-					.append(pre("top"))
-					.append("-")
-					.append(i3)
-					.append(")).right")
-					.toString();
+				string text = ("((java_cup.runtime.Symbol)")+(pre("stack"))+(".elementAt(")
+					+(pre("top"))
+					+("-")
+					+(i3)
+					+(")).right")
+					.ToString();
 				string str;
 				if (production2.rhs_length() == 0)
 				{
@@ -638,55 +638,55 @@ public class emit
 				else
 				{
 					int i = production2.rhs_length() - 1;
-					str = new StringBuilder().append("((java_cup.runtime.Symbol)").append(pre("stack")).append(".elementAt(")
-						.append(pre("top"))
-						.append("-")
-						.append(i)
-						.append(")).left")
-						.toString();
+					str = ("((java_cup.runtime.Symbol)")+(pre("stack"))+(".elementAt(")
+						+(pre("top"))
+						+("-")
+						+(i)
+						+(")).left")
+						.ToString();
 				}
-				@out.println(new StringBuilder().append("              ").append(pre("result")).append(" = new java_cup.runtime.Symbol(")
-					.append(production2.lhs().the_symbol().index())
-					.append("/*")
-					.append(production2.lhs().the_symbol().name())
-					.append("*/")
-					.append(", ")
-					.append(str)
-					.append(", ")
-					.append(text)
-					.append(", RESULT);")
-					.toString());
+				@out.WriteLine(("              ")+(pre("result"))+(" = new java_cup.runtime.Symbol(")
+					+(production2.lhs().the_symbol().index())
+					+("/*")
+					+(production2.lhs().the_symbol().name())
+					+("*/")
+					+(", ")
+					+(str)
+					+(", ")
+					+(text)
+					+(", RESULT);")
+					.ToString());
 			}
 			else
 			{
-				@out.println(new StringBuilder().append("              ").append(pre("result")).append(" = new java_cup.runtime.Symbol(")
-					.append(production2.lhs().the_symbol().index())
-					.append("/*")
-					.append(production2.lhs().the_symbol().name())
-					.append("*/")
-					.append(", RESULT);")
-					.toString());
+				@out.WriteLine(("              ")+(pre("result"))+(" = new java_cup.runtime.Symbol(")
+					+(production2.lhs().the_symbol().index())
+					+("/*")
+					+(production2.lhs().the_symbol().name())
+					+("*/")
+					+(", RESULT);")
+					.ToString());
 			}
-			@out.println("            }");
+			@out.WriteLine("            }");
 			if (production2 == start_prod)
 			{
-				@out.println("          /* ACCEPT */");
-				@out.println(new StringBuilder().append("          ").append(pre("parser")).append(".done_parsing();")
-					.toString());
+				@out.WriteLine("          /* ACCEPT */");
+				@out.WriteLine(("          ")+(pre("parser"))+(".done_parsing();")
+					.ToString());
 			}
-			@out.println(new StringBuilder().append("          return ").append(pre("result")).append(";")
-				.toString());
-			@out.println();
+			@out.WriteLine(("          return ")+(pre("result"))+(";")
+				.ToString());
+			@out.WriteLine();
 		}
-		@out.println("          /* . . . . . .*/");
-		@out.println("          default:");
-		@out.println("            throw new Exception(");
-		@out.println("               \"Invalid action number found in internal parse table\");");
-		@out.println();
-		@out.println("        }");
-		@out.println("    }");
-		@out.println("}");
-		@out.println();
+		@out.WriteLine("          /* . . . . . .*/");
+		@out.WriteLine("          default:");
+		@out.WriteLine("            throw new Exception(");
+		@out.WriteLine("               \"Invalid action number found in internal parse table\");");
+		@out.WriteLine();
+		@out.WriteLine("        }");
+		@out.WriteLine("    }");
+		@out.WriteLine("}");
+		@out.WriteLine();
 		action_code_time = java.lang.System.currentTimeMillis() - num;
 	}
 
@@ -743,45 +743,45 @@ public class emit
 	{
 		string str = ((!sym_interface) ? "class" : "interface");
 		long num = java.lang.System.currentTimeMillis();
-		@out.println();
-		@out.println("//----------------------------------------------------");
-		@out.println("// The following code was generated by CUP v0.10k");
-		@out.println(new StringBuilder().append("// ").append(new Date()).toString());
-		@out.println("//----------------------------------------------------");
-		@out.println();
+		@out.WriteLine();
+		@out.WriteLine("//----------------------------------------------------");
+		@out.WriteLine("// The following code was generated by CUP v0.10k");
+		@out.WriteLine(("// ")+(new Date()).ToString());
+		@out.WriteLine("//----------------------------------------------------");
+		@out.WriteLine();
 		emit_package(@out);
-		@out.println(new StringBuilder().append("/** CUP generated ").append(str).append(" containing symbol constants. */")
-			.toString());
-		@out.println(new StringBuilder().append("public ").append(str).append(" ")
-			.append(symbol_const_class_name)
-			.append(" {")
-			.toString());
-		@out.println("  /* terminals */");
+		@out.WriteLine(("/** CUP generated ")+(str)+(" containing symbol constants. */")
+			.ToString());
+		@out.WriteLine(("public ")+(str)+(" ")
+			+(symbol_const_class_name)
+			+(" {")
+			.ToString());
+		@out.WriteLine("  /* terminals */");
 		Enumeration enumeration = terminal.all();
 		while (enumeration.hasMoreElements())
 		{
 			terminal terminal2 = (terminal)enumeration.nextElement();
-			@out.println(new StringBuilder().append("  public static final int ").append(terminal2.name()).append(" = ")
-				.append(terminal2.index())
-				.append(";")
-				.toString());
+			@out.WriteLine(("  public static final int ")+(terminal2.name())+(" = ")
+				+(terminal2.index())
+				+(";")
+				.ToString());
 		}
 		if (emit_non_terms)
 		{
-			@out.println();
-			@out.println("  /* non terminals */");
+			@out.WriteLine();
+			@out.WriteLine("  /* non terminals */");
 			enumeration = non_terminal.all();
 			while (enumeration.hasMoreElements())
 			{
 				non_terminal non_terminal2 = (non_terminal)enumeration.nextElement();
-				@out.println(new StringBuilder().append("  static final int ").append(non_terminal2.name()).append(" = ")
-					.append(non_terminal2.index())
-					.append(";")
-					.toString());
+				@out.WriteLine(("  static final int ")+(non_terminal2.name())+(" = ")
+					+(non_terminal2.index())
+					+(";")
+					.ToString());
 			}
 		}
-		@out.println("}");
-		@out.println();
+		@out.WriteLine("}");
+		@out.WriteLine();
 		symbols_time = java.lang.System.currentTimeMillis() - num;
 	}
 
@@ -889,102 +889,102 @@ public class emit
 	public static void parser(PrintWriter @out, parse_action_table action_table, parse_reduce_table reduce_table, int start_st, production start_prod, bool compact_reduces, bool suppress_scanner)
 	{
 		long num = java.lang.System.currentTimeMillis();
-		@out.println();
-		@out.println("//----------------------------------------------------");
-		@out.println("// The following code was generated by CUP v0.10k");
-		@out.println(new StringBuilder().append("// ").append(new Date()).toString());
-		@out.println("//----------------------------------------------------");
-		@out.println();
+		@out.WriteLine();
+		@out.WriteLine("//----------------------------------------------------");
+		@out.WriteLine("// The following code was generated by CUP v0.10k");
+		@out.WriteLine(("// ")+(new Date()).ToString());
+		@out.WriteLine("//----------------------------------------------------");
+		@out.WriteLine();
 		emit_package(@out);
 		for (int i = 0; i < import_list.size(); i++)
 		{
-			@out.println(new StringBuilder().append("import ").append(import_list.elementAt(i)).append(";")
-				.toString());
+			@out.WriteLine(("import ")+(import_list.elementAt(i))+(";")
+				.ToString());
 		}
-		@out.println();
-		@out.println("/** CUP v0.10k generated parser.");
-		@out.println(new StringBuilder().append("  * @version ").append(new Date()).toString());
-		@out.println("  */");
-		@out.println(new StringBuilder().append("public class ").append(parser_class_name).append(" extends java_cup.runtime.lr_parser {")
-			.toString());
-		@out.println();
-		@out.println("  /** Default constructor. */");
-		@out.println(new StringBuilder().append("  public ").append(parser_class_name).append("() {super();}")
-			.toString());
+		@out.WriteLine();
+		@out.WriteLine("/** CUP v0.10k generated parser.");
+		@out.WriteLine(("  * @version ")+(new Date()).ToString());
+		@out.WriteLine("  */");
+		@out.WriteLine(("public class ")+(parser_class_name)+(" extends java_cup.runtime.lr_parser {")
+			.ToString());
+		@out.WriteLine();
+		@out.WriteLine("  /** Default constructor. */");
+		@out.WriteLine(("  public ")+(parser_class_name)+("() {super();}")
+			.ToString());
 		if (!suppress_scanner)
 		{
-			@out.println();
-			@out.println("  /** Constructor which sets the default scanner. */");
-			@out.println(new StringBuilder().append("  public ").append(parser_class_name).append("(java_cup.runtime.Scanner s) {super(s);}")
-				.toString());
+			@out.WriteLine();
+			@out.WriteLine("  /** Constructor which sets the default scanner. */");
+			@out.WriteLine(("  public ")+(parser_class_name)+("(java_cup.runtime.Scanner s) {super(s);}")
+				.ToString());
 		}
 		emit_production_table(@out);
 		do_action_table(@out, action_table, compact_reduces);
 		do_reduce_table(@out, reduce_table);
-		@out.println("  /** Instance of action encapsulation class. */");
-		@out.println(new StringBuilder().append("  protected ").append(pre("actions")).append(" action_obj;")
-			.toString());
-		@out.println();
-		@out.println("  /** Action encapsulation object initializer. */");
-		@out.println("  protected void init_actions()");
-		@out.println("    {");
-		@out.println(new StringBuilder().append("      action_obj = new ").append(pre("actions")).append("(this);")
-			.toString());
-		@out.println("    }");
-		@out.println();
-		@out.println("  /** Invoke a user supplied parse action. */");
-		@out.println("  public java_cup.runtime.Symbol do_action(");
-		@out.println("    int                        act_num,");
-		@out.println("    java_cup.runtime.lr_parser parser,");
-		@out.println("    java.util.Stack            stack,");
-		@out.println("    int                        top)");
-		@out.println("    throws System.Exception");
-		@out.println("  {");
-		@out.println("    /* call code in generated class */");
-		@out.println(new StringBuilder().append("    return action_obj.").append(pre("do_action(")).append("act_num, parser, stack, top);")
-			.toString());
-		@out.println("  }");
-		@out.println("");
-		@out.println("  /** Indicates start state. */");
-		@out.println(new StringBuilder().append("  public int start_state() {return ").append(start_st).append(";}")
-			.toString());
-		@out.println("  /** Indicates start production. */");
-		@out.println(new StringBuilder().append("  public int start_production() {return ").append(start_production.index()).append(";}")
-			.toString());
-		@out.println();
-		@out.println("  /** <code>EOF</code> Symbol index. */");
-		@out.println(new StringBuilder().append("  public int EOF_sym() {return ").append(terminal.___003C_003EEOF.index()).append(";}")
-			.toString());
-		@out.println();
-		@out.println("  /** <code>error</code> Symbol index. */");
-		@out.println(new StringBuilder().append("  public int error_sym() {return ").append(terminal.___003C_003Eerror.index()).append(";}")
-			.toString());
-		@out.println();
+		@out.WriteLine("  /** Instance of action encapsulation class. */");
+		@out.WriteLine(("  protected ")+(pre("actions"))+(" action_obj;")
+			.ToString());
+		@out.WriteLine();
+		@out.WriteLine("  /** Action encapsulation object initializer. */");
+		@out.WriteLine("  protected void init_actions()");
+		@out.WriteLine("    {");
+		@out.WriteLine(("      action_obj = new ")+(pre("actions"))+("(this);")
+			.ToString());
+		@out.WriteLine("    }");
+		@out.WriteLine();
+		@out.WriteLine("  /** Invoke a user supplied parse action. */");
+		@out.WriteLine("  public java_cup.runtime.Symbol do_action(");
+		@out.WriteLine("    int                        act_num,");
+		@out.WriteLine("    java_cup.runtime.lr_parser parser,");
+		@out.WriteLine("    java.util.Stack            stack,");
+		@out.WriteLine("    int                        top)");
+		@out.WriteLine("    throws System.Exception");
+		@out.WriteLine("  {");
+		@out.WriteLine("    /* call code in generated class */");
+		@out.WriteLine(("    return action_obj.")+(pre("do_action("))+("act_num, parser, stack, top);")
+			.ToString());
+		@out.WriteLine("  }");
+		@out.WriteLine("");
+		@out.WriteLine("  /** Indicates start state. */");
+		@out.WriteLine(("  public int start_state() {return ")+(start_st)+(";}")
+			.ToString());
+		@out.WriteLine("  /** Indicates start production. */");
+		@out.WriteLine(("  public int start_production() {return ")+(start_production.index())+(";}")
+			.ToString());
+		@out.WriteLine();
+		@out.WriteLine("  /** <code>EOF</code> Symbol index. */");
+		@out.WriteLine(("  public int EOF_sym() {return ")+(terminal.___003C_003EEOF.index())+(";}")
+			.ToString());
+		@out.WriteLine();
+		@out.WriteLine("  /** <code>error</code> Symbol index. */");
+		@out.WriteLine(("  public int error_sym() {return ")+(terminal.___003C_003Eerror.index())+(";}")
+			.ToString());
+		@out.WriteLine();
 		if (init_code != null)
 		{
-			@out.println();
-			@out.println("  /** User initialization code. */");
-			@out.println("  public void user_init() throws System.Exception");
-			@out.println("    {");
-			@out.println(init_code);
-			@out.println("    }");
+			@out.WriteLine();
+			@out.WriteLine("  /** User initialization code. */");
+			@out.WriteLine("  public void user_init() throws System.Exception");
+			@out.WriteLine("    {");
+			@out.WriteLine(init_code);
+			@out.WriteLine("    }");
 		}
 		if (scan_code != null)
 		{
-			@out.println();
-			@out.println("  /** Scan to get the next Symbol. */");
-			@out.println("  public java_cup.runtime.Symbol scan()");
-			@out.println("    throws System.Exception");
-			@out.println("    {");
-			@out.println(scan_code);
-			@out.println("    }");
+			@out.WriteLine();
+			@out.WriteLine("  /** Scan to get the next Symbol. */");
+			@out.WriteLine("  public java_cup.runtime.Symbol scan()");
+			@out.WriteLine("    throws System.Exception");
+			@out.WriteLine("    {");
+			@out.WriteLine(scan_code);
+			@out.WriteLine("    }");
 		}
 		if (parser_code != null)
 		{
-			@out.println();
-			@out.println(parser_code);
+			@out.WriteLine();
+			@out.WriteLine(parser_code);
 		}
-		@out.println("}");
+		@out.WriteLine("}");
 		emit_action_code(@out, start_prod);
 		parser_time = java.lang.System.currentTimeMillis() - num;
 	}

@@ -1,6 +1,6 @@
 
 
-using java.lang;
+
 
 
 namespace java_cup;
@@ -108,8 +108,8 @@ public class terminal : symbol
 		object obj = _all.put(nm, this);
 		if (obj != null)
 		{
-			new internal_error(new StringBuilder().append("Duplicate terminal (").append(nm).append(") created")
-				.toString()).crash();
+			new internal_error(("Duplicate terminal (")+(nm)+(") created")
+				.ToString()).crash();
 		}
 		_index = next_index++;
 		_precedence_num = precedence_num;
@@ -144,11 +144,11 @@ public class terminal : symbol
 
 	
 	
-	public override string toString()
+	public override string ToString()
 	{
-		string result = new StringBuilder().append(base.toString()).append("[").append(index())
-			.append("]")
-			.toString();
+		string result = (base.ToString())+("[")+(index())
+			+("]")
+			.ToString();
 		
 		return result;
 	}

@@ -1,6 +1,6 @@
 
 
-using java.lang;
+
 
 
 namespace java_cup;
@@ -62,8 +62,8 @@ public class parse_action_table
 			production production2 = (production)enumeration.nextElement();
 			if (production2.num_reductions() == 0 && !emit.nowarn)
 			{
-				java.lang.System.err.println(new StringBuilder().append("*** Production \"").append(production2.to_simple_string()).append("\" never reduced")
-					.toString());
+				java.lang.System.err.WriteLine(("*** Production \"")+(production2.to_simple_string())+("\" never reduced")
+					.ToString());
 				lexer.warning_count++;
 			}
 		}
@@ -76,14 +76,14 @@ public class parse_action_table
 		100, 132, 123, 226, 52, 233, 81, 254, 43, 233,
 		87, 155
 	})]
-	public override string toString()
+	public override string ToString()
 	{
 		string str = "-------- ACTION_TABLE --------\n";
 		for (int i = 0; i < num_states(); i++)
 		{
-			str = new StringBuilder().append(str).append("From state #").append(i)
-				.append("\n")
-				.toString();
+			str = (str)+("From state #")+(i)
+				+("\n")
+				.ToString();
 			int num = 0;
 			int num2 = 0;
 			while (true)
@@ -96,15 +96,15 @@ public class parse_action_table
 				}
 				if (under_state[i].under_term[num2].kind() != 0)
 				{
-					str = new StringBuilder().append(str).append(" [term ").append(num2)
-						.append(":")
-						.append(under_state[i].under_term[num2])
-						.append("]")
-						.toString();
+					str = (str)+(" [term ")+(num2)
+						+(":")
+						+(under_state[i].under_term[num2])
+						+("]")
+						.ToString();
 					num++;
 					if (num == 2)
 					{
-						str = new StringBuilder().append(str).append("\n").toString();
+						str = (str)+("\n");
 						num = 0;
 					}
 				}
@@ -112,9 +112,9 @@ public class parse_action_table
 			}
 			if (num != 0)
 			{
-				str = new StringBuilder().append(str).append("\n").toString();
+				str = (str)+("\n");
 			}
 		}
-		return new StringBuilder().append(str).append("------------------------------").toString();
+		return (str)+("------------------------------");
 	}
 }

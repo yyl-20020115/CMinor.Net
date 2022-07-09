@@ -3,7 +3,7 @@ using CMinor.AST;
 using CMinor.semantic;
 using CMinor.Symbol;
 
-using java.lang;
+
 
 
 namespace CMinor.Visit;
@@ -49,8 +49,8 @@ internal class FormatStringVisitor : Visitor
 	
 	public override void visit(AstNode P_0)
 	{
-		logger.log(P_0.getLocation(), new StringBuilder().append("format string visitor in ").append(P_0.getDotLabel()).append(" is a stub")
-			.toString());
+		logger.log(P_0.getLocation(), ("format string visitor in ")+(P_0.getDotLabel())+(" is a stub")
+			.ToString());
 	}
 
 	
@@ -62,25 +62,25 @@ internal class FormatStringVisitor : Visitor
 	public override void visit(Expression P_0)
 	{
 		actualArguments.add(P_0);
-		result.append(escape(literalContent.toString()));
+		result+(escape(literalContent.ToString()));
 		literalContent.setLength(0);
 		Type type = P_0.getType();
 		if (type == Type.___003C_003ECHAR)
 		{
-			result.append("%c");
+			result+("%c");
 		}
 		else if (type == Type.___003C_003EBOOLEAN)
 		{
-			result.append("%s");
+			result+("%s");
 			program.setBooleanStringSymbol(stringTable.getSymbol("false\0true"));
 		}
 		else if (type == Type.___003C_003EINT)
 		{
-			result.append("%d");
+			result+("%d");
 		}
 		else if (type == Type.___003C_003ESTRING)
 		{
-			result.append("%s");
+			result+("%s");
 		}
 	}
 
@@ -88,20 +88,20 @@ internal class FormatStringVisitor : Visitor
 	
 	public override void visit(ConstantExpression P_0)
 	{
-		literalContent.append(P_0.getValue());
+		literalContent+(P_0.getValue());
 	}
 
 	
 	
 	public override void visit(BooleanLiteral P_0)
 	{
-		literalContent.append((!((Boolean)P_0.getValue()).booleanValue()) ? "false" : "true");
+		literalContent+((!((Boolean)P_0.getValue()).booleanValue()) ? "false" : "true");
 	}
 
 	
 	
 	public virtual void finish()
 	{
-		result.append(escape(literalContent.toString()));
+		result+(escape(literalContent.ToString()));
 	}
 }

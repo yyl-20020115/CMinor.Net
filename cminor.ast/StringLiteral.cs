@@ -3,7 +3,7 @@ using CMinor.Parser;
 using CMinor.Symbol;
 using CMinor.Visit;
 
-using java.lang;
+
 
 namespace CMinor.AST;
 

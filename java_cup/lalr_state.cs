@@ -1,6 +1,6 @@
 
 
-using java.lang;
+
 
 
 namespace java_cup;
@@ -261,11 +261,11 @@ public class lalr_state
 	protected internal virtual void report_reduce_reduce(lalr_item itm1, lalr_item itm2)
 	{
 		int num = 0;
-		java.lang.System.err.println(new StringBuilder().append("*** Reduce/Reduce conflict found in state #").append(index()).toString());
+		java.lang.System.err.WriteLine(("*** Reduce/Reduce conflict found in state #")+(index()).ToString());
 		java.lang.System.err.print("  between ");
-		java.lang.System.err.println(itm1.to_simple_string());
+		java.lang.System.err.WriteLine(itm1.to_simple_string());
 		java.lang.System.err.print("  and     ");
-		java.lang.System.err.println(itm2.to_simple_string());
+		java.lang.System.err.WriteLine(itm2.to_simple_string());
 		java.lang.System.err.print("  under symbols: {");
 		for (int i = 0; i < terminal.number(); i++)
 		{
@@ -282,15 +282,15 @@ public class lalr_state
 				java.lang.System.err.print(terminal.find(i).name());
 			}
 		}
-		java.lang.System.err.println("}");
+		java.lang.System.err.WriteLine("}");
 		java.lang.System.err.print("  Resolved in favor of ");
 		if (itm1.the_production().index() < itm2.the_production().index())
 		{
-			java.lang.System.err.println("the first production.\n");
+			java.lang.System.err.WriteLine("the first production.\n");
 		}
 		else
 		{
-			java.lang.System.err.println("the second production.\n");
+			java.lang.System.err.WriteLine("the second production.\n");
 		}
 		emit.num_conflicts++;
 		lexer.warning_count++;
@@ -305,9 +305,9 @@ public class lalr_state
 	})]
 	protected internal virtual void report_shift_reduce(lalr_item red_itm, int conflict_sym)
 	{
-		java.lang.System.err.println(new StringBuilder().append("*** Shift/Reduce conflict found in state #").append(index()).toString());
+		java.lang.System.err.WriteLine(("*** Shift/Reduce conflict found in state #")+(index()).ToString());
 		java.lang.System.err.print("  between ");
-		java.lang.System.err.println(red_itm.to_simple_string());
+		java.lang.System.err.WriteLine(red_itm.to_simple_string());
 		Enumeration enumeration = items().all();
 		while (enumeration.hasMoreElements())
 		{
@@ -317,12 +317,12 @@ public class lalr_state
 				symbol symbol2 = lalr_item2.symbol_after_dot();
 				if (!symbol2.is_non_term() && symbol2.index() == conflict_sym)
 				{
-					java.lang.System.err.println(new StringBuilder().append("  and     ").append(lalr_item2.to_simple_string()).toString());
+					java.lang.System.err.WriteLine(("  and     ")+(lalr_item2.to_simple_string()).ToString());
 				}
 			}
 		}
-		java.lang.System.err.println(new StringBuilder().append("  under symbol ").append(terminal.find(conflict_sym).name()).toString());
-		java.lang.System.err.println("  Resolved in favor of shifting.\n");
+		java.lang.System.err.WriteLine(("  under symbol ")+(terminal.find(conflict_sym).name()).ToString());
+		java.lang.System.err.WriteLine("  Resolved in favor of shifting.\n");
 		emit.num_conflicts++;
 		lexer.warning_count++;
 	}
@@ -378,11 +378,11 @@ public class lalr_state
 	{
 		if (st == null)
 		{
-			java.lang.System.@out.println("NULL lalr_state");
+			java.lang.System.@out.WriteLine("NULL lalr_state");
 			return;
 		}
-		java.lang.System.@out.println(new StringBuilder().append("lalr_state [").append(st.index()).append("] {")
-			.toString());
+		java.lang.System.@out.WriteLine(("lalr_state [")+(st.index())+("] {")
+			.ToString());
 		lalr_item_set lalr_item_set2 = st.items();
 		Enumeration enumeration = lalr_item_set2.all();
 		while (enumeration.hasMoreElements())
@@ -405,16 +405,16 @@ public class lalr_state
 				}
 				else
 				{
-					java.lang.System.@out.print(new StringBuilder().append(((symbol_part)production_part2).the_symbol().name()).append(" ").toString());
+					java.lang.System.@out.print((((symbol_part)production_part2).the_symbol().name())+(" ").ToString());
 				}
 			}
 			if (lalr_item2.dot_at_end())
 			{
 				java.lang.System.@out.print("(*) ");
 			}
-			java.lang.System.@out.println("]");
+			java.lang.System.@out.WriteLine("]");
 		}
-		java.lang.System.@out.println("}");
+		java.lang.System.@out.WriteLine("}");
 	}
 
 	
@@ -618,16 +618,16 @@ public class lalr_state
 
 	
 	
-	public override string toString()
+	public override string ToString()
 	{
-		string text = new StringBuilder().append("lalr_state [").append(index()).append("]: ")
-			.append(_items)
-			.append("\n")
-			.toString();
+		string text = ("lalr_state [")+(index())+("]: ")
+			+(_items)
+			+("\n")
+			.ToString();
 		for (lalr_transition lalr_transition2 = transitions(); lalr_transition2 != null; lalr_transition2 = lalr_transition2.next())
 		{
-			text = new StringBuilder().append(text).append(lalr_transition2).toString();
-			text = new StringBuilder().append(text).append("\n").toString();
+			text = (text)+(lalr_transition2);
+			text = (text)+("\n");
 		}
 		return text;
 	}

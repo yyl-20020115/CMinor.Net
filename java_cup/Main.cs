@@ -3,7 +3,7 @@ using System;
 
 using IKVM.Runtime;
 using java.io;
-using java.lang;
+
 
 
 namespace java_cup;
@@ -245,7 +245,7 @@ public class Main
 			}
 			else if (java.lang.String.instancehelper_equals(argv[i], "-version"))
 			{
-				java.lang.System.@out.println("CUP v0.10k");
+				java.lang.System.@out.WriteLine("CUP v0.10k");
 				java.lang.System.exit(1);
 			}
 			else if (!java.lang.String.instancehelper_startsWith(argv[i], "-") && i == num - 1)
@@ -261,8 +261,8 @@ public class Main
 			}
 			else
 			{
-				usage(new StringBuilder().append("Unrecognized option \"").append(argv[i]).append("\"")
-					.toString());
+				usage(("Unrecognized option \"")+(argv[i])+("\"")
+					.ToString());
 			}
 			continue;
 			IL_0161:
@@ -271,8 +271,8 @@ public class Main
 			continue;
 			IL_032f:
 			
-			usage(new StringBuilder().append("Unable to open \"").append(argv[i]).append("\" for input")
-				.toString());
+			usage(("Unable to open \"")+(argv[i])+("\" for input")
+				.ToString());
 		}
 	}
 
@@ -331,8 +331,8 @@ public class Main
 				emit.unused_term++;
 				if (!emit.nowarn)
 				{
-					java.lang.System.err.println(new StringBuilder().append("Warning: Terminal \"").append(terminal2.name()).append("\" was declared but never used")
-						.toString());
+					java.lang.System.err.WriteLine(("Warning: Terminal \"")+(terminal2.name())+("\" was declared but never used")
+						.ToString());
 					lexer.warning_count++;
 				}
 			}
@@ -346,8 +346,8 @@ public class Main
 				emit.unused_term++;
 				if (!emit.nowarn)
 				{
-					java.lang.System.err.println(new StringBuilder().append("Warning: Non terminal \"").append(non_terminal2.name()).append("\" was declared but never used")
-						.toString());
+					java.lang.System.err.WriteLine(("Warning: Non terminal \"")+(non_terminal2.name())+("\" was declared but never used")
+						.ToString());
 					lexer.warning_count++;
 				}
 			}
@@ -366,25 +366,25 @@ public class Main
 	{
 		if (opt_do_debug || print_progress)
 		{
-			java.lang.System.err.println("  Computing non-terminal nullability...");
+			java.lang.System.err.WriteLine("  Computing non-terminal nullability...");
 		}
 		non_terminal.compute_nullability();
 		nullability_end = java.lang.System.currentTimeMillis();
 		if (opt_do_debug || print_progress)
 		{
-			java.lang.System.err.println("  Computing first sets...");
+			java.lang.System.err.WriteLine("  Computing first sets...");
 		}
 		non_terminal.compute_first_sets();
 		first_end = java.lang.System.currentTimeMillis();
 		if (opt_do_debug || print_progress)
 		{
-			java.lang.System.err.println("  Building state machine...");
+			java.lang.System.err.WriteLine("  Building state machine...");
 		}
 		start_state = lalr_state.build_machine(emit.start_production);
 		machine_end = java.lang.System.currentTimeMillis();
 		if (opt_do_debug || print_progress)
 		{
-			java.lang.System.err.println("  Filling in tables...");
+			java.lang.System.err.WriteLine("  Filling in tables...");
 		}
 		action_table = new parse_action_table();
 		reduce_table = new parse_reduce_table();
@@ -397,13 +397,13 @@ public class Main
 		table_end = java.lang.System.currentTimeMillis();
 		if (opt_do_debug || print_progress)
 		{
-			java.lang.System.err.println("  Checking for non-reduced productions...");
+			java.lang.System.err.WriteLine("  Checking for non-reduced productions...");
 		}
 		action_table.check_reductions();
 		reduce_check_end = java.lang.System.currentTimeMillis();
 		if (emit.num_conflicts > expect_conflicts)
 		{
-			java.lang.System.err.println("*** More conflicts encountered than expected -- parser generation aborted");
+			java.lang.System.err.WriteLine("*** More conflicts encountered than expected -- parser generation aborted");
 			lexer.error_count++;
 		}
 	}
@@ -440,7 +440,7 @@ public class Main
 	})]
 	protected internal static void open_files()
 	{
-		string text = new StringBuilder().append(emit.parser_class_name).append(".java").toString();
+		string text = (emit.parser_class_name)+(".java");
 		File file = new File(text);
 		try
 		{
@@ -457,12 +457,12 @@ public class Main
 		goto IL_008c;
 		IL_0052:
 		
-		java.lang.System.err.println(new StringBuilder().append("Can't open \"").append(text).append("\" for output")
-			.toString());
+		java.lang.System.err.WriteLine(("Can't open \"")+(text)+("\" for output")
+			.ToString());
 		java.lang.System.exit(3);
 		goto IL_008c;
 		IL_008c:
-		text = new StringBuilder().append(emit.symbol_const_class_name).append(".java").toString();
+		text = (emit.symbol_const_class_name)+(".java");
 		file = new File(text);
 		try
 		{
@@ -477,8 +477,8 @@ public class Main
 			}
 		}
 		
-		java.lang.System.err.println(new StringBuilder().append("Can't open \"").append(text).append("\" for output")
-			.toString());
+		java.lang.System.err.WriteLine(("Can't open \"")+(text)+("\" for output")
+			.ToString());
 		java.lang.System.exit(4);
 	}
 
@@ -538,52 +538,52 @@ public class Main
 	})]
 	public static void dump_grammar()
 	{
-		java.lang.System.err.println("===== Terminals =====");
+		java.lang.System.err.WriteLine("===== Terminals =====");
 		int num = 0;
 		int num2 = 0;
 		while (num < terminal.number())
 		{
-			java.lang.System.err.print(new StringBuilder().append("[").append(num).append("]")
-				.append(terminal.find(num).name())
-				.append(" ")
-				.toString());
+			java.lang.System.err.print(("[")+(num)+("]")
+				+(terminal.find(num).name())
+				+(" ")
+				.ToString());
 			int num3 = num2 + 1;
 			if (5 == -1 || num3 % 5 == 0)
 			{
-				java.lang.System.err.println();
+				java.lang.System.err.WriteLine();
 			}
 			num++;
 			num2++;
 		}
-		java.lang.System.err.println();
-		java.lang.System.err.println();
-		java.lang.System.err.println("===== Non terminals =====");
+		java.lang.System.err.WriteLine();
+		java.lang.System.err.WriteLine();
+		java.lang.System.err.WriteLine("===== Non terminals =====");
 		num = 0;
 		num2 = 0;
 		while (num < non_terminal.number())
 		{
-			java.lang.System.err.print(new StringBuilder().append("[").append(num).append("]")
-				.append(non_terminal.find(num).name())
-				.append(" ")
-				.toString());
+			java.lang.System.err.print(("[")+(num)+("]")
+				+(non_terminal.find(num).name())
+				+(" ")
+				.ToString());
 			int num4 = num2 + 1;
 			if (5 == -1 || num4 % 5 == 0)
 			{
-				java.lang.System.err.println();
+				java.lang.System.err.WriteLine();
 			}
 			num++;
 			num2++;
 		}
-		java.lang.System.err.println();
-		java.lang.System.err.println();
-		java.lang.System.err.println("===== Productions =====");
+		java.lang.System.err.WriteLine();
+		java.lang.System.err.WriteLine();
+		java.lang.System.err.WriteLine("===== Productions =====");
 		for (num = 0; num < production.number(); num++)
 		{
 			production production2 = production.find(num);
-			java.lang.System.err.print(new StringBuilder().append("[").append(num).append("] ")
-				.append(production2.lhs().the_symbol().name())
-				.append(" ::= ")
-				.toString());
+			java.lang.System.err.print(("[")+(num)+("] ")
+				+(production2.lhs().the_symbol().name())
+				+(" ::= ")
+				.ToString());
 			for (int i = 0; i < production2.rhs_length(); i++)
 			{
 				if (production2.rhs(i).is_action())
@@ -592,12 +592,12 @@ public class Main
 				}
 				else
 				{
-					java.lang.System.err.print(new StringBuilder().append(((symbol_part)production2.rhs(i)).the_symbol().name()).append(" ").toString());
+					java.lang.System.err.print((((symbol_part)production2.rhs(i)).the_symbol().name())+(" ").ToString());
 				}
 			}
-			java.lang.System.err.println();
+			java.lang.System.err.WriteLine();
 		}
-		java.lang.System.err.println();
+		java.lang.System.err.WriteLine();
 	}
 
 	
@@ -615,15 +615,15 @@ public class Main
 			lalr_state lalr_state2 = (lalr_state)enumeration.nextElement();
 			array[lalr_state2.index()] = lalr_state2;
 		}
-		java.lang.System.err.println("===== Viable Prefix Recognizer =====");
+		java.lang.System.err.WriteLine("===== Viable Prefix Recognizer =====");
 		for (int i = 0; i < lalr_state.number(); i++)
 		{
 			if (array[i] == start_state)
 			{
 				java.lang.System.err.print("START ");
 			}
-			java.lang.System.err.println(array[i]);
-			java.lang.System.err.println("-------------------");
+			java.lang.System.err.WriteLine(array[i]);
+			java.lang.System.err.WriteLine("-------------------");
 		}
 	}
 
@@ -631,8 +631,8 @@ public class Main
 	
 	public static void dump_tables()
 	{
-		java.lang.System.err.println(action_table);
-		java.lang.System.err.println(reduce_table);
+		java.lang.System.err.WriteLine(action_table);
+		java.lang.System.err.WriteLine(reduce_table);
 	}
 
 	
@@ -695,61 +695,61 @@ public class Main
 		final_time = java.lang.System.currentTimeMillis();
 		if (!no_summary)
 		{
-			java.lang.System.err.println("------- CUP v0.10k Parser Generation Summary -------");
-			java.lang.System.err.println(new StringBuilder().append("  ").append(lexer.error_count).append(" error")
-				.append(plural(lexer.error_count))
-				.append(" and ")
-				.append(lexer.warning_count)
-				.append(" warning")
-				.append(plural(lexer.warning_count))
-				.toString());
-			java.lang.System.err.print(new StringBuilder().append("  ").append(terminal.number()).append(" terminal")
-				.append(plural(terminal.number()))
-				.append(", ")
-				.toString());
-			java.lang.System.err.print(new StringBuilder().append(non_terminal.number()).append(" non-terminal").append(plural(non_terminal.number()))
-				.append(", and ")
-				.toString());
-			java.lang.System.err.println(new StringBuilder().append(production.number()).append(" production").append(plural(production.number()))
-				.append(" declared, ")
-				.toString());
-			java.lang.System.err.println(new StringBuilder().append("  producing ").append(lalr_state.number()).append(" unique parse states.")
-				.toString());
-			java.lang.System.err.println(new StringBuilder().append("  ").append(emit.unused_term).append(" terminal")
-				.append(plural(emit.unused_term))
-				.append(" declared but not used.")
-				.toString());
-			java.lang.System.err.println(new StringBuilder().append("  ").append(emit.unused_non_term).append(" non-terminal")
-				.append(plural(emit.unused_term))
-				.append(" declared but not used.")
-				.toString());
-			java.lang.System.err.println(new StringBuilder().append("  ").append(emit.not_reduced).append(" production")
-				.append(plural(emit.not_reduced))
-				.append(" never reduced.")
-				.toString());
-			java.lang.System.err.println(new StringBuilder().append("  ").append(emit.num_conflicts).append(" conflict")
-				.append(plural(emit.num_conflicts))
-				.append(" detected")
-				.append(" (")
-				.append(expect_conflicts)
-				.append(" expected).")
-				.toString());
+			java.lang.System.err.WriteLine("------- CUP v0.10k Parser Generation Summary -------");
+			java.lang.System.err.WriteLine(("  ")+(lexer.error_count)+(" error")
+				+(plural(lexer.error_count))
+				+(" and ")
+				+(lexer.warning_count)
+				+(" warning")
+				+(plural(lexer.warning_count))
+				.ToString());
+			java.lang.System.err.print(("  ")+(terminal.number())+(" terminal")
+				+(plural(terminal.number()))
+				+(", ")
+				.ToString());
+			java.lang.System.err.print((non_terminal.number())+(" non-terminal")+(plural(non_terminal.number()))
+				+(", and ")
+				.ToString());
+			java.lang.System.err.WriteLine((production.number())+(" production")+(plural(production.number()))
+				+(" declared, ")
+				.ToString());
+			java.lang.System.err.WriteLine(("  producing ")+(lalr_state.number())+(" unique parse states.")
+				.ToString());
+			java.lang.System.err.WriteLine(("  ")+(emit.unused_term)+(" terminal")
+				+(plural(emit.unused_term))
+				+(" declared but not used.")
+				.ToString());
+			java.lang.System.err.WriteLine(("  ")+(emit.unused_non_term)+(" non-terminal")
+				+(plural(emit.unused_term))
+				+(" declared but not used.")
+				.ToString());
+			java.lang.System.err.WriteLine(("  ")+(emit.not_reduced)+(" production")
+				+(plural(emit.not_reduced))
+				+(" never reduced.")
+				.ToString());
+			java.lang.System.err.WriteLine(("  ")+(emit.num_conflicts)+(" conflict")
+				+(plural(emit.num_conflicts))
+				+(" detected")
+				+(" (")
+				+(expect_conflicts)
+				+(" expected).")
+				.ToString());
 			if (output_produced)
 			{
-				java.lang.System.err.println(new StringBuilder().append("  Code written to \"").append(emit.parser_class_name).append(".java\", and \"")
-					.append(emit.symbol_const_class_name)
-					.append(".java\".")
-					.toString());
+				java.lang.System.err.WriteLine(("  Code written to \"")+(emit.parser_class_name)+(".java\", and \"")
+					+(emit.symbol_const_class_name)
+					+(".java\".")
+					.ToString());
 			}
 			else
 			{
-				java.lang.System.err.println("  No code produced.");
+				java.lang.System.err.WriteLine("  No code produced.");
 			}
 			if (opt_show_timing)
 			{
 				show_times();
 			}
-			java.lang.System.err.println("---------------------------------------------------- (v0.10k)");
+			java.lang.System.err.WriteLine("---------------------------------------------------- (v0.10k)");
 		}
 	}
 
@@ -757,10 +757,10 @@ public class Main
 	
 	protected internal static void usage(string message)
 	{
-		java.lang.System.err.println();
-		java.lang.System.err.println(message);
-		java.lang.System.err.println();
-		java.lang.System.err.println("Usage: java_cup [options] [filename]\n  and expects a specification file on standard input if no filename is given.\n  Legal options include:\n    -package name  specify package generated classes go in [default none]\n    -parser name   specify parser class name [default \"parser\"]\n    -symbols name  specify name for symbol constant class [default \"sym\"]\n    -interface     put symbols in an interface, rather than a class\n    -nonterms      put non terminals in symbol constant class\n    -expect #      number of conflicts expected/allowed [default 0]\n    -compact_red   compact tables by defaulting to most frequent reduce\n    -nowarn        don't warn about useless productions, etc.\n    -nosummary     don't print the usual summary of parse states, etc.\n    -nopositions   don't propagate the left and right token position values\n    -noscanner     don't refer to java_cup.runtime.Scanner\n    -progress      print messages to indicate progress of the system\n    -time          print time usage summary\n    -dump_grammar  produce a human readable dump of the symbols and grammar\n    -dump_states   produce a dump of parse state machine\n    -dump_tables   produce a dump of the parse tables\n    -dump          produce a dump of all of the above\n    -version       print the version information for CUP and exit\n");
+		java.lang.System.err.WriteLine();
+		java.lang.System.err.WriteLine(message);
+		java.lang.System.err.WriteLine();
+		java.lang.System.err.WriteLine("Usage: java_cup [options] [filename]\n  and expects a specification file on standard input if no filename is given.\n  Legal options include:\n    -package name  specify package generated classes go in [default none]\n    -parser name   specify parser class name [default \"parser\"]\n    -symbols name  specify name for symbol constant class [default \"sym\"]\n    -interface     put symbols in an interface, rather than a class\n    -nonterms      put non terminals in symbol constant class\n    -expect #      number of conflicts expected/allowed [default 0]\n    -compact_red   compact tables by defaulting to most frequent reduce\n    -nowarn        don't warn about useless productions, etc.\n    -nosummary     don't print the usual summary of parse states, etc.\n    -nopositions   don't propagate the left and right token position values\n    -noscanner     don't refer to java_cup.runtime.Scanner\n    -progress      print messages to indicate progress of the system\n    -time          print time usage summary\n    -dump_grammar  produce a human readable dump of the symbols and grammar\n    -dump_states   produce a dump of parse state machine\n    -dump_tables   produce a dump of the parse tables\n    -dump          produce a dump of all of the above\n    -version       print the version information for CUP and exit\n");
 		java.lang.System.exit(1);
 	}
 
@@ -786,68 +786,68 @@ public class Main
 	protected internal static void show_times()
 	{
 		long total_time = final_time - start_time;
-		java.lang.System.err.println(". . . . . . . . . . . . . . . . . . . . . . . . . ");
-		java.lang.System.err.println("  Timing Summary");
-		java.lang.System.err.println(new StringBuilder().append("    Total time       ").append(timestr(final_time - start_time, total_time)).toString());
-		java.lang.System.err.println(new StringBuilder().append("      Startup        ").append(timestr(prelim_end - start_time, total_time)).toString());
-		java.lang.System.err.println(new StringBuilder().append("      Parse          ").append(timestr(parse_end - prelim_end, total_time)).toString());
+		java.lang.System.err.WriteLine(". . . . . . . . . . . . . . . . . . . . . . . . . ");
+		java.lang.System.err.WriteLine("  Timing Summary");
+		java.lang.System.err.WriteLine(("    Total time       ")+(timestr(final_time - start_time, total_time)).ToString());
+		java.lang.System.err.WriteLine(("      Startup        ")+(timestr(prelim_end - start_time, total_time)).ToString());
+		java.lang.System.err.WriteLine(("      Parse          ")+(timestr(parse_end - prelim_end, total_time)).ToString());
 		if (check_end != 0)
 		{
-			java.lang.System.err.println(new StringBuilder().append("      Checking       ").append(timestr(check_end - parse_end, total_time)).toString());
+			java.lang.System.err.WriteLine(("      Checking       ")+(timestr(check_end - parse_end, total_time)).ToString());
 		}
 		if (check_end != 0 && build_end != 0)
 		{
-			java.lang.System.err.println(new StringBuilder().append("      Parser Build   ").append(timestr(build_end - check_end, total_time)).toString());
+			java.lang.System.err.WriteLine(("      Parser Build   ")+(timestr(build_end - check_end, total_time)).ToString());
 		}
 		if (nullability_end != 0 && check_end != 0)
 		{
-			java.lang.System.err.println(new StringBuilder().append("        Nullability  ").append(timestr(nullability_end - check_end, total_time)).toString());
+			java.lang.System.err.WriteLine(("        Nullability  ")+(timestr(nullability_end - check_end, total_time)).ToString());
 		}
 		if (first_end != 0 && nullability_end != 0)
 		{
-			java.lang.System.err.println(new StringBuilder().append("        First sets   ").append(timestr(first_end - nullability_end, total_time)).toString());
+			java.lang.System.err.WriteLine(("        First sets   ")+(timestr(first_end - nullability_end, total_time)).ToString());
 		}
 		if (machine_end != 0 && first_end != 0)
 		{
-			java.lang.System.err.println(new StringBuilder().append("        State build  ").append(timestr(machine_end - first_end, total_time)).toString());
+			java.lang.System.err.WriteLine(("        State build  ")+(timestr(machine_end - first_end, total_time)).ToString());
 		}
 		if (table_end != 0 && machine_end != 0)
 		{
-			java.lang.System.err.println(new StringBuilder().append("        Table build  ").append(timestr(table_end - machine_end, total_time)).toString());
+			java.lang.System.err.WriteLine(("        Table build  ")+(timestr(table_end - machine_end, total_time)).ToString());
 		}
 		if (reduce_check_end != 0 && table_end != 0)
 		{
-			java.lang.System.err.println(new StringBuilder().append("        Checking     ").append(timestr(reduce_check_end - table_end, total_time)).toString());
+			java.lang.System.err.WriteLine(("        Checking     ")+(timestr(reduce_check_end - table_end, total_time)).ToString());
 		}
 		if (emit_end != 0 && build_end != 0)
 		{
-			java.lang.System.err.println(new StringBuilder().append("      Code Output    ").append(timestr(emit_end - build_end, total_time)).toString());
+			java.lang.System.err.WriteLine(("      Code Output    ")+(timestr(emit_end - build_end, total_time)).ToString());
 		}
 		if (emit.symbols_time != 0)
 		{
-			java.lang.System.err.println(new StringBuilder().append("        Symbols      ").append(timestr(emit.symbols_time, total_time)).toString());
+			java.lang.System.err.WriteLine(("        Symbols      ")+(timestr(emit.symbols_time, total_time)).ToString());
 		}
 		if (emit.parser_time != 0)
 		{
-			java.lang.System.err.println(new StringBuilder().append("        Parser class ").append(timestr(emit.parser_time, total_time)).toString());
+			java.lang.System.err.WriteLine(("        Parser class ")+(timestr(emit.parser_time, total_time)).ToString());
 		}
 		if (emit.action_code_time != 0)
 		{
-			java.lang.System.err.println(new StringBuilder().append("          Actions    ").append(timestr(emit.action_code_time, total_time)).toString());
+			java.lang.System.err.WriteLine(("          Actions    ")+(timestr(emit.action_code_time, total_time)).ToString());
 		}
 		if (emit.production_table_time != 0)
 		{
-			java.lang.System.err.println(new StringBuilder().append("          Prod table ").append(timestr(emit.production_table_time, total_time)).toString());
+			java.lang.System.err.WriteLine(("          Prod table ")+(timestr(emit.production_table_time, total_time)).ToString());
 		}
 		if (emit.action_table_time != 0)
 		{
-			java.lang.System.err.println(new StringBuilder().append("          Action tab ").append(timestr(emit.action_table_time, total_time)).toString());
+			java.lang.System.err.WriteLine(("          Action tab ")+(timestr(emit.action_table_time, total_time)).ToString());
 		}
 		if (emit.goto_table_time != 0)
 		{
-			java.lang.System.err.println(new StringBuilder().append("          Reduce tab ").append(timestr(emit.goto_table_time, total_time)).toString());
+			java.lang.System.err.WriteLine(("          Reduce tab ")+(timestr(emit.goto_table_time, total_time)).ToString());
 		}
-		java.lang.System.err.println(new StringBuilder().append("      Dump Output    ").append(timestr(dump_end - emit_end, total_time)).toString());
+		java.lang.System.err.WriteLine(("      Dump Output    ")+(timestr(dump_end - emit_end, total_time)).ToString());
 	}
 
 	
@@ -872,18 +872,18 @@ public class Main
 		string str = ((num5 < 10u) ? "   " : ((num5 < 100u) ? "  " : ((num5 >= 1000u) ? "" : " ")));
 		long num6 = time_val * 1000u;
 		long num7 = ((total_time != -1) ? (num6 / total_time) : (-num6));
-		StringBuilder stringBuilder = new StringBuilder().append((num == 0) ? "" : "-").append(str).append(num5)
-			.append(".");
+		StringBuilder stringBuilder = ((num == 0) ? "" : "-")+(str)+(num5)
+			+(".");
 		long num8 = 1000L;
-		StringBuilder stringBuilder2 = stringBuilder.append(((num8 != -1) ? (num4 % num8) : 0) / 100L);
+		StringBuilder stringBuilder2 = stringBuilder+(((num8 != -1) ? (num4 % num8) : 0) / 100L);
 		long num9 = 100L;
-		StringBuilder stringBuilder3 = stringBuilder2.append(((num9 != -1) ? (num4 % num9) : 0) / 10L);
+		StringBuilder stringBuilder3 = stringBuilder2+(((num9 != -1) ? (num4 % num9) : 0) / 10L);
 		long num10 = 10L;
-		StringBuilder stringBuilder4 = stringBuilder3.append((num10 != -1) ? (num4 % num10) : 0).append("sec").append(" (")
-			.append(num7 / 10L)
-			.append(".");
+		StringBuilder stringBuilder4 = stringBuilder3+((num10 != -1) ? (num4 % num10) : 0)+("sec")+(" (")
+			+(num7 / 10L)
+			+(".");
 		long num11 = 10L;
-		string result = stringBuilder4.append((num11 != -1) ? (num7 % num11) : 0).append("%)").toString();
+		string result = stringBuilder4+((num11 != -1) ? (num7 % num11) : 0)+("%)");
 		
 		return result;
 	}
@@ -911,13 +911,13 @@ public class Main
 		emit.set_lr_values(lr_values);
 		if (print_progress)
 		{
-			java.lang.System.err.println("Opening files...");
+			java.lang.System.err.WriteLine("Opening files...");
 		}
 		input_file = new BufferedInputStream(java.lang.System.@in);
 		prelim_end = java.lang.System.currentTimeMillis();
 		if (print_progress)
 		{
-			java.lang.System.err.println("Parsing specification from standard input...");
+			java.lang.System.err.WriteLine("Parsing specification from standard input...");
 		}
 		parse_grammar_spec();
 		parse_end = java.lang.System.currentTimeMillis();
@@ -925,13 +925,13 @@ public class Main
 		{
 			if (print_progress)
 			{
-				java.lang.System.err.println("Checking specification...");
+				java.lang.System.err.WriteLine("Checking specification...");
 			}
 			check_unused();
 			check_end = java.lang.System.currentTimeMillis();
 			if (print_progress)
 			{
-				java.lang.System.err.println("Building parse tables...");
+				java.lang.System.err.WriteLine("Building parse tables...");
 			}
 			build_parser();
 			build_end = java.lang.System.currentTimeMillis();
@@ -943,7 +943,7 @@ public class Main
 			{
 				if (print_progress)
 				{
-					java.lang.System.err.println("Writing parser...");
+					java.lang.System.err.WriteLine("Writing parser...");
 				}
 				open_files();
 				emit_parser();
@@ -966,7 +966,7 @@ public class Main
 		dump_end = java.lang.System.currentTimeMillis();
 		if (print_progress)
 		{
-			java.lang.System.err.println("Closing files...");
+			java.lang.System.err.WriteLine("Closing files...");
 		}
 		close_files();
 		if (!no_summary)

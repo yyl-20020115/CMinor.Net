@@ -3,7 +3,7 @@ using CMinor.AST;
 using CMinor.semantic;
 using CMinor.Symbol;
 
-using java.lang;
+
 
 
 namespace CMinor.Visit;
@@ -170,16 +170,16 @@ public class TypeCheckVisitor : Visitor
 
 	private bool inPrintStatement;
 
-	[Modifiers(Modifiers.Private | Modifiers.Static | Modifiers.Final)]
+	
 	private static TypeTester IS_ARITHMETIC;
 
-	[Modifiers(Modifiers.Private | Modifiers.Static | Modifiers.Final)]
+	
 	private static TypeTester IS_EQUATABLE;
 
-	[Modifiers(Modifiers.Private | Modifiers.Static | Modifiers.Final)]
+	
 	private static TypeTester IS_COMPARABLE;
 
-	[Modifiers(Modifiers.Private | Modifiers.Static | Modifiers.Final)]
+	
 	private static TypeTester IS_LOGICAL;
 
 	
@@ -202,9 +202,9 @@ public class TypeCheckVisitor : Visitor
 		int num = (P_1.getType().isVariableType() ? 1 : 0);
 		if (num == 0)
 		{
-			logger.log(P_0.getLocation(), new StringBuilder().append("a ").append(P_2).append(" may not have type ")
-				.append(Type.___003C_003EVOID.getName())
-				.toString());
+			logger.log(P_0.getLocation(), ("a ")+(P_2)+(" may not have type ")
+				+(Type.___003C_003EVOID.getName())
+				.ToString());
 		}
 		return (byte)num != 0;
 	}
@@ -215,12 +215,12 @@ public class TypeCheckVisitor : Visitor
 	{
 		if (P_1 != P_2)
 		{
-			logger.log(P_0.getLocation(), new StringBuilder().append("type mismatch in ").append(P_3).append(" (got ")
-				.append(P_1.getName())
-				.append(" and ")
-				.append(P_2.getName())
-				.append(")")
-				.toString());
+			logger.log(P_0.getLocation(), ("type mismatch in ")+(P_3)+(" (got ")
+				+(P_1.getName())
+				+(" and ")
+				+(P_2.getName())
+				+(")")
+				.ToString());
 		}
 	}
 
@@ -243,7 +243,7 @@ public class TypeCheckVisitor : Visitor
 		}
 		formatStringVisitor.finish();
 		P_0.setActualArguments(arrayList);
-		string result = stringBuffer.toString();
+		string result = stringBuffer.ToString();
 		
 		return result;
 	}
@@ -256,9 +256,9 @@ public class TypeCheckVisitor : Visitor
 		Type type = P_1.getType();
 		if (type != Type.___003C_003EBOOLEAN)
 		{
-			logger.log(P_0.getLocation(), new StringBuilder().append("condition in ").append(P_2).append(" must be of type ")
-				.append(type.getName())
-				.toString());
+			logger.log(P_0.getLocation(), ("condition in ")+(P_2)+(" must be of type ")
+				+(type.getName())
+				.ToString());
 		}
 	}
 
@@ -275,15 +275,15 @@ public class TypeCheckVisitor : Visitor
 			Type type = (Type)iterator.next();
 			if (num != 0)
 			{
-				stringBuffer.append(", ");
+				stringBuffer+(", ");
 			}
 			else
 			{
 				num = 1;
 			}
-			stringBuffer.append(type.getName());
+			stringBuffer+(type.getName());
 		}
-		string result = stringBuffer.toString();
+		string result = stringBuffer.ToString();
 		
 		return result;
 	}
@@ -317,11 +317,11 @@ public class TypeCheckVisitor : Visitor
 		Type type = P_1.getType();
 		if (!P_3.test(type))
 		{
-			logger.log(P_0.getLocation(), new StringBuilder().append(P_2).append(" operator requires operands of ").append(P_3.desc())
-				.append(" type (got ")
-				.append(type.getName())
-				.append(")")
-				.toString());
+			logger.log(P_0.getLocation(), (P_2)+(" operator requires operands of ")+(P_3.desc())
+				+(" type (got ")
+				+(type.getName())
+				+(")")
+				.ToString());
 		}
 	}
 
@@ -329,8 +329,8 @@ public class TypeCheckVisitor : Visitor
 	
 	public override void visit(AstNode n)
 	{
-		logger.log(n.getLocation(), new StringBuilder().append("type checking in ").append(n.getDotLabel()).append(" is a stub")
-			.toString());
+		logger.log(n.getLocation(), ("type checking in ")+(n.getDotLabel())+(" is a stub")
+			.ToString());
 	}
 
 	
@@ -347,7 +347,7 @@ public class TypeCheckVisitor : Visitor
 		FunctionSymbol symbol = n.getMainFunction().getSymbol();
 		if (symbol.getReturnType() != Type.___003C_003EINT)
 		{
-			logger.log(n.getLocation(), new StringBuilder().append("main function must have return type ").append(Type.___003C_003EINT.getName()).toString());
+			logger.log(n.getLocation(), ("main function must have return type ")+(Type.___003C_003EINT.getName()).ToString());
 		}
 		if (symbol.getParameters().size() != 0)
 		{
@@ -389,8 +389,8 @@ public class TypeCheckVisitor : Visitor
 		FunctionSymbol symbol = n.getSymbol();
 		if (!endsWithReturn && currentFunction.getReturnType().isVariableType())
 		{
-			logger.log(n.getLocation(), new StringBuilder().append("non-void function ").append(symbol.getIdentifier()).append(" does not return a value in all paths of execution")
-				.toString());
+			logger.log(n.getLocation(), ("non-void function ")+(symbol.getIdentifier())+(" does not return a value in all paths of execution")
+				.ToString());
 		}
 		n.setEndsWithReturn(endsWithReturn);
 		currentFunction = null;
@@ -527,7 +527,7 @@ public class TypeCheckVisitor : Visitor
 		Type returnType = currentFunction.getReturnType();
 		if (returnType != Type.___003C_003EVOID)
 		{
-			logger.log(n.getLocation(), new StringBuilder().append("return statement missing value in function ").append(currentFunction.getIdentifier()).toString());
+			logger.log(n.getLocation(), ("return statement missing value in function ")+(currentFunction.getIdentifier()).ToString());
 		}
 		endsWithReturn = true;
 	}
@@ -554,12 +554,12 @@ public class TypeCheckVisitor : Visitor
 		Type type = n.getValue().getType();
 		if (returnType != type)
 		{
-			string msg = ((returnType != Type.___003C_003EVOID) ? new StringBuilder().append("return statement in function ").append(currentFunction.getIdentifier()).append(" requires expression of type ")
-				.append(returnType.getName())
-				.append(", got ")
-				.append(type.getName())
-				.toString() : new StringBuilder().append("function with ").append(Type.___003C_003EVOID.getName()).append(" return type cannot return a value")
-				.toString());
+			string msg = ((returnType != Type.___003C_003EVOID) ? ("return statement in function ")+(currentFunction.getIdentifier())+(" requires expression of type ")
+				+(returnType.getName())
+				+(", got ")
+				+(type.getName())
+				.ToString() : ("function with ")+(Type.___003C_003EVOID.getName())+(" return type cannot return a value")
+				.ToString());
 			logger.log(n.getLocation(), msg);
 		}
 		endsWithReturn = true;
@@ -622,9 +622,9 @@ public class TypeCheckVisitor : Visitor
 		Type type = symbol.getType();
 		if (type != Type.___003C_003EFUNCTION)
 		{
-			logger.log(n.getLocation(), new StringBuilder().append("symbol ").append(symbol.getIdentifier()).append(" called as function but is of type ")
-				.append(type.getName())
-				.toString());
+			logger.log(n.getLocation(), ("symbol ")+(symbol.getIdentifier())+(" called as function but is of type ")
+				+(type.getName())
+				.ToString());
 			n.setType(type);
 			return;
 		}
@@ -649,9 +649,9 @@ public class TypeCheckVisitor : Visitor
 		}
 		if (!((List)arrayList).equals((object)arrayList2))
 		{
-			logger.log(n.getLocation(), new StringBuilder().append("actual and formal parameters in function call do not match\n\treceived: ").append(typeListString(arrayList)).append("\n\texpected: ")
-				.append(typeListString(arrayList2))
-				.toString());
+			logger.log(n.getLocation(), ("actual and formal parameters in function call do not match\n\treceived: ")+(typeListString(arrayList))+("\n\texpected: ")
+				+(typeListString(arrayList2))
+				.ToString());
 		}
 		n.setType(functionSymbol.getReturnType());
 	}

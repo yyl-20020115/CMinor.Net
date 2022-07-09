@@ -4,7 +4,7 @@ using CMinor.semantic;
 using CMinor.Symbol;
 
 using java.io;
-using java.lang;
+
 
 
 namespace CMinor.Visit;
@@ -41,8 +41,8 @@ public class CodeGenerationVisitor : Visitor
 		int numLocals = P_0.getNumLocals();
 		if (numLocals != 0)
 		{
-			output.println(new StringBuilder().append("subl $").append(4 * numLocals).append(", %esp")
-				.toString());
+			output.WriteLine(("subl $")+(4 * numLocals)+(", %esp")
+				.ToString());
 		}
 	}
 
@@ -50,7 +50,7 @@ public class CodeGenerationVisitor : Visitor
 	
 	private void printReturnCode()
 	{
-		output.println("movl %ebp, %esp\npopl %ebp\nret");
+		output.WriteLine("movl %ebp, %esp\npopl %ebp\nret");
 	}
 
 	
@@ -58,9 +58,9 @@ public class CodeGenerationVisitor : Visitor
 	private void arith(BinaryArithmeticOperator P_0, string P_1)
 	{
 		P_0.Arg2.Accept(this);
-		output.println("pushl %eax");
+		output.WriteLine("pushl %eax");
 		P_0.getArg1().Accept(this);
-		output.println(new StringBuilder().append(P_1).append(" (%esp), %eax\naddl $4, %esp").toString());
+		output.WriteLine((P_1)+(" (%esp), %eax\naddl $4, %esp").ToString());
 	}
 
 	
@@ -68,20 +68,20 @@ public class CodeGenerationVisitor : Visitor
 	private void comp(RelationalOperator P_0, string P_1)
 	{
 		P_0.Arg2.Accept(this);
-		output.println("pushl %eax");
+		output.WriteLine("pushl %eax");
 		P_0.getArg1().Accept(this);
 		string label = labeler.getLabel();
 		string label2 = labeler.getLabel();
-		output.println(new StringBuilder().append("popl %ebx\ncmpl %ebx, %eax\n").append(P_1).append(" ")
-			.append(label)
-			.append("\nmovl $0, %eax\njmp ")
-			.append(label2)
-			.append("\n")
-			.append(label)
-			.append(":\nmovl $1, %eax\n")
-			.append(label2)
-			.append(":")
-			.toString());
+		output.WriteLine(("popl %ebx\ncmpl %ebx, %eax\n")+(P_1)+(" ")
+			+(label)
+			+("\nmovl $0, %eax\njmp ")
+			+(label2)
+			+("\n")
+			+(label)
+			+(":\nmovl $1, %eax\n")
+			+(label2)
+			+(":")
+			.ToString());
 	}
 
 	
@@ -90,19 +90,19 @@ public class CodeGenerationVisitor : Visitor
 	{
 		P_0.getArg1().Accept(this);
 		string label = labeler.getLabel();
-		output.println(new StringBuilder().append("cmpl $0, %eax\n").append(P_1).append(" ")
-			.append(label)
-			.toString());
+		output.WriteLine(("cmpl $0, %eax\n")+(P_1)+(" ")
+			+(label)
+			.ToString());
 		P_0.Arg2.Accept(this);
-		output.println(new StringBuilder().append(label).append(":").toString());
+		output.WriteLine((label)+(":").ToString());
 	}
 
 	
 	
 	public override void visit(AstNode n)
 	{
-		java.lang.System.err.println(new StringBuilder().append("code generation in ").append(n.getDotLabel()).append(" is a stub")
-			.toString());
+		java.lang.System.err.WriteLine(("code generation in ")+(n.getDotLabel())+(" is a stub")
+			.ToString());
 	}
 
 	
@@ -116,14 +116,14 @@ public class CodeGenerationVisitor : Visitor
 	{
 		program = n;
 		labeler = new LabelGenerator("control");
-		output.println(".data");
+		output.WriteLine(".data");
 		Iterator iterator = n.getStringSymbols().iterator();
 		while (iterator.hasNext())
 		{
 			StringSymbol stringSymbol = (StringSymbol)iterator.next();
-			output.println(new StringBuilder().append(stringSymbol.getLabel()).append(": .asciz \"").append(StringLiteral.escape(stringSymbol.getValue()))
-				.append("\"")
-				.toString());
+			output.WriteLine((stringSymbol.getLabel())+(": .asciz \"")+(StringLiteral.escape(stringSymbol.getValue()))
+				+("\"")
+				.ToString());
 		}
 		iterator = n.getGlobalVariables().iterator();
 		while (iterator.hasNext())
@@ -131,7 +131,7 @@ public class CodeGenerationVisitor : Visitor
 			GlobalVariableDeclaration globalVariableDeclaration = (GlobalVariableDeclaration)iterator.next();
 			globalVariableDeclaration.Accept(this);
 		}
-		output.println(".section .text\n.globl _start\n_start:");
+		output.WriteLine(".section .text\n.globl _start\n_start:");
 		inMainFunction = true;
 		n.getMainFunction().Accept(this);
 		inMainFunction = false;
@@ -151,13 +151,13 @@ public class CodeGenerationVisitor : Visitor
 		{
 			if (n.getNumLocals() != 0)
 			{
-				output.println("movl %esp, %ebp");
+				output.WriteLine("movl %esp, %ebp");
 			}
 			allocateLocals(n);
 			n.getBody().Accept(this);
 			return;
 		}
-		output.println(new StringBuilder().append(n.getSymbol().getLabel()).append(":\npushl %ebp\nmovl %esp, %ebp").toString());
+		output.WriteLine((n.getSymbol().getLabel())+(":\npushl %ebp\nmovl %esp, %ebp").ToString());
 		allocateLocals(n);
 		n.getBody().Accept(this);
 		if (!n.endsWithReturn())
@@ -170,15 +170,15 @@ public class CodeGenerationVisitor : Visitor
 	
 	public override void visit(GlobalVariableDeclaration n)
 	{
-		output.println(new StringBuilder().append(n.getSymbol().getLabel()).append(": .long").toString());
+		output.WriteLine((n.getSymbol().getLabel())+(": .long").ToString());
 	}
 
 	
 	
 	public override void visit(GlobalVariableInitialization n)
 	{
-		output.println(new StringBuilder().append(n.getSymbol().getLabel()).append(": .long ").append(GlobalInitVisitor.get(n.getValue()))
-			.toString());
+		output.WriteLine((n.getSymbol().getLabel())+(": .long ")+(GlobalInitVisitor.get(n.getValue()))
+			.ToString());
 	}
 
 	public override void visit(Declaration n)
@@ -189,9 +189,9 @@ public class CodeGenerationVisitor : Visitor
 	
 	public override void visit(Initialization n)
 	{
-		output.println(new StringBuilder().append("movl ").append(ExpressionLocationVisitor.get(n.getValue())).append(", ")
-			.append(SymbolLocationVisitor.get(n.getIdentifier().getSymbol()))
-			.toString());
+		output.WriteLine(("movl ")+(ExpressionLocationVisitor.get(n.getValue()))+(", ")
+			+(SymbolLocationVisitor.get(n.getIdentifier().getSymbol()))
+			.ToString());
 	}
 
 	
@@ -226,17 +226,17 @@ public class CodeGenerationVisitor : Visitor
 			expression.Accept(this);
 			if (expression.getType() == Type.___003C_003EBOOLEAN)
 			{
-				output.println(new StringBuilder().append("imull $").append(PrintStatement.___003C_003EOFFSET).append(", %eax\naddl $")
-					.append(program.getBooleanStringSymbol().getLabel())
-					.append(", %eax")
-					.toString());
+				output.WriteLine(("imull $")+(PrintStatement.___003C_003EOFFSET)+(", %eax\naddl $")
+					+(program.getBooleanStringSymbol().getLabel())
+					+(", %eax")
+					.ToString());
 			}
-			output.println("pushl %eax");
+			output.WriteLine("pushl %eax");
 		}
-		output.println(new StringBuilder().append("pushl $").append(n.getSymbol().getLabel()).append("\ncall printf")
-			.toString());
-		output.println(new StringBuilder().append("addl $").append(4 * (num + 1)).append(", %esp")
-			.toString());
+		output.WriteLine(("pushl $")+(n.getSymbol().getLabel())+("\ncall printf")
+			.ToString());
+		output.WriteLine(("addl $")+(4 * (num + 1))+(", %esp")
+			.ToString());
 	}
 
 	
@@ -263,9 +263,9 @@ public class CodeGenerationVisitor : Visitor
 	{
 		string label = labeler.getLabel();
 		n.getCondition().Accept(this);
-		output.println(new StringBuilder().append("cmpl $0, %eax\nje ").append(label).toString());
+		output.WriteLine(("cmpl $0, %eax\nje ")+(label).ToString());
 		n.getIfClause().Accept(this);
-		output.println(new StringBuilder().append(label).append(":").toString());
+		output.WriteLine((label)+(":").ToString());
 	}
 
 	
@@ -279,14 +279,14 @@ public class CodeGenerationVisitor : Visitor
 		string label = labeler.getLabel();
 		string label2 = labeler.getLabel();
 		n.getCondition().Accept(this);
-		output.println(new StringBuilder().append("cmpl $0, %eax\nje ").append(label).toString());
+		output.WriteLine(("cmpl $0, %eax\nje ")+(label).ToString());
 		n.getIfClause().Accept(this);
-		output.println(new StringBuilder().append("jmp ").append(label2).append("\n")
-			.append(label)
-			.append(":")
-			.toString());
+		output.WriteLine(("jmp ")+(label2)+("\n")
+			+(label)
+			+(":")
+			.ToString());
 		n.getElseClause().Accept(this);
-		output.println(new StringBuilder().append(label2).append(":").toString());
+		output.WriteLine((label2)+(":").ToString());
 	}
 
 	
@@ -299,14 +299,14 @@ public class CodeGenerationVisitor : Visitor
 	{
 		string label = labeler.getLabel();
 		string label2 = labeler.getLabel();
-		output.println(new StringBuilder().append(label).append(":").toString());
+		output.WriteLine((label)+(":").ToString());
 		n.getCondition().Accept(this);
-		output.println(new StringBuilder().append("cmpl $0, %eax\nje ").append(label2).toString());
+		output.WriteLine(("cmpl $0, %eax\nje ")+(label2).ToString());
 		n.getBody().Accept(this);
-		output.println(new StringBuilder().append("jmp ").append(label).append("\n")
-			.append(label2)
-			.append(":")
-			.toString());
+		output.WriteLine(("jmp ")+(label)+("\n")
+			+(label2)
+			+(":")
+			.ToString());
 	}
 
 	
@@ -323,7 +323,7 @@ public class CodeGenerationVisitor : Visitor
 		n.getValue().Accept(this);
 		if (inMainFunction)
 		{
-			output.println("pushl %eax\ncall exit");
+			output.WriteLine("pushl %eax\ncall exit");
 		}
 		else
 		{
@@ -336,7 +336,7 @@ public class CodeGenerationVisitor : Visitor
 	public override void visit(Assignment n)
 	{
 		n.Value.Accept(this);
-		output.println(new StringBuilder().append("movl %eax, ").append(SymbolLocationVisitor.get(n.Identifier.getSymbol())).toString());
+		output.WriteLine(("movl %eax, ")+(SymbolLocationVisitor.get(n.Identifier.getSymbol())).ToString());
 	}
 
 	
@@ -352,13 +352,13 @@ public class CodeGenerationVisitor : Visitor
 		for (int i = num - 1; i >= 0; i += -1)
 		{
 			((Expression)arguments.get(i)).Accept(this);
-			output.println("pushl %eax");
+			output.WriteLine("pushl %eax");
 		}
-		output.println(new StringBuilder().append("call ").append(n.getSymbol().getLabel()).toString());
+		output.WriteLine(("call ")+(n.getSymbol().getLabel()).ToString());
 		if (num != 0)
 		{
-			output.println(new StringBuilder().append("addl $").append(num * 4).append(", %esp")
-				.toString());
+			output.WriteLine(("addl $")+(num * 4)+(", %esp")
+				.ToString());
 		}
 	}
 
@@ -366,16 +366,16 @@ public class CodeGenerationVisitor : Visitor
 	
 	public override void visit(IdentifierExpression n)
 	{
-		output.println(new StringBuilder().append("movl ").append(SymbolLocationVisitor.get(n.getIdentifier().getSymbol())).append(", %eax")
-			.toString());
+		output.WriteLine(("movl ")+(SymbolLocationVisitor.get(n.getIdentifier().getSymbol()))+(", %eax")
+			.ToString());
 	}
 
 	
 	
 	public override void visit(ConstantExpression n)
 	{
-		output.println(new StringBuilder().append("movl ").append(ExpressionLocationVisitor.get(n)).append(", %eax")
-			.toString());
+		output.WriteLine(("movl ")+(ExpressionLocationVisitor.get(n))+(", %eax")
+			.ToString());
 	}
 
 	
@@ -383,7 +383,7 @@ public class CodeGenerationVisitor : Visitor
 	public override void visit(Negative n)
 	{
 		n.getArg1().Accept(this);
-		output.println("negl %eax");
+		output.WriteLine("negl %eax");
 	}
 
 	
@@ -391,7 +391,7 @@ public class CodeGenerationVisitor : Visitor
 	public override void visit(LogicalNot n)
 	{
 		n.getArg1().Accept(this);
-		output.println("negl %eax\nincl %eax");
+		output.WriteLine("negl %eax\nincl %eax");
 	}
 
 	

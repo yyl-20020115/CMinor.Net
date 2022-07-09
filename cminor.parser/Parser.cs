@@ -3,7 +3,7 @@ using CMinor.lexer;
 using CMinor.semantic;
 
 using java_cup.runtime;
-using java.lang;
+
 
 
 namespace CMinor.Parser;

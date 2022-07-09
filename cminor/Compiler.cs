@@ -62,7 +62,7 @@ public class Compiler
 
 	private const string DOT_SUFFIX = "dot";
 
-	[Modifiers(Modifiers.Private | Modifiers.Static | Modifiers.Final)]
+	
 	
 	private static HashSet flags;
 
@@ -217,8 +217,8 @@ public class Compiler
 				
 				throw new UsageError("more than one input file given");
 			}
-			string message = new StringBuilder().append("cannot recognize argument \"").append(text2).append("\"")
-				.toString();
+			string message = ("cannot recognize argument \"")+(text2)+("\"")
+				.ToString();
 			
 			throw new UsageError(message);
 		}
@@ -268,7 +268,7 @@ public class Compiler
 	
 	public static void printUsage(TextWriter output)
 	{
-		output.println("Usage: cminor [-h] [-t] [-s] [-l] [-o <output>] [<input.{cm,cminor}>]\n    <input>      Specifies the input file. If omitted or given as \"-\", the\n                 input is stdin.\n    -o <output>  Specifies the output file. Upon error no output file is\n                 created. If omitted, the output file has the name of the input\n                 file with its suffix replaced. If omitted and the input is\n                 stdin, or if the output file is given as \"-\", the output is\n                 stdout.\n    -t           Abstract syntax tree mode. Instead of compiling the program,\n                 generates dot code representing the abstract syntax tree of\n                 the input program.\n    -s           Symbol resolution mode. Generates dot code representing the\n                 abstract syntax tree of the input program, including nodes for\n                 resolved symbols.\n    -l           Only validates the input program for semantic correctness;\n                 does not generate any code.\n    -h           Prints this help message.");
+		output.WriteLine("Usage: cminor [-h] [-t] [-s] [-l] [-o <output>] [<input.{cm,cminor}>]\n    <input>      Specifies the input file. If omitted or given as \"-\", the\n                 input is stdin.\n    -o <output>  Specifies the output file. Upon error no output file is\n                 created. If omitted, the output file has the name of the input\n                 file with its suffix replaced. If omitted and the input is\n                 stdin, or if the output file is given as \"-\", the output is\n                 stdout.\n    -t           Abstract syntax tree mode. Instead of compiling the program,\n                 generates dot code representing the abstract syntax tree of\n                 the input program.\n    -s           Symbol resolution mode. Generates dot code representing the\n                 abstract syntax tree of the input program, including nodes for\n                 resolved symbols.\n    -l           Only validates the input program for semantic correctness;\n                 does not generate any code.\n    -h           Prints this help message.");
 	}
 
 	
@@ -340,7 +340,7 @@ public class Compiler
 	
 	private static string replaceSuffix(string P_0, string P_1)
 	{
-		string result = new StringBuilder().append(java.lang.String.instancehelper_substring(P_0, 0, java.lang.String.instancehelper_lastIndexOf(P_0, 46) + 1)).append(P_1).toString();
+		string result = (java.lang.String.instancehelper_substring(P_0, 0, java.lang.String.instancehelper_lastIndexOf(P_0, 46) + 1))+(P_1);
 		
 		return result;
 	}
@@ -447,7 +447,7 @@ public class Compiler
 	
 	private static bool hasSuffix(string P_0, string P_1)
 	{
-		bool result = java.lang.String.instancehelper_endsWith(P_0, new StringBuilder().append(".").append(P_1).toString());
+		bool result = java.lang.String.instancehelper_endsWith(P_0, (".")+(P_1).ToString());
 		
 		return result;
 	}
@@ -544,19 +544,19 @@ public class Compiler
 			goto IL_0054;
 		}
 		UsageError @this = usageError;
-		java.lang.System.err.println(Throwable.instancehelper_getMessage(@this));
+		java.lang.System.err.WriteLine(Throwable.instancehelper_getMessage(@this));
 		printUsage();
 		java.lang.System.exit(1);
 		return;
 		IL_0054:
 		System.Exception this2 = ex3;
-		java.lang.System.err.println(new StringBuilder().append("internal compiler error (crap!): ").append(Throwable.instancehelper_getMessage(this2)).toString());
+		java.lang.System.err.WriteLine(("internal compiler error (crap!): ")+(Throwable.instancehelper_getMessage(this2)).ToString());
 		Throwable.instancehelper_printStackTrace(this2, java.lang.System.err);
 		java.lang.System.exit(1);
 		return;
 		IL_0050:
 		FileNotFoundException this3 = ex;
-		java.lang.System.err.println(new StringBuilder().append("error when using file: ").append(Throwable.instancehelper_getMessage(this3)).toString());
+		java.lang.System.err.WriteLine(("error when using file: ")+(Throwable.instancehelper_getMessage(this3)).ToString());
 		java.lang.System.exit(1);
 		return;
 		IL_004d:
@@ -567,7 +567,7 @@ public class Compiler
 		goto IL_0083;
 		IL_0083:
 		this2 = (System.Exception)obj;
-		java.lang.System.err.println(Throwable.instancehelper_getMessage(this2));
+		java.lang.System.err.WriteLine(Throwable.instancehelper_getMessage(this2));
 		java.lang.System.exit(1);
 	}
 

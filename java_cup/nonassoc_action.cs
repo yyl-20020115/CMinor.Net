@@ -42,7 +42,7 @@ public class nonassoc_action : parse_action
 		return 212853537;
 	}
 
-	public override string toString()
+	public override string ToString()
 	{
 		return "NONASSOC";
 	}

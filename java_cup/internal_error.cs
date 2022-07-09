@@ -3,7 +3,7 @@ using System;
 using System.Runtime.Serialization;
 
 
-using java.lang;
+
 
 namespace java_cup;
 
@@ -21,8 +21,8 @@ public class internal_error : System.Exception
 	
 	public virtual void crash()
 	{
-		java.lang.System.err.println("JavaCUP Fatal Internal Error Detected");
-		java.lang.System.err.println(Throwable.instancehelper_getMessage(this));
+		java.lang.System.err.WriteLine("JavaCUP Fatal Internal Error Detected");
+		java.lang.System.err.WriteLine(Throwable.instancehelper_getMessage(this));
 		Throwable.instancehelper_printStackTrace(this);
 		java.lang.System.exit(-1);
 	}

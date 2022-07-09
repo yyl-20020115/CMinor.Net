@@ -3,7 +3,7 @@ using CMinor.AST;
 using CMinor.semantic;
 using CMinor.Symbol;
 
-using java.lang;
+
 
 
 namespace CMinor.Visit;
@@ -96,8 +96,8 @@ public class SymbolResolutionVisitor : Visitor
 	
 	public override void visit(AstNode n)
 	{
-		logger.log(n.getLocation(), new StringBuilder().append("symbol resolution in ").append(n.getDotLabel()).append(" is a stub")
-			.toString());
+		logger.log(n.getLocation(), ("symbol resolution in ")+(n.getDotLabel())+(" is a stub")
+			.ToString());
 	}
 
 	

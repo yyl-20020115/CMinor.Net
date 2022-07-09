@@ -1,6 +1,6 @@
 
 
-using java.lang;
+
 
 
 namespace java_cup;
@@ -89,8 +89,8 @@ public class non_terminal : symbol
 		object obj = _all.put(nm, this);
 		if (obj != null)
 		{
-			new internal_error(new StringBuilder().append("Duplicate non-terminal (").append(nm).append(") created")
-				.toString()).crash();
+			new internal_error(("Duplicate non-terminal (")+(nm)+(") created")
+				.ToString()).crash();
 		}
 		_index = next_index++;
 		Hashtable all_by_index = _all_by_index;
@@ -214,7 +214,7 @@ public class non_terminal : symbol
 		{
 			P_0 = "NT$";
 		}
-		non_terminal result = new non_terminal(new StringBuilder().append(P_0).append(next_nt++).toString());
+		non_terminal result = new non_terminal((P_0)+(next_nt++).ToString());
 		
 		return result;
 	}
@@ -262,12 +262,12 @@ public class non_terminal : symbol
 
 	
 	
-	public override string toString()
+	public override string ToString()
 	{
-		string result = new StringBuilder().append(base.toString()).append("[").append(index())
-			.append("]")
-			.append((!nullable()) ? "" : "*")
-			.toString();
+		string result = (base.ToString())+("[")+(index())
+			+("]")
+			+((!nullable()) ? "" : "*")
+			.ToString();
 		
 		return result;
 	}

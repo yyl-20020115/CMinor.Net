@@ -1,6 +1,6 @@
 
 
-using java.lang;
+
 
 namespace CMinor.Symbol;
 
@@ -22,10 +22,10 @@ public class LabelGenerator
 	
 	public virtual string getLabel()
 	{
-		StringBuilder stringBuilder = new StringBuilder().append(prefix).append("_");
+		StringBuilder stringBuilder = (prefix)+("_");
 		int num = counter;
 		counter = num + 1;
-		string result = stringBuilder.append(num).toString();
+		string result = stringBuilder+(num);
 		
 		return result;
 	}

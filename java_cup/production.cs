@@ -1,7 +1,7 @@
 
 
 using IKVM.Runtime;
-using java.lang;
+
 
 
 namespace java_cup;
@@ -67,7 +67,7 @@ public class production
 				symbol_part symbol_part2 = (symbol_part)rhs[i];
 				if (symbol_part2.label() != null)
 				{
-					text = new StringBuilder().append(text).append(make_declaration(symbol_part2.label(), symbol_part2.the_symbol().stack_type(), rhs_len - i - 1)).toString();
+					text = (text)+(make_declaration(symbol_part2.label(), symbol_part2.the_symbol().stack_type(), rhs_len - i - 1));
 				}
 			}
 		}
@@ -102,7 +102,7 @@ public class production
 			{
 				if (rhs_parts[num2] != null && rhs_parts[num2].is_action() && rhs_parts[i].is_action())
 				{
-					rhs_parts[num2] = new action_part(new StringBuilder().append(((action_part)rhs_parts[num2]).code_string()).append(((action_part)rhs_parts[i]).code_string()).toString());
+					rhs_parts[num2] = new action_part((((action_part)rhs_parts[num2]).code_string())+(((action_part)rhs_parts[i]).code_string()).ToString());
 					num++;
 				}
 				else
@@ -148,7 +148,7 @@ public class production
 				non_terminal non_terminal2 = non_terminal.create_new();
 				non_terminal2.is_embedded_action = true;
 				action_production.___003Cclinit_003E();
-				new action_production(this, non_terminal2, null, 0, new StringBuilder().append(str).append(((action_part)rhs(i)).code_string()).toString());
+				new action_production(this, non_terminal2, null, 0, (str)+(((action_part)rhs(i)).code_string()).ToString());
 				_rhs[i] = new symbol_part(non_terminal2);
 			}
 		}
@@ -252,7 +252,7 @@ public class production
 			rhs_len = ((!rhs_parts[rhs_l - 1].is_action()) ? rhs_l : (rhs_l - 1));
 		}
 		string text = declare_labels(rhs_parts, rhs_len, action_str);
-		action_str = ((action_str != null) ? new StringBuilder().append(text).append(action_str).toString() : text);
+		action_str = ((action_str != null) ? (text)+(action_str).ToString() : text);
 		lhs_sym.note_use();
 		_lhs = new symbol_part(lhs_sym);
 		_rhs_length = merge_adjacent_actions(rhs_parts, _rhs_length);
@@ -281,8 +281,8 @@ public class production
 		}
 		if (action_part2 != null && action_part2.code_string() != null)
 		{
-			action_str = new StringBuilder().append(action_str).append("\t\t").append(action_part2.code_string())
-				.toString();
+			action_str = (action_str)+("\t\t")+(action_part2.code_string())
+				.ToString();
 		}
 		_action = new action_part(action_str);
 		remove_embedded_actions();
@@ -322,37 +322,37 @@ public class production
 	})]
 	protected internal virtual string make_declaration(string labelname, string stack_type, int offset)
 	{
-		string str = ((!emit.lr_values()) ? "" : new StringBuilder().append("\t\tint ").append(labelname).append("left = ((java_cup.runtime.Symbol)")
-			.append(emit.pre("stack"))
-			.append(".elementAt(")
-			.append(emit.pre("top"))
-			.append("-")
-			.append(offset)
-			.append(")).left;\n")
-			.append("\t\tint ")
-			.append(labelname)
-			.append("right = ((java_cup.runtime.Symbol)")
-			.append(emit.pre("stack"))
-			.append(".elementAt(")
-			.append(emit.pre("top"))
-			.append("-")
-			.append(offset)
-			.append(")).right;\n")
-			.toString());
-		string result = new StringBuilder().append(str).append("\t\t").append(stack_type)
-			.append(" ")
-			.append(labelname)
-			.append(" = (")
-			.append(stack_type)
-			.append(")((")
-			.append("java_cup.runtime.Symbol) ")
-			.append(emit.pre("stack"))
-			.append(".elementAt(")
-			.append(emit.pre("top"))
-			.append("-")
-			.append(offset)
-			.append(")).value;\n")
-			.toString();
+		string str = ((!emit.lr_values()) ? "" : ("\t\tint ")+(labelname)+("left = ((java_cup.runtime.Symbol)")
+			+(emit.pre("stack"))
+			+(".elementAt(")
+			+(emit.pre("top"))
+			+("-")
+			+(offset)
+			+(")).left;\n")
+			+("\t\tint ")
+			+(labelname)
+			+("right = ((java_cup.runtime.Symbol)")
+			+(emit.pre("stack"))
+			+(".elementAt(")
+			+(emit.pre("top"))
+			+("-")
+			+(offset)
+			+(")).right;\n")
+			.ToString());
+		string result = (str)+("\t\t")+(stack_type)
+			+(" ")
+			+(labelname)
+			+(" = (")
+			+(stack_type)
+			+(")((")
+			+("java_cup.runtime.Symbol) ")
+			+(emit.pre("stack"))
+			+(".elementAt(")
+			+(emit.pre("top"))
+			+("-")
+			+(offset)
+			+(")).value;\n")
+			.ToString();
 		
 		return result;
 	}
@@ -626,34 +626,34 @@ public class production
 		102,
 		162
 	})]
-	public override string toString()
+	public override string ToString()
 	{
 		internal_error internal_error2;
 		try
 		{
-			string str = new StringBuilder().append("production [").append(index()).append("]: ")
-				.toString();
-			str = new StringBuilder().append(str).append((lhs() == null) ? "$$NULL-LHS$$" : lhs().toString()).toString();
-			str = new StringBuilder().append(str).append(" :: = ").toString();
+			string str = ("production [")+(index())+("]: ")
+				.ToString();
+			str = (str)+((lhs() == null) ? "$$NULL-LHS$$" : lhs().ToString());
+			str = (str)+(" :: = ");
 			for (int i = 0; i < rhs_length(); i++)
 			{
-				str = new StringBuilder().append(str).append(rhs(i)).append(" ")
-					.toString();
+				str = (str)+(rhs(i))+(" ")
+					.ToString();
 			}
-			str = new StringBuilder().append(str).append(";").toString();
+			str = (str)+(";");
 			if (action() != null && action().code_string() != null)
 			{
-				str = new StringBuilder().append(str).append(" {").append(action().code_string())
-					.append("}")
-					.toString();
+				str = (str)+(" {")+(action().code_string())
+					+("}")
+					.ToString();
 			}
 			if (nullable_known())
 			{
 				if (nullable())
 				{
-					return new StringBuilder().append(str).append("[NULLABLE]").toString();
+					return (str)+("[NULLABLE]");
 				}
-				return new StringBuilder().append(str).append("[NOT NULLABLE]").toString();
+				return (str)+("[NOT NULLABLE]");
 			}
 			return str;
 		}
@@ -672,13 +672,13 @@ public class production
 	public virtual string to_simple_string()
 	{
 		string str = ((lhs() == null) ? "NULL_LHS" : lhs().the_symbol().name());
-		str = new StringBuilder().append(str).append(" ::= ").toString();
+		str = (str)+(" ::= ");
 		for (int i = 0; i < rhs_length(); i++)
 		{
 			if (!rhs(i).is_action())
 			{
-				str = new StringBuilder().append(str).append(((symbol_part)rhs(i)).the_symbol().name()).append(" ")
-					.toString();
+				str = (str)+(((symbol_part)rhs(i)).the_symbol().name())+(" ")
+					.ToString();
 			}
 		}
 		return str;

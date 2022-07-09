@@ -1,6 +1,6 @@
 
 
-using java.lang;
+
 
 namespace CMinor.Parser;
 
@@ -23,12 +23,12 @@ public class LocationInfo
 
 	
 	
-	public override string toString()
+	public override string ToString()
 	{
-		string result = new StringBuilder().append(file).append(':').append(line)
-			.append(':')
-			.append(col)
-			.toString();
+		string result = (file)+(':')+(line)
+			+(':')
+			+(col)
+			.ToString();
 		
 		return result;
 	}

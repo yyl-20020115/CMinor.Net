@@ -1,6 +1,6 @@
 
 
-using java.lang;
+
 
 namespace java_cup;
 
@@ -62,10 +62,10 @@ public class shift_action : parse_action
 
 	
 	
-	public override string toString()
+	public override string ToString()
 	{
-		string result = new StringBuilder().append("SHIFT(to state ").append(shift_to().index()).append(")")
-			.toString();
+		string result = ("SHIFT(to state ")+(shift_to().index())+(")")
+			.ToString();
 		
 		return result;
 	}

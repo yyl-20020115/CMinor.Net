@@ -1,7 +1,7 @@
 
 
 using java_cup.runtime;
-using java.lang;
+
 
 
 namespace java_cup;
@@ -42,11 +42,11 @@ public class lexer
 	
 	public static void emit_error(string message)
 	{
-		java.lang.System.err.println(new StringBuilder().append("Error at ").append(current_line).append("(")
-			.append(current_position)
-			.append("): ")
-			.append(message)
-			.toString());
+		java.lang.System.err.WriteLine(("Error at ")+(current_line)+("(")
+			+(current_position)
+			+("): ")
+			+(message)
+			.ToString());
 		error_count++;
 	}
 
@@ -240,11 +240,11 @@ public class lexer
 			{
 				break;
 			}
-			StringBuilder stringBuilder = new StringBuilder().append("Unrecognized character '");
+			StringBuilder stringBuilder = ("Unrecognized character '");
 			
-			emit_warn(stringBuilder.append(new Character((char)next_char)).append("'(").append(next_char)
-				.append(") -- ignored")
-				.toString());
+			emit_warn(stringBuilder+(new Character((char)next_char))+("'(")+(next_char)
+				+(") -- ignored")
+				.ToString());
 			advance();
 		}
 		Symbol result8 = new Symbol(0);
@@ -332,12 +332,12 @@ public class lexer
 				break;
 			}
 			
-			stringBuffer.append(new Character((char)next_char));
+			stringBuffer+(new Character((char)next_char));
 			advance();
 		}
 		advance();
 		advance();
-		Symbol result = new Symbol(29, stringBuffer.toString());
+		Symbol result = new Symbol(29, stringBuffer.ToString());
 		
 		return result;
 	}
@@ -353,15 +353,15 @@ public class lexer
 	{
 		StringBuilder stringBuffer = new StringBuilder();
 		char[] array = new char[1] { (char)next_char };
-		stringBuffer.append(array, 0, 1);
+		stringBuffer+(array, 0, 1);
 		advance();
 		while (id_char(next_char))
 		{
 			array[0] = (char)next_char;
-			stringBuffer.append(array, 0, 1);
+			stringBuffer+(array, 0, 1);
 			advance();
 		}
-		string text = stringBuffer.toString();
+		string text = stringBuffer.ToString();
 		Integer integer = (Integer)keywords.get(text);
 		if (integer != null)
 		{
@@ -378,11 +378,11 @@ public class lexer
 	
 	public static void emit_warn(string message)
 	{
-		java.lang.System.err.println(new StringBuilder().append("Warning at ").append(current_line).append("(")
-			.append(current_position)
-			.append("): ")
-			.append(message)
-			.toString());
+		java.lang.System.err.WriteLine(("Warning at ")+(current_line)+("(")
+			+(current_position)
+			+("): ")
+			+(message)
+			.ToString());
 		warning_count++;
 	}
 
@@ -468,7 +468,7 @@ public class lexer
 	public static Symbol debug_next_token()
 	{
 		Symbol symbol2 = real_next_token();
-		java.lang.System.@out.println(new StringBuilder().append("# next_Symbol() => ").append(symbol2.sym).toString());
+		java.lang.System.@out.WriteLine(("# next_Symbol() => ")+(symbol2.sym).ToString());
 		return symbol2;
 	}
 

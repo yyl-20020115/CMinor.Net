@@ -1,7 +1,7 @@
 
 
 using java_cup.runtime;
-using java.lang;
+
 
 
 namespace java_cup;
@@ -156,7 +156,7 @@ public class parser : lr_parser
 	{
 		done_parsing();
 		lexer.emit_error(message);
-		java.lang.System.err.println("Can't recover from previous error(s), giving up.");
+		java.lang.System.err.WriteLine("Can't recover from previous error(s), giving up.");
 		java.lang.System.exit(1);
 	}
 

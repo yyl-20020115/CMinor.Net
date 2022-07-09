@@ -1,6 +1,6 @@
 
 
-using java.lang;
+
 
 namespace java_cup;
 
@@ -23,15 +23,15 @@ public class symbol_part : production_part
 
 	
 	
-	public override string toString()
+	public override string ToString()
 	{
 		if (the_symbol() != null)
 		{
-			string result = new StringBuilder().append(base.toString()).append(the_symbol()).toString();
+			string result = (base.ToString())+(the_symbol());
 			
 			return result;
 		}
-		string result2 = new StringBuilder().append(base.toString()).append("$$MISSING-SYMBOL$$").toString();
+		string result2 = (base.ToString())+("$$MISSING-SYMBOL$$");
 		
 		return result2;
 	}

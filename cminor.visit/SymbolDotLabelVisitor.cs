@@ -1,7 +1,7 @@
 
 using CMinor.Symbol;
 
-using java.lang;
+
 
 namespace CMinor.Visit;
 
@@ -24,27 +24,27 @@ public class SymbolDotLabelVisitor : SymbolVisitor
 	
 	public override void visit(FunctionSymbol s)
 	{
-		label = new StringBuilder().append("FUNCTION ").append(s.getIdentifier()).toString();
+		label = ("FUNCTION ")+(s.getIdentifier());
 	}
 
 	
 	
 	public override void visit(GlobalVariableSymbol s)
 	{
-		label = new StringBuilder().append("GLOBAL ").append(s.getIdentifier()).toString();
+		label = ("GLOBAL ")+(s.getIdentifier());
 	}
 
 	
 	
 	public override void visit(LocalVariableSymbol s)
 	{
-		label = new StringBuilder().append("LOCAL ").append(s.getIdentifier()).toString();
+		label = ("LOCAL ")+(s.getIdentifier());
 	}
 
 	
 	
 	public override void visit(ParameterSymbol s)
 	{
-		label = new StringBuilder().append("PARAM ").append(s.getIdentifier()).toString();
+		label = ("PARAM ")+(s.getIdentifier());
 	}
 }

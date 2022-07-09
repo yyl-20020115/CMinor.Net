@@ -3,7 +3,7 @@ using CMinor.Parser;
 using CMinor.semantic;
 using CMinor.Visit;
 
-using java.lang;
+
 
 namespace CMinor.Symbol;
 
@@ -20,7 +20,7 @@ public class GlobalVariableSymbol : Symbol
 	
 	public virtual string getLabel()
 	{
-		string result = new StringBuilder().append("global_").append(getIdentifier()).toString();
+		string result = ("global_")+(getIdentifier());
 		
 		return result;
 	}

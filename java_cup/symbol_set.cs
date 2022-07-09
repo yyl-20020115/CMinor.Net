@@ -1,7 +1,7 @@
 
 
 using IKVM.Runtime;
-using java.lang;
+
 
 
 namespace java_cup;
@@ -198,7 +198,7 @@ public class symbol_set
 		160, 97, 102, 98, 143, 99, 157, 130, 159, 9,
 		155
 	})]
-	public override string toString()
+	public override string ToString()
 	{
 		string str = "{";
 		int num = 0;
@@ -207,14 +207,14 @@ public class symbol_set
 		{
 			if (num != 0)
 			{
-				str = new StringBuilder().append(str).append(", ").toString();
+				str = (str)+(", ");
 			}
 			else
 			{
 				num = 1;
 			}
-			str = new StringBuilder().append(str).append(((symbol)enumeration.nextElement()).name()).toString();
+			str = (str)+(((symbol)enumeration.nextElement()).name());
 		}
-		return new StringBuilder().append(str).append("}").toString();
+		return (str)+("}");
 	}
 }

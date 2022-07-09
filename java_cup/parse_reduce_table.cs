@@ -1,6 +1,6 @@
 
 
-using java.lang;
+
 
 namespace java_cup;
 
@@ -34,14 +34,14 @@ public class parse_reduce_table
 		12, 191, 18, 100, 132, 123, 226, 48, 233, 85,
 		254, 39, 233, 91, 155
 	})]
-	public override string toString()
+	public override string ToString()
 	{
 		string str = "-------- REDUCE_TABLE --------\n";
 		for (int i = 0; i < num_states(); i++)
 		{
-			str = new StringBuilder().append(str).append("From state #").append(i)
-				.append("\n")
-				.toString();
+			str = (str)+("From state #")+(i)
+				+("\n")
+				.ToString();
 			int num = 0;
 			int num2 = 0;
 			while (true)
@@ -55,16 +55,16 @@ public class parse_reduce_table
 				lalr_state lalr_state2 = under_state[i].under_non_term[num2];
 				if (lalr_state2 != null)
 				{
-					str = new StringBuilder().append(str).append(" [non term ").append(num2)
-						.append("->")
-						.toString();
-					str = new StringBuilder().append(str).append("state ").append(lalr_state2.index())
-						.append("]")
-						.toString();
+					str = (str)+(" [non term ")+(num2)
+						+("->")
+						.ToString();
+					str = (str)+("state ")+(lalr_state2.index())
+						+("]")
+						.ToString();
 					num++;
 					if (num == 3)
 					{
-						str = new StringBuilder().append(str).append("\n").toString();
+						str = (str)+("\n");
 						num = 0;
 					}
 				}
@@ -72,9 +72,9 @@ public class parse_reduce_table
 			}
 			if (num != 0)
 			{
-				str = new StringBuilder().append(str).append("\n").toString();
+				str = (str)+("\n");
 			}
 		}
-		return new StringBuilder().append(str).append("-----------------------------").toString();
+		return (str)+("-----------------------------");
 	}
 }

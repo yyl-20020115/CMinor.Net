@@ -3,7 +3,7 @@ using CMinor.AST;
 using CMinor.Parser;
 using CMinor.semantic;
 
-using java.lang;
+
 
 
 namespace CMinor.Symbol;
@@ -42,10 +42,10 @@ public class SymbolTable
 			}
 			else
 			{
-				access_0024000(this_00240).log(P_1.getLocation(), new StringBuilder().append("cannot re-declare symbol '").append(P_0).append("' in same scope (previously declared at ")
-					.append(symbol.getLocation())
-					.append(")")
-					.toString());
+				access_0024000(this_00240).log(P_1.getLocation(), ("cannot re-declare symbol '")+(P_0)+("' in same scope (previously declared at ")
+					+(symbol.getLocation())
+					+(")")
+					.ToString());
 			}
 		}
 
@@ -133,8 +133,8 @@ public class SymbolTable
 			}
 			scope = scope.parentScope();
 		}
-		errorLogger.log(info, new StringBuilder().append("symbol '").append(identifier).append("' has not been declared")
-			.toString());
+		errorLogger.log(info, ("symbol '")+(identifier)+("' has not been declared")
+			.ToString());
 		return null;
 	}
 
@@ -167,8 +167,8 @@ public class SymbolTable
 		Symbol symbol = currentScope.probe(identifier);
 		if (symbol == null)
 		{
-			errorLogger.log(info, new StringBuilder().append("symbol '").append(identifier).append("' has not been declared")
-				.toString());
+			errorLogger.log(info, ("symbol '")+(identifier)+("' has not been declared")
+				.ToString());
 		}
 		return symbol;
 	}

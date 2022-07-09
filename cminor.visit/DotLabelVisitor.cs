@@ -1,7 +1,7 @@
 
 using CMinor.AST;
 
-using java.lang;
+
 
 namespace CMinor.Visit;
 
@@ -116,23 +116,23 @@ public class DotLabelVisitor : Visitor
 	})]
 	public override void visit(CharacterLiteral n)
 	{
-		label = new StringBuilder().append("\\'").append(StringLiteral.escape(StringLiteral.escape(((Character)n.getValue()).toString()))).append("\\'")
-			.toString();
+		label = ("\\'")+(StringLiteral.escape(StringLiteral.escape(((Character)n.getValue()).ToString())))+("\\'")
+			.ToString();
 	}
 
 	
 	
 	public override void visit(IntegerLiteral n)
 	{
-		label = ((Integer)n.getValue()).toString();
+		label = ((Integer)n.getValue());
 	}
 
 	
 	
 	public override void visit(StringLiteral n)
 	{
-		label = new StringBuilder().append("\\\"").append(StringLiteral.escape(StringLiteral.escape((string)n.getValue()))).append("\\\"")
-			.toString();
+		label = ("\\\"")+(StringLiteral.escape(StringLiteral.escape((string)n.getValue())))+("\\\"")
+			.ToString();
 	}
 
 	public override void visit(Negative n)

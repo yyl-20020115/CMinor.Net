@@ -3,7 +3,7 @@ using CMinor.Parser;
 using CMinor.semantic;
 using CMinor.Visit;
 
-using java.lang;
+
 
 
 namespace CMinor.Symbol;
@@ -40,7 +40,7 @@ public class FunctionSymbol : Symbol
 	
 	public virtual string getLabel()
 	{
-		string result = new StringBuilder().append("function_").append(getIdentifier()).toString();
+		string result = ("function_")+(getIdentifier());
 		
 		return result;
 	}

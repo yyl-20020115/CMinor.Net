@@ -1,6 +1,6 @@
 
 
-using java.lang;
+
 
 
 namespace java_cup;
@@ -190,7 +190,7 @@ public class terminal_set
 		76,
 		155
 	})]
-	public override string toString()
+	public override string ToString()
 	{
 		string str = "{";
 		int num = 0;
@@ -200,16 +200,16 @@ public class terminal_set
 			{
 				if (num != 0)
 				{
-					str = new StringBuilder().append(str).append(", ").toString();
+					str = (str)+(", ");
 				}
 				else
 				{
 					num = 1;
 				}
-				str = new StringBuilder().append(str).append(terminal.find(i).name()).toString();
+				str = (str)+(terminal.find(i).name());
 			}
 		}
-		return new StringBuilder().append(str).append("}").toString();
+		return (str)+("}");
 	}
 
 	

@@ -1,9 +1,7 @@
-
 using CMinor.Parser;
 using CMinor.semantic;
 using CMinor.Visit;
-
-using java.lang;
+using System.Text;
 
 namespace CMinor.Symbol;
 
@@ -30,7 +28,7 @@ public abstract class Symbol : DotNode
 	
 	public virtual string getDotId()
 	{
-		string result = new StringBuilder().append("Symbol").append(instanceNumber).toString();
+		string result = ("Symbol")+(instanceNumber);
 		
 		return result;
 	}

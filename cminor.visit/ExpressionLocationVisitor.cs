@@ -1,7 +1,7 @@
 
 using CMinor.AST;
 
-using java.lang;
+
 
 namespace CMinor.Visit;
 
@@ -42,6 +42,6 @@ public class ExpressionLocationVisitor : Visitor
 	
 	public override void visit(ConstantExpression n)
 	{
-		result = new StringBuilder().append("$").append(GlobalInitVisitor.get(n)).toString();
+		result = ("$")+(GlobalInitVisitor.get(n));
 	}
 }

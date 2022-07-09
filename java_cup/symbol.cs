@@ -1,6 +1,6 @@
 
 
-using java.lang;
+
 
 namespace java_cup;
 
@@ -68,7 +68,7 @@ public abstract class symbol
 
 	
 	
-	public override string toString()
+	public override string ToString()
 	{
 		string result = name();
 		

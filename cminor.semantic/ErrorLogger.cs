@@ -1,7 +1,7 @@
 
 using CMinor.Parser;
 
-using java.lang;
+
 
 namespace CMinor.semantic;
 
@@ -26,7 +26,7 @@ public class ErrorLogger
 	public virtual void log(LocationInfo info, string msg)
 	{
 		numErrors++;
-		java.lang.System.err.println(new StringBuilder().append(info).append(": ").append(msg)
-			.toString());
+		java.lang.System.err.WriteLine((info)+(": ")+(msg)
+			.ToString());
 	}
 }

@@ -1,6 +1,6 @@
 
 
-using java.lang;
+
 
 namespace java_cup;
 
@@ -63,11 +63,11 @@ public abstract class production_part
 
 	
 	
-	public override string toString()
+	public override string ToString()
 	{
 		if (label() != null)
 		{
-			string result = new StringBuilder().append(label()).append(":").toString();
+			string result = (label())+(":");
 			
 			return result;
 		}

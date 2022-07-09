@@ -70,7 +70,7 @@ public abstract class AstNode : DotNode
 	
 	public virtual string getDotId()
 	{
-		string result = new StringBuilder().append("AstNode").append(instanceNumber).toString();
+		string result = ("AstNode")+(instanceNumber);
 		
 		return result;
 	}
@@ -110,47 +110,47 @@ public abstract class AstNode : DotNode
 		ArrayList arrayList3 = new ArrayList();
 		ArrayList arrayList4 = new ArrayList();
 		getNodesAndEdges(childVisitor, getSymbolVisitor, arrayList, arrayList2, arrayList3, arrayList4);
-		output.println("digraph {");
-		output.println("\tgraph [ordering=\"out\"];");
+		output.WriteLine("digraph {");
+		output.WriteLine("\tgraph [ordering=\"out\"];");
 		Iterator iterator = ((List)arrayList).iterator();
 		while (iterator.hasNext())
 		{
 			AstNode astNode = (AstNode)iterator.next();
 			astNode.Accept(dotLabelVisitor);
-			output.println(new StringBuilder().append("\t").append(astNode.getDotId()).append(" [label=\"")
-				.append(dotLabelVisitor.getLabel())
-				.append("\"];")
-				.toString());
+			output.WriteLine(("\t")+(astNode.getDotId())+(" [label=\"")
+				+(dotLabelVisitor.getLabel())
+				+("\"];")
+				.ToString());
 		}
 		iterator = ((List)arrayList2).iterator();
 		while (iterator.hasNext())
 		{
 			Edge edge = (Edge)iterator.next();
-			output.println(new StringBuilder().append("\t").append(edge.source.getDotId()).append(" -> ")
-				.append(edge.dest.getDotId())
-				.append(";")
-				.toString());
+			output.WriteLine(("\t")+(edge.source.getDotId())+(" -> ")
+				+(edge.dest.getDotId())
+				+(";")
+				.ToString());
 		}
 		iterator = ((List)arrayList3).iterator();
 		while (iterator.hasNext())
 		{
 			CMinor.Symbol.Symbol symbol = (CMinor.Symbol.Symbol)iterator.next();
 			symbol.accept(symbolDotLabelVisitor);
-			output.println(new StringBuilder().append("\t").append(symbol.getDotId()).append(" [label=\"")
-				.append(symbolDotLabelVisitor.getLabel())
-				.append("\", shape=box]")
-				.toString());
+			output.WriteLine(("\t")+(symbol.getDotId())+(" [label=\"")
+				+(symbolDotLabelVisitor.getLabel())
+				+("\", shape=box]")
+				.ToString());
 		}
 		iterator = ((List)arrayList4).iterator();
 		while (iterator.hasNext())
 		{
 			Edge edge = (Edge)iterator.next();
-			output.println(new StringBuilder().append("\t").append(edge.source.getDotId()).append(" -> ")
-				.append(edge.dest.getDotId())
-				.append(" [style=\"dashed\"];")
-				.toString());
+			output.WriteLine(("\t")+(edge.source.getDotId())+(" -> ")
+				+(edge.dest.getDotId())
+				+(" [style=\"dashed\"];")
+				.ToString());
 		}
-		output.println("}");
+		output.WriteLine("}");
 	}
 
 	

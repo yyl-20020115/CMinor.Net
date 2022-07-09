@@ -1,6 +1,6 @@
 
 
-using java.lang;
+
 
 namespace java_cup;
 
@@ -57,11 +57,11 @@ public class lalr_transition
 
 	
 	
-	public override string toString()
+	public override string ToString()
 	{
-		string str = new StringBuilder().append("transition on ").append(on_symbol().name()).append(" to state [")
-			.toString();
-		str = new StringBuilder().append(str).append(_to_state.index()).toString();
-		return new StringBuilder().append(str).append("]").toString();
+		string str = ("transition on ")+(on_symbol().name())+(" to state [")
+			.ToString();
+		str = (str)+(_to_state.index());
+		return (str)+("]");
 	}
 }

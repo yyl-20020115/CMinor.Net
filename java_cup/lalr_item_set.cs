@@ -1,7 +1,7 @@
 
 
 using IKVM.Runtime;
-using java.lang;
+
 
 
 namespace java_cup;
@@ -271,18 +271,18 @@ public class lalr_item_set
 
 	
 	
-	public override string toString()
+	public override string ToString()
 	{
 		StringBuilder stringBuffer = new StringBuilder();
-		stringBuffer.append("{\n");
+		stringBuffer+("{\n");
 		Enumeration enumeration = all();
 		while (enumeration.hasMoreElements())
 		{
-			stringBuffer.append(new StringBuilder().append("  ").append((lalr_item)enumeration.nextElement()).append("\n")
-				.toString());
+			stringBuffer+(("  ")+((lalr_item)enumeration.nextElement())+("\n")
+				.ToString());
 		}
-		stringBuffer.append("}");
-		string result = stringBuffer.toString();
+		stringBuffer+("}");
+		string result = stringBuffer.ToString();
 		
 		return result;
 	}

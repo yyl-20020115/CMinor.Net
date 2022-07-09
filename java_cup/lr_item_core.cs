@@ -1,7 +1,7 @@
 
 
 using IKVM.Runtime;
-using java.lang;
+
 
 namespace java_cup;
 
@@ -88,25 +88,25 @@ public class lr_item_core
 	public virtual string to_simple_string()
 	{
 		string str = ((_the_production.lhs() == null || _the_production.lhs().the_symbol() == null || _the_production.lhs().the_symbol().name() == null) ? "$$NULL$$" : _the_production.lhs().the_symbol().name());
-		str = new StringBuilder().append(str).append(" ::= ").toString();
+		str = (str)+(" ::= ");
 		for (int i = 0; i < _the_production.rhs_length(); i++)
 		{
 			if (i == _dot_pos)
 			{
-				str = new StringBuilder().append(str).append("(*) ").toString();
+				str = (str)+("(*) ");
 			}
 			if (_the_production.rhs(i) == null)
 			{
-				str = new StringBuilder().append(str).append("$$NULL$$ ").toString();
+				str = (str)+("$$NULL$$ ");
 				continue;
 			}
 			production_part production_part2 = _the_production.rhs(i);
-			str = ((production_part2 != null) ? ((!production_part2.is_action()) ? ((((symbol_part)production_part2).the_symbol() == null || ((symbol_part)production_part2).the_symbol().name() == null) ? new StringBuilder().append(str).append("$$NULL$$ ").toString() : new StringBuilder().append(str).append(((symbol_part)production_part2).the_symbol().name()).append(" ")
-				.toString()) : new StringBuilder().append(str).append("{ACTION} ").toString()) : new StringBuilder().append(str).append("$$NULL$$ ").toString());
+			str = ((production_part2 != null) ? ((!production_part2.is_action()) ? ((((symbol_part)production_part2).the_symbol() == null || ((symbol_part)production_part2).the_symbol().name() == null) ? (str)+("$$NULL$$ ").ToString() : (str)+(((symbol_part)production_part2).the_symbol().name())+(" ")
+				.ToString()) : (str)+("{ACTION} ").ToString()) : (str)+("$$NULL$$ ").ToString());
 		}
 		if (_dot_pos == _the_production.rhs_length())
 		{
-			str = new StringBuilder().append(str).append("(*) ").toString();
+			str = (str)+("(*) ");
 		}
 		return str;
 	}
@@ -190,7 +190,7 @@ public class lr_item_core
 
 	
 	
-	public override string toString()
+	public override string ToString()
 	{
 		//Discarded unreachable code: IL_0008
 		internal_error internal_error2;

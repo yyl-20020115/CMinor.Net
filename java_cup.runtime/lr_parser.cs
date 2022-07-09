@@ -1,7 +1,7 @@
 
 using System.Text;
 
-using java.lang;
+
 
 
 namespace java_cup.runtime;
@@ -135,17 +135,17 @@ public abstract class lr_parser
 		{
 			if (((Symbol)info).left != -1)
 			{
-				java.lang.System.err.println(new StringBuilder().append(" at character ").append(((Symbol)info).left).append(" of input")
-					.toString());
+				java.lang.System.err.WriteLine((" at character ")+(((Symbol)info).left)+(" of input")
+					.ToString());
 			}
 			else
 			{
-				java.lang.System.err.println("");
+				java.lang.System.err.WriteLine("");
 			}
 		}
 		else
 		{
-			java.lang.System.err.println("");
+			java.lang.System.err.WriteLine("");
 		}
 	}
 
@@ -311,7 +311,7 @@ public abstract class lr_parser
 			}
 			if (debug)
 			{
-				debug_message(new StringBuilder().append("# Consuming Symbol #").append(lookahead[0].sym).toString());
+				debug_message(("# Consuming Symbol #")+(lookahead[0].sym).ToString());
 			}
 			restart_lookahead();
 		}
@@ -335,29 +335,29 @@ public abstract class lr_parser
 	
 	public virtual void debug_message(string mess)
 	{
-		java.lang.System.err.println(mess);
+		java.lang.System.err.WriteLine(mess);
 	}
 
 	
 	
 	public virtual void debug_shift(Symbol shift_tkn)
 	{
-		debug_message(new StringBuilder().append("# Shift under term #").append(shift_tkn.sym).append(" to state #")
-			.append(shift_tkn.parse_state)
-			.toString());
+		debug_message(("# Shift under term #")+(shift_tkn.sym)+(" to state #")
+			+(shift_tkn.parse_state)
+			.ToString());
 	}
 
 	
 	
 	public virtual void debug_reduce(int prod_num, int nt_num, int rhs_size)
 	{
-		debug_message(new StringBuilder().append("# Reduce with prod #").append(prod_num).append(" [NT=")
-			.append(nt_num)
-			.append(", ")
-			.append("SZ=")
-			.append(rhs_size)
-			.append("]")
-			.toString());
+		debug_message(("# Reduce with prod #")+(prod_num)+(" [NT=")
+			+(nt_num)
+			+(", ")
+			+("SZ=")
+			+(rhs_size)
+			+("]")
+			.ToString());
 	}
 
 	
@@ -379,7 +379,7 @@ public abstract class lr_parser
 		{
 			if (debug)
 			{
-				debug_message(new StringBuilder().append("# Pop stack by one, state was # ").append(((Symbol)stack.peek()).parse_state).toString());
+				debug_message(("# Pop stack by one, state was # ")+(((Symbol)stack.peek()).parse_state).ToString());
 			}
 			left = ((Symbol)stack.pop()).left;
 			tos--;
@@ -395,9 +395,9 @@ public abstract class lr_parser
 		int num = get_action(((Symbol)stack.peek()).parse_state, error_sym());
 		if (debug)
 		{
-			debug_message(new StringBuilder().append("# Recover state found (#").append(((Symbol)stack.peek()).parse_state).append(")")
-				.toString());
-			debug_message(new StringBuilder().append("# Shifting on error to state #").append(num - 1).toString());
+			debug_message(("# Recover state found (#")+(((Symbol)stack.peek()).parse_state)+(")")
+				.ToString());
+			debug_message(("# Shifting on error to state #")+(num - 1).ToString());
 		}
 		Symbol symbol = new Symbol(error_sym(), left, right);
 		symbol.parse_state = num - 1;
@@ -444,9 +444,9 @@ public abstract class lr_parser
 				virtual_parse_stack2.push(num - 1);
 				if (debug)
 				{
-					debug_message(new StringBuilder().append("# Parse-ahead shifts Symbol #").append(cur_err_token().sym).append(" into state #")
-						.append(num - 1)
-						.toString());
+					debug_message(("# Parse-ahead shifts Symbol #")+(cur_err_token().sym)+(" into state #")
+						+(num - 1)
+						.ToString());
 				}
 				if (!advance_lookahead())
 				{
@@ -466,16 +466,16 @@ public abstract class lr_parser
 			}
 			if (debug)
 			{
-				debug_message(new StringBuilder().append("# Parse-ahead reduces: handle size = ").append(num3).append(" lhs = #")
-					.append(num2)
-					.append(" from state #")
-					.append(virtual_parse_stack2.top())
-					.toString());
+				debug_message(("# Parse-ahead reduces: handle size = ")+(num3)+(" lhs = #")
+					+(num2)
+					+(" from state #")
+					+(virtual_parse_stack2.top())
+					.ToString());
 			}
 			virtual_parse_stack2.push(get_reduce(virtual_parse_stack2.top(), num2));
 			if (debug)
 			{
-				debug_message(new StringBuilder().append("# Goto state #").append(virtual_parse_stack2.top()).toString());
+				debug_message(("# Goto state #")+(virtual_parse_stack2.top()).ToString());
 			}
 		}
 		if (debug)
@@ -564,8 +564,8 @@ public abstract class lr_parser
 		if (debug)
 		{
 			debug_message("# Reparsing saved input with actions");
-			debug_message(new StringBuilder().append("# Current Symbol is #").append(cur_err_token().sym).toString());
-			debug_message(new StringBuilder().append("# Current state is #").append(((Symbol)stack.peek()).parse_state).toString());
+			debug_message(("# Current Symbol is #")+(cur_err_token().sym).ToString());
+			debug_message(("# Current state is #")+(((Symbol)stack.peek()).parse_state).ToString());
 		}
 		while (!_done_parsing)
 		{
@@ -590,7 +590,7 @@ public abstract class lr_parser
 				}
 				if (debug)
 				{
-					debug_message(new StringBuilder().append("# Current Symbol is #").append(cur_err_token().sym).toString());
+					debug_message(("# Current Symbol is #")+(cur_err_token().sym).ToString());
 				}
 			}
 			else if (num < 0)
@@ -613,7 +613,7 @@ public abstract class lr_parser
 				tos++;
 				if (debug)
 				{
-					debug_message(new StringBuilder().append("# Goto state #").append(num).toString());
+					debug_message(("# Goto state #")+(num).ToString());
 				}
 			}
 			else if (num == 0)
@@ -678,9 +678,9 @@ public abstract class lr_parser
 		debug_message("============ Parse Stack Dump ============");
 		for (int i = 0; i < stack.size(); i++)
 		{
-			debug_message(new StringBuilder().append("Symbol: ").append(((Symbol)stack.elementAt(i)).sym).append(" State: ")
-				.append(((Symbol)stack.elementAt(i)).parse_state)
-				.toString());
+			debug_message(("Symbol: ")+(((Symbol)stack.elementAt(i)).sym)+(" State: ")
+				+(((Symbol)stack.elementAt(i)).parse_state)
+				.ToString());
 		}
 		debug_message("==========================================");
 	}
@@ -697,14 +697,14 @@ public abstract class lr_parser
 		for (int i = 0; i < stack.size(); i++)
 		{
 			Symbol symbol = (Symbol)stack.elementAt(i);
-			stringBuffer.append(new StringBuilder().append(" <state ").append(symbol.parse_state).append(", sym ")
-				.append(symbol.sym)
-				.append(">")
-				.toString());
+			stringBuffer+((" <state ")+(symbol.parse_state)+(", sym ")
+				+(symbol.sym)
+				+(">")
+				.ToString());
 			int num = i;
 			if (((3 != -1) ? (num % 3) : 0) == 2 || i == stack.size() - 1)
 			{
-				debug_message(stringBuffer.toString());
+				debug_message(stringBuffer.ToString());
 				stringBuffer = new StringBuilder("         ");
 			}
 		}
@@ -783,7 +783,7 @@ public abstract class lr_parser
 		init_actions();
 		user_init();
 		cur_token = scan();
-		debug_message(new StringBuilder().append("# Current Symbol is #").append(cur_token.sym).toString());
+		debug_message(("# Current Symbol is #")+(cur_token.sym).ToString());
 		stack.removeAllElements();
 		stack.push(new Symbol(0, start_state()));
 		tos = 0;
@@ -804,7 +804,7 @@ public abstract class lr_parser
 				stack.push(cur_token);
 				tos++;
 				cur_token = scan();
-				debug_message(new StringBuilder().append("# Current token is ").append(cur_token).toString());
+				debug_message(("# Current token is ")+(cur_token).ToString());
 			}
 			else if (num < 0)
 			{
@@ -818,16 +818,16 @@ public abstract class lr_parser
 					tos--;
 				}
 				num = get_reduce(((Symbol)stack.peek()).parse_state, num2);
-				debug_message(new StringBuilder().append("# Reduce rule: top state ").append(((Symbol)stack.peek()).parse_state).append(", lhs sym ")
-					.append(num2)
-					.append(" -> state ")
-					.append(num)
-					.toString());
+				debug_message(("# Reduce rule: top state ")+(((Symbol)stack.peek()).parse_state)+(", lhs sym ")
+					+(num2)
+					+(" -> state ")
+					+(num)
+					.ToString());
 				symbol.parse_state = num;
 				symbol.used_by_parser = true;
 				stack.push(symbol);
 				tos++;
-				debug_message(new StringBuilder().append("# Goto state #").append(num).toString());
+				debug_message(("# Goto state #")+(num).ToString());
 			}
 			else if (num == 0)
 			{
@@ -858,7 +858,7 @@ public abstract class lr_parser
 		int i;
 		for (i = 1; i < (nint)sa.LongLength; i++)
 		{
-			stringBuffer.append(sa[i]);
+			stringBuffer+(sa[i]);
 		}
 		i = 0;
 		int num = (int)(((uint)stringBuffer.charAt(i) << 16) | stringBuffer.charAt(i + 1));

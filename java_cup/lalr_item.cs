@@ -1,6 +1,6 @@
 
 
-using java.lang;
+
 
 
 namespace java_cup;
@@ -213,29 +213,29 @@ public class lalr_item : lr_item_core
 		160, 187, 198, 123, 124, 123, 139, 123, 106, 110,
 		31, 12, 166, 189, 123, 251, 73
 	})]
-	public override string toString()
+	public override string ToString()
 	{
 		string str = "";
-		str = new StringBuilder().append(str).append("[").toString();
-		str = new StringBuilder().append(str).append(base.toString()).toString();
-		str = new StringBuilder().append(str).append(", ").toString();
+		str = (str)+("[");
+		str = (str)+(base.ToString());
+		str = (str)+(", ");
 		if (lookahead() != null)
 		{
-			str = new StringBuilder().append(str).append("{").toString();
+			str = (str)+("{");
 			for (int i = 0; i < terminal.number(); i++)
 			{
 				if (lookahead().contains(i))
 				{
-					str = new StringBuilder().append(str).append(terminal.find(i).name()).append(" ")
-						.toString();
+					str = (str)+(terminal.find(i).name())+(" ")
+						.ToString();
 				}
 			}
-			str = new StringBuilder().append(str).append("}").toString();
+			str = (str)+("}");
 		}
 		else
 		{
-			str = new StringBuilder().append(str).append("NULL LOOKAHEAD!!").toString();
+			str = (str)+("NULL LOOKAHEAD!!");
 		}
-		return new StringBuilder().append(str).append("]").toString();
+		return (str)+("]");
 	}
 }

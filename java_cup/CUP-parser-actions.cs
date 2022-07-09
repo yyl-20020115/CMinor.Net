@@ -1,7 +1,7 @@
 
 
 using java_cup.runtime;
-using java.lang;
+
 
 
 namespace java_cup;
@@ -42,7 +42,7 @@ internal class CUP_0024parser_0024actions
 		{
 			str = ".";
 		}
-		multipart_name = String.instancehelper_concat(multipart_name, new StringBuilder().append(str).append(P_0).toString());
+		multipart_name = String.instancehelper_concat(multipart_name, (str)+(P_0).ToString());
 	}
 
 	
@@ -88,14 +88,14 @@ internal class CUP_0024parser_0024actions
 	{
 		if (P_0 == null)
 		{
-			java.lang.System.err.println("Unable to add precedence to nonexistent terminal");
+			java.lang.System.err.WriteLine("Unable to add precedence to nonexistent terminal");
 			return;
 		}
 		symbol_part symbol_part2 = (symbol_part)symbols.get(P_0);
 		if (symbol_part2 == null)
 		{
-			java.lang.System.err.println(new StringBuilder().append("Could find terminal ").append(P_0).append(" while declaring precedence")
-				.toString());
+			java.lang.System.err.WriteLine(("Could find terminal ")+(P_0)+(" while declaring precedence")
+				.ToString());
 			return;
 		}
 		symbol symbol2 = symbol_part2.the_symbol();
@@ -105,7 +105,7 @@ internal class CUP_0024parser_0024actions
 		}
 		else
 		{
-			java.lang.System.err.println(new StringBuilder().append("Precedence declaration: Can't find terminal ").append(P_0).toString());
+			java.lang.System.err.WriteLine(("Precedence declaration: Can't find terminal ")+(P_0).ToString());
 		}
 	}
 
@@ -1104,8 +1104,8 @@ internal class CUP_0024parser_0024actions
 			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
 			if (symbols.get(text) != null)
 			{
-				lexer.emit_error(new StringBuilder().append("java_cup.runtime.Symbol \"").append(text).append("\" has already been declared")
-					.toString());
+				lexer.emit_error(("java_cup.runtime.Symbol \"")+(text)+("\" has already been declared")
+					.ToString());
 			}
 			else
 			{
@@ -1128,8 +1128,8 @@ internal class CUP_0024parser_0024actions
 			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
 			if (symbols.get(text) != null)
 			{
-				lexer.emit_error(new StringBuilder().append("java_cup.runtime.Symbol \"").append(text).append("\" has already been declared")
-					.toString());
+				lexer.emit_error(("java_cup.runtime.Symbol \"")+(text)+("\" has already been declared")
+					.ToString());
 			}
 			else
 			{
@@ -1212,8 +1212,8 @@ internal class CUP_0024parser_0024actions
 			{
 				if (lexer.error_count == 0)
 				{
-					lexer.emit_error(new StringBuilder().append("java_cup.runtime.Symbol \"").append(text).append("\" has not been declared")
-						.toString());
+					lexer.emit_error(("java_cup.runtime.Symbol \"")+(text)+("\" has not been declared")
+						.ToString());
 				}
 			}
 			else
@@ -1260,7 +1260,7 @@ internal class CUP_0024parser_0024actions
 				symbol symbol2;
 				if (text == null)
 				{
-					java.lang.System.err.println("No terminal for contextual precedence");
+					java.lang.System.err.WriteLine("No terminal for contextual precedence");
 					symbol2 = null;
 				}
 				else
@@ -1275,8 +1275,8 @@ internal class CUP_0024parser_0024actions
 				}
 				else
 				{
-					java.lang.System.err.println(new StringBuilder().append("Invalid terminal ").append(text).append(" for contextual precedence assignment")
-						.toString());
+					java.lang.System.err.WriteLine(("Invalid terminal ")+(text)+(" for contextual precedence assignment")
+						.ToString());
 					production.___003Cclinit_003E();
 					new production(lhs_nt, rhs_parts, rhs_pos);
 				}
@@ -1353,8 +1353,8 @@ internal class CUP_0024parser_0024actions
 			lhs_nt = (non_terminal)non_terms.get(text);
 			if (lhs_nt == null && lexer.error_count == 0)
 			{
-				lexer.emit_error(new StringBuilder().append("LHS non terminal \"").append(text).append("\" has not been declared")
-					.toString());
+				lexer.emit_error(("LHS non terminal \"")+(text)+("\" has not been declared")
+					.ToString());
 			}
 			new_rhs();
 			return new Symbol(54, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
@@ -1389,8 +1389,8 @@ internal class CUP_0024parser_0024actions
 			non_terminal value2 = (non_terminal)non_terms.get(text);
 			if (value2 == null)
 			{
-				lexer.emit_error(new StringBuilder().append("Start non terminal \"").append(text).append("\" has not been declared")
-					.toString());
+				lexer.emit_error(("Start non terminal \"")+(text)+("\" has not been declared")
+					.ToString());
 			}
 			else
 			{
@@ -1413,8 +1413,8 @@ internal class CUP_0024parser_0024actions
 			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
 			if (symbols.get(text) == null)
 			{
-				lexer.emit_error(new StringBuilder().append("Terminal \"").append(text).append("\" has not been declared")
-					.toString());
+				lexer.emit_error(("Terminal \"")+(text)+("\" has not been declared")
+					.ToString());
 			}
 			string o2 = text;
 			return new Symbol(41, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);

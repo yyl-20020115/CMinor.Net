@@ -1,6 +1,6 @@
 
 
-using java.lang;
+
 
 namespace java_cup;
 
@@ -60,11 +60,11 @@ public class action_part : production_part
 
 	
 	
-	public override string toString()
+	public override string ToString()
 	{
-		string result = new StringBuilder().append(base.toString()).append("{").append(code_string())
-			.append("}")
-			.toString();
+		string result = (base.ToString())+("{")+(code_string())
+			+("}")
+			.ToString();
 		
 		return result;
 	}

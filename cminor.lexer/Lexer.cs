@@ -1,13 +1,7 @@
-using System;
-
 using CMinor.Parser;
 using CMinor.semantic;
-
-using IKVM.Runtime;
-using java_cup.runtime;
-using java.io;
-using java.lang;
-
+using System.IO;
+using System.Text;
 
 namespace CMinor.lexer;
 
@@ -31,25 +25,25 @@ public class Lexer : java_cup.runtime.Scanner
 
 	private const int CHAR_RECOVER = 8;
 
-	[Modifiers(Modifiers.Private | Modifiers.Static | Modifiers.Final)]
+	
 	private static int[] ZZ_LEXSTATE;
 
 	private const string ZZ_CMAP_PACKED = "\t\0\u0001\u0005\u0001\u0002\u0001\0\u0001\u0005\u0001\u0001\u0012\0\u0001\a\u0001%\u0001+\u0003\u0006\u0001&\u0001,\u0001\u001b\u0001\u001c\u0001#\u0001!\u0001\u001f\u0001\"\u0001\u0006\u0001$\u0001.\t\u0004\u0001\u0006\u0001 \u0001)\u0001(\u0001*\u0002\u0006\u001a\u0003\u0001\u0006\u0001-\u0002\u0006\u0001\u0003\u0001\u0006\u0001\u0013\u0001\u0012\u0001\u0016\u0001\u0011\u0001\n\u0001\t\u0001\u0018\u0001\u000e\u0001\b\u0002\u0003\u0001\v\u0001\u0003\u0001\u0014\u0001\u0010\u0001\u001a\u0001\u0003\u0001\u0017\u0001\f\u0001\u0015\u0001\u0019\u0001\u000f\u0001\r\u0003\u0003\u0001\u001d\u0001'\u0001\u001e\u0001\u0006ﾁ\0";
 
-	[Modifiers(Modifiers.Private | Modifiers.Static | Modifiers.Final)]
+	
 	private static char[] ZZ_CMAP;
 
-	[Modifiers(Modifiers.Private | Modifiers.Static | Modifiers.Final)]
+	
 	private static int[] ZZ_ACTION;
 
 	private const string ZZ_ACTION_PACKED_0 = "\a\0\u0001\u0001\u0002\u0002\u0001\u0003\u0001\u0004\v\u0003\u0001\u0005\u0001\u0006\u0001\a\u0001\b\u0001\t\u0001\n\u0001\v\u0001\f\u0001\r\u0001\u000e\u0001\u000f\u0002\u0001\u0001\u0010\u0001\u0011\u0001\u0012\u0001\u0013\u0001\u0014\u0001\u0015\u0002\u0016\u0001\u0017\u0001\u0018\u0001\u0017\u0001\u0019\u0001\u001a\u0001\u001b\u0001\u001a\u0001\u001c\u0001\u001d\u0001\u001c\u0003\u001e\u0001\u001d\u0001\u001f\v\u0003\u0001 \u0001!\u0001\"\u0001#\u0001$\u0001%\u0001&\u0001'\u0001(\u0001)\u0001*\u0001+\u0001,\u0001-\u0001.\v\u0003\u0001/\u0002\u0003\u00010\u0001\u0003\u00011\u00012\u0002\u0003\u00013\u0001\u0003\u00014\u0002\u0003\u00015\u00016\u0001\u0003\u00017\u00018";
 
-	[Modifiers(Modifiers.Private | Modifiers.Static | Modifiers.Final)]
+	
 	private static int[] ZZ_ROWMAP;
 
 	private const string ZZ_ROWMAP_PACKED_0 = "\0\0\0/\0^\0\u008d\0¼\0ë\0Ě\0ŉ\0Ÿ\0ŉ\0Ƨ\0ǖ\0ȅ\0ȴ\0ɣ\0ʒ\0ˁ\0\u02f0\0\u031f\0\u034e\0ͽ\0ά\0ϛ\0ŉ\0ŉ\0ŉ\0ŉ\0ŉ\0ŉ\0ŉ\0ŉ\0Њ\0й\0Ѩ\0җ\0ӆ\0ӵ\0Ԥ\0Փ\0ŉ\0ŉ\0ŉ\0ւ\0ŉ\0ŉ\0ŉ\0\u05b1\0ŉ\0ŉ\0ŉ\0נ\0ŉ\0ŉ\0؏\0ŉ\0ؾ\0٭\0ڜ\0Ƨ\0ۋ\0ۺ\0ܩ\0ݘ\0އ\0\u07b6\0ߥ\0ࠔ\0ࡃ\0\u0872\0ࢡ\0ŉ\0ŉ\0ŉ\0ŉ\0ŉ\0ŉ\0ŉ\0ŉ\0ŉ\0ŉ\0ŉ\0ŉ\0ŉ\0ŉ\0Ƨ\0\u08d0\0\u08ff\0म\0ढ़\0ঌ\0\u09bb\0৪\0ਙ\0\u0a48\0\u0a77\0દ\0Ƨ\0\u0ad5\0\u0b04\0Ƨ\0ଳ\0Ƨ\0Ƨ\0\u0b62\0\u0b91\0Ƨ\0\u0bc0\0Ƨ\0௯\0ఞ\0Ƨ\0Ƨ\0\u0c4d\0Ƨ\0Ƨ";
 
-	[Modifiers(Modifiers.Private | Modifiers.Static | Modifiers.Final)]
+	
 	private static int[] ZZ_TRANS;
 
 	private const string ZZ_TRANS_PACKED_0 = "\u0001\b\u0001\t\u0001\n\u0001\v\u0001\f\u0001\n\u0001\b\u0001\n\u0001\r\u0001\u000e\u0001\u000f\u0001\v\u0001\u0010\u0001\u0011\u0001\v\u0001\u0012\u0002\v\u0001\u0013\u0002\v\u0001\u0014\u0001\u0015\u0001\u0016\u0002\v\u0001\u0017\u0001\u0018\u0001\u0019\u0001\u001a\u0001\u001b\u0001\u001c\u0001\u001d\u0001\u001e\u0001\u001f\u0001 \u0001!\u0001\"\u0001#\u0001$\u0001%\u0001&\u0001'\u0001(\u0001)\u0001\b\u0001\f\u0001*\u0001+\u0001,\u0002-\u0001*%-\u0001.\u0001-\u0001/\u0001-\u00030\u00021\u00010&1\u00012\u00013\u00011+4\u00015\u00014\u00016\u00014,7\u00015\u00018$7\u00019\f7\u0001:\u00015,71\0\u0001\n/\0\u0002\v\u0003\0\u0013\v\u0013\0\u0001\v\u0004\0\u0001\f)\0\u0001\f\u0003\0\u0002\v\u0003\0\u0001\v\u0001;\n\v\u0001<\u0006\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\v\v\u0001=\a\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0003\v\u0001>\u000f\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\r\v\u0001?\u0005\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0006\v\u0001@\f\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\b\v\u0001A\n\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\b\v\u0001B\n\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u000f\v\u0001C\u0003\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0006\v\u0001D\f\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0002\v\u0001E\u0010\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u000f\v\u0001F\u0003\v\u0013\0\u0001\v$\0\u0001G-\0\u0001H\u0001I2\0\u0001J,\0\u0001K/\0\u0001L/\0\u0001M.\0\u0001N.\0\u0001O\b\0\u0001,/\0\u0002-\u0001\0\u000e-\u0001P\u0019-\u0001Q\u0003\0\u00021\u0001\0\u000e1\u0001R\u00191\u0001S/T/7$\0\u00015\f\0\u00015/\0\u0002\v\u0003\0\r\v\u0001U\u0005\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0003\v\u0001V\u000f\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0004\v\u0001W\u000e\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u000f\v\u0001X\u0003\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0001Y\u0012\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0001Z\u0012\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\b\v\u0001[\n\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0011\v\u0001\\\u0001\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\v\v\u0001]\a\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\r\v\u0001^\u0005\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0001_\u0012\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0004\v\u0001`\u000e\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0002\v\u0001a\u0010\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0001b\u0012\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0003\v\u0001c\u000f\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\t\v\u0001d\t\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0003\v\u0001e\u000f\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0002\v\u0001f\u0010\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u000f\v\u0001g\u0003\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0011\v\u0001h\u0001\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\f\v\u0001i\u0006\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0002\v\u0001j\u0010\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\f\v\u0001k\u0006\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0002\v\u0001l\u0010\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0002\v\u0001m\u0010\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u000f\v\u0001n\u0003\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\r\v\u0001o\u0005\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\u0010\v\u0001p\u0002\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\v\v\u0001q\a\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\f\v\u0001r\u0006\v\u0013\0\u0001\v\u0003\0\u0002\v\u0003\0\f\v\u0001s\u0006\v\u0013\0\u0001\v";
@@ -60,15 +54,15 @@ public class Lexer : java_cup.runtime.Scanner
 
 	private const int ZZ_PUSHBACK_2BIG = 2;
 
-	[Modifiers(Modifiers.Private | Modifiers.Static | Modifiers.Final)]
+	
 	private static string[] ZZ_ERROR_MSG;
 
-	[Modifiers(Modifiers.Private | Modifiers.Static | Modifiers.Final)]
+	
 	private static int[] ZZ_ATTRIBUTE;
 
 	private const string ZZ_ATTRIBUTE_PACKED_0 = "\a\0\u0001\t\u0001\u0001\u0001\t\r\u0001\b\t\b\u0001\u0003\t\u0001\u0001\u0003\t\u0001\u0001\u0003\t\u0001\u0001\u0002\t\u0001\u0001\u0001\t\u000f\u0001\u000e\t\u001f\u0001";
 
-	private Reader zzReader;
+	private TextReader zzReader;
 
 	private int zzState;
 
@@ -101,7 +95,7 @@ public class Lexer : java_cup.runtime.Scanner
 	private StringBuilder stringBuffer;
 
 	
-	private HashMap stringTable;
+	private Dictionary stringTable;
 
 	private ErrorLogger logger;
 
@@ -480,8 +474,8 @@ public class Lexer : java_cup.runtime.Scanner
 		int lastChar = getLastChar();
 		if (32 <= lastChar && lastChar <= 126)
 		{
-			string result = new StringBuilder().append("'").append((char)lastChar).append("'")
-				.toString();
+			string result = ("'")+((char)lastChar)+("'")
+				.ToString();
 			
 			return result;
 		}
@@ -495,7 +489,7 @@ public class Lexer : java_cup.runtime.Scanner
 			return "carriage return";
 		default:
 		{
-			string result2 = new StringBuilder().append("byte 0x").append(Integer.toHexString(lastChar)).toString();
+			string result2 = ("byte 0x")+(Integer.toHexString(lastChar));
 			
 			return result2;
 		}
@@ -1083,7 +1077,7 @@ public class Lexer : java_cup.runtime.Scanner
 			}
 			case 43:
 			{
-				stringBuffer.append('\n');
+				stringBuffer+('\n');
 				java_cup.runtime.Symbol symbol = checkCharLiteralLength();
 				if (symbol != null)
 				{
@@ -1099,7 +1093,7 @@ public class Lexer : java_cup.runtime.Scanner
 			}
 			case 44:
 			{
-				stringBuffer.append('\0');
+				stringBuffer+('\0');
 				java_cup.runtime.Symbol symbol = checkCharLiteralLength();
 				if (symbol != null)
 				{
@@ -1109,7 +1103,7 @@ public class Lexer : java_cup.runtime.Scanner
 			}
 			case 42:
 			{
-				stringBuffer.append('\0');
+				stringBuffer+('\0');
 				java_cup.runtime.Symbol symbol = checkStringLiteralLength();
 				if (symbol != null)
 				{
@@ -1126,8 +1120,8 @@ public class Lexer : java_cup.runtime.Scanner
 			case 25:
 			{
 				yybegin(8);
-				java_cup.runtime.Symbol result41 = makeErrorToken(new StringBuilder().append("illegal ").append(charName()).append(" in character literal")
-					.toString());
+				java_cup.runtime.Symbol result41 = makeErrorToken(("illegal ")+(charName())+(" in character literal")
+					.ToString());
 				
 				return result41;
 			}
@@ -1139,7 +1133,7 @@ public class Lexer : java_cup.runtime.Scanner
 			}
 			case 26:
 			{
-				stringBuffer.append(getLastChar());
+				stringBuffer+(getLastChar());
 				java_cup.runtime.Symbol symbol = checkCharLiteralLength();
 				if (symbol != null)
 				{
@@ -1161,7 +1155,7 @@ public class Lexer : java_cup.runtime.Scanner
 			}
 			case 23:
 			{
-				stringBuffer.append(getLastChar());
+				stringBuffer+(getLastChar());
 				java_cup.runtime.Symbol symbol = checkStringLiteralLength();
 				if (symbol != null)
 				{
@@ -1190,14 +1184,14 @@ public class Lexer : java_cup.runtime.Scanner
 			case 21:
 			{
 				yybegin(6);
-				java_cup.runtime.Symbol result32 = makeErrorToken(new StringBuilder().append("illegal ").append(charName()).append(" in string literal")
-					.toString());
+				java_cup.runtime.Symbol result32 = makeErrorToken(("illegal ")+(charName())+(" in string literal")
+					.ToString());
 				
 				return result32;
 			}
 			case 41:
 			{
-				stringBuffer.append('\n');
+				stringBuffer+('\n');
 				java_cup.runtime.Symbol symbol = checkStringLiteralLength();
 				if (symbol != null)
 				{
@@ -1324,7 +1318,7 @@ public class Lexer : java_cup.runtime.Scanner
 			case 24:
 			{
 				yybegin(0);
-				java_cup.runtime.Symbol result14 = new java_cup.runtime.Symbol(35, stringBuffer.toString());
+				java_cup.runtime.Symbol result14 = new java_cup.runtime.Symbol(35, stringBuffer.ToString());
 				
 				return result14;
 			}
@@ -1388,7 +1382,7 @@ public class Lexer : java_cup.runtime.Scanner
 			}
 			case 1:
 			{
-				java_cup.runtime.Symbol result4 = makeErrorToken(new StringBuilder().append("stray ").append(charName()).toString());
+				java_cup.runtime.Symbol result4 = makeErrorToken(("stray ")+(charName()).ToString());
 				
 				return result4;
 			}

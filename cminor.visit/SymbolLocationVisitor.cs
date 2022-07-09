@@ -1,7 +1,7 @@
 
 using CMinor.Symbol;
 
-using java.lang;
+
 
 namespace CMinor.Visit;
 
@@ -42,6 +42,6 @@ public class SymbolLocationVisitor : SymbolVisitor
 	
 	public override void visit(StackVariableSymbol s)
 	{
-		result = new StringBuilder().append(s.getOffset()).append("(%ebp)").toString();
+		result = (s.getOffset())+("(%ebp)");
 	}
 }
