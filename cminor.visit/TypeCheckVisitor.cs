@@ -1,6 +1,6 @@
 
 using CMinor.AST;
-using CMinor.semantic;
+using CMinor.Semantic;
 using CMinor.Symbol;
 
 
@@ -25,7 +25,7 @@ public class TypeCheckVisitor : Visitor
 		
 		public override bool test(Type P_0)
 		{
-			return P_0 == Type.___003C_003EINT;
+			return P_0 == Type.integer_type;
 		}
 
 		public override string desc()
@@ -37,7 +37,7 @@ public class TypeCheckVisitor : Visitor
 		
 		public override Type synth()
 		{
-			return Type.___003C_003EINT;
+			return Type.integer_type;
 		}
 	}
 
@@ -56,7 +56,7 @@ public class TypeCheckVisitor : Visitor
 		
 		public override bool test(Type P_0)
 		{
-			return (P_0 == Type.___003C_003EINT || P_0 == Type.___003C_003ECHAR || P_0 == Type.___003C_003EBOOLEAN) ? true : false;
+			return (P_0 == Type.integer_type || P_0 == Type.char_type || P_0 == Type.boolean_type) ? true : false;
 		}
 
 		public override string desc()
@@ -68,7 +68,7 @@ public class TypeCheckVisitor : Visitor
 		
 		public override Type synth()
 		{
-			return Type.___003C_003EBOOLEAN;
+			return Type.boolean_type;
 		}
 	}
 
@@ -87,7 +87,7 @@ public class TypeCheckVisitor : Visitor
 		
 		public override bool test(Type P_0)
 		{
-			return P_0 == Type.___003C_003EINT;
+			return P_0 == Type.integer_type;
 		}
 
 		public override string desc()
@@ -99,7 +99,7 @@ public class TypeCheckVisitor : Visitor
 		
 		public override Type synth()
 		{
-			return Type.___003C_003EBOOLEAN;
+			return Type.boolean_type;
 		}
 	}
 
@@ -118,7 +118,7 @@ public class TypeCheckVisitor : Visitor
 		
 		public override bool test(Type P_0)
 		{
-			return P_0 == Type.___003C_003EBOOLEAN;
+			return P_0 == Type.boolean_type;
 		}
 
 		public override string desc()
@@ -130,7 +130,7 @@ public class TypeCheckVisitor : Visitor
 		
 		public override Type synth()
 		{
-			return Type.___003C_003EBOOLEAN;
+			return Type.boolean_type;
 		}
 	}
 
@@ -150,7 +150,7 @@ public class TypeCheckVisitor : Visitor
 		public abstract Type synth();
 
 		
-		[Modifiers(Modifiers.Synthetic)]
+		
 		
 		internal TypeTester(_1 P_0)
 			: this()
@@ -199,12 +199,12 @@ public class TypeCheckVisitor : Visitor
 	
 	private bool checkVariableType(AstNode P_0, TypeSpecifier P_1, string P_2)
 	{
-		int num = (P_1.getType().isVariableType() ? 1 : 0);
+		int num = (P_1.Type.isVariableType? 1 : 0);
 		if (num == 0)
 		{
 			logger.log(P_0.getLocation(), ("a ")+(P_2)+(" may not have type ")
-				+(Type.___003C_003EVOID.getName())
-				.ToString());
+				+(Type.void_type.Name)
+				);
 		}
 		return (byte)num != 0;
 	}
@@ -216,11 +216,11 @@ public class TypeCheckVisitor : Visitor
 		if (P_1 != P_2)
 		{
 			logger.log(P_0.getLocation(), ("type mismatch in ")+(P_3)+(" (got ")
-				+(P_1.getName())
+				+(P_1.Name)
 				+(" and ")
-				+(P_2.getName())
+				+(P_2.Name)
 				+(")")
-				.ToString());
+				);
 		}
 	}
 
@@ -235,14 +235,14 @@ public class TypeCheckVisitor : Visitor
 		StringBuilder stringBuffer = new StringBuilder();
 		ArrayList arrayList = new ArrayList();
 		FormatStringVisitor formatStringVisitor = new FormatStringVisitor(stringBuffer, arrayList, stringTable, program, logger);
-		Iterator iterator = P_0.getArguments().iterator();
+		Iterator iterator = P_0.Arguments.iterator();
 		while (iterator.hasNext())
 		{
 			Expression expression = (Expression)iterator.next();
 			expression.Accept(formatStringVisitor);
 		}
 		formatStringVisitor.finish();
-		P_0.setActualArguments(arrayList);
+		P_0.ActualArguments = arrayList;
 		string result = stringBuffer.ToString();
 		
 		return result;
@@ -253,19 +253,19 @@ public class TypeCheckVisitor : Visitor
 	private void checkCondition(AstNode P_0, Expression P_1, string P_2)
 	{
 		P_1.Accept(this);
-		Type type = P_1.getType();
-		if (type != Type.___003C_003EBOOLEAN)
+		Type type = P_1.Type;
+		if (type != Type.boolean_type)
 		{
 			logger.log(P_0.getLocation(), ("condition in ")+(P_2)+(" must be of type ")
-				+(type.getName())
-				.ToString());
+				+(type.Name)
+				);
 		}
 	}
 
 	
 	
 	
-	private string typeListString(List P_0)
+	private string typeListString(IList P_0)
 	{
 		StringBuilder stringBuffer = new StringBuilder();
 		int num = 0;
@@ -281,7 +281,7 @@ public class TypeCheckVisitor : Visitor
 			{
 				num = 1;
 			}
-			stringBuffer+(type.getName());
+			stringBuffer+(type.Name);
 		}
 		string result = stringBuffer.ToString();
 		
@@ -292,20 +292,20 @@ public class TypeCheckVisitor : Visitor
 	
 	private void requireType(UnaryExpression P_0, string P_1, TypeTester P_2)
 	{
-		requireType(P_0, P_0.getArg1(), P_1, P_2);
-		P_0.setType(P_2.synth());
+		requireType(P_0, P_0.Arg1, P_1, P_2);
+		P_0.Type = P_2.synth();
 	}
 
 	
 	
 	private void requireTypes(BinaryExpression P_0, string P_1, TypeTester P_2)
 	{
-		requireType(P_0, P_0.getArg1(), P_1, P_2);
+		requireType(P_0, P_0.Arg1, P_1, P_2);
 		requireType(P_0, P_0.Arg2, P_1, P_2);
-		Type type = P_0.getArg1().getType();
-		Type type2 = P_0.Arg2.getType();
+		Type type = P_0.Arg1.Type;
+		Type type2 = P_0.Arg2.Type;
 		checkMatch(P_0, type, type2, P_1);
-		P_0.setType(P_2.synth());
+		P_0.Type = P_2.synth();
 	}
 
 	
@@ -314,14 +314,14 @@ public class TypeCheckVisitor : Visitor
 	{
 		inPrintStatement = false;
 		P_1.Accept(this);
-		Type type = P_1.getType();
+		Type type = P_1.Type;
 		if (!P_3.test(type))
 		{
 			logger.log(P_0.getLocation(), (P_2)+(" operator requires operands of ")+(P_3.desc())
 				+(" type (got ")
-				+(type.getName())
+				+(type.Name)
 				+(")")
-				.ToString());
+				);
 		}
 	}
 
@@ -329,8 +329,8 @@ public class TypeCheckVisitor : Visitor
 	
 	public override void visit(AstNode n)
 	{
-		logger.log(n.getLocation(), ("type checking in ")+(n.getDotLabel())+(" is a stub")
-			.ToString());
+		logger.log(n.getLocation(), ("type checking in ")+(n.DotLabel)+(" is a stub")
+			);
 	}
 
 	
@@ -339,34 +339,34 @@ public class TypeCheckVisitor : Visitor
 		30, 135, 107, 167, 108, 109, 191, 21, 109, 246,
 		69, 191, 10, 147
 	})]
-	public override void visit(Program n)
+	public override void Visit(Program n)
 	{
 		program = n;
 		stringTable = new StringTable();
 		inPrintStatement = false;
-		FunctionSymbol symbol = n.getMainFunction().getSymbol();
-		if (symbol.getReturnType() != Type.___003C_003EINT)
+		FunctionSymbol symbol = n.MainFunction.Symbol;
+		if (symbol.ReturnType != Type.integer_type)
 		{
-			logger.log(n.getLocation(), ("main function must have return type ")+(Type.___003C_003EINT.getName()).ToString());
+			logger.log(n.getLocation(), ("main function must have return type ")+(Type.integer_type.Name));
 		}
-		if (symbol.getParameters().size() != 0)
+		if (symbol.Parameters.size() != 0)
 		{
 			logger.log(n.getLocation(), "main function must take no parameters");
 		}
-		Iterator iterator = n.getDeclarations().iterator();
+		Iterator iterator = n.Declarations.iterator();
 		while (iterator.hasNext())
 		{
 			ExternalDeclaration externalDeclaration = (ExternalDeclaration)iterator.next();
 			externalDeclaration.Accept(this);
 		}
-		n.setStringSymbols(stringTable.getSymbols());
+		n.StringSymbols = stringTable.Symbols;
 	}
 
 	
 	
-	public override void visit(Parameter n)
+	public override void Visit(Parameter n)
 	{
-		checkVariableType(n, n.getType(), "parameter");
+		checkVariableType(n, n.Type, "parameter");
 	}
 
 	
@@ -375,32 +375,32 @@ public class TypeCheckVisitor : Visitor
 		60, 191, 10, 172, 167, 204, 103, 122, 223, 27,
 		140, 135
 	})]
-	public override void visit(FunctionDefinition n)
+	public override void Visit(FunctionDefinition n)
 	{
-		Iterator iterator = n.getParameters().iterator();
+		Iterator iterator = n.Parameters.iterator();
 		while (iterator.hasNext())
 		{
 			Parameter parameter = (Parameter)iterator.next();
 			parameter.Accept(this);
 		}
-		currentFunction = n.getSymbol();
+		currentFunction = n.Symbol;
 		endsWithReturn = false;
-		n.getBody().Accept(this);
-		FunctionSymbol symbol = n.getSymbol();
-		if (!endsWithReturn && currentFunction.getReturnType().isVariableType())
+		n.Body.Accept(this);
+		FunctionSymbol symbol = n.Symbol;
+		if (!endsWithReturn && currentFunction.ReturnType.isVariableType)
 		{
-			logger.log(n.getLocation(), ("non-void function ")+(symbol.getIdentifier())+(" does not return a value in all paths of execution")
-				.ToString());
+			logger.log(n.getLocation(), ("non-void function ")+(symbol.Identifier)+(" does not return a value in all paths of execution")
+				);
 		}
-		n.setEndsWithReturn(endsWithReturn);
+		n.EndsWithReturn = endsWithReturn;
 		currentFunction = null;
 	}
 
 	
 	
-	public override void visit(GlobalVariableDeclaration n)
+	public override void Visit(GlobalVariableDeclaration n)
 	{
-		checkVariableType(n, n.getType(), "variable");
+		checkVariableType(n, n.Type, "variable");
 	}
 
 	
@@ -413,20 +413,20 @@ public class TypeCheckVisitor : Visitor
 		5,
 		69
 	})]
-	public override void visit(GlobalVariableInitialization n)
+	public override void Visit(GlobalVariableInitialization n)
 	{
-		n.getValue().Accept(this);
-		if (checkVariableType(n, n.getType(), "variable"))
+		n.Value.Accept(this);
+		if (checkVariableType(n, n.Type, "variable"))
 		{
-			checkMatch(n, n.getType().getType(), n.getValue().getType(), "global variable initialization");
+			checkMatch(n, n.Type.Type, n.Value.Type, "global variable initialization");
 		}
 	}
 
 	
 	
-	public override void visit(Declaration n)
+	public override void Visit(Declaration n)
 	{
-		checkVariableType(n, n.getType(), "variable");
+		checkVariableType(n, n.Type, "variable");
 	}
 
 	
@@ -439,12 +439,12 @@ public class TypeCheckVisitor : Visitor
 		5,
 		69
 	})]
-	public override void visit(Initialization n)
+	public override void Visit(Initialization n)
 	{
-		n.getValue().Accept(this);
-		if (checkVariableType(n, n.getType(), "variable"))
+		n.Value.Accept(this);
+		if (checkVariableType(n, n.Type, "variable"))
 		{
-			checkMatch(n, n.getType().getType(), n.getValue().getType(), "local variable initialization");
+			checkMatch(n, n.Type.Type, n.Value.Type, "local variable initialization");
 		}
 	}
 
@@ -452,7 +452,7 @@ public class TypeCheckVisitor : Visitor
 	
 	public override void visit(PrintStatement n)
 	{
-		Iterator iterator = n.getArguments().iterator();
+		Iterator iterator = n.Arguments.iterator();
 		while (iterator.hasNext())
 		{
 			Expression expression = (Expression)iterator.next();
@@ -462,7 +462,7 @@ public class TypeCheckVisitor : Visitor
 		inPrintStatement = false;
 		string value = makeFormatString(n);
 		StringSymbol symbol = stringTable.getSymbol(value);
-		n.setSymbol(symbol);
+		n.Symbol = symbol;
 	}
 
 	
@@ -473,13 +473,13 @@ public class TypeCheckVisitor : Visitor
 	})]
 	public override void Visit(BlockStatement n)
 	{
-		Iterator iterator = n.getDeclarations().iterator();
+		Iterator iterator = n.Declarations.iterator();
 		while (iterator.hasNext())
 		{
 			Declaration declaration = (Declaration)iterator.next();
 			declaration.Accept(this);
 		}
-		iterator = n.getStatements().iterator();
+		iterator = n.Statements.iterator();
 		while (iterator.hasNext())
 		{
 			Statement statement = (Statement)iterator.next();
@@ -494,40 +494,40 @@ public class TypeCheckVisitor : Visitor
 
 	
 	
-	public override void visit(IfStatement n)
+	public override void Visit(IfStatement n)
 	{
-		checkCondition(n, n.getCondition(), "if statement");
-		n.getIfClause().Accept(this);
+		checkCondition(n, n.Condition, "if statement");
+		n.IfClause.Accept(this);
 	}
 
 	
 	
-	public override void visit(IfElseStatement n)
+	public override void Visit(IfElseStatement n)
 	{
-		checkCondition(n, n.getCondition(), "if statement");
-		n.getIfClause().Accept(this);
+		checkCondition(n, n.Condition, "if statement");
+		n.IfClause.Accept(this);
 		int num = (endsWithReturn ? 1 : 0);
 		endsWithReturn = false;
-		n.getElseClause().Accept(this);
+		n.ElseClause.Accept(this);
 		endsWithReturn = ((num != 0 && endsWithReturn) ? true : false);
 	}
 
 	
 	
-	public override void visit(WhileStatement n)
+	public override void Visit(WhileStatement n)
 	{
-		checkCondition(n, n.getCondition(), "while statement");
-		n.getBody().Accept(this);
+		checkCondition(n, n.Condition, "while statement");
+		n.Body.Accept(this);
 	}
 
 	
 	
-	public override void visit(ReturnVoidStatement n)
+	public override void Visit(ReturnVoidStatement n)
 	{
-		Type returnType = currentFunction.getReturnType();
-		if (returnType != Type.___003C_003EVOID)
+		Type returnType = currentFunction.ReturnType;
+		if (returnType != Type.void_type)
 		{
-			logger.log(n.getLocation(), ("return statement missing value in function ")+(currentFunction.getIdentifier()).ToString());
+			logger.log(n.getLocation(), ("return statement missing value in function ")+(currentFunction.Identifier));
 		}
 		endsWithReturn = true;
 	}
@@ -547,19 +547,19 @@ public class TypeCheckVisitor : Visitor
 		146,
 		135
 	})]
-	public override void visit(ReturnValueStatement n)
+	public override void Visit(ReturnValueStatement n)
 	{
-		n.getValue().Accept(this);
-		Type returnType = currentFunction.getReturnType();
-		Type type = n.getValue().getType();
+		n.Value.Accept(this);
+		Type returnType = currentFunction.ReturnType;
+		Type type = n.Value.Type;
 		if (returnType != type)
 		{
-			string msg = ((returnType != Type.___003C_003EVOID) ? ("return statement in function ")+(currentFunction.getIdentifier())+(" requires expression of type ")
-				+(returnType.getName())
+			string msg = ((returnType != Type.void_type) ? ("return statement in function ")+(currentFunction.Identifier)+(" requires expression of type ")
+				+(returnType.Name)
 				+(", got ")
-				+(type.getName())
-				.ToString() : ("function with ")+(Type.___003C_003EVOID.getName())+(" return type cannot return a value")
-				.ToString());
+				+(type.Name)
+				.ToString() : ("function with ")+(Type.void_type.Name)+(" return type cannot return a value")
+				);
 			logger.log(n.getLocation(), msg);
 		}
 		endsWithReturn = true;
@@ -572,10 +572,10 @@ public class TypeCheckVisitor : Visitor
 		inPrintStatement = false;
 		Expression value = n.Value;
 		value.Accept(this);
-		Type type = n.Identifier.getSymbol().getType();
-		Type type2 = value.getType();
+		Type type = n.Identifier.Symbol.Type;
+		Type type2 = value.Type;
 		checkMatch(n, type, type2, "variable assignment");
-		n.setType(type);
+		n.Type = type;
 	}
 
 	
@@ -608,29 +608,29 @@ public class TypeCheckVisitor : Visitor
 		70,
 		207
 	})]
-	public override void visit(FunctionCall n)
+	public override void Visit(FunctionCall n)
 	{
 		inPrintStatement = false;
-		List arguments = n.getArguments();
+		IList arguments = n.Arguments;
 		Iterator iterator = arguments.iterator();
 		while (iterator.hasNext())
 		{
 			Expression expression = (Expression)iterator.next();
 			expression.Accept(this);
 		}
-		Symbol symbol = n.getIdentifier().getSymbol();
+		Symbol symbol = n.getIdentifier().Symbol;
 		Type type = symbol.getType();
-		if (type != Type.___003C_003EFUNCTION)
+		if (type != Type.function_type)
 		{
 			logger.log(n.getLocation(), ("symbol ")+(symbol.getIdentifier())+(" called as function but is of type ")
-				+(type.getName())
-				.ToString());
-			n.setType(type);
+				+(type.Name)
+				);
+			n.Type = type;
 			return;
 		}
 		FunctionSymbol functionSymbol = (FunctionSymbol)symbol;
-		n.setSymbol(functionSymbol);
-		List parameters = functionSymbol.getParameters();
+		n.Symbol = functionSymbol;
+		IList parameters = functionSymbol.Parameters;
 		int initialCapacity = arguments.size();
 		int initialCapacity2 = parameters.size();
 		ArrayList arrayList = new ArrayList(initialCapacity);
@@ -639,72 +639,72 @@ public class TypeCheckVisitor : Visitor
 		while (iterator2.hasNext())
 		{
 			Expression expression2 = (Expression)iterator2.next();
-			((List)arrayList).add((object)expression2.getType());
+			((IList)arrayList).Add((object)expression2.Type);
 		}
 		iterator2 = parameters.iterator();
 		while (iterator2.hasNext())
 		{
 			ParameterSymbol parameterSymbol = (ParameterSymbol)iterator2.next();
-			((List)arrayList2).add((object)parameterSymbol.getType());
+			((IList)arrayList2).Add((object)parameterSymbol.Type);
 		}
-		if (!((List)arrayList).equals((object)arrayList2))
+		if (!((IList)arrayList).equals((object)arrayList2))
 		{
 			logger.log(n.getLocation(), ("actual and formal parameters in function call do not match\n\treceived: ")+(typeListString(arrayList))+("\n\texpected: ")
 				+(typeListString(arrayList2))
-				.ToString());
+				);
 		}
-		n.setType(functionSymbol.getReturnType());
+		n.Type = functionSymbol.ReturnType;
 	}
 
 	
 	
-	public override void visit(IdentifierExpression n)
+	public override void Visit(IdentifierExpression n)
 	{
-		n.setType(n.getIdentifier().getSymbol().getType());
+		n.Type = n.Identifier.Symbol.Type;
 	}
 
 	
 	
-	public override void visit(BooleanLiteral n)
+	public override void Visit(BooleanLiteral n)
 	{
-		n.setType(Type.___003C_003EBOOLEAN);
+		n.Type = Type.boolean_type;
 	}
 
 	
 	
-	public override void visit(CharacterLiteral n)
+	public override void Visit(CharacterLiteral n)
 	{
-		n.setType(Type.___003C_003ECHAR);
+		n.Type = Type.char_type;
 	}
 
 	
 	
-	public override void visit(IntegerLiteral n)
+	public override void Visit(IntegerLiteral n)
 	{
-		n.setType(Type.___003C_003EINT);
+		n.Type = Type.integer_type;
 	}
 
 	
 	
-	public override void visit(StringLiteral n)
+	public override void Visit(StringLiteral n)
 	{
 		if (!inPrintStatement)
 		{
-			n.setSymbol(stringTable.getSymbol((string)n.getValue()));
+			n.Symbol = stringTable.getSymbol((string)n.Value);
 		}
-		n.setType(Type.___003C_003ESTRING);
+		n.Type = Type.string_type;
 	}
 
 	
 	
-	public override void visit(Negative n)
+	public override void Visit(Negative n)
 	{
 		requireType(n, "unary -", IS_ARITHMETIC);
 	}
 
 	
 	
-	public override void visit(LogicalNot n)
+	public override void Visit(LogicalNot n)
 	{
 		requireType(n, "!", IS_LOGICAL);
 	}
@@ -718,77 +718,77 @@ public class TypeCheckVisitor : Visitor
 
 	
 	
-	public override void visit(Subtraction n)
+	public override void Visit(Subtraction n)
 	{
 		requireTypes(n, "-", IS_ARITHMETIC);
 	}
 
 	
 	
-	public override void visit(Multiplication n)
+	public override void Visit(Multiplication n)
 	{
 		requireTypes(n, "*", IS_ARITHMETIC);
 	}
 
 	
 	
-	public override void visit(Division n)
+	public override void Visit(Division n)
 	{
 		requireTypes(n, "/", IS_ARITHMETIC);
 	}
 
 	
 	
-	public override void visit(EqualTo n)
+	public override void Visit(EqualTo n)
 	{
 		requireTypes(n, "==", IS_EQUATABLE);
 	}
 
 	
 	
-	public override void visit(NotEqualTo n)
+	public override void Visit(NotEqualTo n)
 	{
 		requireTypes(n, "!=", IS_EQUATABLE);
 	}
 
 	
 	
-	public override void visit(GreaterThan n)
+	public override void Visit(GreaterThan n)
 	{
 		requireTypes(n, ">", IS_COMPARABLE);
 	}
 
 	
 	
-	public override void visit(GreaterThanOrEqualTo n)
+	public override void Visit(GreaterThanOrEqualTo n)
 	{
 		requireTypes(n, ">=", IS_COMPARABLE);
 	}
 
 	
 	
-	public override void visit(LessThan n)
+	public override void Visit(LessThan n)
 	{
 		requireTypes(n, "<", IS_COMPARABLE);
 	}
 
 	
 	
-	public override void visit(LessThanOrEqualTo n)
+	public override void Visit(LessThanOrEqualTo n)
 	{
 		requireTypes(n, "<=", IS_COMPARABLE);
 	}
 
 	
 	
-	public override void visit(LogicalAnd n)
+	public override void Visit(LogicalAnd n)
 	{
 		requireTypes(n, "&&", IS_LOGICAL);
 	}
 
 	
 	
-	public override void visit(LogicalOr n)
+	public override void Visit(LogicalOr n)
 	{
 		requireTypes(n, "||", IS_LOGICAL);
 	}

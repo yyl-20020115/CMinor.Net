@@ -1,9 +1,7 @@
-
 using CMinor.Parser;
 using CMinor.Symbol;
 using CMinor.Visit;
-
-
+using System.Collections;
 
 namespace CMinor.AST;
 
@@ -11,7 +9,7 @@ public class FunctionDefinition : ExternalDeclaration
 {
 	private TypeSpecifier returnType;
 
-	private List parameters;
+	private IList parameters;
 
 	private BlockStatement body;
 
@@ -21,7 +19,7 @@ public class FunctionDefinition : ExternalDeclaration
 
 	private int numLocals;
 
-	public FunctionDefinition(LocationInfo info, TypeSpecifier returnType, Identifier name, List parameters, BlockStatement body)
+	public FunctionDefinition(LocationInfo info, TypeSpecifier returnType, Identifier name, IList parameters, BlockStatement body)
 		: base(info, name)
 	{
 		this.returnType = returnType;
@@ -30,48 +28,27 @@ public class FunctionDefinition : ExternalDeclaration
 		numLocals = 0;
 	}
 
-	public virtual TypeSpecifier getReturnType()
-	{
-		return returnType;
-	}
+    public virtual TypeSpecifier ReturnType => returnType;
 
-	
-	public virtual List getParameters()
-	{
-		return parameters;
-	}
 
-	public virtual BlockStatement getBody()
-	{
-		return body;
-	}
+    public virtual IList Parameters => parameters;
 
-	public virtual FunctionSymbol getSymbol()
-	{
-		return symbol;
-	}
+    public virtual BlockStatement Body => body;
 
-	public virtual void setSymbol(FunctionSymbol symbol)
-	{
-		this.symbol = symbol;
-	}
+    public virtual FunctionSymbol Symbol { get => symbol; set => this.symbol = value; }
 
-	public virtual bool endsWithReturn()
-	{
-		return doesEndWithReturn;
-	}
+    public virtual bool EndsWithReturn
+    {
+        get => doesEndWithReturn;
+        set
+        {
+            int num = ((doesEndWithReturn = value) ? 1 : 0);
+        }
+    }
 
-	public virtual void setEndsWithReturn(bool endsWithReturn)
-	{
-		int num = ((doesEndWithReturn = endsWithReturn) ? 1 : 0);
-	}
+    public virtual int NumLocals => numLocals;
 
-	public virtual int getNumLocals()
-	{
-		return numLocals;
-	}
-
-	public virtual void raiseNumLocals(int max)
+    public virtual void RaiseNumLocals(int max)
 	{
 		if (max > numLocals)
 		{
@@ -83,6 +60,6 @@ public class FunctionDefinition : ExternalDeclaration
 	
 	public override void Accept(Visitor v)
 	{
-		v.visit(this);
+		v.Visit(this);
 	}
 }

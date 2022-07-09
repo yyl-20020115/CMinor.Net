@@ -1,10 +1,8 @@
-
+using System;
+using System.Collections.Generic;
 using System.Text;
 
-
-
-
-namespace java_cup.runtime;
+namespace JavaCUP.Runtime;
 
 public abstract class lr_parser
 {
@@ -16,7 +14,7 @@ public abstract class lr_parser
 
 	protected internal Symbol cur_token;
 
-	protected internal Stack stack;
+	protected internal Stack<Symbol> stack;
 
 	protected internal short[][] production_tab;
 
@@ -30,16 +28,6 @@ public abstract class lr_parser
 
 	protected internal int lookahead_pos;
 
-	
-	[Throws(new string[] { "System.Exception" })]
-	[LineNumberTable(new byte[]
-	{
-		161, 146, 226, 71, 108, 108, 172, 166, 166, 172,
-		107, 120, 167, 178, 109, 240, 69, 191, 8, 164,
-		110, 108, 114, 174, 177, 167, 184, 110, 174, 136,
-		108, 238, 61, 232, 71, 189, 103, 103, 109, 179,
-		166, 172, 169, 172, 139, 214
-	})]
 	public virtual Symbol parse()
 	{
 		Symbol symbol = null;
@@ -49,8 +37,8 @@ public abstract class lr_parser
 		init_actions();
 		user_init();
 		cur_token = scan();
-		stack.removeAllElements();
-		stack.push(new Symbol(0, start_state()));
+		stack.Clear();
+		stack.Push(new Symbol(0, start_state()));
 		tos = 0;
 		_done_parsing = false;
 		while (!_done_parsing)
@@ -58,14 +46,14 @@ public abstract class lr_parser
 			if (cur_token.used_by_parser)
 			{
 				
-				throw new Error("Symbol recycling detected (fix your scanner).");
+				throw new System.Exception("Symbol recycling detected (fix your scanner).");
 			}
-			int num = get_action(((Symbol)stack.peek()).parse_state, cur_token.sym);
+			int num = get_action(((Symbol)stack.Peek()).parse_state, cur_token.sym);
 			if (num > 0)
 			{
 				cur_token.parse_state = num - 1;
 				cur_token.used_by_parser = true;
-				stack.push(cur_token);
+				stack.Push(cur_token);
 				tos++;
 				cur_token = scan();
 			}
@@ -76,12 +64,12 @@ public abstract class lr_parser
 				int num2 = production_tab[-num - 1][1];
 				for (int i = 0; i < num2; i++)
 				{
-					stack.pop();
+					stack.Pop();
 					tos--;
 				}
-				num = (symbol.parse_state = get_reduce(((Symbol)stack.peek()).parse_state, sym));
+				num = (symbol.parse_state = get_reduce(((Symbol)stack.Peek()).parse_state, sym));
 				symbol.used_by_parser = true;
-				stack.push(symbol);
+				stack.Push(symbol);
 				tos++;
 			}
 			else if (num == 0)
@@ -94,7 +82,7 @@ public abstract class lr_parser
 				}
 				else
 				{
-					symbol = (Symbol)stack.peek();
+					symbol = (Symbol)stack.Peek();
 				}
 			}
 		}
@@ -111,7 +99,7 @@ public abstract class lr_parser
 	public lr_parser()
 	{
 		_done_parsing = false;
-		stack = new Stack();
+		stack = new Stack<Symbol>();
 	}
 
 	public virtual void setScanner(Scanner s)
@@ -130,27 +118,27 @@ public abstract class lr_parser
 	
 	public virtual void report_error(string message, object info)
 	{
-		java.lang.System.err.print(message);
+		Console.Error.WriteLine(message);
 		if (info is Symbol)
 		{
 			if (((Symbol)info).left != -1)
 			{
-				java.lang.System.err.WriteLine((" at character ")+(((Symbol)info).left)+(" of input")
-					.ToString());
+				Console.Error.WriteLine((" at character ")+(((Symbol)info).left)+(" of input")
+					);
 			}
 			else
 			{
-				java.lang.System.err.WriteLine("");
+				Console.Error.WriteLine("");
 			}
 		}
 		else
 		{
-			java.lang.System.err.WriteLine("");
+			Console.Error.WriteLine("");
 		}
 	}
 
 	
-	[Throws(new string[] { "System.Exception" })]
+	
 	
 	public virtual void report_fatal_error(string message, object info)
 	{
@@ -166,16 +154,16 @@ public abstract class lr_parser
 
 	public abstract short[][] reduce_table();
 
-	[Throws(new string[] { "System.Exception" })]
+	
 	protected internal abstract void init_actions();
 
-	[Throws(new string[] { "System.Exception" })]
+	
 	public virtual void user_init()
 	{
 	}
 
 	
-	[Throws(new string[] { "System.Exception" })]
+	
 	
 	public virtual Symbol scan()
 	{
@@ -187,12 +175,6 @@ public abstract class lr_parser
 
 	public abstract int start_state();
 
-	[LineNumberTable(new byte[]
-	{
-		161, 58, 169, 102, 170, 104, 168, 228, 57, 230,
-		77, 98, 106, 133, 103, 104, 104, 104, 134, 199,
-		231, 69
-	})]
 	protected internal short get_action(int state, int sym)
 	{
 		short[] array = action_tab[state];
@@ -232,14 +214,9 @@ public abstract class lr_parser
 		return array[(nint)array.LongLength - 1];
 	}
 
-	[Throws(new string[] { "System.Exception" })]
-	public abstract Symbol do_action(int i1, lr_parser P_1, Stack s, int i2);
+	
+	public abstract Symbol do_action(int i1, lr_parser P_1, Stack<Symbol> s, int i2);
 
-	[LineNumberTable(new byte[]
-	{
-		161, 112, 169, 99, 130, 167, 104, 168, 228, 57,
-		230, 75
-	})]
 	protected internal short get_reduce(int state, int sym)
 	{
 		short[] array = reduce_tab[state];
@@ -268,14 +245,6 @@ public abstract class lr_parser
 		report_error("Syntax error", cur_token);
 	}
 
-	
-	[Throws(new string[] { "System.Exception" })]
-	[LineNumberTable(new byte[]
-	{
-		158, 188, 130, 206, 137, 110, 194, 230, 70, 110,
-		137, 194, 149, 110, 226, 73, 99, 127, 13, 203,
-		174, 167
-	})]
 	protected internal virtual bool error_recovery(bool debug)
 	{
 		if (debug)
@@ -311,7 +280,7 @@ public abstract class lr_parser
 			}
 			if (debug)
 			{
-				debug_message(("# Consuming Symbol #")+(lookahead[0].sym).ToString());
+				debug_message(("# Consuming Symbol #")+(lookahead[0].sym));
 			}
 			restart_lookahead();
 		}
@@ -324,7 +293,7 @@ public abstract class lr_parser
 	}
 
 	
-	[Throws(new string[] { "System.Exception" })]
+	
 	
 	public virtual void unrecovered_syntax_error(Symbol cur_token)
 	{
@@ -335,7 +304,7 @@ public abstract class lr_parser
 	
 	public virtual void debug_message(string mess)
 	{
-		java.lang.System.err.WriteLine(mess);
+		Console.Error.WriteLine(mess);
 	}
 
 	
@@ -344,7 +313,7 @@ public abstract class lr_parser
 	{
 		debug_message(("# Shift under term #")+(shift_tkn.sym)+(" to state #")
 			+(shift_tkn.parse_state)
-			.ToString());
+			);
 	}
 
 	
@@ -357,33 +326,26 @@ public abstract class lr_parser
 			+("SZ=")
 			+(rhs_size)
 			+("]")
-			.ToString());
+			);
 	}
 
-	
-	[LineNumberTable(new byte[]
-	{
-		158, 169, 130, 174, 118, 182, 171, 99, 159, 21,
-		118, 174, 141, 110, 226, 69, 127, 3, 131, 159,
-		31, 223, 3, 111, 106, 104, 110, 142
-	})]
 	protected internal virtual bool find_recovery_config(bool debug)
 	{
 		if (debug)
 		{
 			debug_message("# Finding recovery state on stack");
 		}
-		int right = ((Symbol)stack.peek()).right;
-		int left = ((Symbol)stack.peek()).left;
+		int right = ((Symbol)stack.Peek()).right;
+		int left = ((Symbol)stack.Peek()).left;
 		while (!shift_under_error())
 		{
 			if (debug)
 			{
-				debug_message(("# Pop stack by one, state was # ")+(((Symbol)stack.peek()).parse_state).ToString());
+				debug_message(("# Pop stack by one, state was # ")+(((Symbol)stack.Peek()).parse_state));
 			}
-			left = ((Symbol)stack.pop()).left;
+			left = ((Symbol)stack.Pop()).left;
 			tos--;
-			if (stack.empty())
+			if (stack.Count==0)
 			{
 				if (debug)
 				{
@@ -392,23 +354,23 @@ public abstract class lr_parser
 				return false;
 			}
 		}
-		int num = get_action(((Symbol)stack.peek()).parse_state, error_sym());
+		int num = get_action(((Symbol)stack.Peek()).parse_state, error_sym());
 		if (debug)
 		{
-			debug_message(("# Recover state found (#")+(((Symbol)stack.peek()).parse_state)+(")")
-				.ToString());
-			debug_message(("# Shifting on error to state #")+(num - 1).ToString());
+			debug_message(("# Recover state found (#")+(((Symbol)stack.Peek()).parse_state)+(")")
+				);
+			debug_message(("# Shifting on error to state #")+(num - 1));
 		}
 		Symbol symbol = new Symbol(error_sym(), left, right);
 		symbol.parse_state = num - 1;
 		symbol.used_by_parser = true;
-		stack.push(symbol);
+		stack.Push(symbol);
 		tos++;
 		return true;
 	}
 
 	
-	[Throws(new string[] { "System.Exception" })]
+	
 	
 	protected internal virtual void read_lookahead()
 	{
@@ -422,13 +384,6 @@ public abstract class lr_parser
 	}
 
 	
-	[Throws(new string[] { "System.Exception" })]
-	[LineNumberTable(new byte[]
-	{
-		158, 136, 130, 236, 70, 184, 165, 164, 137, 223,
-		32, 237, 70, 140, 110, 194, 110, 175, 105, 38,
-		168, 99, 223, 39, 115, 102
-	})]
 	protected internal virtual bool try_parse_ahead(bool debug)
 	{
 		virtual_parse_stack virtual_parse_stack2 = new virtual_parse_stack(stack);
@@ -446,7 +401,7 @@ public abstract class lr_parser
 				{
 					debug_message(("# Parse-ahead shifts Symbol #")+(cur_err_token().sym)+(" into state #")
 						+(num - 1)
-						.ToString());
+						);
 				}
 				if (!advance_lookahead())
 				{
@@ -470,12 +425,12 @@ public abstract class lr_parser
 					+(num2)
 					+(" from state #")
 					+(virtual_parse_stack2.top())
-					.ToString());
+					);
 			}
 			virtual_parse_stack2.push(get_reduce(virtual_parse_stack2.top(), num2));
 			if (debug)
 			{
-				debug_message(("# Goto state #")+(virtual_parse_stack2.top()).ToString());
+				debug_message(("# Goto state #")+(virtual_parse_stack2.top()));
 			}
 		}
 		if (debug)
@@ -486,7 +441,7 @@ public abstract class lr_parser
 	}
 
 	
-	[Throws(new string[] { "System.Exception" })]
+	
 	
 	protected internal virtual void restart_lookahead()
 	{
@@ -500,7 +455,7 @@ public abstract class lr_parser
 	}
 
 	
-	[Throws(new string[] { "System.Exception" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		158,
@@ -564,12 +519,12 @@ public abstract class lr_parser
 		if (debug)
 		{
 			debug_message("# Reparsing saved input with actions");
-			debug_message(("# Current Symbol is #")+(cur_err_token().sym).ToString());
-			debug_message(("# Current state is #")+(((Symbol)stack.peek()).parse_state).ToString());
+			debug_message(("# Current Symbol is #")+(cur_err_token().sym));
+			debug_message(("# Current state is #")+(((Symbol)stack.Peek()).parse_state));
 		}
 		while (!_done_parsing)
 		{
-			int num = get_action(((Symbol)stack.peek()).parse_state, cur_err_token().sym);
+			int num = get_action(((Symbol)stack.Peek()).parse_state, cur_err_token().sym);
 			if (num > 0)
 			{
 				cur_err_token().parse_state = num - 1;
@@ -578,7 +533,7 @@ public abstract class lr_parser
 				{
 					debug_shift(cur_err_token());
 				}
-				stack.push(cur_err_token());
+				stack.Push(cur_err_token());
 				tos++;
 				if (!advance_lookahead())
 				{
@@ -590,7 +545,7 @@ public abstract class lr_parser
 				}
 				if (debug)
 				{
-					debug_message(("# Current Symbol is #")+(cur_err_token().sym).ToString());
+					debug_message(("# Current Symbol is #")+(cur_err_token().sym));
 				}
 			}
 			else if (num < 0)
@@ -604,16 +559,16 @@ public abstract class lr_parser
 				}
 				for (int i = 0; i < num3; i++)
 				{
-					stack.pop();
+					stack.Pop();
 					tos--;
 				}
-				num = (symbol.parse_state = get_reduce(((Symbol)stack.peek()).parse_state, num2));
+				num = (symbol.parse_state = get_reduce(((Symbol)stack.Peek()).parse_state, num2));
 				symbol.used_by_parser = true;
-				stack.push(symbol);
+				stack.Push(symbol);
 				tos++;
 				if (debug)
 				{
-					debug_message(("# Goto state #")+(num).ToString());
+					debug_message(("# Goto state #")+(num));
 				}
 			}
 			else if (num == 0)
@@ -630,7 +585,7 @@ public abstract class lr_parser
 	
 	protected internal virtual bool shift_under_error()
 	{
-		return get_action(((Symbol)stack.peek()).parse_state, error_sym()) > 0;
+		return get_action(((Symbol)stack.Peek()).parse_state, error_sym()) > 0;
 	}
 
 	protected internal virtual int error_sync_size()
@@ -680,7 +635,7 @@ public abstract class lr_parser
 		{
 			debug_message(("Symbol: ")+(((Symbol)stack.elementAt(i)).sym)+(" State: ")
 				+(((Symbol)stack.elementAt(i)).parse_state)
-				.ToString());
+				);
 		}
 		debug_message("==========================================");
 	}
@@ -700,18 +655,18 @@ public abstract class lr_parser
 			stringBuffer+((" <state ")+(symbol.parse_state)+(", sym ")
 				+(symbol.sym)
 				+(">")
-				.ToString());
+				);
 			int num = i;
 			if (((3 != -1) ? (num % 3) : 0) == 2 || i == stack.size() - 1)
 			{
-				debug_message(stringBuffer.ToString());
+				debug_message(stringBuffer);
 				stringBuffer = new StringBuilder("         ");
 			}
 		}
 	}
 
 	
-	[Throws(new string[] { "System.Exception" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		162,
@@ -783,9 +738,9 @@ public abstract class lr_parser
 		init_actions();
 		user_init();
 		cur_token = scan();
-		debug_message(("# Current Symbol is #")+(cur_token.sym).ToString());
+		debug_message(("# Current Symbol is #")+(cur_token.sym));
 		stack.removeAllElements();
-		stack.push(new Symbol(0, start_state()));
+		stack.Push(new Symbol(0, start_state()));
 		tos = 0;
 		_done_parsing = false;
 		while (!_done_parsing)
@@ -795,16 +750,16 @@ public abstract class lr_parser
 				
 				throw new Error("Symbol recycling detected (fix your scanner).");
 			}
-			int num = get_action(((Symbol)stack.peek()).parse_state, cur_token.sym);
+			int num = get_action(((Symbol)stack.Peek()).parse_state, cur_token.sym);
 			if (num > 0)
 			{
 				cur_token.parse_state = num - 1;
 				cur_token.used_by_parser = true;
 				debug_shift(cur_token);
-				stack.push(cur_token);
+				stack.Push(cur_token);
 				tos++;
 				cur_token = scan();
-				debug_message(("# Current token is ")+(cur_token).ToString());
+				debug_message(("# Current token is ")+(cur_token));
 			}
 			else if (num < 0)
 			{
@@ -814,20 +769,20 @@ public abstract class lr_parser
 				debug_reduce(-num - 1, num2, num3);
 				for (int i = 0; i < num3; i++)
 				{
-					stack.pop();
+					stack.Pop();
 					tos--;
 				}
-				num = get_reduce(((Symbol)stack.peek()).parse_state, num2);
-				debug_message(("# Reduce rule: top state ")+(((Symbol)stack.peek()).parse_state)+(", lhs sym ")
+				num = get_reduce(((Symbol)stack.Peek()).parse_state, num2);
+				debug_message(("# Reduce rule: top state ")+(((Symbol)stack.Peek()).parse_state)+(", lhs sym ")
 					+(num2)
 					+(" -> state ")
 					+(num)
-					.ToString());
+					);
 				symbol.parse_state = num;
 				symbol.used_by_parser = true;
-				stack.push(symbol);
+				stack.Push(symbol);
 				tos++;
-				debug_message(("# Goto state #")+(num).ToString());
+				debug_message(("# Goto state #")+(num));
 			}
 			else if (num == 0)
 			{
@@ -839,7 +794,7 @@ public abstract class lr_parser
 				}
 				else
 				{
-					symbol = (Symbol)stack.peek();
+					symbol = (Symbol)stack.Peek();
 				}
 			}
 		}
@@ -847,11 +802,6 @@ public abstract class lr_parser
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		164, 85, 110, 103, 42, 134, 98, 121, 103, 107,
-		122, 107, 105, 53, 232, 61, 235, 70
-	})]
 	protected internal static short[][] unpackFromStrings(string[] sa)
 	{
 		StringBuilder stringBuffer = new StringBuilder(sa[0]);

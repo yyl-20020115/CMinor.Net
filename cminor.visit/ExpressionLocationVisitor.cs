@@ -33,14 +33,14 @@ public class ExpressionLocationVisitor : Visitor
 
 	
 	
-	public override void visit(IdentifierExpression n)
+	public override void Visit(IdentifierExpression n)
 	{
-		result = SymbolLocationVisitor.get(n.getIdentifier().getSymbol());
+		result = SymbolLocationVisitor.get(n.Identifier.Symbol);
 	}
 
 	
 	
-	public override void visit(ConstantExpression n)
+	public override void Visit(ConstantExpression n)
 	{
 		result = ("$")+(GlobalInitVisitor.get(n));
 	}

@@ -3,7 +3,7 @@
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class terminal_set
 {
@@ -11,7 +11,7 @@ public class terminal_set
 
 	protected internal BitSet _elements;
 
-	[Modifiers(Modifiers.Public | Modifiers.Static | Modifiers.Final)]
+	
 	public static terminal_set EMPTY
 	{
 		
@@ -38,7 +38,7 @@ public class terminal_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual bool add(terminal sym)
 	{
@@ -61,7 +61,7 @@ public class terminal_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public terminal_set(terminal_set other)
 	{
@@ -79,7 +79,7 @@ public class terminal_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual bool intersects(terminal_set other)
 	{
@@ -90,7 +90,7 @@ public class terminal_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual bool is_subset_of(terminal_set other)
 	{
@@ -103,7 +103,7 @@ public class terminal_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	protected internal virtual void not_null(object obj)
 	{
@@ -128,7 +128,7 @@ public class terminal_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual bool contains(terminal sym)
 	{
@@ -139,7 +139,7 @@ public class terminal_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual bool is_superset_of(terminal_set other)
 	{
@@ -150,7 +150,7 @@ public class terminal_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual void remove(terminal sym)
 	{

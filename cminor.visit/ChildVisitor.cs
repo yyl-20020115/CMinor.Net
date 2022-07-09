@@ -1,14 +1,13 @@
 
 using CMinor.AST;
-
-
+using System.Collections;
 
 namespace CMinor.Visit;
 
 public class ChildVisitor : Visitor
 {
 	
-	private List children;
+	private IList children;
 
 	
 	
@@ -17,158 +16,158 @@ public class ChildVisitor : Visitor
 	}
 
 	
-	public virtual void setChildren(List children)
+	public virtual void setChildren(IList children)
 	{
 		this.children = children;
 	}
 
 	
-	public virtual List getChildren()
+	public virtual IList getChildren()
 	{
 		return children;
 	}
 
 	
 	
-	public override void visit(Program n)
+	public override void Visit(Program n)
 	{
-		children.addAll(n.getDeclarations());
+		children.addAll(n.Declarations);
 	}
 
 	
 	
-	public override void visit(Parameter n)
+	public override void Visit(Parameter n)
 	{
-		children.add(n.getType());
-		children.add(n.getIdentifier());
+		children.Add(n.Type);
+		children.Add(n.Identifier);
 	}
 
 	
 	
-	public override void visit(FunctionDefinition n)
+	public override void Visit(FunctionDefinition n)
 	{
-		children.add(n.getReturnType());
-		children.add(n.getIdentifier());
-		children.addAll(n.getParameters());
-		children.add(n.getBody());
+		children.Add(n.ReturnType);
+		children.Add(n.Identifier);
+		children.addAll(n.Parameters);
+		children.Add(n.Body);
 	}
 
 	
 	
-	public override void visit(GlobalVariableDeclaration n)
+	public override void Visit(GlobalVariableDeclaration n)
 	{
-		children.add(n.getType());
-		children.add(n.getIdentifier());
+		children.Add(n.Type);
+		children.Add(n.Identifier);
 	}
 
 	
 	
-	public override void visit(GlobalVariableInitialization n)
+	public override void Visit(GlobalVariableInitialization n)
 	{
-		children.add(n.getType());
-		children.add(n.getIdentifier());
-		children.add(n.getValue());
+		children.Add(n.Type);
+		children.Add(n.Identifier);
+		children.Add(n.Value);
 	}
 
 	
 	
-	public override void visit(Declaration n)
+	public override void Visit(Declaration n)
 	{
-		children.add(n.getType());
-		children.add(n.getIdentifier());
+		children.Add(n.Type);
+		children.Add(n.Identifier);
 	}
 
 	
 	
-	public override void visit(Initialization n)
+	public override void Visit(Initialization n)
 	{
-		children.add(n.getType());
-		children.add(n.getIdentifier());
-		children.add(n.getValue());
+		children.Add(n.Type);
+		children.Add(n.Identifier);
+		children.Add(n.Value);
 	}
 
 	
 	
 	public override void visit(PrintStatement n)
 	{
-		children.addAll(n.getArguments());
+		children.addAll(n.Arguments);
 	}
 
 	
 	
 	public override void Visit(BlockStatement n)
 	{
-		children.addAll(n.getDeclarations());
-		children.addAll(n.getStatements());
+		children.addall(n.Declarations);
+		children.addAll(n.Statements);
 	}
 
 	
 	
-	public override void visit(IfStatement n)
+	public override void Visit(IfStatement n)
 	{
-		children.add(n.getCondition());
-		children.add(n.getIfClause());
+		children.Add(n.Condition);
+		children.Add(n.IfClause);
 	}
 
 	
 	
-	public override void visit(IfElseStatement n)
+	public override void Visit(IfElseStatement n)
 	{
-		children.add(n.getCondition());
-		children.add(n.getIfClause());
-		children.add(n.getElseClause());
+		children.Add(n.Condition);
+		children.Add(n.IfClause);
+		children.Add(n.ElseClause);
 	}
 
 	
 	
-	public override void visit(WhileStatement n)
+	public override void Visit(WhileStatement n)
 	{
-		children.add(n.getCondition());
-		children.add(n.getBody());
+		children.Add(n.Condition);
+		children.Add(n.Body);
 	}
 
 	
 	
-	public override void visit(ReturnValueStatement n)
+	public override void Visit(ReturnValueStatement n)
 	{
-		children.add(n.getValue());
+		children.Add(n.Value);
 	}
 
 	
 	
 	public override void visit(Assignment n)
 	{
-		children.add(n.Identifier);
-		children.add(n.Value);
+		children.Add(n.Identifier);
+		children.Add(n.Value);
 	}
 
 	
 	
-	public override void visit(FunctionCall n)
+	public override void Visit(FunctionCall n)
 	{
-		children.add(n.getIdentifier());
-		children.addAll(n.getArguments());
+		children.Add(n.getIdentifier());
+		children.addAll(n.Arguments);
 	}
 
 	
 	
-	public override void visit(IdentifierExpression n)
+	public override void Visit(IdentifierExpression n)
 	{
-		children.add(n.getIdentifier());
+		children.Add(n.Identifier);
 	}
 
 	
 	
-	public override void visit(UnaryExpression n)
+	public override void Visit(UnaryExpression n)
 	{
-		children.add(n.getArg1());
+		children.Add(n.Arg1);
 	}
 
 	
 	
 	public override void Visit(BinaryExpression n)
 	{
-		children.add(n.getArg1());
-		children.add(n.Arg2);
+		children.Add(n.Arg1);
+		children.Add(n.Arg2);
 	}
 }

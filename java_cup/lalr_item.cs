@@ -3,7 +3,7 @@
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class lalr_item : lr_item_core
 {
@@ -14,7 +14,7 @@ public class lalr_item : lr_item_core
 	protected internal bool needs_propagation;
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public lalr_item(production prod, int pos, terminal_set look)
 		: base(prod, pos)
@@ -35,7 +35,7 @@ public class lalr_item : lr_item_core
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		67, 162, 115, 161, 163, 205, 171, 167, 112, 60,
@@ -50,7 +50,7 @@ public class lalr_item : lr_item_core
 		}
 		if (incoming != null)
 		{
-			num = (lookahead().add(incoming) ? 1 : 0);
+			num = (lookahead().Add(incoming) ? 1 : 0);
 		}
 		if (num != 0 || needs_propagation)
 		{
@@ -84,7 +84,7 @@ public class lalr_item : lr_item_core
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public lalr_item(production prod, terminal_set look)
 		: this(prod, 0, look)
@@ -92,7 +92,7 @@ public class lalr_item : lr_item_core
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public lalr_item(production prod)
 		: this(prod, 0, new terminal_set())
@@ -100,7 +100,7 @@ public class lalr_item : lr_item_core
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual lalr_item shift()
 	{
@@ -117,7 +117,7 @@ public class lalr_item : lr_item_core
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		160, 68, 104, 208, 166, 154, 173, 136, 172, 136,
@@ -139,22 +139,22 @@ public class lalr_item : lr_item_core
 				symbol symbol2 = ((symbol_part)production_part2).the_symbol();
 				if (!symbol2.is_non_term())
 				{
-					terminal_set2.add((terminal)symbol2);
+					terminal_set2.Add((terminal)symbol2);
 					return terminal_set2;
 				}
-				terminal_set2.add(((non_terminal)symbol2).first_set());
+				terminal_set2.Add(((non_terminal)symbol2).first_set());
 				if (!((non_terminal)symbol2).nullable())
 				{
 					return terminal_set2;
 				}
 			}
 		}
-		terminal_set2.add(lookahead_after);
+		terminal_set2.Add(lookahead_after);
 		return terminal_set2;
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		160, 125, 170, 151, 173, 136, 172, 170, 239, 51,
@@ -217,7 +217,7 @@ public class lalr_item : lr_item_core
 	{
 		string str = "";
 		str = (str)+("[");
-		str = (str)+(base.ToString());
+		str = (str)+(base);
 		str = (str)+(", ");
 		if (lookahead() != null)
 		{

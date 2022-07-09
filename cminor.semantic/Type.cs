@@ -1,94 +1,35 @@
-
-
-
-
-namespace CMinor.semantic;
+namespace CMinor.Semantic;
 
 public class Type
 {
 	private string name;
-
 	private bool variableType;
+	internal static Type char_type;
+	internal static Type boolean_type;
+	internal static Type integer_type;
+	internal static Type string_type;
+	internal static Type void_type;
+	internal static Type function_type;
 
-	internal static Type ___003C_003ECHAR;
+    public static Type CHAR => char_type;
 
-	internal static Type ___003C_003EBOOLEAN;
 
-	internal static Type ___003C_003EINT;
+    public static Type BOOLEAN => boolean_type;
 
-	internal static Type ___003C_003ESTRING;
 
-	internal static Type ___003C_003EVOID;
+    public static Type INT => integer_type;
 
-	internal static Type ___003C_003EFUNCTION;
 
-	[Modifiers(Modifiers.Public | Modifiers.Static | Modifiers.Final)]
-	public static Type CHAR
-	{
-		
-		get
-		{
-			return ___003C_003ECHAR;
-		}
-	}
+    public static Type STRING => string_type;
 
-	[Modifiers(Modifiers.Public | Modifiers.Static | Modifiers.Final)]
-	public static Type BOOLEAN
-	{
-		
-		get
-		{
-			return ___003C_003EBOOLEAN;
-		}
-	}
 
-	[Modifiers(Modifiers.Public | Modifiers.Static | Modifiers.Final)]
-	public static Type INT
-	{
-		
-		get
-		{
-			return ___003C_003EINT;
-		}
-	}
+    public static Type VOID
+	=> void_type;
 
-	[Modifiers(Modifiers.Public | Modifiers.Static | Modifiers.Final)]
-	public static Type STRING
-	{
-		
-		get
-		{
-			return ___003C_003ESTRING;
-		}
-	}
-
-	[Modifiers(Modifiers.Public | Modifiers.Static | Modifiers.Final)]
-	public static Type VOID
-	{
-		
-		get
-		{
-			return ___003C_003EVOID;
-		}
-	}
-
-	[Modifiers(Modifiers.Public | Modifiers.Static | Modifiers.Final)]
+	
 	public static Type FUNCTION
-	{
-		
-		get
-		{
-			return ___003C_003EFUNCTION;
-		}
-	}
+	=> function_type;
 
-	
-	
-	public static void ___003Cclinit_003E()
-	{
-	}
-
-	
 	
 	private Type(string P_0, bool P_1)
 	{
@@ -96,24 +37,18 @@ public class Type
 		variableType = P_1;
 	}
 
-	public virtual string getName()
-	{
-		return name;
-	}
+    public virtual string Name => name;
 
-	public virtual bool isVariableType()
-	{
-		return variableType;
-	}
+    public virtual bool isVariableType => variableType;
 
-	
-	static Type()
+
+    static Type()
 	{
-		___003C_003ECHAR = new Type("char", true);
-		___003C_003EBOOLEAN = new Type("boolean", true);
-		___003C_003EINT = new Type("int", true);
-		___003C_003ESTRING = new Type("string", true);
-		___003C_003EVOID = new Type("void", false);
-		___003C_003EFUNCTION = new Type("function", false);
+		char_type = new Type("char", true);
+		boolean_type = new Type("bool", true);
+		integer_type = new Type("int", true);
+		string_type = new Type("string", true);
+		void_type = new Type("void", false);
+		function_type = new Type("function", false);
 	}
 }

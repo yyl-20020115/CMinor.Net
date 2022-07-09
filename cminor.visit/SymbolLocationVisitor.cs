@@ -14,7 +14,7 @@ public class SymbolLocationVisitor : SymbolVisitor
 	public static string get(Symbol.Symbol s)
 	{
 		SymbolLocationVisitor symbolLocationVisitor = new SymbolLocationVisitor();
-		s.accept(symbolLocationVisitor);
+		s.Accept(symbolLocationVisitor);
 		string text = symbolLocationVisitor.getResult();
 		
 		return text;
@@ -33,15 +33,15 @@ public class SymbolLocationVisitor : SymbolVisitor
 
 	
 	
-	public override void visit(GlobalVariableSymbol s)
+	public override void Visit(GlobalVariableSymbol s)
 	{
-		result = s.getLabel();
+		result = s.Label;
 	}
 
 	
 	
-	public override void visit(StackVariableSymbol s)
+	public override void Visit(StackVariableSymbol s)
 	{
-		result = (s.getOffset())+("(%ebp)");
+		result = (s.Offset)+("(%ebp)");
 	}
 }

@@ -1,98 +1,35 @@
-
 using CMinor.Parser;
 using CMinor.Symbol;
 using CMinor.Visit;
-
-
+using System.Collections;
 
 namespace CMinor.AST;
 
 public class Program : AstNode
 {
 	public const string MAIN_FUNCTION_NAME = "main";
-
-	private List declarations;
-
+	private IList declarations;
 	private FunctionDefinition mainFunction;
-
-	private List functions;
-
-	private List globalVariables;
-
-	private List stringSymbols;
-
+	private IList functions;
+	private IList globalVariables;
+	private IList stringSymbols;
 	private StringSymbol boolStringSymbol;
 
-	public Program(LocationInfo info, List declarations)
+	public Program(LocationInfo info, IList declarations)
 		: base(info)
 	{
 		this.declarations = declarations;
 	}
 
-	public virtual List getDeclarations()
-	{
-		return declarations;
-	}
+    public virtual IList Declarations => declarations;
+    public virtual FunctionDefinition MainFunction { get => mainFunction; set => this.mainFunction = value; }
+    public virtual IList GlobalVariables { get => globalVariables; set => this.globalVariables = value; }
+    public virtual IList Functions { get => functions; set => this.functions = value; }
+    public virtual IList StringSymbols { get => stringSymbols; set => this.stringSymbols = value; }
+    public virtual StringSymbol BooleanStringSymbol { get => boolStringSymbol; set => boolStringSymbol = value; }
 
-	public virtual FunctionDefinition getMainFunction()
+    public override void Accept(Visitor v)
 	{
-		return mainFunction;
-	}
-
-	public virtual void setMainFunction(FunctionDefinition mainFunction)
-	{
-		this.mainFunction = mainFunction;
-	}
-
-	public virtual void setGlobalVariables(List globalVariables)
-	{
-		this.globalVariables = globalVariables;
-	}
-
-	
-	public virtual List getGlobalVariables()
-	{
-		return globalVariables;
-	}
-
-	
-	public virtual void setFunctions(List functions)
-	{
-		this.functions = functions;
-	}
-
-	
-	public virtual List getFunctions()
-	{
-		return functions;
-	}
-
-	
-	public virtual void setStringSymbols(List stringSymbols)
-	{
-		this.stringSymbols = stringSymbols;
-	}
-
-	
-	public virtual List getStringSymbols()
-	{
-		return stringSymbols;
-	}
-
-	public virtual void setBooleanStringSymbol(StringSymbol symbol)
-	{
-		boolStringSymbol = symbol;
-	}
-
-	public virtual StringSymbol getBooleanStringSymbol()
-	{
-		return boolStringSymbol;
-	}
-
-	
-	
-	public override void Accept(Visitor v)
-	{
-		v.visit(this);
+		v.Visit(this);
 	}
 }

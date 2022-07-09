@@ -1,26 +1,10 @@
-using System;
-
-using System.Runtime.Serialization;
-
-
-
+using System.Collections.Generic;
 
 namespace CMinor.Parser;
 
-
-
-internal class ParameterList : LinkedList
+internal class ParameterList : LinkedList<object>
 {
-	
-	
 	internal ParameterList()
 	{
-	}
-
-	
-	
-	protected ParameterList(SerializationInfo P_0, StreamingContext P_1)
-		: base(P_0, P_1)
-	{
-	}
+	}	
 }

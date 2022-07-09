@@ -1,7 +1,7 @@
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class action_production : production
 {
@@ -14,7 +14,7 @@ public class action_production : production
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public action_production(production @base, non_terminal lhs_sym, production_part[] rhs_parts, int rhs_len, string action_str)
 		: base(lhs_sym, rhs_parts, rhs_len, action_str)

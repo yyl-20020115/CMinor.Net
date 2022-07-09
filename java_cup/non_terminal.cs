@@ -3,7 +3,7 @@
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class non_terminal : symbol
 {
@@ -25,7 +25,7 @@ public class non_terminal : symbol
 
 	protected internal terminal_set _first_set;
 
-	[Modifiers(Modifiers.Public | Modifiers.Static | Modifiers.Final)]
+	
 	public static non_terminal START_nt
 	{
 		
@@ -42,7 +42,7 @@ public class non_terminal : symbol
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual void add_production(production prod)
 	{
@@ -55,7 +55,7 @@ public class non_terminal : symbol
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	internal static non_terminal create_new()
 	{
@@ -90,12 +90,12 @@ public class non_terminal : symbol
 		if (obj != null)
 		{
 			new internal_error(("Duplicate non-terminal (")+(nm)+(") created")
-				.ToString()).crash();
+				).crash();
 		}
 		_index = next_index++;
 		Hashtable all_by_index = _all_by_index;
 		
-		all_by_index.put(new Integer(_index), this);
+		all_by_index.put((_index), this);
 	}
 
 	
@@ -117,12 +117,6 @@ public class non_terminal : symbol
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
-	[LineNumberTable(new byte[]
-	{
-		92, 226, 70, 163, 162, 142, 172, 136, 136, 103,
-		228, 71, 142, 108, 143
-	})]
 	public static void compute_nullability()
 	{
 		int num = 1;
@@ -150,7 +144,7 @@ public class non_terminal : symbol
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		160, 71, 226, 72, 166, 162, 142, 172, 143, 173,
@@ -174,7 +168,7 @@ public class non_terminal : symbol
 					if (!terminal_set2.is_subset_of(non_terminal2._first_set))
 					{
 						num = 1;
-						non_terminal2._first_set.add(terminal_set2);
+						non_terminal2._first_set.Add(terminal_set2);
 					}
 				}
 			}
@@ -194,7 +188,7 @@ public class non_terminal : symbol
 	
 	public static non_terminal find(int indx)
 	{
-		Integer key = new Integer(indx);
+		int key = (indx);
 		return (non_terminal)_all_by_index.get(key);
 	}
 
@@ -206,7 +200,7 @@ public class non_terminal : symbol
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	internal static non_terminal create_new(string P_0)
 	{
@@ -214,13 +208,13 @@ public class non_terminal : symbol
 		{
 			P_0 = "NT$";
 		}
-		non_terminal result = new non_terminal((P_0)+(next_nt++).ToString());
+		non_terminal result = new non_terminal((P_0)+(next_nt++));
 		
 		return result;
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	protected internal virtual bool looks_nullable()
 	{
@@ -264,7 +258,7 @@ public class non_terminal : symbol
 	
 	public override string ToString()
 	{
-		string result = (base.ToString())+("[")+(index())
+		string result = (base)+("[")+(index())
 			+("]")
 			+((!nullable()) ? "" : "*")
 			.ToString();

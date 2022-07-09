@@ -1,20 +1,11 @@
 using System;
-
-using System.Runtime.Serialization;
-
-
-
+using System.Collections.Generic;
 
 namespace CMinor.Parser;
 
-
-
-internal class DeclarationList : LinkedList
+internal class DeclarationList : LinkedList<object>
 {
-	
-	
 	internal DeclarationList()
 	{
 	}
-
 }

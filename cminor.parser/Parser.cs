@@ -1,10 +1,9 @@
 
 using CMinor.lexer;
-using CMinor.semantic;
+using CMinor.Semantic;
 
-using java_cup.runtime;
-
-
+using JavaCUP.Runtime;
+using System.Collections.Generic;
 
 namespace CMinor.Parser;
 
@@ -22,7 +21,7 @@ public class Parser : lr_parser
 
 	private ErrorLogger logger;
 
-	[Modifiers(Modifiers.Protected | Modifiers.Static | Modifiers.Final)]
+	
 	protected internal static short[][] _production_table
 	{
 		
@@ -32,7 +31,7 @@ public class Parser : lr_parser
 		}
 	}
 
-	[Modifiers(Modifiers.Protected | Modifiers.Static | Modifiers.Final)]
+	
 	protected internal static short[][] _action_table
 	{
 		
@@ -42,7 +41,7 @@ public class Parser : lr_parser
 		}
 	}
 
-	[Modifiers(Modifiers.Protected | Modifiers.Static | Modifiers.Final)]
+	
 	protected internal static short[][] _reduce_table
 	{
 		
@@ -52,7 +51,7 @@ public class Parser : lr_parser
 		}
 	}
 
-	[Modifiers(Modifiers.Protected)]
+	
 	protected internal object action_obj
 	{
 		
@@ -75,7 +74,7 @@ public class Parser : lr_parser
 
 	
 	
-	public Parser(java_cup.runtime.Scanner s)
+	public Parser(JavaCUP.Runtime.Scanner s)
 		: base(s)
 	{
 	}
@@ -118,11 +117,11 @@ public class Parser : lr_parser
 	}
 
 	
-	[Throws(new string[] { "System.Exception" })]
 	
-	public override java_cup.runtime.Symbol do_action(int act_num, lr_parser parser, Stack stack, int top)
+	
+	public override JavaCUP.Runtime.Symbol do_action(int act_num, lr_parser parser, Stack<Symbol> stack, int top)
 	{
-		java_cup.runtime.Symbol result = ___003C_003Eaction_obj.CUP_0024Parser_0024do_action(act_num, parser, stack, top);
+		JavaCUP.Runtime.Symbol result = ___003C_003Eaction_obj.CUP_0024Parser_0024do_action(act_num, parser, stack, top);
 		
 		return result;
 	}
@@ -148,7 +147,7 @@ public class Parser : lr_parser
 	}
 
 	
-	[Throws(new string[] { "System.Exception" })]
+	
 	
 	public override void user_init()
 	{
@@ -179,7 +178,7 @@ public class Parser : lr_parser
 	
 	public virtual void syntax_error(Symbol cur_token)
 	{
-		logger.log(info(), Object.instancehelper_toString(cur_token));
+		logger.log(info(), (cur_token.ToString()));
 	}
 
 	public virtual void unrecovered_syntax_error(Symbol cur_token)

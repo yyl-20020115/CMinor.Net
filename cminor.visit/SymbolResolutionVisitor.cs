@@ -1,6 +1,6 @@
 
 using CMinor.AST;
-using CMinor.semantic;
+using CMinor.Semantic;
 using CMinor.Symbol;
 
 
@@ -17,10 +17,10 @@ public class SymbolResolutionVisitor : Visitor
 	private FunctionDefinition mainFunction;
 
 	
-	private List globalVariables;
+	private IList globalVariables;
 
 	
-	private List functions;
+	private IList functions;
 
 	private int numLocals;
 
@@ -38,57 +38,57 @@ public class SymbolResolutionVisitor : Visitor
 	
 	public virtual void visitInSameScope(BlockStatement n)
 	{
-		Iterator iterator = n.getDeclarations().iterator();
+		Iterator iterator = n.Declarations.iterator();
 		while (iterator.hasNext())
 		{
 			Declaration declaration = (Declaration)iterator.next();
 			declaration.Accept(this);
 		}
-		iterator = n.getStatements().iterator();
+		iterator = n.Statements.iterator();
 		while (iterator.hasNext())
 		{
 			Statement statement = (Statement)iterator.next();
 			statement.Accept(this);
 		}
-		numLocals -= n.getDeclarations().size();
+		numLocals -= n.Declarations.size();
 	}
 
 	
 	
-	public override void visit(GlobalVariableDeclaration n)
+	public override void Visit(GlobalVariableDeclaration n)
 	{
-		GlobalVariableSymbol symbol = new GlobalVariableSymbol(n.getLocation(), n.getIdentifier().getString(), n.getType().getType());
-		table.declareSymbol(n.getIdentifier(), symbol);
-		n.setSymbol(symbol);
-		globalVariables.add(n);
+		GlobalVariableSymbol symbol = new GlobalVariableSymbol(n.getLocation(), n.Identifier.Name, n.Type.Type);
+		table.declareSymbol(n.Identifier, symbol);
+		n.Symbol = symbol;
+		globalVariables.Add(n);
 	}
 
 	
 	
-	public override void visit(Declaration n)
+	public override void Visit(Declaration n)
 	{
-		LocalVariableSymbol localVariableSymbol = new LocalVariableSymbol(n.getLocation(), n.getIdentifier().getString(), n.getType().getType());
-		table.declareSymbol(n.getIdentifier(), localVariableSymbol);
+		LocalVariableSymbol localVariableSymbol = new LocalVariableSymbol(n.getLocation(), n.Identifier.Name, n.Type.Type);
+		table.declareSymbol(n.Identifier, localVariableSymbol);
 		FunctionDefinition functionDefinition = currentFunction;
 		int max = numLocals + 1;
 		numLocals = max;
-		functionDefinition.raiseNumLocals(max);
-		localVariableSymbol.setOffset(-4 * numLocals);
+		functionDefinition.RaiseNumLocals(max);
+		localVariableSymbol.Offset = -4 * numLocals;
 	}
 
 	
 	
-	public override void visit(IfStatement n)
+	public override void Visit(IfStatement n)
 	{
-		n.getCondition().Accept(this);
-		n.getIfClause().Accept(this);
+		n.Condition.Accept(this);
+		n.IfClause.Accept(this);
 	}
 
 	
 	
 	public override void Visit(BinaryExpression n)
 	{
-		n.getArg1().Accept(this);
+		n.Arg1.Accept(this);
 		n.Arg2.Accept(this);
 	}
 
@@ -96,8 +96,8 @@ public class SymbolResolutionVisitor : Visitor
 	
 	public override void visit(AstNode n)
 	{
-		logger.log(n.getLocation(), ("symbol resolution in ")+(n.getDotLabel())+(" is a stub")
-			.ToString());
+		logger.log(n.getLocation(), ("symbol resolution in ")+(n.DotLabel)+(" is a stub")
+			);
 	}
 
 	
@@ -106,12 +106,12 @@ public class SymbolResolutionVisitor : Visitor
 		32, 103, 107, 139, 159, 10, 104, 184, 140, 108,
 		140, 103, 103
 	})]
-	public override void visit(Program n)
+	public override void Visit(Program n)
 	{
 		mainFunction = null;
 		globalVariables = new ArrayList();
 		functions = new ArrayList();
-		Iterator iterator = n.getDeclarations().iterator();
+		Iterator iterator = n.Declarations.iterator();
 		while (iterator.hasNext())
 		{
 			ExternalDeclaration externalDeclaration = (ExternalDeclaration)iterator.next();
@@ -123,10 +123,10 @@ public class SymbolResolutionVisitor : Visitor
 		}
 		else
 		{
-			n.setMainFunction(mainFunction);
+			n.MainFunction = mainFunction;
 		}
-		n.setGlobalVariables(globalVariables);
-		n.setFunctions(functions);
+		n.GlobalVariables = globalVariables;
+		n.Functions = functions;
 		globalVariables = null;
 		functions = null;
 	}
@@ -138,9 +138,9 @@ public class SymbolResolutionVisitor : Visitor
 		162, 173, 251, 69, 179, 200, 110, 169, 237, 69,
 		107, 113, 63, 11, 232, 69, 103, 103, 108, 141
 	})]
-	public override void visit(FunctionDefinition n)
+	public override void Visit(FunctionDefinition n)
 	{
-		List parameters = n.getParameters();
+		IList parameters = n.Parameters;
 		
 		ArrayList arrayList = new ArrayList(parameters.size());
 		int num = 8;
@@ -148,56 +148,56 @@ public class SymbolResolutionVisitor : Visitor
 		while (iterator.hasNext())
 		{
 			Parameter parameter = (Parameter)iterator.next();
-			ParameterSymbol parameterSymbol = new ParameterSymbol(parameter.getLocation(), parameter.getIdentifier().getString(), parameter.getType().getType());
-			((List)arrayList).add((object)parameterSymbol);
-			parameterSymbol.setOffset(num);
+			ParameterSymbol parameterSymbol = new ParameterSymbol(parameter.getLocation(), parameter.Identifier.Name, parameter.Type.Type);
+			((IList)arrayList).Add((object)parameterSymbol);
+			parameterSymbol.Offset = num;
 			num += 4;
 		}
-		string @string = n.getIdentifier().getString();
-		FunctionSymbol symbol = new FunctionSymbol(n.getLocation(), @string, n.getReturnType().getType(), arrayList);
-		table.declareSymbol(n.getIdentifier(), symbol);
-		n.setSymbol(symbol);
+		string @string = n.Identifier.Name;
+		FunctionSymbol symbol = new FunctionSymbol(n.getLocation(), @string, n.ReturnType.Type, arrayList);
+		table.declareSymbol(n.Identifier, symbol);
+		n.Symbol = symbol;
 		if (String.instancehelper_equals(@string, "main"))
 		{
 			mainFunction = n;
 		}
 		else
 		{
-			functions.add(n);
+			functions.Add(n);
 		}
 		table.enterScope();
 		int i = 0;
 		for (int num2 = parameters.size(); i < num2; i++)
 		{
-            table.declareSymbol(((Parameter)parameters.get(i)).getIdentifier(), (Symbol.Symbol)((List)arrayList).get(i));
+            table.declareSymbol(((Parameter)parameters.get(i)).Identifier, (Symbol.Symbol)((IList)arrayList).get(i));
 		}
 		numLocals = 0;
 		currentFunction = n;
-		visitInSameScope(n.getBody());
+		visitInSameScope(n.Body);
 		table.exitScope();
 	}
 
 	
 	
-	public override void visit(GlobalVariableInitialization n)
+	public override void Visit(GlobalVariableInitialization n)
 	{
-		visit((GlobalVariableDeclaration)n);
-		n.getValue().Accept(this);
+		Visit((GlobalVariableDeclaration)n);
+		n.Value.Accept(this);
 	}
 
 	
 	
-	public override void visit(Initialization n)
+	public override void Visit(Initialization n)
 	{
-		visit((Declaration)n);
-		n.getValue().Accept(this);
+		Visit((Declaration)n);
+		n.Value.Accept(this);
 	}
 
 	
 	
 	public override void visit(PrintStatement n)
 	{
-		Iterator iterator = n.getArguments().iterator();
+		Iterator iterator = n.Arguments.iterator();
 		while (iterator.hasNext())
 		{
 			Expression expression = (Expression)iterator.next();
@@ -216,29 +216,29 @@ public class SymbolResolutionVisitor : Visitor
 
 	
 	
-	public override void visit(IfElseStatement n)
+	public override void Visit(IfElseStatement n)
 	{
-		visit((IfStatement)n);
-		n.getElseClause().Accept(this);
+		Visit((IfStatement)n);
+		n.ElseClause.Accept(this);
 	}
 
 	
 	
-	public override void visit(WhileStatement n)
+	public override void Visit(WhileStatement n)
 	{
-		n.getCondition().Accept(this);
-		n.getBody().Accept(this);
+		n.Condition.Accept(this);
+		n.Body.Accept(this);
 	}
 
-	public override void visit(ReturnVoidStatement n)
+	public override void Visit(ReturnVoidStatement n)
 	{
 	}
 
 	
 	
-	public override void visit(ReturnValueStatement n)
+	public override void Visit(ReturnValueStatement n)
 	{
-		n.getValue().Accept(this);
+		n.Value.Accept(this);
 	}
 
 	
@@ -251,10 +251,10 @@ public class SymbolResolutionVisitor : Visitor
 
 	
 	
-	public override void visit(FunctionCall n)
+	public override void Visit(FunctionCall n)
 	{
 		table.lookupIdentifier(n.getIdentifier());
-		Iterator iterator = n.getArguments().iterator();
+		Iterator iterator = n.Arguments.iterator();
 		while (iterator.hasNext())
 		{
 			Expression expression = (Expression)iterator.next();
@@ -264,25 +264,25 @@ public class SymbolResolutionVisitor : Visitor
 
 	
 	
-	public override void visit(IdentifierExpression n)
+	public override void Visit(IdentifierExpression n)
 	{
-		table.lookupIdentifier(n.getIdentifier());
+		table.lookupIdentifier(n.Identifier);
 	}
 
-	public override void visit(ConstantExpression n)
+	public override void Visit(ConstantExpression n)
 	{
-	}
-
-	
-	
-	public override void visit(UnaryExpression n)
-	{
-		n.getArg1().Accept(this);
 	}
 
 	
 	
-	public override void visit(Division n)
+	public override void Visit(UnaryExpression n)
+	{
+		n.Arg1.Accept(this);
+	}
+
+	
+	
+	public override void Visit(Division n)
 	{
 		logger.log(n.getLocation(), "/ operator not supported");
 		Visit((BinaryExpression)n);

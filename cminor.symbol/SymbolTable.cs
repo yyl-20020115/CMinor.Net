@@ -1,10 +1,8 @@
 
 using CMinor.AST;
 using CMinor.Parser;
-using CMinor.semantic;
-
-
-
+using CMinor.Semantic;
+using System.Collections.Generic;
 
 namespace CMinor.Symbol;
 
@@ -14,11 +12,11 @@ public class SymbolTable
 	internal class Scope
 	{
 		
-		private HashMap symbols;
+		private Dictionary<string,string> symbols;
 
 		private Scope m_parentScope;
 
-		[Modifiers(Modifiers.Final | Modifiers.Synthetic)]
+		
 		internal SymbolTable this_00240;
 
 		
@@ -42,10 +40,10 @@ public class SymbolTable
 			}
 			else
 			{
-				access_0024000(this_00240).log(P_1.getLocation(), ("cannot re-declare symbol '")+(P_0)+("' in same scope (previously declared at ")
-					+(symbol.getLocation())
+				access_0024000(this_00240).log(P_1.Location, ("cannot re-declare symbol '")+(P_0)+("' in same scope (previously declared at ")
+					+(symbol.Location)
 					+(")")
-					.ToString());
+					);
 			}
 		}
 
@@ -72,7 +70,7 @@ public class SymbolTable
 		{
 			this_00240 = P_0;
 			
-			symbols = new HashMap();
+			symbols = new ();
 			this.m_parentScope = P_1;
 		}
 
@@ -96,7 +94,7 @@ public class SymbolTable
 		}
 
 		
-		[Modifiers(Modifiers.Static | Modifiers.Synthetic)]
+		
 		
 		internal static void access_0024100(Scope P_0, string P_1, Symbol P_2)
 		{
@@ -108,7 +106,7 @@ public class SymbolTable
 
 	private ErrorLogger errorLogger;
 
-	[Modifiers(Modifiers.Static | Modifiers.Synthetic)]
+	
 	
 	internal static ErrorLogger access_0024000(SymbolTable P_0)
 	{
@@ -134,7 +132,7 @@ public class SymbolTable
 			scope = scope.parentScope();
 		}
 		errorLogger.log(info, ("symbol '")+(identifier)+("' has not been declared")
-			.ToString());
+			);
 		return null;
 	}
 
@@ -168,7 +166,7 @@ public class SymbolTable
 		if (symbol == null)
 		{
 			errorLogger.log(info, ("symbol '")+(identifier)+("' has not been declared")
-				.ToString());
+				);
 		}
 		return symbol;
 	}
@@ -177,14 +175,14 @@ public class SymbolTable
 	
 	public virtual void lookupIdentifier(Identifier identifier)
 	{
-		identifier.setSymbol(lookup(identifier.getLocation(), identifier.getString()));
+		identifier.Symbol = lookup(identifier.getLocation(), identifier.Name);
 	}
 
 	
 	
 	public virtual void declareSymbol(Identifier identifier, Symbol symbol)
 	{
-		Scope.access_0024100(currentScope, identifier.getString(), symbol);
-		identifier.setSymbol(symbol);
+		Scope.access_0024100(currentScope, identifier.Name, symbol);
+		identifier.Symbol = symbol;
 	}
 }

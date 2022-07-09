@@ -1,15 +1,11 @@
-
 using CMinor.Parser;
 using CMinor.Visit;
-
 
 namespace CMinor.AST;
 
 public class IfElseStatement : IfStatement
 {
 	private Statement elseStatement;
-
-	
 	
 	public IfElseStatement(LocationInfo info, Expression condition, Statement ifStatement, Statement elseStatement)
 		: base(info, condition, ifStatement)
@@ -17,15 +13,10 @@ public class IfElseStatement : IfStatement
 		this.elseStatement = elseStatement;
 	}
 
-	public virtual Statement getElseClause()
-	{
-		return elseStatement;
-	}
+    public virtual Statement ElseClause => elseStatement;
 
-	
-	
-	public override void Accept(Visitor v)
+    public override void Accept(Visitor v)
 	{
-		v.visit(this);
+		v.Visit(this);
 	}
 }

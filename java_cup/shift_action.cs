@@ -2,7 +2,7 @@
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class shift_action : parse_action
 {
@@ -14,7 +14,7 @@ public class shift_action : parse_action
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public shift_action(lalr_state shft_to)
 	{

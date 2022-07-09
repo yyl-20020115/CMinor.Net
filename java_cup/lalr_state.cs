@@ -3,7 +3,7 @@
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class lalr_state
 {
@@ -56,7 +56,7 @@ public class lalr_state
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	protected internal virtual void propagate_lookaheads()
 	{
@@ -68,7 +68,7 @@ public class lalr_state
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		11, 232, 160, 78, 231, 159, 180, 99, 176, 104,
@@ -93,7 +93,7 @@ public class lalr_state
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual void add_transition(symbol on_sym, lalr_state to_st)
 	{
@@ -101,7 +101,7 @@ public class lalr_state
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	protected internal static void propagate_all_lookaheads()
 	{
@@ -113,7 +113,7 @@ public class lalr_state
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		161, 222, 167, 172, 110, 152, 194, 110, 152, 226,
@@ -167,7 +167,7 @@ public class lalr_state
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		162, 81, 151, 236, 69, 168, 162, 148, 173, 167,
@@ -209,7 +209,7 @@ public class lalr_state
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	protected internal virtual parse_action insert_reduce(parse_action a1, parse_action a2)
 	{
@@ -219,7 +219,7 @@ public class lalr_state
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	protected internal virtual parse_action insert_shift(parse_action a1, parse_action a2)
 	{
@@ -229,7 +229,7 @@ public class lalr_state
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	protected internal virtual parse_action insert_action(parse_action a1, parse_action a2, int act_type)
 	{
@@ -251,7 +251,7 @@ public class lalr_state
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		162, 134, 130, 127, 10, 111, 112, 111, 112, 111,
@@ -261,43 +261,43 @@ public class lalr_state
 	protected internal virtual void report_reduce_reduce(lalr_item itm1, lalr_item itm2)
 	{
 		int num = 0;
-		java.lang.System.err.WriteLine(("*** Reduce/Reduce conflict found in state #")+(index()).ToString());
-		java.lang.System.err.print("  between ");
-		java.lang.System.err.WriteLine(itm1.to_simple_string());
-		java.lang.System.err.print("  and     ");
-		java.lang.System.err.WriteLine(itm2.to_simple_string());
-		java.lang.System.err.print("  under symbols: {");
+		Console.Error.WriteLine(("*** Reduce/Reduce conflict found in state #")+(index()));
+		Console.Error.print("  between ");
+		Console.Error.WriteLine(itm1.to_simple_string());
+		Console.Error.print("  and     ");
+		Console.Error.WriteLine(itm2.to_simple_string());
+		Console.Error.print("  under symbols: {");
 		for (int i = 0; i < terminal.number(); i++)
 		{
 			if (itm1.lookahead().contains(i) && itm2.lookahead().contains(i))
 			{
 				if (num != 0)
 				{
-					java.lang.System.err.print(", ");
+					Console.Error.print(", ");
 				}
 				else
 				{
 					num = 1;
 				}
-				java.lang.System.err.print(terminal.find(i).name());
+				Console.Error.print(terminal.find(i).name());
 			}
 		}
-		java.lang.System.err.WriteLine("}");
-		java.lang.System.err.print("  Resolved in favor of ");
+		Console.Error.WriteLine("}");
+		Console.Error.print("  Resolved in favor of ");
 		if (itm1.the_production().index() < itm2.the_production().index())
 		{
-			java.lang.System.err.WriteLine("the first production.\n");
+			Console.Error.WriteLine("the first production.\n");
 		}
 		else
 		{
-			java.lang.System.err.WriteLine("the second production.\n");
+			Console.Error.WriteLine("the second production.\n");
 		}
 		emit.num_conflicts++;
 		lexer.warning_count++;
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		162, 178, 127, 10, 111, 176, 151, 172, 172, 103,
@@ -305,9 +305,9 @@ public class lalr_state
 	})]
 	protected internal virtual void report_shift_reduce(lalr_item red_itm, int conflict_sym)
 	{
-		java.lang.System.err.WriteLine(("*** Shift/Reduce conflict found in state #")+(index()).ToString());
-		java.lang.System.err.print("  between ");
-		java.lang.System.err.WriteLine(red_itm.to_simple_string());
+		Console.Error.WriteLine(("*** Shift/Reduce conflict found in state #")+(index()));
+		Console.Error.print("  between ");
+		Console.Error.WriteLine(red_itm.to_simple_string());
 		Enumeration enumeration = items().all();
 		while (enumeration.hasMoreElements())
 		{
@@ -317,12 +317,12 @@ public class lalr_state
 				symbol symbol2 = lalr_item2.symbol_after_dot();
 				if (!symbol2.is_non_term() && symbol2.index() == conflict_sym)
 				{
-					java.lang.System.err.WriteLine(("  and     ")+(lalr_item2.to_simple_string()).ToString());
+					Console.Error.WriteLine(("  and     ")+(lalr_item2.to_simple_string()));
 				}
 			}
 		}
-		java.lang.System.err.WriteLine(("  under symbol ")+(terminal.find(conflict_sym).name()).ToString());
-		java.lang.System.err.WriteLine("  Resolved in favor of shifting.\n");
+		Console.Error.WriteLine(("  under symbol ")+(terminal.find(conflict_sym).name()));
+		Console.Error.WriteLine("  Resolved in favor of shifting.\n");
 		emit.num_conflicts++;
 		lexer.warning_count++;
 	}
@@ -344,7 +344,7 @@ public class lalr_state
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		115,
@@ -382,7 +382,7 @@ public class lalr_state
 			return;
 		}
 		java.lang.System.@out.WriteLine(("lalr_state [")+(st.index())+("] {")
-			.ToString());
+			);
 		lalr_item_set lalr_item_set2 = st.items();
 		Enumeration enumeration = lalr_item_set2.all();
 		while (enumeration.hasMoreElements())
@@ -405,7 +405,7 @@ public class lalr_state
 				}
 				else
 				{
-					java.lang.System.@out.print((((symbol_part)production_part2).the_symbol().name())+(" ").ToString());
+					java.lang.System.@out.print((((symbol_part)production_part2).the_symbol().name())+(" "));
 				}
 			}
 			if (lalr_item2.dot_at_end())
@@ -418,7 +418,7 @@ public class lalr_state
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		160, 165, 230, 72, 99, 208, 134, 103, 145, 168,
@@ -438,16 +438,16 @@ public class lalr_state
 		}
 		lalr_item_set lalr_item_set2 = new lalr_item_set();
 		lalr_item lalr_item2 = new lalr_item(start_prod);
-		lalr_item2.lookahead().add(terminal.___003C_003EEOF);
-		lalr_item_set2.add(lalr_item2);
+		lalr_item2.lookahead().Add(terminal.___003C_003EEOF);
+		lalr_item_set2.Add(lalr_item2);
 		lalr_item_set key = new lalr_item_set(lalr_item_set2);
 		lalr_item_set2.compute_closure();
 		lalr_state lalr_state2 = new lalr_state(lalr_item_set2);
-		stack.push(lalr_state2);
+		stack.Push(lalr_state2);
 		_all_kernels.put(key, lalr_state2);
 		while (!stack.empty())
 		{
-			lalr_state lalr_state3 = (lalr_state)stack.pop();
+			lalr_state lalr_state3 = (lalr_state)stack.Pop();
 			symbol_set symbol_set2 = new symbol_set();
 			Enumeration enumeration = lalr_state3.items().all();
 			while (enumeration.hasMoreElements())
@@ -456,7 +456,7 @@ public class lalr_state
 				symbol symbol2 = lalr_item2.symbol_after_dot();
 				if (symbol2 != null)
 				{
-					symbol_set2.add(symbol2);
+					symbol_set2.Add(symbol2);
 				}
 			}
 			Enumeration enumeration2 = symbol_set2.all();
@@ -472,8 +472,8 @@ public class lalr_state
 					symbol obj = lalr_item2.symbol_after_dot();
 					if (Object.instancehelper_equals(symbol2, obj))
 					{
-						lalr_item_set4.add(lalr_item2.shift());
-						lalr_item_set3.add(lalr_item2);
+						lalr_item_set4.Add(lalr_item2.shift());
+						lalr_item_set3.Add(lalr_item2);
 					}
 				}
 				key = new lalr_item_set(lalr_item_set4);
@@ -482,7 +482,7 @@ public class lalr_state
 				{
 					lalr_item_set4.compute_closure();
 					lalr_state4 = new lalr_state(lalr_item_set4);
-					stack.push(lalr_state4);
+					stack.Push(lalr_state4);
 					_all_kernels.put(key, lalr_state4);
 				}
 				else
@@ -510,7 +510,7 @@ public class lalr_state
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		161, 91, 166, 110, 174, 151, 205, 137, 174, 175,
@@ -559,7 +559,7 @@ public class lalr_state
 				}
 				if (terminal2 != null)
 				{
-					terminal_set2.add(terminal2);
+					terminal_set2.Add(terminal2);
 				}
 			}
 		}
@@ -579,7 +579,7 @@ public class lalr_state
 					if (!fix_with_precedence(p, symbol2.index(), parse_action_row2, shift_action2))
 					{
 						parse_action_row2.under_term[symbol2.index()] = shift_action2;
-						terminal_set2.add(terminal.find(symbol2.index()));
+						terminal_set2.Add(terminal.find(symbol2.index()));
 					}
 				}
 			}

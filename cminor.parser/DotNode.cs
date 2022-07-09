@@ -2,7 +2,6 @@ namespace CMinor.Parser;
 
 public interface DotNode
 {
- string getDotLabel();
-
- string getDotId();
+    string DotLabel { get; }
+    string DotId { get; }
 }

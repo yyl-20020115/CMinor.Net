@@ -2,24 +2,17 @@
 using CMinor.Parser;
 using CMinor.Symbol;
 using CMinor.Visit;
-
-
+using System.Collections;
 
 namespace CMinor.AST;
 
 public class FunctionCall : Expression
 {
 	private Identifier name;
-
-	
-	private List arguments;
-
+	private IList arguments;
 	private FunctionSymbol symbol;
 
-	
-	
-	
-	public FunctionCall(LocationInfo info, Identifier name, List arguments)
+	public FunctionCall(LocationInfo info, Identifier name, IList arguments)
 		: base(info)
 	{
 		this.name = name;
@@ -31,26 +24,13 @@ public class FunctionCall : Expression
 		return name;
 	}
 
-	
-	public virtual List getArguments()
-	{
-		return arguments;
-	}
 
-	public virtual FunctionSymbol getSymbol()
-	{
-		return symbol;
-	}
+    public virtual IList Arguments => arguments;
 
-	public virtual void setSymbol(FunctionSymbol symbol)
-	{
-		this.symbol = symbol;
-	}
+    public virtual FunctionSymbol Symbol { get => symbol; set => this.symbol = value; }
 
-	
-	
-	public override void Accept(Visitor v)
+    public override void Accept(Visitor v)
 	{
-		v.visit(this);
+		v.Visit(this);
 	}
 }

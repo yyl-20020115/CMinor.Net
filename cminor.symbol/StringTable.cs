@@ -1,46 +1,26 @@
-
-
-
-
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CMinor.Symbol;
 
 public class StringTable
 {
-	
-	private Map map;
+	private Dictionary<string, StringSymbol> dict = new();
+	private LabelGenerator labeler = new("string");
 
-	private LabelGenerator labeler;
-
-	
-	
 	public StringTable()
 	{
-		map = new HashMap();
-		labeler = new LabelGenerator("string");
 	}
-
-	
 	
 	public virtual StringSymbol getSymbol(string value)
 	{
-		StringSymbol stringSymbol = (StringSymbol)map.get(value);
-		if (stringSymbol == null)
-		{
-			stringSymbol = new StringSymbol(value, labeler.getLabel());
-			map.put(value, stringSymbol);
-		}
-		return stringSymbol;
+		if(!this.dict.TryGetValue(value,out var symbol))
+        {
+			this.dict.Add(value, symbol = new StringSymbol(value, labeler.GetCurrentLabel()));
+        }
+		return symbol;
 	}
 
-	
-	
-	
-	public virtual List getSymbols()
-	{
-		
-		ArrayList result = new ArrayList(map.values());
-		
-		return result;
-	}
+    public virtual IList Symbols => this.dict.Values.ToList();
 }

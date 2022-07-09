@@ -1,36 +1,22 @@
-
 using CMinor.Parser;
-using CMinor.semantic;
+using CMinor.Semantic;
 using CMinor.Visit;
-
 
 namespace CMinor.AST;
 
 public abstract class Expression : Statement
 {
 	private Type type;
-
-	
 	
 	protected internal Expression(LocationInfo info)
 		: base(info)
 	{
 	}
 
-	public virtual Type getType()
-	{
-		return type;
-	}
+    public virtual Type Type { get => type; set => this.type = value; }
 
-	public virtual void setType(Type type)
+    public override void Accept(Visitor v)
 	{
-		this.type = type;
-	}
-
-	
-	
-	public override void Accept(Visitor v)
-	{
-		v.visit(this);
+		v.Visit(this);
 	}
 }

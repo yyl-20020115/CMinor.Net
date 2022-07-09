@@ -1,7 +1,5 @@
-
 using CMinor.Parser;
 using CMinor.Visit;
-
 
 namespace CMinor.AST;
 
@@ -15,16 +13,11 @@ public abstract class ConstantExpression : Expression
 		this.value = value;
 	}
 
-	
-	public virtual object getValue()
-	{
-		return value;
-	}
+    public virtual object Value => value;
 
-	
-	
-	public override void Accept(Visitor v)
+
+    public override void Accept(Visitor v)
 	{
-		v.visit(this);
+		v.Visit(this);
 	}
 }

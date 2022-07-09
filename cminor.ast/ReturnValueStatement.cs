@@ -1,15 +1,11 @@
-
 using CMinor.Parser;
 using CMinor.Visit;
-
 
 namespace CMinor.AST;
 
 public class ReturnValueStatement : ReturnVoidStatement
 {
 	private Expression value;
-
-	
 	
 	public ReturnValueStatement(LocationInfo info, Expression value)
 		: base(info)
@@ -17,15 +13,10 @@ public class ReturnValueStatement : ReturnVoidStatement
 		this.value = value;
 	}
 
-	public virtual Expression getValue()
-	{
-		return value;
-	}
+    public virtual Expression Value => value;
 
-	
-	
-	public override void Accept(Visitor v)
+    public override void Accept(Visitor v)
 	{
-		v.visit(this);
+		v.Visit(this);
 	}
 }

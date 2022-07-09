@@ -13,30 +13,30 @@ public class Visitor
 
 	
 	
-	public virtual void visit(Statement n)
+	public virtual void Visit(Statement n)
 	{
 		visit((AstNode)n);
 	}
 
 	
 	
-	public virtual void visit(Expression n)
+	public virtual void Visit(Expression n)
 	{
-		visit((Statement)n);
+		Visit((Statement)n);
 	}
 
 	
 	
-	public virtual void visit(UnaryExpression n)
+	public virtual void Visit(UnaryExpression n)
 	{
-		visit((Expression)n);
+		Visit((Expression)n);
 	}
 
 	
 	
 	public virtual void Visit(BinaryExpression n)
 	{
-		visit((UnaryExpression)n);
+		Visit((UnaryExpression)n);
 	}
 
 	
@@ -57,7 +57,7 @@ public class Visitor
 	
 	public virtual void visit(Assignment n)
 	{
-		visit((Expression)n);
+		Visit((Expression)n);
 	}
 
 	
@@ -71,208 +71,208 @@ public class Visitor
 	
 	public virtual void Visit(BlockStatement n)
 	{
-		visit((Statement)n);
+		Visit((Statement)n);
 	}
 
 	
 	
-	public virtual void visit(ConstantExpression n)
+	public virtual void Visit(ConstantExpression n)
 	{
-		visit((Expression)n);
+		Visit((Expression)n);
 	}
 
 	
 	
-	public virtual void visit(BooleanLiteral n)
+	public virtual void Visit(BooleanLiteral n)
 	{
-		visit((ConstantExpression)n);
+		Visit((ConstantExpression)n);
 	}
 
 	
 	
-	public virtual void visit(CharacterLiteral n)
+	public virtual void Visit(CharacterLiteral n)
 	{
-		visit((ConstantExpression)n);
+		Visit((ConstantExpression)n);
 	}
 
 	
 	
-	public virtual void visit(Declaration n)
+	public virtual void Visit(Declaration n)
 	{
 		visit((AstNode)n);
 	}
 
 	
 	
-	public virtual void visit(Division n)
+	public virtual void Visit(Division n)
 	{
 		Visit((BinaryArithmeticOperator)n);
 	}
 
 	
 	
-	public virtual void visit(RelationalOperator n)
+	public virtual void Visit(RelationalOperator n)
 	{
 		Visit((BinaryExpression)n);
 	}
 
 	
 	
-	public virtual void visit(EqualTo n)
+	public virtual void Visit(EqualTo n)
 	{
-		visit((RelationalOperator)n);
+		Visit((RelationalOperator)n);
 	}
 
 	
 	
-	public virtual void visit(ExternalDeclaration n)
-	{
-		visit((AstNode)n);
-	}
-
-	
-	
-	public virtual void visit(FunctionCall n)
-	{
-		visit((Expression)n);
-	}
-
-	
-	
-	public virtual void visit(FunctionDefinition n)
-	{
-		visit((ExternalDeclaration)n);
-	}
-
-	
-	
-	public virtual void visit(GlobalVariableDeclaration n)
-	{
-		visit((ExternalDeclaration)n);
-	}
-
-	
-	
-	public virtual void visit(GlobalVariableInitialization n)
-	{
-		visit((GlobalVariableDeclaration)n);
-	}
-
-	
-	
-	public virtual void visit(GreaterThan n)
-	{
-		visit((RelationalOperator)n);
-	}
-
-	
-	
-	public virtual void visit(GreaterThanOrEqualTo n)
-	{
-		visit((RelationalOperator)n);
-	}
-
-	
-	
-	public virtual void visit(Identifier n)
+	public virtual void Visit(ExternalDeclaration n)
 	{
 		visit((AstNode)n);
 	}
 
 	
 	
-	public virtual void visit(IdentifierExpression n)
+	public virtual void Visit(FunctionCall n)
 	{
-		visit((Expression)n);
+		Visit((Expression)n);
 	}
 
 	
 	
-	public virtual void visit(IfStatement n)
+	public virtual void Visit(FunctionDefinition n)
 	{
-		visit((Statement)n);
+		Visit((ExternalDeclaration)n);
 	}
 
 	
 	
-	public virtual void visit(IfElseStatement n)
+	public virtual void Visit(GlobalVariableDeclaration n)
 	{
-		visit((IfStatement)n);
+		Visit((ExternalDeclaration)n);
 	}
 
 	
 	
-	public virtual void visit(Initialization n)
+	public virtual void Visit(GlobalVariableInitialization n)
 	{
-		visit((Declaration)n);
+		Visit((GlobalVariableDeclaration)n);
 	}
 
 	
 	
-	public virtual void visit(IntegerLiteral n)
+	public virtual void Visit(GreaterThan n)
 	{
-		visit((ConstantExpression)n);
+		Visit((RelationalOperator)n);
 	}
 
 	
 	
-	public virtual void visit(LessThan n)
+	public virtual void Visit(GreaterThanOrEqualTo n)
 	{
-		visit((RelationalOperator)n);
+		Visit((RelationalOperator)n);
 	}
 
 	
 	
-	public virtual void visit(LessThanOrEqualTo n)
+	public virtual void Visit(Identifier n)
 	{
-		visit((RelationalOperator)n);
+		visit((AstNode)n);
 	}
 
 	
 	
-	public virtual void visit(LogicalAnd n)
+	public virtual void Visit(IdentifierExpression n)
+	{
+		Visit((Expression)n);
+	}
+
+	
+	
+	public virtual void Visit(IfStatement n)
+	{
+		Visit((Statement)n);
+	}
+
+	
+	
+	public virtual void Visit(IfElseStatement n)
+	{
+		Visit((IfStatement)n);
+	}
+
+	
+	
+	public virtual void Visit(Initialization n)
+	{
+		Visit((Declaration)n);
+	}
+
+	
+	
+	public virtual void Visit(IntegerLiteral n)
+	{
+		Visit((ConstantExpression)n);
+	}
+
+	
+	
+	public virtual void Visit(LessThan n)
+	{
+		Visit((RelationalOperator)n);
+	}
+
+	
+	
+	public virtual void Visit(LessThanOrEqualTo n)
+	{
+		Visit((RelationalOperator)n);
+	}
+
+	
+	
+	public virtual void Visit(LogicalAnd n)
 	{
 		Visit((BinaryLogicalOperator)n);
 	}
 
 	
 	
-	public virtual void visit(LogicalNot n)
+	public virtual void Visit(LogicalNot n)
 	{
-		visit((UnaryExpression)n);
+		Visit((UnaryExpression)n);
 	}
 
 	
 	
-	public virtual void visit(LogicalOr n)
+	public virtual void Visit(LogicalOr n)
 	{
 		Visit((BinaryLogicalOperator)n);
 	}
 
 	
 	
-	public virtual void visit(Multiplication n)
+	public virtual void Visit(Multiplication n)
 	{
 		Visit((BinaryArithmeticOperator)n);
 	}
 
 	
 	
-	public virtual void visit(Negative n)
+	public virtual void Visit(Negative n)
 	{
-		visit((UnaryExpression)n);
+		Visit((UnaryExpression)n);
 	}
 
 	
 	
-	public virtual void visit(NotEqualTo n)
+	public virtual void Visit(NotEqualTo n)
 	{
-		visit((RelationalOperator)n);
+		Visit((RelationalOperator)n);
 	}
 
 	
 	
-	public virtual void visit(Parameter n)
+	public virtual void Visit(Parameter n)
 	{
 		visit((AstNode)n);
 	}
@@ -281,56 +281,56 @@ public class Visitor
 	
 	public virtual void visit(PrintStatement n)
 	{
-		visit((Statement)n);
+		Visit((Statement)n);
 	}
 
 	
 	
-	public virtual void visit(Program n)
+	public virtual void Visit(Program n)
 	{
 		visit((AstNode)n);
 	}
 
 	
 	
-	public virtual void visit(ReturnVoidStatement n)
+	public virtual void Visit(ReturnVoidStatement n)
 	{
-		visit((Statement)n);
+		Visit((Statement)n);
 	}
 
 	
 	
-	public virtual void visit(ReturnValueStatement n)
+	public virtual void Visit(ReturnValueStatement n)
 	{
-		visit((ReturnVoidStatement)n);
+		Visit((ReturnVoidStatement)n);
 	}
 
 	
 	
-	public virtual void visit(StringLiteral n)
+	public virtual void Visit(StringLiteral n)
 	{
-		visit((ConstantExpression)n);
+		Visit((ConstantExpression)n);
 	}
 
 	
 	
-	public virtual void visit(Subtraction n)
+	public virtual void Visit(Subtraction n)
 	{
 		Visit((BinaryArithmeticOperator)n);
 	}
 
 	
 	
-	public virtual void visit(TypeSpecifier n)
+	public virtual void Visit(TypeSpecifier n)
 	{
 		visit((AstNode)n);
 	}
 
 	
 	
-	public virtual void visit(WhileStatement n)
+	public virtual void Visit(WhileStatement n)
 	{
-		visit((Statement)n);
+		Visit((Statement)n);
 	}
 
 	

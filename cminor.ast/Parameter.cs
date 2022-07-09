@@ -1,18 +1,12 @@
-
 using CMinor.Parser;
 using CMinor.Visit;
-
 
 namespace CMinor.AST;
 
 public class Parameter : AstNode
 {
 	internal TypeSpecifier type;
-
-	internal Identifier name;
-
-	
-	
+	internal Identifier name;	
 	public Parameter(LocationInfo info, TypeSpecifier type, Identifier name)
 		: base(info)
 	{
@@ -20,20 +14,11 @@ public class Parameter : AstNode
 		this.name = name;
 	}
 
-	public virtual TypeSpecifier getType()
-	{
-		return type;
-	}
+    public virtual TypeSpecifier Type => type;
+    public virtual Identifier Identifier => name;
 
-	public virtual Identifier getIdentifier()
+    public override void Accept(Visitor v)
 	{
-		return name;
-	}
-
-	
-	
-	public override void Accept(Visitor v)
-	{
-		v.visit(this);
+		v.Visit(this);
 	}
 }

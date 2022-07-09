@@ -8,7 +8,7 @@ namespace CMinor.Visit;
 public class GetSymbolVisitor : Visitor
 {
 	
-	private List symbols;
+	private IList symbols;
 
 	
 	
@@ -17,13 +17,13 @@ public class GetSymbolVisitor : Visitor
 	}
 
 	
-	public virtual void setSymbols(List symbols)
+	public virtual void setSymbols(IList symbols)
 	{
 		this.symbols = symbols;
 	}
 
 	
-	public virtual List getSymbols()
+	public virtual IList getSymbols()
 	{
 		return symbols;
 	}
@@ -34,19 +34,19 @@ public class GetSymbolVisitor : Visitor
 
 	
 	
-	public override void visit(Program n)
+	public override void Visit(Program n)
 	{
-		FunctionDefinition mainFunction = n.getMainFunction();
+		FunctionDefinition mainFunction = n.MainFunction;
 		if (mainFunction != null)
 		{
-			symbols.add(mainFunction.getSymbol());
+			symbols.Add(mainFunction.Symbol);
 		}
 	}
 
 	
 	
-	public override void visit(Identifier n)
+	public override void Visit(Identifier n)
 	{
-		symbols.add(n.getSymbol());
+		symbols.Add(n.Symbol);
 	}
 }

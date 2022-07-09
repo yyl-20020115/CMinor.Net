@@ -1,36 +1,22 @@
-
 using CMinor.Parser;
-using CMinor.semantic;
+using CMinor.Semantic;
 using CMinor.Visit;
-
 
 namespace CMinor.Symbol;
 
 public class StackVariableSymbol : Symbol
 {
 	private int offset;
-
-	
 	
 	public StackVariableSymbol(LocationInfo info, string identifier, Type type)
 		: base(info, identifier, type)
 	{
 	}
 
-	public virtual int getOffset()
-	{
-		return offset;
-	}
+    public virtual int Offset { get => offset; set => this.offset = value; }
 
-	public virtual void setOffset(int offset)
+    public override void Accept(SymbolVisitor v)
 	{
-		this.offset = offset;
-	}
-
-	
-	
-	public override void accept(SymbolVisitor v)
-	{
-		v.visit(this);
+		v.Visit(this);
 	}
 }

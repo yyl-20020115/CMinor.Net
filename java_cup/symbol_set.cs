@@ -4,7 +4,7 @@ using IKVM.Runtime;
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class symbol_set
 {
@@ -18,7 +18,7 @@ public class symbol_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual bool add(symbol sym)
 	{
@@ -37,7 +37,7 @@ public class symbol_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	protected internal virtual void not_null(object obj)
 	{
@@ -58,7 +58,7 @@ public class symbol_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual bool is_subset_of(symbol_set other)
 	{
@@ -75,7 +75,7 @@ public class symbol_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual void remove(symbol sym)
 	{
@@ -116,7 +116,7 @@ public class symbol_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public symbol_set(symbol_set other)
 	{
@@ -126,7 +126,7 @@ public class symbol_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual bool is_superset_of(symbol_set other)
 	{
@@ -137,7 +137,7 @@ public class symbol_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual bool add(symbol_set other)
 	{
@@ -152,7 +152,7 @@ public class symbol_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual void remove(symbol_set other)
 	{

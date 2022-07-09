@@ -2,7 +2,7 @@
 
 
 
-namespace java_cup.runtime;
+namespace JavaCUP.Runtime;
 
 public class Symbol
 {

@@ -5,7 +5,7 @@ using java.io;
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class emit
 {
@@ -82,7 +82,7 @@ public class emit
 		if (package_name != null)
 		{
 			@out.WriteLine(("package ")+(package_name)+(";")
-				.ToString());
+				);
 			@out.WriteLine();
 		}
 	}
@@ -130,7 +130,7 @@ public class emit
 		StringBuilder stringBuffer = new StringBuilder();
 		if (c <= 'ÿ')
 		{
-			stringBuffer+(Integer.toOctalString(c));
+			stringBuffer+(int.toOctalString(c));
 			while (stringBuffer.length() < 3)
 			{
 				stringBuffer.insert(0, '0');
@@ -138,7 +138,7 @@ public class emit
 		}
 		else
 		{
-			stringBuffer+(Integer.toHexString(c));
+			stringBuffer+(int.toHexString(c));
 			while (stringBuffer.length() < 4)
 			{
 				stringBuffer.insert(0, '0');
@@ -146,7 +146,7 @@ public class emit
 			stringBuffer.insert(0, 'u');
 		}
 		stringBuffer.insert(0, '\\');
-		@out.print(stringBuffer.ToString());
+		@out.print(stringBuffer);
 		if (c == '\0')
 		{
 			return 2;
@@ -224,7 +224,7 @@ public class emit
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		159,
@@ -432,7 +432,7 @@ public class emit
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		160,
@@ -545,39 +545,39 @@ public class emit
 		@out.WriteLine();
 		@out.WriteLine("/** Cup generated class to encapsulate user supplied action code.*/");
 		@out.WriteLine(("class ")+(pre("actions"))+(" {")
-			.ToString());
+			);
 		if (action_code != null)
 		{
 			@out.WriteLine();
 			@out.WriteLine(action_code);
 		}
 		@out.WriteLine(("  private final ")+(parser_class_name)+(" parser;")
-			.ToString());
+			);
 		@out.WriteLine();
 		@out.WriteLine("  /** Constructor */");
 		@out.WriteLine(("  ")+(pre("actions"))+("(")
 			+(parser_class_name)
 			+(" parser) {")
-			.ToString());
+			);
 		@out.WriteLine("    this.parser = parser;");
 		@out.WriteLine("  }");
 		@out.WriteLine();
 		@out.WriteLine("  /** Method with the actual generated action code. */");
 		@out.WriteLine(("  public final java_cup.runtime.Symbol ")+(pre("do_action"))+("(")
-			.ToString());
-		@out.WriteLine(("    int                        ")+(pre("act_num,")).ToString());
-		@out.WriteLine(("    java_cup.runtime.lr_parser ")+(pre("parser,")).ToString());
-		@out.WriteLine(("    java.util.Stack            ")+(pre("stack,")).ToString());
-		@out.WriteLine(("    int                        ")+(pre("top)")).ToString());
+			);
+		@out.WriteLine(("    int                        ")+(pre("act_num,")));
+		@out.WriteLine(("    java_cup.runtime.lr_parser ")+(pre("parser,")));
+		@out.WriteLine(("    java.util.Stack            ")+(pre("stack,")));
+		@out.WriteLine(("    int                        ")+(pre("top)")));
 		@out.WriteLine("    throws System.Exception");
 		@out.WriteLine("    {");
 		@out.WriteLine("      /* Symbol object for return from actions */");
 		@out.WriteLine(("      java_cup.runtime.Symbol ")+(pre("result"))+(";")
-			.ToString());
+			);
 		@out.WriteLine();
 		@out.WriteLine("      /* select the action based on the action number */");
 		@out.WriteLine(("      switch (")+(pre("act_num"))+(")")
-			.ToString());
+			);
 		@out.WriteLine("        {");
 		Enumeration enumeration = production.all();
 		while (enumeration.hasMoreElements())
@@ -586,10 +586,10 @@ public class emit
 			@out.WriteLine("          /*. . . . . . . . . . . . . . . . . . . .*/");
 			@out.WriteLine(("          case ")+(production2.index())+(": // ")
 				+(production2.to_simple_string())
-				.ToString());
+				);
 			@out.WriteLine("            {");
 			@out.WriteLine(("              ")+(production2.lhs().the_symbol().stack_type())+(" RESULT = null;")
-				.ToString());
+				);
 			for (int i = 0; i < production2.rhs_length(); i++)
 			{
 				if (production2.rhs(i) is symbol_part)
@@ -598,13 +598,13 @@ public class emit
 					if (symbol2 is non_terminal && ((non_terminal)symbol2).is_embedded_action)
 					{
 						int i2 = production2.rhs_length() - i - 1;
-						@out.WriteLine(("              // propagate RESULT from ")+(symbol2.name()).ToString());
+						@out.WriteLine(("              // propagate RESULT from ")+(symbol2.name()));
 						@out.WriteLine(("              if ( ((java_cup.runtime.Symbol) ")+(pre("stack"))+(".elementAt(")
 							+(pre("top"))
 							+("-")
 							+(i2)
 							+(")).value != null )")
-							.ToString());
+							);
 						@out.WriteLine(("                RESULT = (")+(production2.lhs().the_symbol().stack_type())+(") ")
 							+("((java_cup.runtime.Symbol) ")
 							+(pre("stack"))
@@ -613,7 +613,7 @@ public class emit
 							+("-")
 							+(i2)
 							+(")).value;")
-							.ToString());
+							);
 					}
 				}
 			}
@@ -655,7 +655,7 @@ public class emit
 					+(", ")
 					+(text)
 					+(", RESULT);")
-					.ToString());
+					);
 			}
 			else
 			{
@@ -665,17 +665,17 @@ public class emit
 					+(production2.lhs().the_symbol().name())
 					+("*/")
 					+(", RESULT);")
-					.ToString());
+					);
 			}
 			@out.WriteLine("            }");
 			if (production2 == start_prod)
 			{
 				@out.WriteLine("          /* ACCEPT */");
 				@out.WriteLine(("          ")+(pre("parser"))+(".done_parsing();")
-					.ToString());
+					);
 			}
 			@out.WriteLine(("          return ")+(pre("result"))+(";")
-				.ToString());
+				);
 			@out.WriteLine();
 		}
 		@out.WriteLine("          /* . . . . . .*/");
@@ -746,16 +746,16 @@ public class emit
 		@out.WriteLine();
 		@out.WriteLine("//----------------------------------------------------");
 		@out.WriteLine("// The following code was generated by CUP v0.10k");
-		@out.WriteLine(("// ")+(new Date()).ToString());
+		@out.WriteLine(("// ")+(new Date()));
 		@out.WriteLine("//----------------------------------------------------");
 		@out.WriteLine();
 		emit_package(@out);
 		@out.WriteLine(("/** CUP generated ")+(str)+(" containing symbol constants. */")
-			.ToString());
+			);
 		@out.WriteLine(("public ")+(str)+(" ")
 			+(symbol_const_class_name)
 			+(" {")
-			.ToString());
+			);
 		@out.WriteLine("  /* terminals */");
 		Enumeration enumeration = terminal.all();
 		while (enumeration.hasMoreElements())
@@ -764,7 +764,7 @@ public class emit
 			@out.WriteLine(("  public static final int ")+(terminal2.name())+(" = ")
 				+(terminal2.index())
 				+(";")
-				.ToString());
+				);
 		}
 		if (emit_non_terms)
 		{
@@ -777,7 +777,7 @@ public class emit
 				@out.WriteLine(("  static final int ")+(non_terminal2.name())+(" = ")
 					+(non_terminal2.index())
 					+(";")
-					.ToString());
+					);
 			}
 		}
 		@out.WriteLine("}");
@@ -786,7 +786,7 @@ public class emit
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		158,
@@ -892,44 +892,44 @@ public class emit
 		@out.WriteLine();
 		@out.WriteLine("//----------------------------------------------------");
 		@out.WriteLine("// The following code was generated by CUP v0.10k");
-		@out.WriteLine(("// ")+(new Date()).ToString());
+		@out.WriteLine(("// ")+(new Date()));
 		@out.WriteLine("//----------------------------------------------------");
 		@out.WriteLine();
 		emit_package(@out);
 		for (int i = 0; i < import_list.size(); i++)
 		{
 			@out.WriteLine(("import ")+(import_list.elementAt(i))+(";")
-				.ToString());
+				);
 		}
 		@out.WriteLine();
 		@out.WriteLine("/** CUP v0.10k generated parser.");
-		@out.WriteLine(("  * @version ")+(new Date()).ToString());
+		@out.WriteLine(("  * @version ")+(new Date()));
 		@out.WriteLine("  */");
 		@out.WriteLine(("public class ")+(parser_class_name)+(" extends java_cup.runtime.lr_parser {")
-			.ToString());
+			);
 		@out.WriteLine();
 		@out.WriteLine("  /** Default constructor. */");
 		@out.WriteLine(("  public ")+(parser_class_name)+("() {super();}")
-			.ToString());
+			);
 		if (!suppress_scanner)
 		{
 			@out.WriteLine();
 			@out.WriteLine("  /** Constructor which sets the default scanner. */");
 			@out.WriteLine(("  public ")+(parser_class_name)+("(java_cup.runtime.Scanner s) {super(s);}")
-				.ToString());
+				);
 		}
 		emit_production_table(@out);
 		do_action_table(@out, action_table, compact_reduces);
 		do_reduce_table(@out, reduce_table);
 		@out.WriteLine("  /** Instance of action encapsulation class. */");
 		@out.WriteLine(("  protected ")+(pre("actions"))+(" action_obj;")
-			.ToString());
+			);
 		@out.WriteLine();
 		@out.WriteLine("  /** Action encapsulation object initializer. */");
 		@out.WriteLine("  protected void init_actions()");
 		@out.WriteLine("    {");
 		@out.WriteLine(("      action_obj = new ")+(pre("actions"))+("(this);")
-			.ToString());
+			);
 		@out.WriteLine("    }");
 		@out.WriteLine();
 		@out.WriteLine("  /** Invoke a user supplied parse action. */");
@@ -942,23 +942,23 @@ public class emit
 		@out.WriteLine("  {");
 		@out.WriteLine("    /* call code in generated class */");
 		@out.WriteLine(("    return action_obj.")+(pre("do_action("))+("act_num, parser, stack, top);")
-			.ToString());
+			);
 		@out.WriteLine("  }");
 		@out.WriteLine("");
 		@out.WriteLine("  /** Indicates start state. */");
 		@out.WriteLine(("  public int start_state() {return ")+(start_st)+(";}")
-			.ToString());
+			);
 		@out.WriteLine("  /** Indicates start production. */");
 		@out.WriteLine(("  public int start_production() {return ")+(start_production.index())+(";}")
-			.ToString());
+			);
 		@out.WriteLine();
 		@out.WriteLine("  /** <code>EOF</code> Symbol index. */");
 		@out.WriteLine(("  public int EOF_sym() {return ")+(terminal.___003C_003EEOF.index())+(";}")
-			.ToString());
+			);
 		@out.WriteLine();
 		@out.WriteLine("  /** <code>error</code> Symbol index. */");
 		@out.WriteLine(("  public int error_sym() {return ")+(terminal.___003C_003Eerror.index())+(";}")
-			.ToString());
+			);
 		@out.WriteLine();
 		if (init_code != null)
 		{

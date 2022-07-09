@@ -20,41 +20,41 @@ public class DotLabelVisitor : Visitor
 		return label;
 	}
 
-	public override void visit(Program n)
+	public override void Visit(Program n)
 	{
 		label = "PROGRAM";
 	}
 
 	
 	
-	public override void visit(Identifier n)
+	public override void Visit(Identifier n)
 	{
-		label = n.getString();
+		label = n.Name;
 	}
 
 	
 	
-	public override void visit(TypeSpecifier n)
+	public override void Visit(TypeSpecifier n)
 	{
-		label = n.getType().getName();
+		label = n.Type.Name;
 	}
 
-	public override void visit(Parameter n)
+	public override void Visit(Parameter n)
 	{
 		label = "PARAM";
 	}
 
-	public override void visit(FunctionDefinition n)
+	public override void Visit(FunctionDefinition n)
 	{
 		label = "FUNCTION";
 	}
 
-	public override void visit(GlobalVariableDeclaration n)
+	public override void Visit(GlobalVariableDeclaration n)
 	{
 		label = "GLOBAL";
 	}
 
-	public override void visit(Declaration n)
+	public override void Visit(Declaration n)
 	{
 		label = "LOCAL";
 	}
@@ -69,17 +69,17 @@ public class DotLabelVisitor : Visitor
 		label = "BLOCK";
 	}
 
-	public override void visit(IfStatement n)
+	public override void Visit(IfStatement n)
 	{
 		label = "IF";
 	}
 
-	public override void visit(WhileStatement n)
+	public override void Visit(WhileStatement n)
 	{
 		label = "WHILE";
 	}
 
-	public override void visit(ReturnVoidStatement n)
+	public override void Visit(ReturnVoidStatement n)
 	{
 		label = "RETURN";
 	}
@@ -89,58 +89,51 @@ public class DotLabelVisitor : Visitor
 		label = "=";
 	}
 
-	public override void visit(FunctionCall n)
+	public override void Visit(FunctionCall n)
 	{
 		label = "CALL";
 	}
 
-	public override void visit(IdentifierExpression n)
+	public override void Visit(IdentifierExpression n)
 	{
 		label = "ID";
 	}
 
 	
 	
-	public override void visit(BooleanLiteral n)
+	public override void Visit(BooleanLiteral n)
 	{
-		label = ((!((Boolean)n.getValue()).booleanValue()) ? "false" : "true");
+		label = ((!((Boolean)n.Value).booleanValue()) ? "false" : "true");
 	}
 
 	
-	[LineNumberTable(new byte[]
+	public override void Visit(CharacterLiteral n)
 	{
-		74,
-		byte.MaxValue,
-		36,
-		69
-	})]
-	public override void visit(CharacterLiteral n)
-	{
-		label = ("\\'")+(StringLiteral.escape(StringLiteral.escape(((Character)n.getValue()).ToString())))+("\\'")
+		label = ("\\'")+(StringLiteral.escape(StringLiteral.escape(((char)n.Value))))+("\\'")
 			.ToString();
 	}
 
 	
 	
-	public override void visit(IntegerLiteral n)
+	public override void Visit(IntegerLiteral n)
 	{
-		label = ((Integer)n.getValue());
+		label = ((int)n.Value);
 	}
 
 	
 	
-	public override void visit(StringLiteral n)
+	public override void Visit(StringLiteral n)
 	{
-		label = ("\\\"")+(StringLiteral.escape(StringLiteral.escape((string)n.getValue())))+("\\\"")
+		label = ("\\\"")+(StringLiteral.escape(StringLiteral.escape((string)n.Value)))+("\\\"")
 			.ToString();
 	}
 
-	public override void visit(Negative n)
+	public override void Visit(Negative n)
 	{
 		label = "-";
 	}
 
-	public override void visit(LogicalNot n)
+	public override void Visit(LogicalNot n)
 	{
 		label = "!";
 	}
@@ -150,57 +143,57 @@ public class DotLabelVisitor : Visitor
 		label = "+";
 	}
 
-	public override void visit(Subtraction n)
+	public override void Visit(Subtraction n)
 	{
 		label = "-";
 	}
 
-	public override void visit(Multiplication n)
+	public override void Visit(Multiplication n)
 	{
 		label = "*";
 	}
 
-	public override void visit(Division n)
+	public override void Visit(Division n)
 	{
 		label = "/";
 	}
 
-	public override void visit(EqualTo n)
+	public override void Visit(EqualTo n)
 	{
 		label = "==";
 	}
 
-	public override void visit(NotEqualTo n)
+	public override void Visit(NotEqualTo n)
 	{
 		label = "!=";
 	}
 
-	public override void visit(GreaterThan n)
+	public override void Visit(GreaterThan n)
 	{
 		label = ">";
 	}
 
-	public override void visit(GreaterThanOrEqualTo n)
+	public override void Visit(GreaterThanOrEqualTo n)
 	{
 		label = ">=";
 	}
 
-	public override void visit(LessThan n)
+	public override void Visit(LessThan n)
 	{
 		label = "<";
 	}
 
-	public override void visit(LessThanOrEqualTo n)
+	public override void Visit(LessThanOrEqualTo n)
 	{
 		label = "<=";
 	}
 
-	public override void visit(LogicalAnd n)
+	public override void Visit(LogicalAnd n)
 	{
 		label = "&&";
 	}
 
-	public override void visit(LogicalOr n)
+	public override void Visit(LogicalOr n)
 	{
 		label = "||";
 	}

@@ -2,14 +2,14 @@
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class symbol_part : production_part
 {
 	protected internal symbol _the_symbol;
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public symbol_part(symbol sym)
 		: this(sym, null)
@@ -27,17 +27,17 @@ public class symbol_part : production_part
 	{
 		if (the_symbol() != null)
 		{
-			string result = (base.ToString())+(the_symbol());
+			string result = (base)+(the_symbol());
 			
 			return result;
 		}
-		string result2 = (base.ToString())+("$$MISSING-SYMBOL$$");
+		string result2 = (base)+("$$MISSING-SYMBOL$$");
 		
 		return result2;
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public symbol_part(symbol sym, string lab)
 		: base(lab)

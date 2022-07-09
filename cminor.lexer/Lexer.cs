@@ -1,11 +1,11 @@
 using CMinor.Parser;
-using CMinor.semantic;
+using CMinor.Semantic;
 using System.IO;
 using System.Text;
 
 namespace CMinor.lexer;
 
-public class Lexer : java_cup.runtime.Scanner
+public class Lexer : JavaCUP.Runtime.Scanner
 {
 	private const int YYEOF = -1;
 
@@ -241,7 +241,7 @@ public class Lexer : java_cup.runtime.Scanner
 		return num2;
 	}
 
-	[Modifiers(Modifiers.Private | Modifiers.Final)]
+	
 	private void yybegin(int P_0)
 	{
 		zzLexicalState = P_0;
@@ -249,10 +249,10 @@ public class Lexer : java_cup.runtime.Scanner
 
 	
 	
-	private java_cup.runtime.Symbol makeErrorToken(string P_0)
+	private JavaCUP.Runtime.Symbol makeErrorToken(string P_0)
 	{
 		logger.log(info(), P_0);
-		java_cup.runtime.Symbol result = makeSymbol(38, P_0);
+		JavaCUP.Runtime.Symbol result = makeSymbol(38, P_0);
 		
 		return result;
 	}
@@ -268,15 +268,15 @@ public class Lexer : java_cup.runtime.Scanner
 
 	
 	
-	private java_cup.runtime.Symbol makeSymbol(int P_0, object P_1)
+	private JavaCUP.Runtime.Symbol makeSymbol(int P_0, object P_1)
 	{
-		java_cup.runtime.Symbol result = new java_cup.runtime.Symbol(P_0, P_1);
+		JavaCUP.Runtime.Symbol result = new JavaCUP.Runtime.Symbol(P_0, P_1);
 		
 		return result;
 	}
 
 	
-	[Modifiers(Modifiers.Private | Modifiers.Final)]
+	
 	
 	private string yytext()
 	{
@@ -295,7 +295,7 @@ public class Lexer : java_cup.runtime.Scanner
 		return result;
 	}
 
-	[Modifiers(Modifiers.Private | Modifiers.Final)]
+	
 	private int yylength()
 	{
 		return zzMarkedPos - zzStartRead;
@@ -330,8 +330,8 @@ public class Lexer : java_cup.runtime.Scanner
 	}
 
 	
-	[Throws(new string[] { "java.io.IOException" })]
-	[Modifiers(Modifiers.Private | Modifiers.Final)]
+	
+	
 	
 	private void yyclose()
 	{
@@ -344,7 +344,7 @@ public class Lexer : java_cup.runtime.Scanner
 	}
 
 	
-	[Throws(new string[] { "java.io.IOException" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		161,
@@ -414,21 +414,21 @@ public class Lexer : java_cup.runtime.Scanner
 
 	
 	
-	private java_cup.runtime.Symbol makeSymbol(int P_0)
+	private JavaCUP.Runtime.Symbol makeSymbol(int P_0)
 	{
-		java_cup.runtime.Symbol result = new java_cup.runtime.Symbol(P_0);
+		JavaCUP.Runtime.Symbol result = new JavaCUP.Runtime.Symbol(P_0);
 		
 		return result;
 	}
 
 	
 	
-	private java_cup.runtime.Symbol checkCharLiteralLength()
+	private JavaCUP.Runtime.Symbol checkCharLiteralLength()
 	{
 		if (stringBuffer.length() > 1)
 		{
 			yybegin(8);
-			java_cup.runtime.Symbol result = makeErrorToken("more than one character inside character literal");
+			JavaCUP.Runtime.Symbol result = makeErrorToken("more than one character inside character literal");
 			
 			return result;
 		}
@@ -451,12 +451,12 @@ public class Lexer : java_cup.runtime.Scanner
 
 	
 	
-	private java_cup.runtime.Symbol checkStringLiteralLength()
+	private JavaCUP.Runtime.Symbol checkStringLiteralLength()
 	{
 		if (stringBuffer.length() > 64)
 		{
 			yybegin(6);
-			java_cup.runtime.Symbol result = makeErrorToken("maximum string literal length exceeded (maximum number of characters allowed is 64)");
+			JavaCUP.Runtime.Symbol result = makeErrorToken("maximum string literal length exceeded (maximum number of characters allowed is 64)");
 			
 			return result;
 		}
@@ -489,7 +489,7 @@ public class Lexer : java_cup.runtime.Scanner
 			return "carriage return";
 		default:
 		{
-			string result2 = ("byte 0x")+(Integer.toHexString(lastChar));
+			string result2 = ("byte 0x")+(int.toHexString(lastChar));
 			
 			return result2;
 		}
@@ -506,7 +506,7 @@ public class Lexer : java_cup.runtime.Scanner
 	}
 
 	
-	[Throws(new string[] { "java.io.IOException" })]
+	
 	
 	private void zzDoEOF()
 	{
@@ -517,7 +517,7 @@ public class Lexer : java_cup.runtime.Scanner
 		}
 	}
 
-	[Modifiers(Modifiers.Private | Modifiers.Final)]
+	
 	private int yystate()
 	{
 		return zzLexicalState;
@@ -617,7 +617,7 @@ public class Lexer : java_cup.runtime.Scanner
 	{
 	}
 
-	[Modifiers(Modifiers.Private | Modifiers.Final)]
+	
 	
 	private void yyreset(Reader P_0)
 	{
@@ -643,7 +643,7 @@ public class Lexer : java_cup.runtime.Scanner
 		zzLexicalState = 0;
 	}
 
-	[Modifiers(Modifiers.Private | Modifiers.Final)]
+	
 	
 	private char yycharat(int P_0)
 	{
@@ -662,219 +662,8 @@ public class Lexer : java_cup.runtime.Scanner
 	}
 
 	
-	[Throws(new string[] { "java.io.IOException" })]
-	[LineNumberTable(new byte[]
-	{
-		162,
-		46,
-		103,
-		103,
-		134,
-		102,
-		103,
-		167,
-		136,
-		99,
-		145,
-		byte.MaxValue,
-		44,
-		70,
-		110,
-		103,
-		99,
-		130,
-		110,
-		103,
-		99,
-		130,
-		100,
-		133,
-		110,
-		135,
-		130,
-		99,
-		238,
-		38,
-		235,
-		94,
-		167,
-		101,
-		108,
-		104,
-		133,
-		104,
-		103,
-		104,
-		103,
-		100,
-		133,
-		138,
-		146,
-		131,
-		159,
-		1,
-		242,
-		70,
-		101,
-		113,
-		104,
-		99,
-		197,
-		104,
-		104,
-		136,
-		104,
-		104,
-		103,
-		103,
-		100,
-		99,
-		165,
-		172,
-		114,
-		103,
-		136,
-		107,
-		103,
-		104,
-		100,
-		169,
-		197,
-		136,
-		223,
-		161,
-		126,
-		133,
-		139,
-		133,
-		157,
-		197,
-		197,
-		133,
-		145,
-		133,
-		156,
-		133,
-		156,
-		133,
-		139,
-		133,
-		159,
-		26,
-		133,
-		138,
-		133,
-		159,
-		2,
-		133,
-		139,
-		133,
-		139,
-		133,
-		159,
-		2,
-		133,
-		139,
-		133,
-		142,
-		133,
-		139,
-		133,
-		159,
-		26,
-		133,
-		157,
-		133,
-		138,
-		133,
-		139,
-		133,
-		139,
-		133,
-		138,
-		133,
-		139,
-		133,
-		139,
-		133,
-		135,
-		133,
-		136,
-		133,
-		156,
-		133,
-		139,
-		133,
-		139,
-		133,
-		139,
-		133,
-		139,
-		133,
-		139,
-		133,
-		139,
-		133,
-		139,
-		133,
-		147,
-		133,
-		139,
-		133,
-		139,
-		133,
-		138,
-		133,
-		136,
-		133,
-		156,
-		133,
-		139,
-		133,
-		139,
-		133,
-		138,
-		133,
-		147,
-		133,
-		138,
-		133,
-		139,
-		133,
-		139,
-		133,
-		155,
-		133,
-		139,
-		133,
-		138,
-		133,
-		159,
-		9,
-		133,
-		149,
-		133,
-		139,
-		197,
-		133,
-		121,
-		103,
-		102,
-		223,
-		34,
-		226,
-		69,
-		103,
-		174,
-		103,
-		142,
-		103,
-		238,
-		69,
-		201,
-		167
-	})]
-	public virtual java_cup.runtime.Symbol next_token()
+	
+	public virtual JavaCUP.Runtime.Symbol next_token()
 	{
 		int num = zzEndRead;
 		char[] array = zzBuffer;
@@ -1071,14 +860,14 @@ public class Lexer : java_cup.runtime.Scanner
 				continue;
 			case 56:
 			{
-				java_cup.runtime.Symbol result36 = makeSymbol(27);
+				JavaCUP.Runtime.Symbol result36 = makeSymbol(27);
 				
 				return result36;
 			}
 			case 43:
 			{
-				stringBuffer+('\n');
-				java_cup.runtime.Symbol symbol = checkCharLiteralLength();
+				stringBuffer.Append('\n');
+				JavaCUP.Runtime.Symbol symbol = checkCharLiteralLength();
 				if (symbol != null)
 				{
 					return symbol;
@@ -1087,14 +876,14 @@ public class Lexer : java_cup.runtime.Scanner
 			}
 			case 3:
 			{
-				java_cup.runtime.Symbol result39 = makeSymbol(37, getIdentifierString());
+				JavaCUP.Runtime.Symbol result39 = makeSymbol(37, getIdentifierString());
 				
 				return result39;
 			}
 			case 44:
 			{
 				stringBuffer+('\0');
-				java_cup.runtime.Symbol symbol = checkCharLiteralLength();
+				JavaCUP.Runtime.Symbol symbol = checkCharLiteralLength();
 				if (symbol != null)
 				{
 					return symbol;
@@ -1104,7 +893,7 @@ public class Lexer : java_cup.runtime.Scanner
 			case 42:
 			{
 				stringBuffer+('\0');
-				java_cup.runtime.Symbol symbol = checkStringLiteralLength();
+				JavaCUP.Runtime.Symbol symbol = checkStringLiteralLength();
 				if (symbol != null)
 				{
 					return symbol;
@@ -1113,28 +902,28 @@ public class Lexer : java_cup.runtime.Scanner
 			}
 			case 31:
 			{
-				java_cup.runtime.Symbol result = makeSymbol(30);
+				JavaCUP.Runtime.Symbol result = makeSymbol(30);
 				
 				return result;
 			}
 			case 25:
 			{
 				yybegin(8);
-				java_cup.runtime.Symbol result41 = makeErrorToken(("illegal ")+(charName())+(" in character literal")
-					.ToString());
+				JavaCUP.Runtime.Symbol result41 = makeErrorToken(("illegal ")+(charName())+(" in character literal")
+					);
 				
 				return result41;
 			}
 			case 6:
 			{
-				java_cup.runtime.Symbol result40 = makeSymbol(3);
+				JavaCUP.Runtime.Symbol result40 = makeSymbol(3);
 				
 				return result40;
 			}
 			case 26:
 			{
 				stringBuffer+(getLastChar());
-				java_cup.runtime.Symbol symbol = checkCharLiteralLength();
+				JavaCUP.Runtime.Symbol symbol = checkCharLiteralLength();
 				if (symbol != null)
 				{
 					return symbol;
@@ -1143,20 +932,20 @@ public class Lexer : java_cup.runtime.Scanner
 			}
 			case 49:
 			{
-				java_cup.runtime.Symbol result38 = makeSymbol(23);
+				JavaCUP.Runtime.Symbol result38 = makeSymbol(23);
 				
 				return result38;
 			}
 			case 37:
 			{
-				java_cup.runtime.Symbol result37 = makeSymbol(14);
+				JavaCUP.Runtime.Symbol result37 = makeSymbol(14);
 				
 				return result37;
 			}
 			case 23:
 			{
 				stringBuffer+(getLastChar());
-				java_cup.runtime.Symbol symbol = checkStringLiteralLength();
+				JavaCUP.Runtime.Symbol symbol = checkStringLiteralLength();
 				if (symbol != null)
 				{
 					return symbol;
@@ -1165,34 +954,34 @@ public class Lexer : java_cup.runtime.Scanner
 			}
 			case 38:
 			{
-				java_cup.runtime.Symbol result35 = makeSymbol(15);
+				JavaCUP.Runtime.Symbol result35 = makeSymbol(15);
 				
 				return result35;
 			}
 			case 32:
 			{
-				java_cup.runtime.Symbol result34 = makeErrorToken("stray comment terminator \"*/\"");
+				JavaCUP.Runtime.Symbol result34 = makeErrorToken("stray comment terminator \"*/\"");
 				
 				return result34;
 			}
 			case 48:
 			{
-				java_cup.runtime.Symbol result33 = makeSymbol(28);
+				JavaCUP.Runtime.Symbol result33 = makeSymbol(28);
 				
 				return result33;
 			}
 			case 21:
 			{
 				yybegin(6);
-				java_cup.runtime.Symbol result32 = makeErrorToken(("illegal ")+(charName())+(" in string literal")
-					.ToString());
+				JavaCUP.Runtime.Symbol result32 = makeErrorToken(("illegal ")+(charName())+(" in string literal")
+					);
 				
 				return result32;
 			}
 			case 41:
 			{
 				stringBuffer+('\n');
-				java_cup.runtime.Symbol symbol = checkStringLiteralLength();
+				JavaCUP.Runtime.Symbol symbol = checkStringLiteralLength();
 				if (symbol != null)
 				{
 					return symbol;
@@ -1201,37 +990,37 @@ public class Lexer : java_cup.runtime.Scanner
 			}
 			case 11:
 			{
-				java_cup.runtime.Symbol result31 = makeSymbol(8);
+				JavaCUP.Runtime.Symbol result31 = makeSymbol(8);
 				
 				return result31;
 			}
 			case 52:
 			{
-				java_cup.runtime.Symbol result30 = makeSymbol(32);
+				JavaCUP.Runtime.Symbol result30 = makeSymbol(32);
 				
 				return result30;
 			}
 			case 47:
 			{
-				java_cup.runtime.Symbol result29 = makeSymbol(31);
+				JavaCUP.Runtime.Symbol result29 = makeSymbol(31);
 				
 				return result29;
 			}
 			case 7:
 			{
-				java_cup.runtime.Symbol result28 = makeSymbol(4);
+				JavaCUP.Runtime.Symbol result28 = makeSymbol(4);
 				
 				return result28;
 			}
 			case 35:
 			{
-				java_cup.runtime.Symbol result27 = makeSymbol(16);
+				JavaCUP.Runtime.Symbol result27 = makeSymbol(16);
 				
 				return result27;
 			}
 			case 46:
 			{
-				java_cup.runtime.Symbol result26 = makeSymbol(25);
+				JavaCUP.Runtime.Symbol result26 = makeSymbol(25);
 				
 				return result26;
 			}
@@ -1244,49 +1033,49 @@ public class Lexer : java_cup.runtime.Scanner
 			case 27:
 			{
 				yybegin(0);
-				java_cup.runtime.Symbol result25 = new java_cup.runtime.Symbol(34, Character.valueOf(getLastBufferChar()));
+				JavaCUP.Runtime.Symbol result25 = new JavaCUP.Runtime.Symbol(34, char.valueOf(getLastBufferChar()));
 				
 				return result25;
 			}
 			case 36:
 			{
-				java_cup.runtime.Symbol result24 = makeSymbol(13);
+				JavaCUP.Runtime.Symbol result24 = makeSymbol(13);
 				
 				return result24;
 			}
 			case 15:
 			{
-				java_cup.runtime.Symbol result23 = makeSymbol(12);
+				JavaCUP.Runtime.Symbol result23 = makeSymbol(12);
 				
 				return result23;
 			}
 			case 16:
 			{
-				java_cup.runtime.Symbol result22 = makeSymbol(21);
+				JavaCUP.Runtime.Symbol result22 = makeSymbol(21);
 				
 				return result22;
 			}
 			case 13:
 			{
-				java_cup.runtime.Symbol result21 = makeSymbol(10);
+				JavaCUP.Runtime.Symbol result21 = makeSymbol(10);
 				
 				return result21;
 			}
 			case 14:
 			{
-				java_cup.runtime.Symbol result20 = makeSymbol(11);
+				JavaCUP.Runtime.Symbol result20 = makeSymbol(11);
 				
 				return result20;
 			}
 			case 40:
 			{
-				java_cup.runtime.Symbol result19 = makeSymbol(19);
+				JavaCUP.Runtime.Symbol result19 = makeSymbol(19);
 				
 				return result19;
 			}
 			case 55:
 			{
-				java_cup.runtime.Symbol result18 = makeSymbol(33);
+				JavaCUP.Runtime.Symbol result18 = makeSymbol(33);
 				
 				return result18;
 			}
@@ -1296,19 +1085,19 @@ public class Lexer : java_cup.runtime.Scanner
 				continue;
 			case 50:
 			{
-				java_cup.runtime.Symbol result17 = makeSymbol(24);
+				JavaCUP.Runtime.Symbol result17 = makeSymbol(24);
 				
 				return result17;
 			}
 			case 39:
 			{
-				java_cup.runtime.Symbol result16 = makeSymbol(17);
+				JavaCUP.Runtime.Symbol result16 = makeSymbol(17);
 				
 				return result16;
 			}
 			case 10:
 			{
-				java_cup.runtime.Symbol result15 = makeSymbol(7);
+				JavaCUP.Runtime.Symbol result15 = makeSymbol(7);
 				
 				return result15;
 			}
@@ -1318,25 +1107,25 @@ public class Lexer : java_cup.runtime.Scanner
 			case 24:
 			{
 				yybegin(0);
-				java_cup.runtime.Symbol result14 = new java_cup.runtime.Symbol(35, stringBuffer.ToString());
+				JavaCUP.Runtime.Symbol result14 = new JavaCUP.Runtime.Symbol(35, stringBuffer);
 				
 				return result14;
 			}
 			case 53:
 			{
-				java_cup.runtime.Symbol result13 = makeSymbol(29);
+				JavaCUP.Runtime.Symbol result13 = makeSymbol(29);
 				
 				return result13;
 			}
 			case 12:
 			{
-				java_cup.runtime.Symbol result12 = makeSymbol(9);
+				JavaCUP.Runtime.Symbol result12 = makeSymbol(9);
 				
 				return result12;
 			}
 			case 9:
 			{
-				java_cup.runtime.Symbol result11 = makeSymbol(6);
+				JavaCUP.Runtime.Symbol result11 = makeSymbol(6);
 				
 				return result11;
 			}
@@ -1346,56 +1135,56 @@ public class Lexer : java_cup.runtime.Scanner
 				continue;
 			case 5:
 			{
-				java_cup.runtime.Symbol result10 = makeSymbol(2);
+				JavaCUP.Runtime.Symbol result10 = makeSymbol(2);
 				
 				return result10;
 			}
 			case 51:
 			{
-				java_cup.runtime.Symbol result9 = makeSymbol(22);
+				JavaCUP.Runtime.Symbol result9 = makeSymbol(22);
 				
 				return result9;
 			}
 			case 18:
 			{
-				java_cup.runtime.Symbol result8 = makeSymbol(20);
+				JavaCUP.Runtime.Symbol result8 = makeSymbol(20);
 				
 				return result8;
 			}
 			case 4:
 			{
-				java_cup.runtime.Symbol result7 = makeSymbol(36, Integer.valueOf(Integer.parseInt(yytext())));
+				JavaCUP.Runtime.Symbol result7 = makeSymbol(36, int.valueOf(int.parseInt(yytext())));
 				
 				return result7;
 			}
 			case 17:
 			{
-				java_cup.runtime.Symbol result6 = makeSymbol(18);
+				JavaCUP.Runtime.Symbol result6 = makeSymbol(18);
 				
 				return result6;
 			}
 			case 8:
 			{
-				java_cup.runtime.Symbol result5 = makeSymbol(5);
+				JavaCUP.Runtime.Symbol result5 = makeSymbol(5);
 				
 				return result5;
 			}
 			case 1:
 			{
-				java_cup.runtime.Symbol result4 = makeErrorToken(("stray ")+(charName()).ToString());
+				JavaCUP.Runtime.Symbol result4 = makeErrorToken(("stray ")+(charName()));
 				
 				return result4;
 			}
 			case 22:
 			{
 				yybegin(0);
-				java_cup.runtime.Symbol result3 = makeErrorToken("missing closing quote for string literal");
+				JavaCUP.Runtime.Symbol result3 = makeErrorToken("missing closing quote for string literal");
 				
 				return result3;
 			}
 			case 54:
 			{
-				java_cup.runtime.Symbol result2 = makeSymbol(26);
+				JavaCUP.Runtime.Symbol result2 = makeSymbol(26);
 				
 				return result2;
 			}
@@ -1410,7 +1199,7 @@ public class Lexer : java_cup.runtime.Scanner
 				case 6:
 				{
 					yybegin(0);
-					java_cup.runtime.Symbol result45 = makeErrorToken("unexpected EOF in string literal");
+					JavaCUP.Runtime.Symbol result45 = makeErrorToken("unexpected EOF in string literal");
 					
 					return result45;
 				}
@@ -1418,20 +1207,20 @@ public class Lexer : java_cup.runtime.Scanner
 				case 8:
 				{
 					yybegin(0);
-					java_cup.runtime.Symbol result44 = makeErrorToken("unexpected EOF in character literal");
+					JavaCUP.Runtime.Symbol result44 = makeErrorToken("unexpected EOF in character literal");
 					
 					return result44;
 				}
 				case 10:
 				{
 					yybegin(0);
-					java_cup.runtime.Symbol result43 = makeErrorToken("unmatched '/*' (reached EOF)");
+					JavaCUP.Runtime.Symbol result43 = makeErrorToken("unmatched '/*' (reached EOF)");
 					
 					return result43;
 				}
 				default:
 				{
-					java_cup.runtime.Symbol result42 = new java_cup.runtime.Symbol(0);
+					JavaCUP.Runtime.Symbol result42 = new JavaCUP.Runtime.Symbol(0);
 					
 					return result42;
 				}

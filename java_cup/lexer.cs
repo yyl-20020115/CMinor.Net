@@ -1,10 +1,10 @@
 
 
-using java_cup.runtime;
+using JavaCUP.Runtime;
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class lexer
 {
@@ -42,11 +42,11 @@ public class lexer
 	
 	public static void emit_error(string message)
 	{
-		java.lang.System.err.WriteLine(("Error at ")+(current_line)+("(")
+		Console.Error.WriteLine(("Error at ")+(current_line)+("(")
 			+(current_position)
 			+("): ")
 			+(message)
-			.ToString());
+			);
 		error_count++;
 	}
 
@@ -56,7 +56,7 @@ public class lexer
 	}
 
 	
-	[Throws(new string[] { "java.io.IOException" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		160, 70, 102, 106, 104, 102, 102, 136, 106, 104,
@@ -119,7 +119,7 @@ public class lexer
 	}
 
 	
-	[Throws(new string[] { "java.io.IOException" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		161,
@@ -242,9 +242,9 @@ public class lexer
 			}
 			StringBuilder stringBuilder = ("Unrecognized character '");
 			
-			emit_warn(stringBuilder+(new Character((char)next_char))+("'(")+(next_char)
+			emit_warn(stringBuilder+(new char((char)next_char))+("'(")+(next_char)
 				+(") -- ignored")
-				.ToString());
+				);
 			advance();
 		}
 		Symbol result8 = new Symbol(0);
@@ -256,7 +256,7 @@ public class lexer
 	
 	protected internal static int find_single_char(int ch)
 	{
-		Integer integer = (Integer)char_symbols.get(new Integer((ushort)ch));
+		int integer = (int)char_symbols.get(((ushort)ch));
 		if (integer == null)
 		{
 			return -1;
@@ -267,7 +267,7 @@ public class lexer
 	}
 
 	
-	[Throws(new string[] { "java.io.IOException" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		160, 181, 169, 234, 70, 136, 108, 193, 146, 101,
@@ -313,7 +313,7 @@ public class lexer
 	}
 
 	
-	[Throws(new string[] { "java.io.IOException" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		160, 238, 166, 170, 178, 136, 106, 194, 119, 199,
@@ -332,18 +332,18 @@ public class lexer
 				break;
 			}
 			
-			stringBuffer+(new Character((char)next_char));
+			stringBuffer+(new char((char)next_char));
 			advance();
 		}
 		advance();
 		advance();
-		Symbol result = new Symbol(29, stringBuffer.ToString());
+		Symbol result = new Symbol(29, stringBuffer);
 		
 		return result;
 	}
 
 	
-	[Throws(new string[] { "java.io.IOException" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		161, 16, 166, 167, 105, 106, 165, 140, 105, 106,
@@ -362,7 +362,7 @@ public class lexer
 			advance();
 		}
 		string text = stringBuffer.ToString();
-		Integer integer = (Integer)keywords.get(text);
+		int integer = (int)keywords.get(text);
 		if (integer != null)
 		{
 			Symbol result = new Symbol(integer.intValue());
@@ -378,11 +378,11 @@ public class lexer
 	
 	public static void emit_warn(string message)
 	{
-		java.lang.System.err.WriteLine(("Warning at ")+(current_line)+("(")
+		Console.Error.WriteLine(("Warning at ")+(current_line)+("(")
 			+(current_position)
 			+("): ")
 			+(message)
-			.ToString());
+			);
 		warning_count++;
 	}
 
@@ -393,7 +393,7 @@ public class lexer
 	}
 
 	
-	[Throws(new string[] { "java.io.IOException" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		77, 118, 118, 118, 118, 118, 118, 118, 119, 119,
@@ -403,29 +403,29 @@ public class lexer
 	})]
 	public static void init()
 	{
-		keywords.put("package", new Integer(2));
-		keywords.put("import", new Integer(3));
-		keywords.put("code", new Integer(4));
-		keywords.put("action", new Integer(5));
-		keywords.put("parser", new Integer(6));
-		keywords.put("terminal", new Integer(7));
-		keywords.put("non", new Integer(8));
-		keywords.put("nonterminal", new Integer(27));
-		keywords.put("init", new Integer(9));
-		keywords.put("scan", new Integer(10));
-		keywords.put("with", new Integer(11));
-		keywords.put("start", new Integer(12));
-		keywords.put("precedence", new Integer(20));
-		keywords.put("left", new Integer(21));
-		keywords.put("right", new Integer(22));
-		keywords.put("nonassoc", new Integer(23));
-		char_symbols.put(new Integer(59), new Integer(13));
-		char_symbols.put(new Integer(44), new Integer(14));
-		char_symbols.put(new Integer(42), new Integer(15));
-		char_symbols.put(new Integer(46), new Integer(16));
-		char_symbols.put(new Integer(124), new Integer(19));
-		char_symbols.put(new Integer(91), new Integer(25));
-		char_symbols.put(new Integer(93), new Integer(26));
+		keywords.put("package", (2));
+		keywords.put("import", (3));
+		keywords.put("code", (4));
+		keywords.put("action", (5));
+		keywords.put("parser", (6));
+		keywords.put("terminal", (7));
+		keywords.put("non", (8));
+		keywords.put("nonterminal", (27));
+		keywords.put("init", (9));
+		keywords.put("scan", (10));
+		keywords.put("with", (11));
+		keywords.put("start", (12));
+		keywords.put("precedence", (20));
+		keywords.put("left", (21));
+		keywords.put("right", (22));
+		keywords.put("nonassoc", (23));
+		char_symbols.put((59), (13));
+		char_symbols.put((44), (14));
+		char_symbols.put((42), (15));
+		char_symbols.put((46), (16));
+		char_symbols.put((124), (19));
+		char_symbols.put((91), (25));
+		char_symbols.put((93), (26));
 		next_char = java.lang.System.@in.read();
 		if (next_char == -1)
 		{
@@ -453,7 +453,7 @@ public class lexer
 	}
 
 	
-	[Throws(new string[] { "java.io.IOException" })]
+	
 	
 	public static Symbol next_token()
 	{
@@ -463,12 +463,12 @@ public class lexer
 	}
 
 	
-	[Throws(new string[] { "java.io.IOException" })]
+	
 	
 	public static Symbol debug_next_token()
 	{
 		Symbol symbol2 = real_next_token();
-		java.lang.System.@out.WriteLine(("# next_Symbol() => ")+(symbol2.sym).ToString());
+		java.lang.System.@out.WriteLine(("# next_Symbol() => ")+(symbol2.sym));
 		return symbol2;
 	}
 

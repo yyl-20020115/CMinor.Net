@@ -1,9 +1,6 @@
-
 using CMinor.AST;
-using CMinor.semantic;
+using CMinor.Semantic;
 using CMinor.Symbol;
-
-using java.io;
 
 
 
@@ -38,11 +35,11 @@ public class CodeGenerationVisitor : Visitor
 	
 	private void allocateLocals(FunctionDefinition P_0)
 	{
-		int numLocals = P_0.getNumLocals();
+		int numLocals = P_0.NumLocals;
 		if (numLocals != 0)
 		{
 			output.WriteLine(("subl $")+(4 * numLocals)+(", %esp")
-				.ToString());
+				);
 		}
 	}
 
@@ -59,8 +56,8 @@ public class CodeGenerationVisitor : Visitor
 	{
 		P_0.Arg2.Accept(this);
 		output.WriteLine("pushl %eax");
-		P_0.getArg1().Accept(this);
-		output.WriteLine((P_1)+(" (%esp), %eax\naddl $4, %esp").ToString());
+		P_0.Arg1.Accept(this);
+		output.WriteLine((P_1)+(" (%esp), %eax\naddl $4, %esp"));
 	}
 
 	
@@ -69,9 +66,9 @@ public class CodeGenerationVisitor : Visitor
 	{
 		P_0.Arg2.Accept(this);
 		output.WriteLine("pushl %eax");
-		P_0.getArg1().Accept(this);
-		string label = labeler.getLabel();
-		string label2 = labeler.getLabel();
+		P_0.Arg1.Accept(this);
+		string label = labeler.GetCurrentLabel();
+		string label2 = labeler.GetCurrentLabel();
 		output.WriteLine(("popl %ebx\ncmpl %ebx, %eax\n")+(P_1)+(" ")
 			+(label)
 			+("\nmovl $0, %eax\njmp ")
@@ -81,28 +78,28 @@ public class CodeGenerationVisitor : Visitor
 			+(":\nmovl $1, %eax\n")
 			+(label2)
 			+(":")
-			.ToString());
+			);
 	}
 
 	
 	
 	private void logical(BinaryLogicalOperator P_0, string P_1)
 	{
-		P_0.getArg1().Accept(this);
-		string label = labeler.getLabel();
+		P_0.Arg1.Accept(this);
+		string label = labeler.GetCurrentLabel();
 		output.WriteLine(("cmpl $0, %eax\n")+(P_1)+(" ")
 			+(label)
-			.ToString());
+			);
 		P_0.Arg2.Accept(this);
-		output.WriteLine((label)+(":").ToString());
+		output.WriteLine((label)+(":"));
 	}
 
 	
 	
 	public override void visit(AstNode n)
 	{
-		java.lang.System.err.WriteLine(("code generation in ")+(n.getDotLabel())+(" is a stub")
-			.ToString());
+		Console.Error.WriteLine(("code generation in ")+(n.DotLabel)+(" is a stub")
+			);
 	}
 
 	
@@ -112,20 +109,20 @@ public class CodeGenerationVisitor : Visitor
 		1, 103, 130, 144, 103, 108, 103, 127, 1, 103,
 		130
 	})]
-	public override void visit(Program n)
+	public override void Visit(Program n)
 	{
 		program = n;
 		labeler = new LabelGenerator("control");
 		output.WriteLine(".data");
-		Iterator iterator = n.getStringSymbols().iterator();
+		Iterator iterator = n.StringSymbols.iterator();
 		while (iterator.hasNext())
 		{
 			StringSymbol stringSymbol = (StringSymbol)iterator.next();
-			output.WriteLine((stringSymbol.getLabel())+(": .asciz \"")+(StringLiteral.escape(stringSymbol.getValue()))
+			output.WriteLine((stringSymbol.Label)+(": .asciz \"")+(StringLiteral.escape(stringSymbol.Value))
 				+("\"")
-				.ToString());
+				);
 		}
-		iterator = n.getGlobalVariables().iterator();
+		iterator = n.GlobalVariables.iterator();
 		while (iterator.hasNext())
 		{
 			GlobalVariableDeclaration globalVariableDeclaration = (GlobalVariableDeclaration)iterator.next();
@@ -133,9 +130,9 @@ public class CodeGenerationVisitor : Visitor
 		}
 		output.WriteLine(".section .text\n.globl _start\n_start:");
 		inMainFunction = true;
-		n.getMainFunction().Accept(this);
+		n.MainFunction.Accept(this);
 		inMainFunction = false;
-		iterator = n.getFunctions().iterator();
+		iterator = n.Functions.iterator();
 		while (iterator.hasNext())
 		{
 			FunctionDefinition functionDefinition = (FunctionDefinition)iterator.next();
@@ -145,22 +142,22 @@ public class CodeGenerationVisitor : Visitor
 
 	
 	
-	public override void visit(FunctionDefinition n)
+	public override void Visit(FunctionDefinition n)
 	{
 		if (inMainFunction)
 		{
-			if (n.getNumLocals() != 0)
+			if (n.NumLocals != 0)
 			{
 				output.WriteLine("movl %esp, %ebp");
 			}
 			allocateLocals(n);
-			n.getBody().Accept(this);
+			n.Body.Accept(this);
 			return;
 		}
-		output.WriteLine((n.getSymbol().getLabel())+(":\npushl %ebp\nmovl %esp, %ebp").ToString());
+		output.WriteLine((n.Symbol.Label)+(":\npushl %ebp\nmovl %esp, %ebp"));
 		allocateLocals(n);
-		n.getBody().Accept(this);
-		if (!n.endsWithReturn())
+		n.Body.Accept(this);
+		if (!n.EndsWithReturn)
 		{
 			printReturnCode();
 		}
@@ -168,30 +165,30 @@ public class CodeGenerationVisitor : Visitor
 
 	
 	
-	public override void visit(GlobalVariableDeclaration n)
+	public override void Visit(GlobalVariableDeclaration n)
 	{
-		output.WriteLine((n.getSymbol().getLabel())+(": .long").ToString());
+		output.WriteLine((n.Symbol.Label)+(": .long"));
 	}
 
 	
 	
-	public override void visit(GlobalVariableInitialization n)
+	public override void Visit(GlobalVariableInitialization n)
 	{
-		output.WriteLine((n.getSymbol().getLabel())+(": .long ")+(GlobalInitVisitor.get(n.getValue()))
-			.ToString());
+		output.WriteLine((n.Symbol.Label)+(": .long ")+(GlobalInitVisitor.get(n.Value))
+			);
 	}
 
-	public override void visit(Declaration n)
+	public override void Visit(Declaration n)
 	{
 	}
 
 	
 	
-	public override void visit(Initialization n)
+	public override void Visit(Initialization n)
 	{
-		output.WriteLine(("movl ")+(ExpressionLocationVisitor.get(n.getValue()))+(", ")
-			+(SymbolLocationVisitor.get(n.getIdentifier().getSymbol()))
-			.ToString());
+		output.WriteLine(("movl ")+(ExpressionLocationVisitor.get(n.Value))+(", ")
+			+(SymbolLocationVisitor.get(n.Identifier.Symbol))
+			);
 	}
 
 	
@@ -218,38 +215,38 @@ public class CodeGenerationVisitor : Visitor
 	})]
 	public override void visit(PrintStatement n)
 	{
-		List actualArguments = n.getActualArguments();
+		IList actualArguments = n.ActualArguments;
 		int num = actualArguments.size();
 		for (int i = num - 1; i >= 0; i += -1)
 		{
 			Expression expression = (Expression)actualArguments.get(i);
 			expression.Accept(this);
-			if (expression.getType() == Type.___003C_003EBOOLEAN)
+			if (expression.Type == Type.boolean_type)
 			{
-				output.WriteLine(("imull $")+(PrintStatement.___003C_003EOFFSET)+(", %eax\naddl $")
-					+(program.getBooleanStringSymbol().getLabel())
+				output.WriteLine(("imull $")+(PrintStatement.offset)+(", %eax\naddl $")
+					+(program.BooleanStringSymbol.Label)
 					+(", %eax")
-					.ToString());
+					);
 			}
 			output.WriteLine("pushl %eax");
 		}
-		output.WriteLine(("pushl $")+(n.getSymbol().getLabel())+("\ncall printf")
-			.ToString());
+		output.WriteLine(("pushl $")+(n.Symbol.Label)+("\ncall printf")
+			);
 		output.WriteLine(("addl $")+(4 * (num + 1))+(", %esp")
-			.ToString());
+			);
 	}
 
 	
 	
 	public override void Visit(BlockStatement n)
 	{
-		Iterator iterator = n.getDeclarations().iterator();
+		Iterator iterator = n.Declarations.iterator();
 		while (iterator.hasNext())
 		{
 			Declaration declaration = (Declaration)iterator.next();
 			declaration.Accept(this);
 		}
-		iterator = n.getStatements().iterator();
+		iterator = n.Statements.iterator();
 		while (iterator.hasNext())
 		{
 			Statement statement = (Statement)iterator.next();
@@ -259,13 +256,13 @@ public class CodeGenerationVisitor : Visitor
 
 	
 	
-	public override void visit(IfStatement n)
+	public override void Visit(IfStatement n)
 	{
-		string label = labeler.getLabel();
-		n.getCondition().Accept(this);
-		output.WriteLine(("cmpl $0, %eax\nje ")+(label).ToString());
-		n.getIfClause().Accept(this);
-		output.WriteLine((label)+(":").ToString());
+		string label = labeler.GetCurrentLabel();
+		n.Condition.Accept(this);
+		output.WriteLine(("cmpl $0, %eax\nje ")+(label));
+		n.IfClause.Accept(this);
+		output.WriteLine((label)+(":"));
 	}
 
 	
@@ -274,19 +271,19 @@ public class CodeGenerationVisitor : Visitor
 		160, 85, 120, 108, 127, 6, 108, 127, 32, 108,
 		127, 8
 	})]
-	public override void visit(IfElseStatement n)
+	public override void Visit(IfElseStatement n)
 	{
-		string label = labeler.getLabel();
-		string label2 = labeler.getLabel();
-		n.getCondition().Accept(this);
-		output.WriteLine(("cmpl $0, %eax\nje ")+(label).ToString());
-		n.getIfClause().Accept(this);
+		string label = labeler.GetCurrentLabel();
+		string label2 = labeler.GetCurrentLabel();
+		n.Condition.Accept(this);
+		output.WriteLine(("cmpl $0, %eax\nje ")+(label));
+		n.IfClause.Accept(this);
 		output.WriteLine(("jmp ")+(label2)+("\n")
 			+(label)
 			+(":")
-			.ToString());
-		n.getElseClause().Accept(this);
-		output.WriteLine((label2)+(":").ToString());
+			);
+		n.ElseClause.Accept(this);
+		output.WriteLine((label2)+(":"));
 	}
 
 	
@@ -295,32 +292,32 @@ public class CodeGenerationVisitor : Visitor
 		160, 95, 120, 127, 6, 108, 127, 6, 108, 127,
 		34
 	})]
-	public override void visit(WhileStatement n)
+	public override void Visit(WhileStatement n)
 	{
-		string label = labeler.getLabel();
-		string label2 = labeler.getLabel();
-		output.WriteLine((label)+(":").ToString());
-		n.getCondition().Accept(this);
-		output.WriteLine(("cmpl $0, %eax\nje ")+(label2).ToString());
-		n.getBody().Accept(this);
+		string label = labeler.GetCurrentLabel();
+		string label2 = labeler.GetCurrentLabel();
+		output.WriteLine((label)+(":"));
+		n.Condition.Accept(this);
+		output.WriteLine(("cmpl $0, %eax\nje ")+(label2));
+		n.Body.Accept(this);
 		output.WriteLine(("jmp ")+(label)+("\n")
 			+(label2)
 			+(":")
-			.ToString());
+			);
 	}
 
 	
 	
-	public override void visit(ReturnVoidStatement n)
+	public override void Visit(ReturnVoidStatement n)
 	{
 		printReturnCode();
 	}
 
 	
 	
-	public override void visit(ReturnValueStatement n)
+	public override void Visit(ReturnValueStatement n)
 	{
-		n.getValue().Accept(this);
+		n.Value.Accept(this);
 		if (inMainFunction)
 		{
 			output.WriteLine("pushl %eax\ncall exit");
@@ -336,7 +333,7 @@ public class CodeGenerationVisitor : Visitor
 	public override void visit(Assignment n)
 	{
 		n.Value.Accept(this);
-		output.WriteLine(("movl %eax, ")+(SymbolLocationVisitor.get(n.Identifier.getSymbol())).ToString());
+		output.WriteLine(("movl %eax, ")+(SymbolLocationVisitor.get(n.Identifier.Symbol)));
 	}
 
 	
@@ -345,52 +342,52 @@ public class CodeGenerationVisitor : Visitor
 		160, 128, 103, 103, 104, 114, 16, 230, 70, 191,
 		16, 159, 23
 	})]
-	public override void visit(FunctionCall n)
+	public override void Visit(FunctionCall n)
 	{
-		List arguments = n.getArguments();
+		IList arguments = n.Arguments;
 		int num = arguments.size();
 		for (int i = num - 1; i >= 0; i += -1)
 		{
 			((Expression)arguments.get(i)).Accept(this);
 			output.WriteLine("pushl %eax");
 		}
-		output.WriteLine(("call ")+(n.getSymbol().getLabel()).ToString());
+		output.WriteLine(("call ")+(n.Symbol.Label));
 		if (num != 0)
 		{
 			output.WriteLine(("addl $")+(num * 4)+(", %esp")
-				.ToString());
+				);
 		}
 	}
 
 	
 	
-	public override void visit(IdentifierExpression n)
+	public override void Visit(IdentifierExpression n)
 	{
-		output.WriteLine(("movl ")+(SymbolLocationVisitor.get(n.getIdentifier().getSymbol()))+(", %eax")
-			.ToString());
+		output.WriteLine(("movl ")+(SymbolLocationVisitor.get(n.Identifier.Symbol))+(", %eax")
+			);
 	}
 
 	
 	
-	public override void visit(ConstantExpression n)
+	public override void Visit(ConstantExpression n)
 	{
 		output.WriteLine(("movl ")+(ExpressionLocationVisitor.get(n))+(", %eax")
-			.ToString());
+			);
 	}
 
 	
 	
-	public override void visit(Negative n)
+	public override void Visit(Negative n)
 	{
-		n.getArg1().Accept(this);
+		n.Arg1.Accept(this);
 		output.WriteLine("negl %eax");
 	}
 
 	
 	
-	public override void visit(LogicalNot n)
+	public override void Visit(LogicalNot n)
 	{
-		n.getArg1().Accept(this);
+		n.Arg1.Accept(this);
 		output.WriteLine("negl %eax\nincl %eax");
 	}
 
@@ -403,70 +400,70 @@ public class CodeGenerationVisitor : Visitor
 
 	
 	
-	public override void visit(Subtraction n)
+	public override void Visit(Subtraction n)
 	{
 		arith(n, "subl");
 	}
 
 	
 	
-	public override void visit(Multiplication n)
+	public override void Visit(Multiplication n)
 	{
 		arith(n, "imull");
 	}
 
 	
 	
-	public override void visit(EqualTo n)
+	public override void Visit(EqualTo n)
 	{
 		comp(n, "je");
 	}
 
 	
 	
-	public override void visit(NotEqualTo n)
+	public override void Visit(NotEqualTo n)
 	{
 		comp(n, "jne");
 	}
 
 	
 	
-	public override void visit(GreaterThan n)
+	public override void Visit(GreaterThan n)
 	{
 		comp(n, "jg");
 	}
 
 	
 	
-	public override void visit(GreaterThanOrEqualTo n)
+	public override void Visit(GreaterThanOrEqualTo n)
 	{
 		comp(n, "jge");
 	}
 
 	
 	
-	public override void visit(LessThan n)
+	public override void Visit(LessThan n)
 	{
 		comp(n, "jl");
 	}
 
 	
 	
-	public override void visit(LessThanOrEqualTo n)
+	public override void Visit(LessThanOrEqualTo n)
 	{
 		comp(n, "jle");
 	}
 
 	
 	
-	public override void visit(LogicalAnd n)
+	public override void Visit(LogicalAnd n)
 	{
 		logical(n, "je");
 	}
 
 	
 	
-	public override void visit(LogicalOr n)
+	public override void Visit(LogicalOr n)
 	{
 		logical(n, "jne");
 	}

@@ -1,15 +1,11 @@
-
 using CMinor.Parser;
 using CMinor.Visit;
-
 
 namespace CMinor.AST;
 
 public abstract class ExternalDeclaration : AstNode
 {
-	private Identifier name;
-
-	
+	private Identifier name;	
 	
 	public ExternalDeclaration(LocationInfo info, Identifier name)
 		: base(info)
@@ -17,15 +13,12 @@ public abstract class ExternalDeclaration : AstNode
 		this.name = name;
 	}
 
-	public virtual Identifier getIdentifier()
-	{
-		return name;
-	}
+    public virtual Identifier Identifier => name;
 
-	
-	
-	public override void Accept(Visitor v)
+
+
+    public override void Accept(Visitor v)
 	{
-		v.visit(this);
+		v.Visit(this);
 	}
 }

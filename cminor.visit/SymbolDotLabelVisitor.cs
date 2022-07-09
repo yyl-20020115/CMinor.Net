@@ -1,50 +1,33 @@
-
 using CMinor.Symbol;
-
-
 
 namespace CMinor.Visit;
 
 public class SymbolDotLabelVisitor : SymbolVisitor
 {
 	private string label;
-
-	
 	
 	public SymbolDotLabelVisitor()
 	{
 	}
 
-	public virtual string getLabel()
+    public virtual string Label => label;
+
+    public override void Visit(FunctionSymbol s)
 	{
-		return label;
+		label = ("FUNCTION ")+(s.Identifier);
 	}
 
-	
-	
-	public override void visit(FunctionSymbol s)
+	public override void Visit(GlobalVariableSymbol s)
 	{
-		label = ("FUNCTION ")+(s.getIdentifier());
+		label = ("GLOBAL ")+(s.Identifier);
 	}
-
 	
-	
-	public override void visit(GlobalVariableSymbol s)
+	public override void Visit(LocalVariableSymbol s)
 	{
-		label = ("GLOBAL ")+(s.getIdentifier());
+		label = ("LOCAL ")+(s.Identifier);
 	}
-
-	
-	
-	public override void visit(LocalVariableSymbol s)
+	public override void Visit(ParameterSymbol s)
 	{
-		label = ("LOCAL ")+(s.getIdentifier());
-	}
-
-	
-	
-	public override void visit(ParameterSymbol s)
-	{
-		label = ("PARAM ")+(s.getIdentifier());
+		label = ("PARAM ")+(s.Identifier);
 	}
 }

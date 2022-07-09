@@ -1,6 +1,6 @@
 
 using CMinor.AST;
-using CMinor.semantic;
+using CMinor.Semantic;
 using CMinor.Symbol;
 
 
@@ -15,7 +15,7 @@ internal class FormatStringVisitor : Visitor
 	private StringBuilder literalContent;
 
 	
-	private List actualArguments;
+	private IList actualArguments;
 
 	private StringTable stringTable;
 
@@ -35,7 +35,7 @@ internal class FormatStringVisitor : Visitor
 	
 	
 	
-	public FormatStringVisitor(StringBuilder P_0, List P_1, StringTable P_2, Program P_3, ErrorLogger P_4)
+	public FormatStringVisitor(StringBuilder P_0, IList P_1, StringTable P_2, Program P_3, ErrorLogger P_4)
 	{
 		result = P_0;
 		literalContent = new StringBuilder();
@@ -49,8 +49,8 @@ internal class FormatStringVisitor : Visitor
 	
 	public override void visit(AstNode P_0)
 	{
-		logger.log(P_0.getLocation(), ("format string visitor in ")+(P_0.getDotLabel())+(" is a stub")
-			.ToString());
+		logger.log(P_0.getLocation(), ("format string visitor in ")+(P_0.DotLabel)+(" is a stub")
+			);
 	}
 
 	
@@ -59,26 +59,26 @@ internal class FormatStringVisitor : Visitor
 		159, 188, 173, 125, 172, 103, 126, 136, 145, 189,
 		123, 121
 	})]
-	public override void visit(Expression P_0)
+	public override void Visit(Expression P_0)
 	{
-		actualArguments.add(P_0);
-		result+(escape(literalContent.ToString()));
+		actualArguments.Add(P_0);
+		result+(escape(literalContent));
 		literalContent.setLength(0);
-		Type type = P_0.getType();
-		if (type == Type.___003C_003ECHAR)
+		Type type = P_0.Type;
+		if (type == Type.char_type)
 		{
 			result+("%c");
 		}
-		else if (type == Type.___003C_003EBOOLEAN)
+		else if (type == Type.boolean_type)
 		{
 			result+("%s");
-			program.setBooleanStringSymbol(stringTable.getSymbol("false\0true"));
+			program.BooleanStringSymbol = stringTable.getSymbol("false\0true");
 		}
-		else if (type == Type.___003C_003EINT)
+		else if (type == Type.integer_type)
 		{
 			result+("%d");
 		}
-		else if (type == Type.___003C_003ESTRING)
+		else if (type == Type.string_type)
 		{
 			result+("%s");
 		}
@@ -86,22 +86,22 @@ internal class FormatStringVisitor : Visitor
 
 	
 	
-	public override void visit(ConstantExpression P_0)
+	public override void Visit(ConstantExpression P_0)
 	{
-		literalContent+(P_0.getValue());
+		literalContent+(P_0.Value);
 	}
 
 	
 	
-	public override void visit(BooleanLiteral P_0)
+	public override void Visit(BooleanLiteral P_0)
 	{
-		literalContent+((!((Boolean)P_0.getValue()).booleanValue()) ? "false" : "true");
+		literalContent+((!((Boolean)P_0.Value).booleanValue()) ? "false" : "true");
 	}
 
 	
 	
 	public virtual void finish()
 	{
-		result+(escape(literalContent.ToString()));
+		result+(escape(literalContent));
 	}
 }

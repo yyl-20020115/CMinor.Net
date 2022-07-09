@@ -1,18 +1,10 @@
-
-
-
-
 namespace CMinor.Parser;
 
 public class LocationInfo
 {
 	private string file;
-
 	private int line;
-
 	private int col;
-
-	
 	
 	public LocationInfo(string file, int line, int col)
 	{
@@ -21,15 +13,5 @@ public class LocationInfo
 		this.col = col;
 	}
 
-	
-	
-	public override string ToString()
-	{
-		string result = (file)+(':')+(line)
-			+(':')
-			+(col)
-			.ToString();
-		
-		return result;
-	}
+    public override string ToString() => (file) + (':') + (line) + (':') + (col);
 }

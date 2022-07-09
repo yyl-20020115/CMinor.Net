@@ -3,7 +3,7 @@
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class terminal : symbol
 {
@@ -21,7 +21,7 @@ public class terminal : symbol
 
 	internal static terminal ___003C_003Eerror;
 
-	[Modifiers(Modifiers.Public | Modifiers.Static | Modifiers.Final)]
+	
 	public static terminal EOF
 	{
 		
@@ -31,7 +31,7 @@ public class terminal : symbol
 		}
 	}
 
-	[Modifiers(Modifiers.Public | Modifiers.Static | Modifiers.Final)]
+	
 	public static terminal error
 	{
 		
@@ -92,7 +92,7 @@ public class terminal : symbol
 	
 	public static terminal find(int indx)
 	{
-		Integer key = new Integer(indx);
+		int key = (indx);
 		return (terminal)_all_by_index.get(key);
 	}
 
@@ -109,14 +109,14 @@ public class terminal : symbol
 		if (obj != null)
 		{
 			new internal_error(("Duplicate terminal (")+(nm)+(") created")
-				.ToString()).crash();
+				).crash();
 		}
 		_index = next_index++;
 		_precedence_num = precedence_num;
 		_precedence_side = precedence_side;
 		Hashtable all_by_index = _all_by_index;
 		
-		all_by_index.put(new Integer(_index), this);
+		all_by_index.put((_index), this);
 	}
 
 	
@@ -146,7 +146,7 @@ public class terminal : symbol
 	
 	public override string ToString()
 	{
-		string result = (base.ToString())+("[")+(index())
+		string result = (base)+("[")+(index())
 			+("]")
 			.ToString();
 		

@@ -1,10 +1,7 @@
-
 using CMinor.Parser;
 using CMinor.Symbol;
 using CMinor.Visit;
-
-
-
+using System.Collections;
 
 namespace CMinor.AST;
 
@@ -16,7 +13,7 @@ public class PrintStatement : Statement
 
 	public const string BOOL_STRING = "false\0true";
 
-	internal static int ___003C_003EOFFSET;
+	internal static int offset;
 
 	public const string CHAR_FORMAT = "%c";
 
@@ -24,60 +21,28 @@ public class PrintStatement : Statement
 
 	public const string STRING_FORMAT = "%s";
 
-	private List arguments;
+	private IList arguments;
 
 	private StringSymbol symbol;
 
-	private List actualArguments;
+	private IList actualArguments;
 
-	public static int OFFSET
-	{
-		get
-		{
-			return ___003C_003EOFFSET;
-		}
-	}
+    public static int OFFSET => offset;
 
-	public static void ___003Cclinit_003E()
-	{
-	}
-
-	public PrintStatement(LocationInfo info, List arguments)
+	public PrintStatement(LocationInfo info, IList arguments)
 		: base(info)
 	{
 		this.arguments = arguments;
 	}
 
-	public virtual List getArguments()
-	{
-		return arguments;
-	}
+    public virtual IList Arguments => arguments;
 
-	public virtual StringSymbol getSymbol()
-	{
-		return symbol;
-	}
+    public virtual StringSymbol Symbol { get => symbol; set => this.symbol = value; }
 
-	public virtual void setSymbol(StringSymbol symbol)
-	{
-		this.symbol = symbol;
-	}
 
-	
-	public virtual List getActualArguments()
-	{
-		return actualArguments;
-	}
+    public virtual IList ActualArguments { get => actualArguments; set => this.actualArguments = value; }
 
-	
-	public virtual void setActualArguments(List actualArguments)
-	{
-		this.actualArguments = actualArguments;
-	}
-
-	
-	
-	public override void Accept(Visitor v)
+    public override void Accept(Visitor v)
 	{
 		v.visit(this);
 	}
@@ -85,6 +50,6 @@ public class PrintStatement : Statement
 	
 	static PrintStatement()
 	{
-		___003C_003EOFFSET = String.instancehelper_length("false") + 1;
+		offset = ("false").Length + 1;
 	}
 }

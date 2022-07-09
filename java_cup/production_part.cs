@@ -2,7 +2,7 @@
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public abstract class production_part
 {

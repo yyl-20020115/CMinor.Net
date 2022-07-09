@@ -3,7 +3,7 @@
 using IKVM.Runtime;
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class lr_item_core
 {
@@ -16,7 +16,7 @@ public class lr_item_core
 	protected internal symbol _symbol_after_dot;
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		159, 176, 232, 160, 70, 231, 159, 187, 162, 99,
@@ -78,7 +78,7 @@ public class lr_item_core
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		160, 107, 191, 23, 152, 134, 155, 179, 105, 187,
@@ -102,7 +102,7 @@ public class lr_item_core
 			}
 			production_part production_part2 = _the_production.rhs(i);
 			str = ((production_part2 != null) ? ((!production_part2.is_action()) ? ((((symbol_part)production_part2).the_symbol() == null || ((symbol_part)production_part2).the_symbol().name() == null) ? (str)+("$$NULL$$ ").ToString() : (str)+(((symbol_part)production_part2).the_symbol().name())+(" ")
-				.ToString()) : (str)+("{ACTION} ").ToString()) : (str)+("$$NULL$$ ").ToString());
+				) : (str)+("{ACTION} ")) : (str)+("$$NULL$$ "));
 		}
 		if (_dot_pos == _the_production.rhs_length())
 		{
@@ -112,7 +112,7 @@ public class lr_item_core
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public lr_item_core(production prod)
 		: this(prod, 0)
@@ -142,7 +142,7 @@ public class lr_item_core
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual lr_item_core shift_core()
 	{

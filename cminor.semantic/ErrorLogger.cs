@@ -1,32 +1,19 @@
-
+using System;
 using CMinor.Parser;
 
-
-
-namespace CMinor.semantic;
+namespace CMinor.Semantic;
 
 public class ErrorLogger
 {
-	private int numErrors;
+	private int numErrors = 0;
 
-	
-	
-	public ErrorLogger()
-	{
-		numErrors = 0;
-	}
+	public ErrorLogger() { }
 
-	public virtual bool hasErrors()
-	{
-		return numErrors > 0;
-	}
+    public virtual bool HasErrors => numErrors > 0;
 
-	
-	
-	public virtual void log(LocationInfo info, string msg)
+    public virtual void log(LocationInfo info, string msg)
 	{
-		numErrors++;
-		java.lang.System.err.WriteLine((info)+(": ")+(msg)
-			.ToString());
+		this.numErrors++;
+		Console.Error.WriteLine((info)+(": ")+(msg));
 	}
 }

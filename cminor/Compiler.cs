@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using CMinor.AST;
 using CMinor.lexer;
 using CMinor.Parser;
-using CMinor.semantic;
+using CMinor.Semantic;
 
 namespace CMinor;
 
@@ -85,7 +85,7 @@ public class Compiler
 	}
 
 	
-	[Throws(new string[] { "cminor.Compiler$UsageError" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		11,
@@ -147,14 +147,14 @@ public class Compiler
 		for (int i = 0; i < num5; i++)
 		{
 			string text2 = args[i];
-			if (arrayList != null && ((List)arrayList).size() == 0)
+			if (arrayList != null && ((IList)arrayList).size() == 0)
 			{
 				if (isFlag(text2))
 				{
 					
 					throw new UsageError("-o flag missing argument");
 				}
-				((List)arrayList).add((object)text2);
+				((IList)arrayList).Add((object)text2);
 				continue;
 			}
 			if (java.lang.String.instancehelper_equals(text2, "-o"))
@@ -224,12 +224,12 @@ public class Compiler
 		}
 		if (arrayList != null)
 		{
-			if (((List)arrayList).size() <= 0)
+			if (((IList)arrayList).size() <= 0)
 			{
 				
 				throw new UsageError("-o flag missing argument");
 			}
-			outputName = (string)((List)arrayList).get(0);
+			outputName = (string)((IList)arrayList).get(0);
 		}
 		if (num2 != 0 && num3 != 0)
 		{
@@ -279,7 +279,7 @@ public class Compiler
 	}
 
 	
-	[Throws(new string[] { "cminor.parser.ParsingError", "java.io.IOException" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		160, 126, 103, 103, 103, 135, 113, 245, 70, 77,
@@ -346,7 +346,7 @@ public class Compiler
 	}
 
 	
-	[Throws(new string[] { "cminor.Compiler$UsageError" })]
+	
 	
 	public Compiler(string[] args)
 	{
@@ -354,7 +354,7 @@ public class Compiler
 	}
 
 	
-	[Throws(new string[] { "System.Exception", "cminor.Compiler$CompilationError" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		97, 178, 100, 122, 130, 127, 6, 130, 113, 187,
@@ -386,26 +386,26 @@ public class Compiler
 		AstNode rootNode = getRootNode(fileReader, text, errorLogger);
 		if (checkMode)
 		{
-			if (errorLogger.hasErrors())
+			if (errorLogger.HasErrors)
 			{
 				
 				throw new ParsingError("parsing phase failed");
 			}
 			rootNode.resolveSymbols(errorLogger);
-			if (errorLogger.hasErrors())
+			if (errorLogger.HasErrors)
 			{
 				
 				throw new CompilationError("symbol resolution phase failed");
 			}
 			rootNode.typeCheck(errorLogger);
-			if (!errorLogger.hasErrors())
+			if (!errorLogger.HasErrors)
 			{
 				return;
 			}
 			
 			throw new CompilationError("type checking phase failed");
 		}
-		if (errorLogger.hasErrors())
+		if (errorLogger.HasErrors)
 		{
 			
 			throw new ParsingError("compilation aborted");
@@ -427,13 +427,13 @@ public class Compiler
 			return;
 		}
 		rootNode.resolveSymbols(errorLogger);
-		if (errorLogger.hasErrors())
+		if (errorLogger.HasErrors)
 		{
 			
 			throw new CompilationError("compilation aborted");
 		}
 		rootNode.typeCheck(errorLogger);
-		if (errorLogger.hasErrors())
+		if (errorLogger.HasErrors)
 		{
 			
 			throw new CompilationError("compilation aborted");
@@ -447,7 +447,7 @@ public class Compiler
 	
 	private static bool hasSuffix(string P_0, string P_1)
 	{
-		bool result = java.lang.String.instancehelper_endsWith(P_0, (".")+(P_1).ToString());
+		bool result = java.lang.String.instancehelper_endsWith(P_0, (".")+(P_1));
 		
 		return result;
 	}
@@ -544,19 +544,19 @@ public class Compiler
 			goto IL_0054;
 		}
 		UsageError @this = usageError;
-		java.lang.System.err.WriteLine(Throwable.instancehelper_getMessage(@this));
+		Console.Error.WriteLine(Throwable.instancehelper_getMessage(@this));
 		printUsage();
 		java.lang.System.exit(1);
 		return;
 		IL_0054:
 		System.Exception this2 = ex3;
-		java.lang.System.err.WriteLine(("internal compiler error (crap!): ")+(Throwable.instancehelper_getMessage(this2)).ToString());
+		Console.Error.WriteLine(("internal compiler error (crap!): ")+(Throwable.instancehelper_getMessage(this2)));
 		Throwable.instancehelper_printStackTrace(this2, java.lang.System.err);
 		java.lang.System.exit(1);
 		return;
 		IL_0050:
 		FileNotFoundException this3 = ex;
-		java.lang.System.err.WriteLine(("error when using file: ")+(Throwable.instancehelper_getMessage(this3)).ToString());
+		Console.Error.WriteLine(("error when using file: ")+(Throwable.instancehelper_getMessage(this3)));
 		java.lang.System.exit(1);
 		return;
 		IL_004d:
@@ -567,7 +567,7 @@ public class Compiler
 		goto IL_0083;
 		IL_0083:
 		this2 = (System.Exception)obj;
-		java.lang.System.err.WriteLine(Throwable.instancehelper_getMessage(this2));
+		Console.Error.WriteLine(Throwable.instancehelper_getMessage(this2));
 		java.lang.System.exit(1);
 	}
 
@@ -575,10 +575,10 @@ public class Compiler
 	static Compiler()
 	{
 		flags = new HashSet();
-		flags.add("-o");
-		flags.add("-h");
-		flags.add("-t");
-		flags.add("-s");
-		flags.add("-l");
+		flags.Add("-o");
+		flags.Add("-h");
+		flags.Add("-t");
+		flags.Add("-s");
+		flags.Add("-l");
 	}
 }

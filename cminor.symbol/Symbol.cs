@@ -1,5 +1,5 @@
 using CMinor.Parser;
-using CMinor.semantic;
+using CMinor.Semantic;
 using CMinor.Visit;
 using System.Text;
 
@@ -16,26 +16,17 @@ public abstract class Symbol : DotNode
 	private string identifier;
 
 	private Type type;
-
 	
-	
-	public virtual void accept(SymbolVisitor v)
+	public virtual void Accept(SymbolVisitor v)
 	{
-		v.visit(this);
+		v.Visit(this);
 	}
 
-	
-	
-	public virtual string getDotId()
-	{
-		string result = ("Symbol")+(instanceNumber);
-		
-		return result;
-	}
 
-	
-	
-	protected internal Symbol(LocationInfo info, string identifier, Type type)
+
+    public virtual string DotId => ("Symbol") + (instanceNumber);
+
+    protected internal Symbol(LocationInfo info, string identifier, Type type)
 	{
 		instanceNumber = numInstances++;
 		this.identifier = identifier;
@@ -43,29 +34,21 @@ public abstract class Symbol : DotNode
 		this.type = type;
 	}
 
-	public virtual LocationInfo getLocation()
-	{
-		return info;
-	}
+    public virtual LocationInfo Location => info;
 
-	public virtual string getIdentifier()
-	{
-		return identifier;
-	}
+    public virtual string Identifier => identifier;
 
-	public virtual Type getType()
-	{
-		return type;
-	}
+    public virtual Type Type => type;
 
-	
-	
-	public virtual string getDotLabel()
-	{
-		SymbolDotLabelVisitor symbolDotLabelVisitor = new SymbolDotLabelVisitor();
-		accept(symbolDotLabelVisitor);
-		string label = symbolDotLabelVisitor.getLabel();
-		
-		return label;
-	}
+
+
+    public virtual string DotLabel
+    {
+        get
+        {
+            var symbolDotLabelVisitor = new SymbolDotLabelVisitor();
+            Accept(symbolDotLabelVisitor);
+            return symbolDotLabelVisitor.Label;
+		}
+    }
 }

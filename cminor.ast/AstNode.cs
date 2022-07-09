@@ -1,5 +1,5 @@
 using CMinor.Parser;
-using CMinor.semantic;
+using CMinor.Semantic;
 using CMinor.Symbol;
 using CMinor.Visit;
 using System.Collections;
@@ -38,46 +38,47 @@ public abstract class AstNode : DotNode
 	{
 		v.visit(this);
 	}
-	private void getNodesAndEdges(ChildVisitor P_0, GetSymbolVisitor P_1, List P_2, List P_3, List P_4, List P_5)
+	private void getNodesAndEdges(ChildVisitor P_0, GetSymbolVisitor P_1, IList P_2, IList P_3, IList P_4, IList P_5)
 	{
-		P_2.add(this);
+		P_2.Add(this);
 		ArrayList arrayList = new ArrayList();
 		P_0.setChildren(arrayList);
 		Accept(P_0);
-		Iterator iterator = ((List)arrayList).iterator();
+		Iterator iterator = ((IList)arrayList).iterator();
 		while (iterator.hasNext())
 		{
 			AstNode astNode = (AstNode)iterator.next();
-			P_3.add(new Edge(this, astNode));
+			P_3.Add(new Edge(this, astNode));
 			astNode.getNodesAndEdges(P_0, P_1, P_2, P_3, P_4, P_5);
 		}
 		ArrayList arrayList2 = new ArrayList();
 		P_1.setSymbols(arrayList2);
 		Accept(P_1);
-		Iterator iterator2 = ((List)arrayList2).iterator();
+		Iterator iterator2 = ((IList)arrayList2).iterator();
 		while (iterator2.hasNext())
 		{
 			CMinor.Symbol.Symbol symbol = (CMinor.Symbol.Symbol)iterator2.next();
 			if (symbol != null)
 			{
-				P_4.add(symbol);
-				P_5.add(new Edge(this, symbol));
+				P_4.Add(symbol);
+				P_5.Add(new Edge(this, symbol));
 			}
 		}
 	}
 
-	
-	
-	public virtual string getDotId()
-	{
-		string result = ("AstNode")+(instanceNumber);
-		
-		return result;
-	}
 
-	
-	
-	protected internal AstNode(LocationInfo location)
+
+    public virtual string DotId
+    {
+        get
+        {
+            string result = ("AstNode") + (instanceNumber);
+
+            return result;
+        }
+    }
+
+    protected internal AstNode(LocationInfo location)
 	{
 		instanceNumber = numInstances++;
 		this.location = location;
@@ -88,18 +89,21 @@ public abstract class AstNode : DotNode
 		return location;
 	}
 
-	
-	
-	public virtual string getDotLabel()
-	{
-		DotLabelVisitor dotLabelVisitor = new DotLabelVisitor();
-		Accept(dotLabelVisitor);
-		string label = dotLabelVisitor.getLabel();
-		
-		return label;
-	}
 
-	public void printDotCode(TextWriter output)
+
+    public virtual string DotLabel
+    {
+        get
+        {
+            DotLabelVisitor dotLabelVisitor = new DotLabelVisitor();
+            Accept(dotLabelVisitor);
+            string label = dotLabelVisitor.getLabel();
+
+            return label;
+        }
+    }
+
+    public void printDotCode(TextWriter output)
 	{
 		DotLabelVisitor dotLabelVisitor = new DotLabelVisitor();
 		ChildVisitor childVisitor = new ChildVisitor();
@@ -112,43 +116,43 @@ public abstract class AstNode : DotNode
 		getNodesAndEdges(childVisitor, getSymbolVisitor, arrayList, arrayList2, arrayList3, arrayList4);
 		output.WriteLine("digraph {");
 		output.WriteLine("\tgraph [ordering=\"out\"];");
-		Iterator iterator = ((List)arrayList).iterator();
+		Iterator iterator = ((IList)arrayList).iterator();
 		while (iterator.hasNext())
 		{
 			AstNode astNode = (AstNode)iterator.next();
 			astNode.Accept(dotLabelVisitor);
-			output.WriteLine(("\t")+(astNode.getDotId())+(" [label=\"")
+			output.WriteLine(("\t")+(astNode.DotId)+(" [label=\"")
 				+(dotLabelVisitor.getLabel())
 				+("\"];")
-				.ToString());
+				);
 		}
-		iterator = ((List)arrayList2).iterator();
+		iterator = ((IList)arrayList2).iterator();
 		while (iterator.hasNext())
 		{
 			Edge edge = (Edge)iterator.next();
-			output.WriteLine(("\t")+(edge.source.getDotId())+(" -> ")
-				+(edge.dest.getDotId())
+			output.WriteLine(("\t")+(edge.source.DotId)+(" -> ")
+				+(edge.dest.DotId)
 				+(";")
-				.ToString());
+				);
 		}
-		iterator = ((List)arrayList3).iterator();
+		iterator = ((IList)arrayList3).iterator();
 		while (iterator.hasNext())
 		{
 			CMinor.Symbol.Symbol symbol = (CMinor.Symbol.Symbol)iterator.next();
-			symbol.accept(symbolDotLabelVisitor);
-			output.WriteLine(("\t")+(symbol.getDotId())+(" [label=\"")
-				+(symbolDotLabelVisitor.getLabel())
+			symbol.Accept(symbolDotLabelVisitor);
+			output.WriteLine(("\t")+(symbol.DotId)+(" [label=\"")
+				+(symbolDotLabelVisitor.Label)
 				+("\", shape=box]")
-				.ToString());
+				);
 		}
-		iterator = ((List)arrayList4).iterator();
+		iterator = ((IList)arrayList4).iterator();
 		while (iterator.hasNext())
 		{
 			Edge edge = (Edge)iterator.next();
-			output.WriteLine(("\t")+(edge.source.getDotId())+(" -> ")
-				+(edge.dest.getDotId())
+			output.WriteLine(("\t")+(edge.source.DotId)+(" -> ")
+				+(edge.dest.DotId)
 				+(" [style=\"dashed\"];")
-				.ToString());
+				);
 		}
 		output.WriteLine("}");
 	}

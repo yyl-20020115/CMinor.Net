@@ -1,10 +1,10 @@
 
 
-using java_cup.runtime;
+using JavaCUP.Runtime;
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class parser : lr_parser
 {
@@ -16,7 +16,7 @@ public class parser : lr_parser
 
 	internal CUP_0024parser_0024actions ___003C_003Eaction_obj;
 
-	[Modifiers(Modifiers.Protected | Modifiers.Static | Modifiers.Final)]
+	
 	protected internal static short[][] _production_table
 	{
 		
@@ -26,7 +26,7 @@ public class parser : lr_parser
 		}
 	}
 
-	[Modifiers(Modifiers.Protected | Modifiers.Static | Modifiers.Final)]
+	
 	protected internal static short[][] _action_table
 	{
 		
@@ -36,7 +36,7 @@ public class parser : lr_parser
 		}
 	}
 
-	[Modifiers(Modifiers.Protected | Modifiers.Static | Modifiers.Final)]
+	
 	protected internal static short[][] _reduce_table
 	{
 		
@@ -46,7 +46,7 @@ public class parser : lr_parser
 		}
 	}
 
-	[Modifiers(Modifiers.Protected)]
+	
 	protected internal object action_obj
 	{
 		
@@ -75,7 +75,7 @@ public class parser : lr_parser
 
 	
 	
-	public parser(java_cup.runtime.Scanner s)
+	public parser(JavaCUP.Runtime.Scanner s)
 		: base(s)
 	{
 	}
@@ -103,7 +103,7 @@ public class parser : lr_parser
 	}
 
 	
-	[Throws(new string[] { "System.Exception" })]
+	
 	
 	public override Symbol do_action(int act_num, lr_parser parser, Stack stack, int top)
 	{
@@ -133,7 +133,7 @@ public class parser : lr_parser
 	}
 
 	
-	[Throws(new string[] { "System.Exception" })]
+	
 	
 	public override void user_init()
 	{
@@ -141,7 +141,7 @@ public class parser : lr_parser
 	}
 
 	
-	[Throws(new string[] { "System.Exception" })]
+	
 	
 	public override Symbol scan()
 	{
@@ -156,7 +156,7 @@ public class parser : lr_parser
 	{
 		done_parsing();
 		lexer.emit_error(message);
-		java.lang.System.err.WriteLine("Can't recover from previous error(s), giving up.");
+		Console.Error.WriteLine("Can't recover from previous error(s), giving up.");
 		java.lang.System.exit(1);
 	}
 

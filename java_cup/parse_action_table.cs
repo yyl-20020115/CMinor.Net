@@ -3,7 +3,7 @@
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class parse_action_table
 {
@@ -29,7 +29,7 @@ public class parse_action_table
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		17, 142, 179, 112, 172, 240, 57, 6, 233, 79,
@@ -62,8 +62,8 @@ public class parse_action_table
 			production production2 = (production)enumeration.nextElement();
 			if (production2.num_reductions() == 0 && !emit.nowarn)
 			{
-				java.lang.System.err.WriteLine(("*** Production \"")+(production2.to_simple_string())+("\" never reduced")
-					.ToString());
+				Console.Error.WriteLine(("*** Production \"")+(production2.to_simple_string())+("\" never reduced")
+					);
 				lexer.warning_count++;
 			}
 		}

@@ -1,12 +1,12 @@
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class nonassoc_action : parse_action
 {
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public nonassoc_action()
 	{

@@ -1,18 +1,13 @@
-
 using CMinor.Parser;
 using CMinor.Symbol;
 using CMinor.Visit;
-
 
 namespace CMinor.AST;
 
 public class Identifier : AstNode
 {
 	private string name;
-
-	private CMinor.Symbol.Symbol symbol;
-
-	
+	private CMinor.Symbol.Symbol symbol;	
 	
 	public Identifier(LocationInfo info, string name)
 		: base(info)
@@ -21,25 +16,12 @@ public class Identifier : AstNode
 		symbol = null;
 	}
 
-	public virtual string getString()
-	{
-		return name;
-	}
+    public virtual string Name => name;
 
-	public virtual CMinor.Symbol.Symbol getSymbol()
-	{
-		return symbol;
-	}
+    public virtual CMinor.Symbol.Symbol Symbol { get => symbol; set => this.symbol = value; }
 
-	public virtual void setSymbol(CMinor.Symbol.Symbol symbol)
+    public override void Accept(Visitor v)
 	{
-		this.symbol = symbol;
-	}
-
-	
-	
-	public override void Accept(Visitor v)
-	{
-		v.visit(this);
+		v.Visit(this);
 	}
 }

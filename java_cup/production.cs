@@ -4,7 +4,7 @@ using IKVM.Runtime;
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class production
 {
@@ -102,7 +102,7 @@ public class production
 			{
 				if (rhs_parts[num2] != null && rhs_parts[num2].is_action() && rhs_parts[i].is_action())
 				{
-					rhs_parts[num2] = new action_part((((action_part)rhs_parts[num2]).code_string())+(((action_part)rhs_parts[i]).code_string()).ToString());
+					rhs_parts[num2] = new action_part((((action_part)rhs_parts[num2]).code_string())+(((action_part)rhs_parts[i]).code_string()));
 					num++;
 				}
 				else
@@ -132,7 +132,7 @@ public class production
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		161, 187, 110, 209, 179, 102, 167, 223, 22, 238,
@@ -148,14 +148,14 @@ public class production
 				non_terminal non_terminal2 = non_terminal.create_new();
 				non_terminal2.is_embedded_action = true;
 				action_production.___003Cclinit_003E();
-				new action_production(this, non_terminal2, null, 0, (str)+(((action_part)rhs(i)).code_string()).ToString());
+				new action_production(this, non_terminal2, null, 0, (str)+(((action_part)rhs(i)).code_string()));
 				_rhs[i] = new symbol_part(non_terminal2);
 			}
 		}
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		12,
@@ -289,7 +289,7 @@ public class production
 		_index = next_index++;
 		Hashtable hashtable = _all;
 		
-		hashtable.put(new Integer(_index), this);
+		hashtable.put((_index), this);
 		lhs_sym.add_production(this);
 	}
 
@@ -338,7 +338,7 @@ public class production
 			+("-")
 			+(offset)
 			+(")).right;\n")
-			.ToString());
+			);
 		string result = (str)+("\t\t")+(stack_type)
 			+(" ")
 			+(labelname)
@@ -363,7 +363,7 @@ public class production
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual production_part rhs(int indx)
 	{
@@ -423,7 +423,7 @@ public class production
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public production(non_terminal lhs_sym, production_part[] rhs_parts, int rhs_l)
 		: this(lhs_sym, rhs_parts, rhs_l, null)
@@ -431,7 +431,7 @@ public class production
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public production(non_terminal lhs_sym, production_part[] rhs_parts, int rhs_l, string action_str, int prec_num, int prec_side)
 		: this(lhs_sym, rhs_parts, rhs_l, action_str)
@@ -441,7 +441,7 @@ public class production
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public production(non_terminal lhs_sym, production_part[] rhs_parts, int rhs_l, int prec_num, int prec_side)
 		: this(lhs_sym, rhs_parts, rhs_l, null)
@@ -463,7 +463,7 @@ public class production
 	
 	public static production find(int indx)
 	{
-		return (production)_all.get(new Integer(indx));
+		return (production)_all.get((indx));
 	}
 
 	
@@ -504,7 +504,7 @@ public class production
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		161, 221, 177, 168, 202, 139, 168, 136, 172, 104,
@@ -548,7 +548,7 @@ public class production
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		162, 18, 174, 142, 178, 168, 183, 109, 226, 69,
@@ -563,10 +563,10 @@ public class production
 				symbol symbol2 = ((symbol_part)rhs(i)).the_symbol();
 				if (!symbol2.is_non_term())
 				{
-					_first_set.add((terminal)symbol2);
+					_first_set.Add((terminal)symbol2);
 					break;
 				}
-				_first_set.add(((non_terminal)symbol2).first_set());
+				_first_set.Add(((non_terminal)symbol2).first_set());
 				if (!((non_terminal)symbol2).nullable())
 				{
 					break;
@@ -633,7 +633,7 @@ public class production
 		{
 			string str = ("production [")+(index())+("]: ")
 				.ToString();
-			str = (str)+((lhs() == null) ? "$$NULL-LHS$$" : lhs().ToString());
+			str = (str)+((lhs() == null) ? "$$NULL-LHS$$" : lhs());
 			str = (str)+(" :: = ");
 			for (int i = 0; i < rhs_length(); i++)
 			{
@@ -667,7 +667,7 @@ public class production
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual string to_simple_string()
 	{

@@ -1,15 +1,15 @@
 
 
-using java_cup.runtime;
+using JavaCUP.Runtime;
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 [SourceFile("parser.java")]
 internal class CUP_0024parser_0024actions
 {
-	[Modifiers(Modifiers.Protected | Modifiers.Final)]
+	
 	protected internal int MAX_RHS;
 
 	protected internal production_part[] rhs_parts;
@@ -30,7 +30,7 @@ internal class CUP_0024parser_0024actions
 
 	internal int _cur_side;
 
-	[Modifiers(Modifiers.Private | Modifiers.Final)]
+	
 	private parser parser;
 
 	
@@ -42,11 +42,11 @@ internal class CUP_0024parser_0024actions
 		{
 			str = ".";
 		}
-		multipart_name = String.instancehelper_concat(multipart_name, (str)+(P_0).ToString());
+		multipart_name = String.instancehelper_concat(multipart_name, (str)+(P_0));
 	}
 
 	
-	[Throws(new string[] { "System.Exception" })]
+	
 	
 	protected internal virtual void add_rhs_part(production_part P_0)
 	{
@@ -60,7 +60,7 @@ internal class CUP_0024parser_0024actions
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	protected internal virtual production_part add_lab(production_part P_0, string P_1)
 	{
@@ -88,14 +88,14 @@ internal class CUP_0024parser_0024actions
 	{
 		if (P_0 == null)
 		{
-			java.lang.System.err.WriteLine("Unable to add precedence to nonexistent terminal");
+			Console.Error.WriteLine("Unable to add precedence to nonexistent terminal");
 			return;
 		}
 		symbol_part symbol_part2 = (symbol_part)symbols.get(P_0);
 		if (symbol_part2 == null)
 		{
-			java.lang.System.err.WriteLine(("Could find terminal ")+(P_0)+(" while declaring precedence")
-				.ToString());
+			Console.Error.WriteLine(("Could find terminal ")+(P_0)+(" while declaring precedence")
+				);
 			return;
 		}
 		symbol symbol2 = symbol_part2.the_symbol();
@@ -105,7 +105,7 @@ internal class CUP_0024parser_0024actions
 		}
 		else
 		{
-			java.lang.System.err.WriteLine(("Precedence declaration: Can't find terminal ")+(P_0).ToString());
+			Console.Error.WriteLine(("Precedence declaration: Can't find terminal ")+(P_0));
 		}
 	}
 
@@ -137,7 +137,7 @@ internal class CUP_0024parser_0024actions
 	}
 
 	
-	[Throws(new string[] { "System.Exception" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		161,
@@ -1105,7 +1105,7 @@ internal class CUP_0024parser_0024actions
 			if (symbols.get(text) != null)
 			{
 				lexer.emit_error(("java_cup.runtime.Symbol \"")+(text)+("\" has already been declared")
-					.ToString());
+					);
 			}
 			else
 			{
@@ -1129,7 +1129,7 @@ internal class CUP_0024parser_0024actions
 			if (symbols.get(text) != null)
 			{
 				lexer.emit_error(("java_cup.runtime.Symbol \"")+(text)+("\" has already been declared")
-					.ToString());
+					);
 			}
 			else
 			{
@@ -1213,7 +1213,7 @@ internal class CUP_0024parser_0024actions
 				if (lexer.error_count == 0)
 				{
 					lexer.emit_error(("java_cup.runtime.Symbol \"")+(text)+("\" has not been declared")
-						.ToString());
+						);
 				}
 			}
 			else
@@ -1260,7 +1260,7 @@ internal class CUP_0024parser_0024actions
 				symbol symbol2;
 				if (text == null)
 				{
-					java.lang.System.err.WriteLine("No terminal for contextual precedence");
+					Console.Error.WriteLine("No terminal for contextual precedence");
 					symbol2 = null;
 				}
 				else
@@ -1275,8 +1275,8 @@ internal class CUP_0024parser_0024actions
 				}
 				else
 				{
-					java.lang.System.err.WriteLine(("Invalid terminal ")+(text)+(" for contextual precedence assignment")
-						.ToString());
+					Console.Error.WriteLine(("Invalid terminal ")+(text)+(" for contextual precedence assignment")
+						);
 					production.___003Cclinit_003E();
 					new production(lhs_nt, rhs_parts, rhs_pos);
 				}
@@ -1354,7 +1354,7 @@ internal class CUP_0024parser_0024actions
 			if (lhs_nt == null && lexer.error_count == 0)
 			{
 				lexer.emit_error(("LHS non terminal \"")+(text)+("\" has not been declared")
-					.ToString());
+					);
 			}
 			new_rhs();
 			return new Symbol(54, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
@@ -1390,7 +1390,7 @@ internal class CUP_0024parser_0024actions
 			if (value2 == null)
 			{
 				lexer.emit_error(("Start non terminal \"")+(text)+("\" has not been declared")
-					.ToString());
+					);
 			}
 			else
 			{
@@ -1414,7 +1414,7 @@ internal class CUP_0024parser_0024actions
 			if (symbols.get(text) == null)
 			{
 				lexer.emit_error(("Terminal \"")+(text)+("\" has not been declared")
-					.ToString());
+					);
 			}
 			string o2 = text;
 			return new Symbol(41, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);

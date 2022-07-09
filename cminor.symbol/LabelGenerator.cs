@@ -1,16 +1,11 @@
-
-
-
+using System.Text;
 
 namespace CMinor.Symbol;
 
 public class LabelGenerator
 {
 	private string prefix;
-
 	private int counter;
-
-	
 	
 	public LabelGenerator(string prefix)
 	{
@@ -18,15 +13,5 @@ public class LabelGenerator
 		counter = 0;
 	}
 
-	
-	
-	public virtual string getLabel()
-	{
-		StringBuilder stringBuilder = (prefix)+("_");
-		int num = counter;
-		counter = num + 1;
-		string result = stringBuilder+(num);
-		
-		return result;
-	}
+    public virtual string GetCurrentLabel() => (prefix) + ("_") + (counter++);
 }

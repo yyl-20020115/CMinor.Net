@@ -2,7 +2,7 @@
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class assoc
 {

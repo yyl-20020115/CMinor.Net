@@ -18,21 +18,11 @@ public class BlockStatement : Statement
 		this.statements = statements;
 	}
 
-	
-	public virtual IList getDeclarations()
-	{
-		return declarations;
-	}
 
-	
-	public virtual IList getStatements()
-	{
-		return statements;
-	}
+    public virtual IList Declarations => declarations;
+    public virtual IList Statements => statements;
 
-	
-	
-	public override void Accept(Visitor v)
+    public override void Accept(Visitor v)
 	{
 		v.Visit(this);
 	}

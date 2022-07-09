@@ -4,16 +4,16 @@ using IKVM.Runtime;
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class lalr_item_set
 {
 	protected internal Hashtable _all;
 
-	protected internal Integer hashcode_cache;
+	protected internal int hashcode_cache;
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	protected internal virtual void not_null(object obj)
 	{
@@ -43,7 +43,7 @@ public class lalr_item_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual bool is_subset_of(lalr_item_set other)
 	{
@@ -60,7 +60,7 @@ public class lalr_item_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual lalr_item add(lalr_item itm)
 	{
@@ -68,7 +68,7 @@ public class lalr_item_set
 		lalr_item lalr_item2 = (lalr_item)_all.get(itm);
 		if (lalr_item2 != null)
 		{
-			lalr_item2.lookahead().add(itm.lookahead());
+			lalr_item2.lookahead().Add(itm.lookahead());
 			return lalr_item2;
 		}
 		hashcode_cache = null;
@@ -77,7 +77,7 @@ public class lalr_item_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual void remove(lalr_item itm)
 	{
@@ -87,7 +87,7 @@ public class lalr_item_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public lalr_item_set(lalr_item_set other)
 	{
@@ -107,7 +107,7 @@ public class lalr_item_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual lalr_item get_one()
 	{
@@ -160,7 +160,7 @@ public class lalr_item_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual bool is_superset_of(lalr_item_set other)
 	{
@@ -171,7 +171,7 @@ public class lalr_item_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual void add(lalr_item_set other)
 	{
@@ -184,7 +184,7 @@ public class lalr_item_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public virtual void remove(lalr_item_set other)
 	{
@@ -197,7 +197,7 @@ public class lalr_item_set
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	[LineNumberTable(new byte[]
 	{
 		160, 138, 167, 167, 172, 167, 103, 163, 173, 168,
@@ -229,7 +229,7 @@ public class lalr_item_set
 				}
 				if (lalr_item3 == lalr_item2)
 				{
-					lalr_item_set2.add(lalr_item2);
+					lalr_item_set2.Add(lalr_item2);
 				}
 			}
 		}
@@ -262,7 +262,7 @@ public class lalr_item_set
 				num ^= ((lalr_item)enumeration.nextElement()).hashCode();
 				num2++;
 			}
-			hashcode_cache = new Integer(num);
+			hashcode_cache = (num);
 		}
 		int result = hashcode_cache.intValue();
 		
@@ -279,7 +279,7 @@ public class lalr_item_set
 		while (enumeration.hasMoreElements())
 		{
 			stringBuffer+(("  ")+((lalr_item)enumeration.nextElement())+("\n")
-				.ToString());
+				);
 		}
 		stringBuffer+("}");
 		string result = stringBuffer.ToString();

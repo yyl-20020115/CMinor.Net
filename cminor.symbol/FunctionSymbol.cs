@@ -1,54 +1,27 @@
-
 using CMinor.Parser;
-using CMinor.semantic;
+using CMinor.Semantic;
 using CMinor.Visit;
-
-
-
+using System.Collections;
 
 namespace CMinor.Symbol;
 
 public class FunctionSymbol : Symbol
 {
-	private Type returnType;
+	private Type returnType;	
+	private IList parameters;
 
-	
-	private List parameters;
-
-	
-	
-	
-	public FunctionSymbol(LocationInfo info, string identifier, Type returnType, List parameters)
-		: base(info, identifier, Type.___003C_003EFUNCTION)
+	public FunctionSymbol(LocationInfo info, string identifier, Type returnType, IList parameters)
+		: base(info, identifier, Type.function_type)
 	{
 		this.returnType = returnType;
 		this.parameters = parameters;
 	}
 
-	public virtual Type getReturnType()
+    public virtual Type ReturnType => returnType;
+    public virtual IList Parameters => parameters;
+    public virtual string Label => ("function_") + (Identifier);
+    public override void Accept(SymbolVisitor v)
 	{
-		return returnType;
-	}
-
-	
-	public virtual List getParameters()
-	{
-		return parameters;
-	}
-
-	
-	
-	public virtual string getLabel()
-	{
-		string result = ("function_")+(getIdentifier());
-		
-		return result;
-	}
-
-	
-	
-	public override void accept(SymbolVisitor v)
-	{
-		v.visit(this);
+		v.Visit(this);
 	}
 }

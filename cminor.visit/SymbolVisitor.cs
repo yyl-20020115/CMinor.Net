@@ -7,43 +7,43 @@ namespace CMinor.Visit;
 
 public class SymbolVisitor
 {
-	public virtual void visit(Symbol.Symbol s)
+	public virtual void Visit(Symbol.Symbol s)
 	{
 	}
 
 	
 	
-	public virtual void visit(FunctionSymbol s)
+	public virtual void Visit(FunctionSymbol s)
 	{
-        visit((Symbol.Symbol)s);
+        Visit((Symbol.Symbol)s);
 	}
 
 	
 	
-	public virtual void visit(GlobalVariableSymbol s)
+	public virtual void Visit(GlobalVariableSymbol s)
 	{
-        visit((Symbol.Symbol)s);
+        Visit((Symbol.Symbol)s);
 	}
 
 	
 	
-	public virtual void visit(StackVariableSymbol s)
+	public virtual void Visit(StackVariableSymbol s)
 	{
-        visit((Symbol.Symbol)s);
+        Visit((Symbol.Symbol)s);
 	}
 
 	
 	
-	public virtual void visit(LocalVariableSymbol s)
+	public virtual void Visit(LocalVariableSymbol s)
 	{
-		visit((StackVariableSymbol)s);
+		Visit((StackVariableSymbol)s);
 	}
 
 	
 	
-	public virtual void visit(ParameterSymbol s)
+	public virtual void Visit(ParameterSymbol s)
 	{
-		visit((StackVariableSymbol)s);
+		Visit((StackVariableSymbol)s);
 	}
 
 	

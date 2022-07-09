@@ -1,17 +1,12 @@
-
 using CMinor.Parser;
 using CMinor.Visit;
-
 
 namespace CMinor.AST;
 
 public class WhileStatement : Statement
 {
 	private Expression condition;
-
-	private Statement body;
-
-	
+	private Statement body;	
 	
 	public WhileStatement(LocationInfo info, Expression condition, Statement body)
 		: base(info)
@@ -20,20 +15,11 @@ public class WhileStatement : Statement
 		this.body = body;
 	}
 
-	public virtual Expression getCondition()
-	{
-		return condition;
-	}
+    public virtual Expression Condition => condition;
+    public virtual Statement Body => body;
 
-	public virtual Statement getBody()
+    public override void Accept(Visitor v)
 	{
-		return body;
-	}
-
-	
-	
-	public override void Accept(Visitor v)
-	{
-		v.visit(this);
+		v.Visit(this);
 	}
 }

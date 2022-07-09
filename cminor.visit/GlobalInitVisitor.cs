@@ -33,29 +33,29 @@ public class GlobalInitVisitor : Visitor
 
 	
 	
-	public override void visit(BooleanLiteral n)
+	public override void Visit(BooleanLiteral n)
 	{
-		result = ((!((Boolean)n.getValue()).booleanValue()) ? "0" : "1");
+		result = ((!((Boolean)n.Value).booleanValue()) ? "0" : "1");
 	}
 
 	
 	
-	public override void visit(CharacterLiteral n)
+	public override void Visit(CharacterLiteral n)
 	{
-		result = ("")+((int)((Character)n.getValue()).charValue());
+		result = ("")+((int)((char)n.Value).charValue());
 	}
 
 	
 	
-	public override void visit(IntegerLiteral n)
+	public override void Visit(IntegerLiteral n)
 	{
-		result = ((Integer)n.getValue());
+		result = ((int)n.Value);
 	}
 
 	
 	
-	public override void visit(StringLiteral n)
+	public override void Visit(StringLiteral n)
 	{
-		result = n.getSymbol().getLabel();
+		result = n.Symbol.Label;
 	}
 }

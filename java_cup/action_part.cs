@@ -2,7 +2,7 @@
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class action_part : production_part
 {
@@ -62,7 +62,7 @@ public class action_part : production_part
 	
 	public override string ToString()
 	{
-		string result = (base.ToString())+("{")+(code_string())
+		string result = (base)+("{")+(code_string())
 			+("}")
 			.ToString();
 		

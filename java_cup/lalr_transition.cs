@@ -2,7 +2,7 @@
 
 
 
-namespace java_cup;
+namespace JavaCUP;
 
 public class lalr_transition
 {
@@ -13,7 +13,7 @@ public class lalr_transition
 	protected internal lalr_transition _next;
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public lalr_transition(symbol on_sym, lalr_state to_st, lalr_transition nxt)
 	{
@@ -48,7 +48,7 @@ public class lalr_transition
 	}
 
 	
-	[Throws(new string[] { "java_cup.internal_error" })]
+	
 	
 	public lalr_transition(symbol on_sym, lalr_state to_st)
 		: this(on_sym, to_st, null)
