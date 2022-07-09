@@ -2,9 +2,8 @@
 using CMinor.AST;
 using CMinor.Semantic;
 using CMinor.Symbol;
-
-
-
+using System.Collections;
+using System.Text;
 
 namespace CMinor.Visit;
 
@@ -54,20 +53,15 @@ internal class FormatStringVisitor : Visitor
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		159, 188, 173, 125, 172, 103, 126, 136, 145, 189,
-		123, 121
-	})]
 	public override void Visit(Expression P_0)
 	{
 		actualArguments.Add(P_0);
-		result+(escape(literalContent));
-		literalContent.setLength(0);
+		result.Append(escape(literalContent));
+		literalContent.Length = 0;
 		Types type = P_0.Type;
 		if (type == Types.char_type)
 		{
-			result+("%c");
+			result.Append("%c");
 		}
 		else if (type == Types.boolean_type)
 		{

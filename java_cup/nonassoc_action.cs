@@ -6,7 +6,7 @@ public class nonassoc_action : parse_action
 	{
 	}
 
-	public override bool Equalsparse_action other)
+	public override bool Equals(parse_action other)
 	{
 		return (other != null && other.kind() == 3) ? true : false;
 	}
@@ -18,11 +18,11 @@ public class nonassoc_action : parse_action
 
 	
 	
-	public override bool Equalsobject other)
+	public override bool Equals(object other)
 	{
 		if (other is parse_action)
 		{
-			bool result = Equals(parse_action)other);
+			bool result = Equals((parse_action)other);
 			
 			return result;
 		}

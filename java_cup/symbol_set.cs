@@ -193,11 +193,6 @@ public class symbol_set
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		160, 97, 102, 98, 143, 99, 157, 130, 159, 9,
-		155
-	})]
 	public override string ToString()
 	{
 		string str = "{";

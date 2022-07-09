@@ -1,5 +1,6 @@
 using CMinor.Parser;
 using CMinor.Semantic;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -281,9 +282,8 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	private char getLastChar()
 	{
 		string @this = yytext();
-		char result = java.lang.String.instancehelper_charAt(@this, java.lang.String.instancehelper_length(@this) - 1);
 		
-		return result;
+		return @this[@this.Length-1];
 	}
 
 	
@@ -335,7 +335,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	{
 		if (zzStartRead > 0)
 		{
-			ByteCodeHelper.arraycopy_primitive_2(zzBuffer, zzStartRead, zzBuffer, 0, zzEndRead - zzStartRead);
+			Array.Copy(zzBuffer, zzStartRead, zzBuffer, 0, zzEndRead - zzStartRead);
 			zzEndRead -= zzStartRead;
 			zzCurrentPos -= zzStartRead;
 			zzMarkedPos -= zzStartRead;
@@ -344,7 +344,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 		if (zzCurrentPos >= (nint)zzBuffer.LongLength)
 		{
 			char[] dest = new char[zzCurrentPos * 2];
-			ByteCodeHelper.arraycopy_primitive_2(zzBuffer, 0, dest, 0, zzBuffer.Length);
+			Array.Copy(zzBuffer, 0, dest, 0, zzBuffer.Length);
 			zzBuffer = dest;
 		}
 		int num = zzReader.Read(zzBuffer, zzEndRead, (int)((nint)zzBuffer.LongLength - zzEndRead));
@@ -397,8 +397,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	private string getIdentifierString()
 	{
 		string text = yytext();
-		string text2 = (string)stringTable.get(text);
-		if (text2 == null)
+		if (!stringTable.TryGetValue(text,out var text2))
 		{
 			stringTable.Add(text, text);
 			return text;
@@ -420,12 +419,6 @@ public class Lexer : JavaCUP.Runtime.Scanner
 		return null;
 	}
 
-	
-	[LineNumberTable(new byte[]
-	{
-		161, 23, 103, 106, 191, 8, 127, 0, 102, 102,
-		134
-	})]
 	private string charName()
 	{
 		int lastChar = getLastChar();
@@ -445,10 +438,8 @@ public class Lexer : JavaCUP.Runtime.Scanner
 		case 13:
 			return "carriage return";
 		default:
-		{
-			string result2 = ("byte 0x")+(int.toHexString(lastChar));
-			
-			return result2;
+		{			
+			return string.Format("byte 0x{X4}",lastChar);
 		}
 		}
 	}
@@ -456,10 +447,8 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	
 	
 	private char getLastBufferChar()
-	{
-		char result = stringBuffer.charAt(stringBuffer.Length - 1);
-		
-		return result;
+	{		
+		return stringBuffer[stringBuffer.Length-1];
 	}
 
 	
@@ -990,7 +979,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			case 27:
 			{
 				yybegin(0);
-				JavaCUP.Runtime.Symbol result25 = new JavaCUP.Runtime.Symbol(34, char.valueOf(getLastBufferChar()));
+				JavaCUP.Runtime.Symbol result25 = new JavaCUP.Runtime.Symbol(34, (char)(getLastBufferChar()));
 				
 				return result25;
 			}
@@ -1110,7 +1099,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 			}
 			case 4:
 			{
-				JavaCUP.Runtime.Symbol result7 = makeSymbol(36, int.valueOf(int.parseInt(yytext())));
+				JavaCUP.Runtime.Symbol result7 = makeSymbol(36, int.TryParse(yytext(),out var ret)?ret:0);
 				
 				return result7;
 			}

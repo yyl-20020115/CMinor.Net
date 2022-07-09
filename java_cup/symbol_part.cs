@@ -27,11 +27,11 @@ public class symbol_part : production_part
 	{
 		if (the_symbol() != null)
 		{
-			string result = (base)+(the_symbol());
+			string result = (base.ToString())+(the_symbol());
 			
 			return result;
 		}
-		string result2 = (base)+("$$MISSING-SYMBOL$$");
+		string result2 = (base.ToString()) +("$$MISSING-SYMBOL$$");
 		
 		return result2;
 	}
@@ -52,9 +52,9 @@ public class symbol_part : production_part
 
 	
 	
-	public virtual bool Equalssymbol_part other)
+	public virtual bool Equals(symbol_part other)
 	{
-		return (other != null && base.Equalsother) && Object.instancehelper_equals(the_symbol(), other.the_symbol())) ? true : false;
+		return (other != null && base.Equals(other) && object.Equals(the_symbol(), other.the_symbol())) ? true : false;
 	}
 
 	public override bool is_action()
@@ -64,13 +64,13 @@ public class symbol_part : production_part
 
 	
 	
-	public override bool Equalsobject other)
+	public override bool Equals(object other)
 	{
 		if (!(other is symbol_part))
 		{
 			return false;
 		}
-		bool result = Equals(symbol_part)other);
+		bool result = Equals((symbol_part)other);
 		
 		return result;
 	}
@@ -79,6 +79,6 @@ public class symbol_part : production_part
 	
 	public override int GetHashCode()
 	{
-		return base.GetHashCode() ^ ((the_symbol() != null) ? Object.instancehelper_hashCode(the_symbol()) : 0);
+		return base.GetHashCode() ^ ((the_symbol() != null) ? (the_symbol().GetHashCode()) : 0);
 	}
 }

@@ -1,14 +1,13 @@
 
 using CMinor.AST;
-
-
+using System.Collections.Generic;
 
 namespace CMinor.Visit;
 
 public class GetSymbolVisitor : Visitor
 {
 	
-	private IList symbols;
+	private IList<CMinor.Symbol.Symbol> symbols;
 
 	
 	
@@ -16,19 +15,9 @@ public class GetSymbolVisitor : Visitor
 	{
 	}
 
-	
-	public virtual void setSymbols(IList symbols)
-	{
-		this.symbols = symbols;
-	}
+    public virtual List<CMinor.Symbol.Symbol> Symbols { get => symbols; set => this.symbols = value; }
 
-	
-	public virtual IList getSymbols()
-	{
-		return symbols;
-	}
-
-	public override void Visit(AstNode n)
+    public override void Visit(AstNode n)
 	{
 	}
 

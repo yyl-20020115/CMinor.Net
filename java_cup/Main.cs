@@ -1,6 +1,5 @@
 using System;
-
-
+using System.IO;
 using IKVM.Runtime;
 using java.io;
 
@@ -64,9 +63,9 @@ public class Main
 
 	protected internal static BufferedInputStream input_file;
 
-	protected internal static PrintWriter parser_class_file;
+	protected internal static TextWriter parser_class_file;
 
-	protected internal static PrintWriter symbol_class_file;
+	protected internal static TextWriter symbol_class_file;
 
 	protected internal static lalr_state start_state;
 
@@ -75,76 +74,12 @@ public class Main
 	protected internal static parse_reduce_table reduce_table;
 
 	
-	[LineNumberTable(new byte[]
-	{
-		160,
-		159,
-		195,
-		169,
-		175,
-		159,
-		7,
-		170,
-		141,
-		175,
-		159,
-		7,
-		170,
-		141,
-		175,
-		159,
-		7,
-		170,
-		141,
-		143,
-		139,
-		178,
-		159,
-		7,
-		202,
-		184,
-		5,
-		97,
-		106,
-		133,
-		122,
-		122,
-		122,
-		122,
-		122,
-		122,
-		122,
-		111,
-		119,
-		122,
-		154,
-		154,
-		154,
-		154,
-		111,
-		111,
-		171,
-		181,
-		189,
-		2,
-		97,
-		127,
-		12,
-		194,
-		byte.MaxValue,
-		12,
-		159,
-		172,
-		233,
-		160,
-		87
-	})]
 	protected internal static void parse_args(string[] argv)
 	{
 		int num = argv.Length;
 		for (int i = 0; i < num; i++)
 		{
-			if (java.lang.String.instancehelper_equals(argv[i], "-package"))
+			if (String.Equals(argv[i], "-package"))
 			{
 				i++;
 				if (i >= num || java.lang.String.instancehelper_startsWith(argv[i], "-") || java.lang.String.instancehelper_endsWith(argv[i], ".cup"))
@@ -153,7 +88,7 @@ public class Main
 				}
 				emit.package_name = argv[i];
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-parser"))
+			else if (String.Equals(argv[i], "-parser"))
 			{
 				i++;
 				if (i >= num || java.lang.String.instancehelper_startsWith(argv[i], "-") || java.lang.String.instancehelper_endsWith(argv[i], ".cup"))
@@ -162,7 +97,7 @@ public class Main
 				}
 				emit.parser_class_name = argv[i];
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-symbols"))
+			else if (String.Equals(argv[i], "-symbols"))
 			{
 				i++;
 				if (i >= num || java.lang.String.instancehelper_startsWith(argv[i], "-") || java.lang.String.instancehelper_endsWith(argv[i], ".cup"))
@@ -171,11 +106,11 @@ public class Main
 				}
 				emit.symbol_const_class_name = argv[i];
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-nonterms"))
+			else if (String.Equals(argv[i], "-nonterms"))
 			{
 				include_non_terms = true;
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-expect"))
+			else if (String.Equals(argv[i], "-expect"))
 			{
 				i++;
 				if (i >= num || java.lang.String.instancehelper_startsWith(argv[i], "-") || java.lang.String.instancehelper_endsWith(argv[i], ".cup"))
@@ -191,61 +126,61 @@ public class Main
 					goto IL_0161;
 				}
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-compact_red"))
+			else if (String.Equals(argv[i], "-compact_red"))
 			{
 				opt_compact_red = true;
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-nosummary"))
+			else if (String.Equals(argv[i], "-nosummary"))
 			{
 				no_summary = true;
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-nowarn"))
+			else if (String.Equals(argv[i], "-nowarn"))
 			{
 				emit.nowarn = true;
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-dump_states"))
+			else if (String.Equals(argv[i], "-dump_states"))
 			{
 				opt_dump_states = true;
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-dump_tables"))
+			else if (String.Equals(argv[i], "-dump_tables"))
 			{
 				opt_dump_tables = true;
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-progress"))
+			else if (String.Equals(argv[i], "-progress"))
 			{
 				print_progress = true;
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-dump_grammar"))
+			else if (String.Equals(argv[i], "-dump_grammar"))
 			{
 				opt_dump_grammar = true;
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-dump"))
+			else if (String.Equals(argv[i], "-dump"))
 			{
 				opt_dump_states = (opt_dump_tables = (opt_dump_grammar = true));
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-time"))
+			else if (String.Equals(argv[i], "-time"))
 			{
 				opt_show_timing = true;
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-debug"))
+			else if (String.Equals(argv[i], "-debug"))
 			{
 				opt_do_debug = true;
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-nopositions"))
+			else if (String.Equals(argv[i], "-nopositions"))
 			{
 				lr_values = false;
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-interface"))
+			else if (String.Equals(argv[i], "-interface"))
 			{
 				sym_interface = true;
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-noscanner"))
+			else if (String.Equals(argv[i], "-noscanner"))
 			{
 				suppress_scanner = true;
 			}
-			else if (java.lang.String.instancehelper_equals(argv[i], "-version"))
+			else if (String.Equals(argv[i], "-version"))
 			{
-				java.lang.System.@out.WriteLine("CUP v0.10k");
+				Console.Out.WriteLine("CUP v0.10k");
 				Environment.Exit(1);
 			}
 			else if (!java.lang.String.instancehelper_startsWith(argv[i], "-") && i == num - 1)
@@ -277,12 +212,6 @@ public class Main
 	}
 
 	
-	
-	[LineNumberTable(new byte[]
-	{
-		161, 67, 134, 103, 137, 254, 71, 226, 58, 193,
-		106, 135
-	})]
 	protected internal static void parse_grammar_spec()
 	{
 		parser parser2 = new parser();
@@ -314,12 +243,6 @@ public class Main
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		161, 93, 145, 172, 170, 170, 168, 108, 135, 159,
-		20, 241, 70, 145, 172, 168, 108, 135, 159, 20,
-		241, 69
-	})]
 	protected internal static void check_unused()
 	{
 		Enumeration enumeration = terminal.all();
@@ -356,12 +279,6 @@ public class Main
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		161, 165, 110, 111, 133, 170, 110, 111, 133, 170,
-		110, 111, 143, 170, 110, 111, 106, 106, 142, 108,
-		144, 130, 170, 110, 111, 138, 170, 140, 143, 172
-	})]
 	protected internal static void build_parser()
 	{
 		if (opt_do_debug || print_progress)
@@ -409,42 +326,13 @@ public class Main
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		161,
-		22,
-		127,
-		0,
-		135,
-		byte.MaxValue,
-		16,
-		69,
-		226,
-		61,
-		97,
-		127,
-		15,
-		198,
-		127,
-		0,
-		135,
-		byte.MaxValue,
-		16,
-		69,
-		226,
-		61,
-		97,
-		127,
-		15,
-		134
-	})]
 	protected internal static void open_files()
 	{
 		string text = (emit.parser_class_name)+(".java");
 		File file = new File(text);
 		try
 		{
-			parser_class_file = new PrintWriter(new BufferedOutputStream(new FileOutputStream(file), 4096));
+			parser_class_file = new TextWriter(new BufferedOutputStream(new FileOutputStream(file), 4096));
 		}
 		catch (System.Exception x)
 		{
@@ -466,7 +354,7 @@ public class Main
 		file = new File(text);
 		try
 		{
-			symbol_class_file = new PrintWriter(new BufferedOutputStream(new FileOutputStream(file), 4096));
+			symbol_class_file = new TextWriter(new BufferedOutputStream(new FileOutputStream(file), 4096));
 			return;
 		}
 		catch (System.Exception x2)
@@ -543,7 +431,7 @@ public class Main
 		int num2 = 0;
 		while (num < terminal.number())
 		{
-			Console.System.Exception.print(("[")+(num)+("]")
+			Console.System.Exception.Write(("[")+(num)+("]")
 				+(terminal.find(num).name())
 				+(" ")
 				);
@@ -562,7 +450,7 @@ public class Main
 		num2 = 0;
 		while (num < non_terminal.number())
 		{
-			Console.System.Exception.print(("[")+(num)+("]")
+			Console.System.Exception.Write(("[")+(num)+("]")
 				+(non_terminal.find(num).name())
 				+(" ")
 				);
@@ -580,7 +468,7 @@ public class Main
 		for (num = 0; num < production.number(); num++)
 		{
 			production production2 = production.find(num);
-			Console.System.Exception.print(("[")+(num)+("] ")
+			Console.System.Exception.Write(("[")+(num)+("] ")
 				+(production2.lhs().the_symbol().name())
 				+(" ::= ")
 				);
@@ -588,11 +476,11 @@ public class Main
 			{
 				if (production2.rhs(i).is_action())
 				{
-					Console.System.Exception.print("{action} ");
+					Console.System.Exception.Write("{action} ");
 				}
 				else
 				{
-					Console.System.Exception.print((((symbol_part)production2.rhs(i)).the_symbol().name())+(" "));
+					Console.System.Exception.Write((((symbol_part)production2.rhs(i)).the_symbol().name())+(" "));
 				}
 			}
 			Console.System.Exception.WriteLine();
@@ -620,7 +508,7 @@ public class Main
 		{
 			if (array[i] == start_state)
 			{
-				Console.System.Exception.print("START ");
+				Console.System.Exception.Write("START ");
 			}
 			Console.System.Exception.WriteLine(array[i]);
 			Console.System.Exception.WriteLine("-------------------");
@@ -703,11 +591,11 @@ public class Main
 				+(" warning")
 				+(plural(lexer.warning_count))
 				);
-			Console.System.Exception.print(("  ")+(terminal.number())+(" terminal")
+			Console.System.Exception.Write(("  ")+(terminal.number())+(" terminal")
 				+(plural(terminal.number()))
 				+(", ")
 				);
-			Console.System.Exception.print((non_terminal.number())+(" non-terminal")+(plural(non_terminal.number()))
+			Console.System.Exception.Write((non_terminal.number())+(" non-terminal")+(plural(non_terminal.number()))
 				+(", and ")
 				);
 			Console.System.Exception.WriteLine((production.number())+(" production")+(plural(production.number()))
@@ -760,7 +648,7 @@ public class Main
 		Console.System.Exception.WriteLine();
 		Console.System.Exception.WriteLine(message);
 		Console.System.Exception.WriteLine();
-		Console.System.Exception.WriteLine("Usage: java_cup [options] [filename]\n  and expects a specification file on standard input if no filename is given.\n  Legal options include:\n    -package name  specify package generated classes go in [default none]\n    -parser name   specify parser class name [default \"parser\"]\n    -symbols name  specify name for symbol constant class [default \"sym\"]\n    -interface     put symbols in an interface, rather than a class\n    -nonterms      put non terminals in symbol constant class\n    -expect #      number of conflicts expected/allowed [default 0]\n    -compact_red   compact tables by defaulting to most frequent reduce\n    -nowarn        don't warn about useless productions, etc.\n    -nosummary     don't print the usual summary of parse states, etc.\n    -nopositions   don't propagate the left and right token position values\n    -noscanner     don't refer to java_cup.runtime.Scanner\n    -progress      print messages to indicate progress of the system\n    -time          print time usage summary\n    -dump_grammar  produce a human readable dump of the symbols and grammar\n    -dump_states   produce a dump of parse state machine\n    -dump_tables   produce a dump of the parse tables\n    -dump          produce a dump of all of the above\n    -version       print the version information for CUP and exit\n");
+		Console.System.Exception.WriteLine("Usage: java_cup [options] [filename]\n  and expects a specification file on standard input if no filename is given.\n  Legal options include:\n    -package name  specify package generated classes go in [default none]\n    -parser name   specify parser class name [default \"parser\"]\n    -symbols name  specify name for symbol constant class [default \"sym\"]\n    -interface     put symbols in an interface, rather than a class\n    -nonterms      put non terminals in symbol constant class\n    -expect #      number of conflicts expected/allowed [default 0]\n    -compact_red   compact tables by defaulting to most frequent reduce\n    -nowarn        don't warn about useless productions, etc.\n    -nosummary     don't Write the usual summary of parse states, etc.\n    -nopositions   don't propagate the left and right token position values\n    -noscanner     don't refer to java_cup.runtime.Scanner\n    -progress      Write messages to indicate progress of the system\n    -time          Write time usage summary\n    -dump_grammar  produce a human readable dump of the symbols and grammar\n    -dump_states   produce a dump of parse state machine\n    -dump_tables   produce a dump of the parse tables\n    -dump          produce a dump of all of the above\n    -version       Write the version information for CUP and exit\n");
 		Environment.Exit(1);
 	}
 
@@ -896,13 +784,6 @@ public class Main
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		105, 130, 170, 198, 138, 150, 148, 170, 103, 111,
-		133, 170, 170, 118, 133, 170, 118, 133, 170, 135,
-		136, 118, 101, 101, 194, 170, 108, 108, 140, 170,
-		118, 165, 205, 103, 105
-	})]
 	public static void main(string[] argv)
 	{
 		int output_produced = 0;

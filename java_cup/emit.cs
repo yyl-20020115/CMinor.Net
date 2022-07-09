@@ -1,10 +1,3 @@
-
-
-using IKVM.Runtime;
-using java.io;
-
-
-
 namespace JavaCUP;
 
 public class emit
@@ -77,7 +70,7 @@ public class emit
 
 	
 	
-	protected internal static void emit_package(PrintWriter @out)
+	protected internal static void emit_package(TextWriter @out)
 	{
 		if (package_name != null)
 		{
@@ -94,10 +87,10 @@ public class emit
 		113, 105, 116, 105, 169, 113, 233, 60, 230, 59,
 		233, 76, 109
 	})]
-	protected internal static void do_table_as_string(PrintWriter @out, short[][] sa)
+	protected internal static void do_table_as_string(TextWriter @out, short[][] sa)
 	{
 		@out.WriteLine("new String[] {");
-		@out.print("    \"");
+		@out.Write("    \"");
 		int nchar = 0;
 		int num = 0;
 		num += do_escaped(@out, (char)((nint)sa.LongLength >> 16));
@@ -116,7 +109,7 @@ public class emit
 				nchar = do_newline(@out, nchar, num);
 			}
 		}
-		@out.print("\" }");
+		@out.Write("\" }");
 	}
 
 	
@@ -125,7 +118,7 @@ public class emit
 		158, 216, 66, 102, 104, 109, 149, 109, 117, 138,
 		106, 172, 101, 107, 114
 	})]
-	protected internal static int do_escaped(PrintWriter @out, char c)
+	protected internal static int do_escaped(TextWriter @out, char c)
 	{
 		StringBuilder stringBuffer = new StringBuilder();
 		if (c <= 'ÿ')
@@ -146,7 +139,7 @@ public class emit
 			stringBuffer.insert(0, 'u');
 		}
 		stringBuffer.insert(0, '\\');
-		@out.print(stringBuffer);
+		@out.Write(stringBuffer);
 		if (c == '\0')
 		{
 			return 2;
@@ -164,12 +157,12 @@ public class emit
 
 	
 	
-	protected internal static int do_newline(PrintWriter @out, int nchar, int nbytes)
+	protected internal static int do_newline(TextWriter @out, int nchar, int nbytes)
 	{
 		if (nbytes > 65500)
 		{
 			@out.WriteLine("\", ");
-			@out.print("    \"");
+			@out.Write("    \"");
 		}
 		else
 		{
@@ -178,7 +171,7 @@ public class emit
 				return nchar + 1;
 			}
 			@out.WriteLine("\" +");
-			@out.print("    \"");
+			@out.Write("    \"");
 		}
 		return 0;
 	}
@@ -190,7 +183,7 @@ public class emit
 		133, 120, 238, 59, 232, 72, 102, 107, 107, 107,
 		104, 171, 102, 107, 171, 108
 	})]
-	protected internal static void emit_production_table(PrintWriter @out)
+	protected internal static void emit_production_table(TextWriter @out)
 	{
 		long num = java.lang.System.currentTimeMillis();
 		production[] array = new production[production.number()];
@@ -214,7 +207,7 @@ public class emit
 		@out.WriteLine();
 		@out.WriteLine("  /** Production table. */");
 		@out.WriteLine("  protected static final short _production_table[][] = ");
-		@out.print("    unpackFromStrings(");
+		@out.Write("    unpackFromStrings(");
 		do_table_as_string(@out, array3);
 		@out.WriteLine(");");
 		@out.WriteLine();
@@ -282,7 +275,7 @@ public class emit
 		139,
 		108
 	})]
-	protected internal static void do_action_table(PrintWriter @out, parse_action_table act_tab, bool compact_reduces)
+	protected internal static void do_action_table(TextWriter @out, parse_action_table act_tab, bool compact_reduces)
 	{
 		long num = java.lang.System.currentTimeMillis();
 		short[][] array = new short[act_tab.num_states()][];
@@ -360,7 +353,7 @@ public class emit
 		@out.WriteLine();
 		@out.WriteLine("  /** Parse-action table. */");
 		@out.WriteLine("  protected static final short[][] _action_table = ");
-		@out.print("    unpackFromStrings(");
+		@out.Write("    unpackFromStrings(");
 		do_table_as_string(@out, array);
 		@out.WriteLine(");");
 		@out.WriteLine();
@@ -377,7 +370,7 @@ public class emit
 		233, 93, 102, 107, 107, 107, 103, 171, 102, 107,
 		107, 134, 108
 	})]
-	protected internal static void do_reduce_table(PrintWriter @out, parse_reduce_table red_tab)
+	protected internal static void do_reduce_table(TextWriter @out, parse_reduce_table red_tab)
 	{
 		long num = java.lang.System.currentTimeMillis();
 		short[][] array = new short[red_tab.num_states()][];
@@ -421,7 +414,7 @@ public class emit
 		@out.WriteLine();
 		@out.WriteLine("  /** <code>reduce_goto</code> table. */");
 		@out.WriteLine("  protected static final short[][] _reduce_table = ");
-		@out.print("    unpackFromStrings(");
+		@out.Write("    unpackFromStrings(");
 		do_table_as_string(@out, array);
 		@out.WriteLine(");");
 		@out.WriteLine();
@@ -539,7 +532,7 @@ public class emit
 		134,
 		108
 	})]
-	protected internal static void emit_action_code(PrintWriter @out, production start_prod)
+	protected internal static void emit_action_code(TextWriter @out, production start_prod)
 	{
 		long num = java.lang.System.currentTimeMillis();
 		@out.WriteLine();
@@ -739,7 +732,7 @@ public class emit
 		134,
 		108
 	})]
-	public static void symbols(PrintWriter @out, bool emit_non_terms, bool sym_interface)
+	public static void symbols(TextWriter @out, bool emit_non_terms, bool sym_interface)
 	{
 		string str = ((!sym_interface) ? "class" : "interface");
 		long num = java.lang.System.currentTimeMillis();
@@ -886,7 +879,7 @@ public class emit
 		136,
 		108
 	})]
-	public static void parser(PrintWriter @out, parse_action_table action_table, parse_reduce_table reduce_table, int start_st, production start_prod, bool compact_reduces, bool suppress_scanner)
+	public static void parser(TextWriter @out, parse_action_table action_table, parse_reduce_table reduce_table, int start_st, production start_prod, bool compact_reduces, bool suppress_scanner)
 	{
 		long num = java.lang.System.currentTimeMillis();
 		@out.WriteLine();

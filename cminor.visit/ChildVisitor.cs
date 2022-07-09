@@ -1,13 +1,14 @@
 
 using CMinor.AST;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace CMinor.Visit;
 
 public class ChildVisitor : Visitor
 {
 	
-	private IList children;
+	private List<AstNode> children;
 
 	
 	
@@ -15,23 +16,11 @@ public class ChildVisitor : Visitor
 	{
 	}
 
-	
-	public virtual void setChildren(IList children)
-	{
-		this.children = children;
-	}
+    public virtual List<AstNode> Children { get => children; set => this.children = value; }
 
-	
-	public virtual IList getChildren()
+    public override void Visit(Program n)
 	{
-		return children;
-	}
-
-	
-	
-	public override void Visit(Program n)
-	{
-		children.addAll(n.Declarations);
+		children.AddRange(n.Declarations);
 	}
 
 	

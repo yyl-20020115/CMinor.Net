@@ -2,16 +2,15 @@
 using CMinor.AST;
 using CMinor.Semantic;
 using CMinor.Symbol;
-
-
-
+using System.Collections;
+using System.Text;
 
 namespace CMinor.Visit;
 
 public class TypeCheckVisitor : Visitor
 {
 	
-	[EnclosingMethod(null, null, null)]
+	
 	internal sealed class _1 : TypeTester
 	{
 		
@@ -42,7 +41,7 @@ public class TypeCheckVisitor : Visitor
 	}
 
 	
-	[EnclosingMethod(null, null, null)]
+	
 	internal sealed class _2 : TypeTester
 	{
 		
@@ -73,7 +72,7 @@ public class TypeCheckVisitor : Visitor
 	}
 
 	
-	[EnclosingMethod(null, null, null)]
+	
 	internal sealed class _3 : TypeTester
 	{
 		
@@ -104,7 +103,7 @@ public class TypeCheckVisitor : Visitor
 	}
 
 	
-	[EnclosingMethod(null, null, null)]
+	
 	internal sealed class _4 : TypeTester
 	{
 		
@@ -225,11 +224,6 @@ public class TypeCheckVisitor : Visitor
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		161, 114, 102, 134, 186, 127, 2, 104, 98, 134,
-		103
-	})]
 	private string makeFormatString(PrintStatement P_0)
 	{
 		StringBuilder stringBuffer = new StringBuilder();
@@ -334,11 +328,6 @@ public class TypeCheckVisitor : Visitor
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		30, 135, 107, 167, 108, 109, 191, 21, 109, 246,
-		69, 191, 10, 147
-	})]
 	public override void Visit(Program n)
 	{
 		program = n;
@@ -370,11 +359,6 @@ public class TypeCheckVisitor : Visitor
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		60, 191, 10, 172, 167, 204, 103, 122, 223, 27,
-		140, 135
-	})]
 	public override void Visit(FunctionDefinition n)
 	{
 		Iterator iterator = n.Parameters.iterator();
@@ -404,15 +388,6 @@ public class TypeCheckVisitor : Visitor
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		90,
-		108,
-		116,
-		byte.MaxValue,
-		5,
-		69
-	})]
 	public override void Visit(GlobalVariableInitialization n)
 	{
 		n.Value.Accept(this);
@@ -466,11 +441,6 @@ public class TypeCheckVisitor : Visitor
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		160, 65, 159, 10, 127, 1, 104, 118, 130, 103,
-		98
-	})]
 	public override void Visit(BlockStatement n)
 	{
 		Iterator iterator = n.Declarations.iterator();
@@ -533,20 +503,6 @@ public class TypeCheckVisitor : Visitor
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		160,
-		114,
-		172,
-		108,
-		108,
-		103,
-		byte.MaxValue,
-		103,
-		69,
-		146,
-		135
-	})]
 	public override void Visit(ReturnValueStatement n)
 	{
 		n.Value.Accept(this);
@@ -579,35 +535,6 @@ public class TypeCheckVisitor : Visitor
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		160,
-		146,
-		135,
-		167,
-		191,
-		5,
-		108,
-		104,
-		105,
-		223,
-		39,
-		173,
-		104,
-		168,
-		137,
-		113,
-		114,
-		127,
-		17,
-		159,
-		18,
-		107,
-		byte.MaxValue,
-		42,
-		70,
-		207
-	})]
 	public override void Visit(FunctionCall n)
 	{
 		inPrintStatement = false;

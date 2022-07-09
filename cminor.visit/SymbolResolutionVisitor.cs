@@ -2,9 +2,7 @@
 using CMinor.AST;
 using CMinor.Semantic;
 using CMinor.Symbol;
-
-
-
+using System.Collections.Generic;
 
 namespace CMinor.Visit;
 
@@ -17,10 +15,10 @@ public class SymbolResolutionVisitor : Visitor
 	private FunctionDefinition mainFunction;
 
 	
-	private IList globalVariables;
+	private IList<object> globalVariables;
 
 	
-	private IList functions;
+	private IList<object> functions;
 
 	private int numLocals;
 
@@ -101,16 +99,11 @@ public class SymbolResolutionVisitor : Visitor
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		32, 103, 107, 139, 159, 10, 104, 184, 140, 108,
-		140, 103, 103
-	})]
 	public override void Visit(Program n)
 	{
 		mainFunction = null;
-		globalVariables = new ArrayList();
-		functions = new ArrayList();
+		globalVariables = new ();
+		functions = new ();
 		Iterator iterator = n.Declarations.iterator();
 		while (iterator.hasNext())
 		{
@@ -132,12 +125,6 @@ public class SymbolResolutionVisitor : Visitor
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		55, 103, 113, 98, 124, 159, 7, 105, 104, 100,
-		162, 173, 251, 69, 179, 200, 110, 169, 237, 69,
-		107, 113, 63, 11, 232, 69, 103, 103, 108, 141
-	})]
 	public override void Visit(FunctionDefinition n)
 	{
 		IList parameters = n.Parameters;

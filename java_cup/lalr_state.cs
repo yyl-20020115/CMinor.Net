@@ -1,3 +1,5 @@
+using System;
+
 namespace JavaCUP;
 
 public class lalr_state
@@ -64,11 +66,6 @@ public class lalr_state
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		11, 232, 160, 78, 231, 159, 180, 99, 176, 104,
-		208, 179, 167, 114
-	})]
 	public lalr_state(lalr_item_set itms)
 	{
 		_transitions = null;
@@ -84,7 +81,7 @@ public class lalr_state
 		}
 		_index = next_index++;
 		_items = itms;
-		_all.put(_items, this);
+		_all.Add(_items, this);
 	}
 
 	
@@ -109,12 +106,6 @@ public class lalr_state
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		161, 222, 167, 172, 110, 152, 194, 110, 152, 226,
-		70, 105, 152, 194, 104, 152, 226, 69, 105, 109,
-		162, 240, 70, 105, 152, 226, 69
-	})]
 	protected internal virtual bool fix_with_precedence(production p, int term_index, parse_action_row table_row, parse_action act)
 	{
 		terminal terminal2 = terminal.find(term_index);
@@ -161,14 +152,6 @@ public class lalr_state
 		return _transitions;
 	}
 
-	
-	
-	[LineNumberTable(new byte[]
-	{
-		162, 81, 151, 236, 69, 168, 162, 148, 173, 167,
-		165, 169, 131, 148, 238, 69, 108, 106, 9, 237,
-		69
-	})]
 	protected internal virtual void report_conflicts(terminal_set conflict_set)
 	{
 		Enumeration enumeration = items().all();
@@ -245,64 +228,50 @@ public class lalr_state
 		throw new internal_error("Conflict resolution of bogus actions");
 	}
 
-	
-	
-	[LineNumberTable(new byte[]
-	{
-		162, 134, 130, 127, 10, 111, 112, 111, 112, 111,
-		138, 156, 118, 245, 59, 230, 72, 111, 111, 120,
-		145, 175, 108, 108
-	})]
 	protected internal virtual void report_reduce_reduce(lalr_item itm1, lalr_item itm2)
 	{
 		int num = 0;
-		Console.System.Exception.WriteLine(("*** Reduce/Reduce conflict found in state #")+(index()));
-		Console.System.Exception.print("  between ");
-		Console.System.Exception.WriteLine(itm1.to_simple_string());
-		Console.System.Exception.print("  and     ");
-		Console.System.Exception.WriteLine(itm2.to_simple_string());
-		Console.System.Exception.print("  under symbols: {");
+		Console.Error.WriteLine(("*** Reduce/Reduce conflict found in state #")+(index()));
+		Console.Error.Write("  between ");
+		Console.Error.WriteLine(itm1.to_simple_string());
+		Console.Error.Write("  and     ");
+		Console.Error.WriteLine(itm2.to_simple_string());
+		Console.Error.Write("  under symbols: {");
 		for (int i = 0; i < terminal.number(); i++)
 		{
 			if (itm1.lookahead().contains(i) && itm2.lookahead().contains(i))
 			{
 				if (num != 0)
 				{
-					Console.System.Exception.print(", ");
+					Console.Error.Write(", ");
 				}
 				else
 				{
 					num = 1;
 				}
-				Console.System.Exception.print(terminal.find(i).name());
+				Console.Error.Write(terminal.find(i).name());
 			}
 		}
-		Console.System.Exception.WriteLine("}");
-		Console.System.Exception.print("  Resolved in favor of ");
+		Console.Error.WriteLine("}");
+		Console.Error.Write("  Resolved in favor of ");
 		if (itm1.the_production().index() < itm2.the_production().index())
 		{
-			Console.System.Exception.WriteLine("the first production.\n");
+			Console.Error.WriteLine("the first production.\n");
 		}
 		else
 		{
-			Console.System.Exception.WriteLine("the second production.\n");
+			Console.Error.WriteLine("the second production.\n");
 		}
 		emit.num_conflicts++;
 		lexer.warning_count++;
 	}
 
 	
-	
-	[LineNumberTable(new byte[]
-	{
-		162, 178, 127, 10, 111, 176, 151, 172, 172, 103,
-		177, 223, 15, 127, 15, 175, 108, 108
-	})]
 	protected internal virtual void report_shift_reduce(lalr_item red_itm, int conflict_sym)
 	{
-		Console.System.Exception.WriteLine(("*** Shift/Reduce conflict found in state #")+(index()));
-		Console.System.Exception.print("  between ");
-		Console.System.Exception.WriteLine(red_itm.to_simple_string());
+		Console.Error.WriteLine(("*** Shift/Reduce conflict found in state #")+(index()));
+		Console.Error.Write("  between ");
+		Console.Error.WriteLine(red_itm.to_simple_string());
 		Enumeration enumeration = items().all();
 		while (enumeration.hasMoreElements())
 		{
@@ -312,12 +281,12 @@ public class lalr_state
 				symbol symbol2 = lalr_item2.symbol_after_dot();
 				if (!symbol2.is_non_term() && symbol2.index() == conflict_sym)
 				{
-					Console.System.Exception.WriteLine(("  and     ")+(lalr_item2.to_simple_string()));
+					Console.Error.WriteLine(("  and     ")+(lalr_item2.to_simple_string()));
 				}
 			}
 		}
-		Console.System.Exception.WriteLine(("  under symbol ")+(terminal.find(conflict_sym).name()));
-		Console.System.Exception.WriteLine("  Resolved in favor of shifting.\n");
+		Console.Error.WriteLine(("  under symbol ")+(terminal.find(conflict_sym).name()));
+		Console.Error.WriteLine("  Resolved in favor of shifting.\n");
 		emit.num_conflicts++;
 		lexer.warning_count++;
 	}
@@ -340,89 +309,50 @@ public class lalr_state
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		115,
-		131,
-		113,
-		161,
-		127,
-		20,
-		103,
-		146,
-		108,
-		111,
-		127,
-		0,
-		111,
-		147,
-		120,
-		110,
-		105,
-		145,
-		byte.MaxValue,
-		21,
-		57,
-		233,
-		73,
-		119,
-		148,
-		113
-	})]
 	protected internal static void dump_state(lalr_state st)
 	{
 		if (st == null)
 		{
-			java.lang.System.@out.WriteLine("NULL lalr_state");
+			Console.Out.WriteLine("NULL lalr_state");
 			return;
 		}
-		java.lang.System.@out.WriteLine(("lalr_state [")+(st.index())+("] {")
+		Console.Out.WriteLine(("lalr_state [")+(st.index())+("] {")
 			);
 		lalr_item_set lalr_item_set2 = st.items();
 		Enumeration enumeration = lalr_item_set2.all();
 		while (enumeration.hasMoreElements())
 		{
 			lalr_item lalr_item2 = (lalr_item)enumeration.nextElement();
-			java.lang.System.@out.print("  [");
-			java.lang.System.@out.print(lalr_item2.the_production().lhs().the_symbol()
+			Console.Out.Write("  [");
+			Console.Out.Write(lalr_item2.the_production().lhs().the_symbol()
 				.name());
-			java.lang.System.@out.print(" ::= ");
+			Console.Out.Write(" ::= ");
 			for (int i = 0; i < lalr_item2.the_production().rhs_length(); i++)
 			{
 				if (i == lalr_item2.dot_pos())
 				{
-					java.lang.System.@out.print("(*) ");
+					Console.Out.Write("(*) ");
 				}
 				production_part production_part2 = lalr_item2.the_production().rhs(i);
 				if (production_part2.is_action())
 				{
-					java.lang.System.@out.print("{action} ");
+					Console.Out.Write("{action} ");
 				}
 				else
 				{
-					java.lang.System.@out.print((((symbol_part)production_part2).the_symbol().name())+(" "));
+					Console.Out.Write((((symbol_part)production_part2).the_symbol().name())+(" "));
 				}
 			}
 			if (lalr_item2.dot_at_end())
 			{
-				java.lang.System.@out.print("(*) ");
+				Console.Out.Write("(*) ");
 			}
-			java.lang.System.@out.WriteLine("]");
+			Console.Out.WriteLine("]");
 		}
-		java.lang.System.@out.WriteLine("}");
+		Console.Out.WriteLine("}");
 	}
 
 	
-	
-	[LineNumberTable(new byte[]
-	{
-		160, 165, 230, 72, 99, 208, 134, 103, 145, 168,
-		167, 166, 104, 169, 174, 171, 173, 103, 151, 173,
-		104, 208, 149, 174, 199, 103, 151, 173, 104, 171,
-		174, 235, 69, 168, 178, 164, 167, 169, 169, 243,
-		70, 149, 174, 179, 213, 176, 100, 240, 53, 237,
-		81, 240, 71, 133
-	})]
 	public static lalr_state build_machine(production start_prod)
 	{
 		Stack stack = new Stack();
@@ -439,7 +369,7 @@ public class lalr_state
 		lalr_item_set2.compute_closure();
 		lalr_state lalr_state2 = new lalr_state(lalr_item_set2);
 		stack.Push(lalr_state2);
-		_all_kernels.put(key, lalr_state2);
+		_all_kernels.Add(key, lalr_state2);
 		while (!stack.empty())
 		{
 			lalr_state lalr_state3 = (lalr_state)stack.Pop();
@@ -478,7 +408,7 @@ public class lalr_state
 					lalr_item_set4.compute_closure();
 					lalr_state4 = new lalr_state(lalr_item_set4);
 					stack.Push(lalr_state4);
-					_all_kernels.put(key, lalr_state4);
+					_all_kernels.Add(key, lalr_state4);
 				}
 				else
 				{
@@ -505,15 +435,6 @@ public class lalr_state
 	}
 
 	
-	
-	[LineNumberTable(new byte[]
-	{
-		161, 91, 166, 110, 174, 151, 205, 137, 174, 175,
-		181, 176, 240, 69, 105, 171, 212, 223, 0, 205,
-		148, 163, 132, 233, 27, 240, 109, 175, 105, 140,
-		174, 181, 245, 69, 186, 116, 112, 147, 226, 69,
-		245, 35, 238, 98, 104, 105
-	})]
 	public virtual void build_table_entries(parse_action_table act_table, parse_reduce_table reduce_table)
 	{
 		terminal_set terminal_set2 = new terminal_set();

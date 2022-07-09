@@ -287,7 +287,7 @@ public class production
 		_action = new action_part(action_str);
 		remove_embedded_actions();
 		_index = next_index++;
-		Hashtable hashtable = _all;
+		var hashtable = _all;
 		
 		hashtable.put((_index), this);
 		lhs_sym.add_production(this);
@@ -549,11 +549,6 @@ public class production
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		162, 18, 174, 142, 178, 168, 183, 109, 226, 69,
-		178, 226, 41, 233, 93
-	})]
 	public virtual terminal_set check_first_set()
 	{
 		for (int i = 0; i < rhs_length(); i++)

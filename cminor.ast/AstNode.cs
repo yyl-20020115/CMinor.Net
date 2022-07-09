@@ -2,6 +2,7 @@ using CMinor.Parser;
 using CMinor.Semantic;
 using CMinor.Visit;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 namespace CMinor.AST;
@@ -31,23 +32,18 @@ public abstract class AstNode : DotNode
     private void GetNodesAndEdges(ChildVisitor P_0, GetSymbolVisitor P_1, IList P_2, IList P_3, IList P_4, IList P_5)
     {
         P_2.Add(this);
-        ArrayList arrayList = new ArrayList();
-        P_0.setChildren(arrayList);
+        P_0.Children = new();
         Accept(P_0);
-        Iterator iterator = ((IList)arrayList).iterator();
-        while (iterator.hasNext())
+        foreach(AstNode astNode in P_0.Children)
         {
-            AstNode astNode = (AstNode)iterator.next();
             P_3.Add(new Edge(this, astNode));
             astNode.GetNodesAndEdges(P_0, P_1, P_2, P_3, P_4, P_5);
         }
-        ArrayList arrayList2 = new ArrayList();
-        P_1.setSymbols(arrayList2);
+        var arrayList2 = new List<CMinor.Symbol.Symbol>();
+        P_1.Symbols = arrayList2;
         Accept(P_1);
-        Iterator iterator2 = ((IList)arrayList2).iterator();
-        while (iterator2.hasNext())
+        foreach(CMinor.Symbol.Symbol symbol in arrayList2)
         {
-            CMinor.Symbol.Symbol symbol = (CMinor.Symbol.Symbol)iterator2.next();
             if (symbol != null)
             {
                 P_4.Add(symbol);
@@ -93,39 +89,32 @@ public abstract class AstNode : DotNode
         GetNodesAndEdges(childVisitor, getSymbolVisitor, arrayList, arrayList2, arrayList3, arrayList4);
         output.WriteLine("digraph {");
         output.WriteLine("\tgraph [ordering=\"out\"];");
-        Iterator iterator = ((IList)arrayList).iterator();
-        while (iterator.hasNext())
+
+        foreach(AstNode astNode in arrayList)
         {
-            AstNode astNode = (AstNode)iterator.next();
             astNode.Accept(dotLabelVisitor);
             output.WriteLine(("\t") + (astNode.DotId) + (" [label=\"")
                 + (dotLabelVisitor.Label)
                 + ("\"];")
                 );
         }
-        iterator = ((IList)arrayList2).iterator();
-        while (iterator.hasNext())
+        foreach(Edge edge in arrayList2)
         {
-            Edge edge = (Edge)iterator.next();
             output.WriteLine(("\t") + (edge.source.DotId) + (" -> ")
                 + (edge.dest.DotId)
                 + (";")
                 );
         }
-        iterator = ((IList)arrayList3).iterator();
-        while (iterator.hasNext())
+        foreach(CMinor.Symbol.Symbol symbol in arrayList3)
         {
-            CMinor.Symbol.Symbol symbol = (CMinor.Symbol.Symbol)iterator.next();
             symbol.Accept(symbolDotLabelVisitor);
             output.WriteLine(("\t") + (symbol.DotId) + (" [label=\"")
                 + (symbolDotLabelVisitor.Label)
                 + ("\", shape=box]")
                 );
         }
-        iterator = ((IList)arrayList4).iterator();
-        while (iterator.hasNext())
+        foreach(Edge edge in arrayList4)
         {
-            Edge edge = (Edge)iterator.next();
             output.WriteLine(("\t") + (edge.source.DotId) + (" -> ")
                 + (edge.dest.DotId)
                 + (" [style=\"dashed\"];")

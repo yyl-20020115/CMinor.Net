@@ -20,17 +20,6 @@ public class SymbolTable
 		internal SymbolTable this_00240;
 
 		
-		[LineNumberTable(new byte[]
-		{
-			159,
-			183,
-			104,
-			99,
-			176,
-			byte.MaxValue,
-			50,
-			69
-		})]
 		private void declareSymbol(string P_0, Symbol P_1)
 		{
 			Symbol symbol = probe(P_0);

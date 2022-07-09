@@ -1,11 +1,12 @@
 
 
 using JavaCUP.Runtime;
+using System;
 using System.Collections.Generic;
 
 namespace JavaCUP;
 
-[SourceFile("parser.java")]
+
 internal class CUP_0024parser_0024actions
 {
 	
@@ -78,16 +79,11 @@ internal class CUP_0024parser_0024actions
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		161, 102, 99, 148, 114, 99, 159, 17, 103, 104,
-		121, 191, 7
-	})]
 	protected internal virtual void add_precedence(string P_0)
 	{
 		if (P_0 == null)
 		{
-			Console.System.Exception.WriteLine("Unable to add precedence to nonexistent terminal");
+			Console.Error.WriteLine("Unable to add precedence to nonexistent terminal");
 			return;
 		}
 		symbol_part symbol_part2 = (symbol_part)symbols.get(P_0);
@@ -116,17 +112,12 @@ internal class CUP_0024parser_0024actions
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		161, 120, 232, 159, 177, 171, 176, 231, 81, 235,
-		78, 171, 171, 231, 70, 167, 231, 92, 103
-	})]
 	internal CUP_0024parser_0024actions(parser P_0)
 	{
 		MAX_RHS = 200;
 		rhs_parts = new production_part[200];
 		rhs_pos = 0;
-		multipart_name = String.newhelper();
+		multipart_name = new();
 		symbols = new ();
 		non_terms = new ();
 		start_nt = null;

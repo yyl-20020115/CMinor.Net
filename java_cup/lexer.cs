@@ -1,8 +1,9 @@
 
 
 using JavaCUP.Runtime;
-
-
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace JavaCUP;
 
@@ -18,9 +19,9 @@ public class lexer
 
 	protected internal const int EOF_CHAR = -1;
 
-	protected internal static Hashtable keywords;
+	protected internal static Dictionary<string,int> keywords;
 
-	protected internal static Hashtable char_symbols;
+	protected internal static Dictionary<char, int> char_symbols;
 
 	protected internal static int current_line;
 
@@ -42,7 +43,7 @@ public class lexer
 	
 	public static void emit_error(string message)
 	{
-		Console.System.Exception.WriteLine(("System.Exception at ")+(current_line)+("(")
+		Console.Out.WriteLine(("System.Exception at ")+(current_line)+("(")
 			+(current_position)
 			+("): ")
 			+(message)
@@ -55,14 +56,6 @@ public class lexer
 		return ((ch >= 97 && ch <= 122) || (ch >= 65 && ch <= 90) || ch == 95) ? true : false;
 	}
 
-	
-	
-	[LineNumberTable(new byte[]
-	{
-		160, 70, 102, 106, 104, 102, 102, 136, 106, 104,
-		102, 136, 106, 104, 136, 239, 70, 108, 108, 147,
-		108, 134
-	})]
 	protected internal static void advance()
 	{
 		int num = next_char;
@@ -90,7 +83,7 @@ public class lexer
 				}
 				else
 				{
-					next_char4 = java.lang.System.@in.Read();
+					next_char4 = Console.In.Read();
 				}
 			}
 		}
@@ -119,52 +112,6 @@ public class lexer
 	}
 
 	
-	
-	[LineNumberTable(new byte[]
-	{
-		161,
-		86,
-		223,
-		14,
-		101,
-		194,
-		107,
-		164,
-		101,
-		201,
-		169,
-		137,
-		101,
-		202,
-		101,
-		137,
-		106,
-		234,
-		69,
-		234,
-		70,
-		105,
-		101,
-		159,
-		5,
-		101,
-		101,
-		101,
-		101,
-		138,
-		234,
-		69,
-		187,
-		101,
-		197,
-		114,
-		168,
-		180,
-		177,
-		byte.MaxValue,
-		45,
-		69
-	})]
 	protected internal static Symbol real_next_token()
 	{
 		while (true)
@@ -240,9 +187,9 @@ public class lexer
 			{
 				break;
 			}
-			StringBuilder stringBuilder = ("Unrecognized character '");
+			var stringBuilder = ("Unrecognized character '");
 			
-			emit_warn(stringBuilder+(new char((char)next_char))+("'(")+(next_char)
+			emit_warn(stringBuilder+(((char)next_char))+("'(")+(next_char)
 				+(") -- ignored")
 				);
 			advance();
@@ -256,24 +203,17 @@ public class lexer
 	
 	protected internal static int find_single_char(int ch)
 	{
-		int integer = (int)char_symbols.get(((ushort)ch));
+		int integer = (int)char_symbols[(((char)ch))];
 		if (integer == null)
 		{
 			return -1;
 		}
-		int result = integer.intValue();
+		int result = integer;
 		
 		return result;
 	}
 
 	
-	
-	[LineNumberTable(new byte[]
-	{
-		160, 181, 169, 234, 70, 136, 108, 193, 146, 101,
-		103, 193, 231, 69, 169, 170, 159, 4, 135, 225,
-		69, 106, 103
-	})]
 	protected internal static void swallow_comment()
 	{
 		if (next_char2 == 42)
@@ -312,13 +252,6 @@ public class lexer
 		}
 	}
 
-	
-	
-	[LineNumberTable(new byte[]
-	{
-		160, 238, 166, 170, 178, 136, 106, 194, 119, 199,
-		106
-	})]
 	protected internal static Symbol do_code_string()
 	{
 		StringBuilder stringBuffer = new StringBuilder();
@@ -332,7 +265,7 @@ public class lexer
 				break;
 			}
 			
-			stringBuffer+(new char((char)next_char));
+			stringBuffer.Append(((char)next_char));
 			advance();
 		}
 		advance();
@@ -343,29 +276,23 @@ public class lexer
 	}
 
 	
-	
-	[LineNumberTable(new byte[]
-	{
-		161, 16, 166, 167, 105, 106, 165, 140, 105, 106,
-		199, 103, 177, 99, 174
-	})]
 	protected internal static Symbol do_id()
 	{
 		StringBuilder stringBuffer = new StringBuilder();
 		char[] array = new char[1] { (char)next_char };
-		stringBuffer+(array, 0, 1);
+		stringBuffer.Append(array, 0, 1);
 		advance();
 		while (id_char(next_char))
 		{
 			array[0] = (char)next_char;
-			stringBuffer+(array, 0, 1);
+			stringBuffer.Append(array, 0, 1);
 			advance();
 		}
-		string text = stringBuffer;
-		int integer = (int)keywords.get(text);
+		string text = stringBuffer.ToString();
+		int integer = keywords[text];
 		if (integer != null)
 		{
-			Symbol result = new Symbol(integer.intValue());
+			Symbol result = new Symbol(integer);
 			
 			return result;
 		}
@@ -378,7 +305,7 @@ public class lexer
 	
 	public static void emit_warn(string message)
 	{
-		Console.System.Exception.WriteLine(("Warning at ")+(current_line)+("(")
+		Console.Out.WriteLine(("Warning at ")+(current_line)+("(")
 			+(current_position)
 			+("): ")
 			+(message)
@@ -392,41 +319,32 @@ public class lexer
 	{
 	}
 
-	
-	
-	[LineNumberTable(new byte[]
-	{
-		77, 118, 118, 118, 118, 118, 118, 118, 119, 119,
-		119, 119, 119, 119, 119, 119, 183, 121, 121, 121,
-		121, 121, 121, 185, 111, 104, 102, 102, 136, 111,
-		104, 102, 136, 111, 104, 136, 207
-	})]
 	public static void init()
 	{
-		keywords.put("package", (2));
-		keywords.put("import", (3));
-		keywords.put("code", (4));
-		keywords.put("action", (5));
-		keywords.put("parser", (6));
-		keywords.put("terminal", (7));
-		keywords.put("non", (8));
-		keywords.put("nonterminal", (27));
-		keywords.put("init", (9));
-		keywords.put("scan", (10));
-		keywords.put("with", (11));
-		keywords.put("start", (12));
-		keywords.put("precedence", (20));
-		keywords.put("left", (21));
-		keywords.put("right", (22));
-		keywords.put("nonassoc", (23));
-		char_symbols.put((59), (13));
-		char_symbols.put((44), (14));
-		char_symbols.put((42), (15));
-		char_symbols.put((46), (16));
-		char_symbols.put((124), (19));
-		char_symbols.put((91), (25));
-		char_symbols.put((93), (26));
-		next_char = java.lang.System.@in.Read();
+		keywords.Add("package", (2));
+		keywords.Add("import", (3));
+		keywords.Add("code", (4));
+		keywords.Add("action", (5));
+		keywords.Add("parser", (6));
+		keywords.Add("terminal", (7));
+		keywords.Add("non", (8));
+		keywords.Add("nonterminal", (27));
+		keywords.Add("init", (9));
+		keywords.Add("scan", (10));
+		keywords.Add("with", (11));
+		keywords.Add("start", (12));
+		keywords.Add("precedence", (20));
+		keywords.Add("left", (21));
+		keywords.Add("right", (22));
+		keywords.Add("nonassoc", (23));
+		char_symbols.Add((59), (13));
+		char_symbols.Add((44), (14));
+		char_symbols.Add((42), (15));
+		char_symbols.Add((46), (16));
+		char_symbols.Add((124), (19));
+		char_symbols.Add((91), (25));
+		char_symbols.Add((93), (26));
+		next_char = reader.Read();
 		if (next_char == -1)
 		{
 			next_char2 = -1;
@@ -434,21 +352,21 @@ public class lexer
 			next_char4 = -1;
 			return;
 		}
-		next_char2 = java.lang.System.@in.Read();
+		next_char2 = Console.In.Read();
 		if (next_char2 == -1)
 		{
 			next_char3 = -1;
 			next_char4 = -1;
 			return;
 		}
-		next_char3 = java.lang.System.@in.Read();
+		next_char3 = Console.In.Read();
 		if (next_char3 == -1)
 		{
 			next_char4 = -1;
 		}
 		else
 		{
-			next_char4 = java.lang.System.@in.Read();
+			next_char4 = Console.In.Read();
 		}
 	}
 
@@ -468,19 +386,14 @@ public class lexer
 	public static Symbol debug_next_token()
 	{
 		Symbol symbol2 = real_next_token();
-		java.lang.System.@out.WriteLine(("# next_Symbol() => ")+(symbol2.sym));
+		Console.Out.WriteLine(("# next_Symbol() => ")+(symbol2.sym));
 		return symbol2;
 	}
 
-	[LineNumberTable(new byte[]
-	{
-		30, 236, 74, 236, 69, 230, 69, 230, 69, 230,
-		69, 230, 69
-	})]
 	static lexer()
 	{
-		keywords = new Hashtable(23);
-		char_symbols = new Hashtable(11);
+		keywords = new (23);
+		char_symbols = new (11);
 		current_line = 1;
 		current_position = 1;
 		absolute_position = 1;

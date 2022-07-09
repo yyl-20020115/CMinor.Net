@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.IO;
 using System.Runtime.Serialization;
 
 using CMinor.AST;
@@ -87,55 +88,6 @@ public class Compiler
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		11,
-		98,
-		98,
-		98,
-		98,
-		99,
-		131,
-		123,
-		107,
-		121,
-		142,
-		110,
-		110,
-		144,
-		110,
-		115,
-		135,
-		110,
-		115,
-		135,
-		110,
-		116,
-		136,
-		110,
-		116,
-		133,
-		105,
-		104,
-		144,
-		byte.MaxValue,
-		17,
-		35,
-		235,
-		96,
-		99,
-		125,
-		176,
-		103,
-		176,
-		110,
-		176,
-		103,
-		103,
-		104,
-		104,
-		135
-	})]
 	public virtual void parseArgs(string[] args)
 	{
 		string text = null;
@@ -158,7 +110,7 @@ public class Compiler
 				((IList)arrayList).Add((object)text2);
 				continue;
 			}
-			if (java.lang.String.instancehelper_equals(text2, "-o"))
+			if (String.Equals(text2, "-o"))
 			{
 				if (arrayList == null)
 				{
@@ -168,7 +120,7 @@ public class Compiler
 				
 				throw new UsageError("-o flag given more than once");
 			}
-			if (java.lang.String.instancehelper_equals(text2, "-h"))
+			if (String.Equals(text2, "-h"))
 			{
 				if (num != 0)
 				{
@@ -178,7 +130,7 @@ public class Compiler
 				num = 1;
 				continue;
 			}
-			if (java.lang.String.instancehelper_equals(text2, "-t"))
+			if (String.Equals(text2, "-t"))
 			{
 				if (num2 != 0)
 				{
@@ -188,7 +140,7 @@ public class Compiler
 				num2 = 1;
 				continue;
 			}
-			if (java.lang.String.instancehelper_equals(text2, "-s"))
+			if (String.Equals(text2, "-s"))
 			{
 				if (num3 != 0)
 				{
@@ -198,7 +150,7 @@ public class Compiler
 				num3 = 1;
 				continue;
 			}
-			if (java.lang.String.instancehelper_equals(text2, "-l"))
+			if (String.Equals(text2, "-l"))
 			{
 				if (num4 != 0)
 				{
@@ -262,7 +214,7 @@ public class Compiler
 	
 	private static bool isInputFile(string P_0)
 	{
-		return (hasSuffix(P_0, "cm") || hasSuffix(P_0, "cminor") || java.lang.String.instancehelper_equals(P_0, "-")) ? true : false;
+		return (hasSuffix(P_0, "cm") || hasSuffix(P_0, "cminor") || String.Equals(P_0, "-")) ? true : false;
 	}
 
 	
@@ -281,12 +233,7 @@ public class Compiler
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		160, 126, 103, 103, 103, 135, 113, 245, 70, 77,
-		236, 60, 98, 191, 3
-	})]
-	private static AstNode getRootNode(FileReader P_0, string P_1, ErrorLogger P_2)
+	private static AstNode getRootNode(TextReader P_0, string P_1, ErrorLogger P_2)
 	{
 		Lexer lexer = new Lexer(P_0);
 		lexer.setFilename(P_1);
@@ -363,16 +310,16 @@ public class Compiler
 		}
 		int num = 0;
 		int num2 = 0;
-		if (inputName == null || java.lang.String.instancehelper_equals(inputName, "-"))
+		if (inputName == null || String.Equals(inputName, "-"))
 		{
 			num = 1;
 		}
-		if ((outputName == null && num != 0) || (outputName != null && java.lang.String.instancehelper_equals(outputName, "-")))
+		if ((outputName == null && num != 0) || (outputName != null && String.Equals(outputName, "-")))
 		{
 			num2 = 1;
 		}
 		string text = ((num == 0) ? inputName : "stdin");
-		FileReader fileReader = ((num == 0) ? new FileReader(inputName) : new FileReader(FileDescriptor.@in));
+		StreamReader fileReader = ((num == 0) ? new StreamReader(inputName) : new StreamReader(FileDescriptor.@in));
 		ErrorLogger errorLogger = new ErrorLogger();
 		AstNode rootNode = getRootNode(fileReader, text, errorLogger);
 		if (checkMode)
