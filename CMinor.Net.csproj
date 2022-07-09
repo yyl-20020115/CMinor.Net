@@ -2,7 +2,7 @@
   <PropertyGroup>
     <AssemblyName>cminor</AssemblyName>
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
-    <TargetFramework>net35</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
   </PropertyGroup>
   <PropertyGroup>
     <LangVersion>10.0</LangVersion>
@@ -10,6 +10,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace />
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="cminor.jar" />

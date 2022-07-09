@@ -1,20 +1,13 @@
-
-
-using IKVM.Runtime;
-
-
+using System.Collections.Generic;
 
 namespace JavaCUP;
 
 public class symbol_set
 {
-	protected internal Hashtable _all;
+	protected internal Dictionary<string, symbol> _all = new(11);
 
-	
-	
 	public symbol_set()
 	{
-		_all = new Hashtable(11);
 	}
 
 	
@@ -23,17 +16,15 @@ public class symbol_set
 	public virtual bool add(symbol sym)
 	{
 		not_null(sym);
-		object obj = _all.put(sym.name(), sym);
+		object obj = _all.Add(sym.name(), sym);
 		return obj == null;
 	}
 
 	
 	
-	public virtual Enumeration all()
+	public virtual IEnumerable<symbol> all()
 	{
-		Enumeration result = _all.elements();
-		
-		return result;
+		return _all.Values;
 	}
 
 	
@@ -80,24 +71,19 @@ public class symbol_set
 	public virtual void remove(symbol sym)
 	{
 		not_null(sym);
-		_all.remove(sym.name());
+		_all.Remove(sym.name());
 	}
 
-	
-	
-	public virtual int size()
-	{
-		int result = _all.Count;
-		
-		return result;
-	}
 
-	
-	
-	public virtual bool Equals(symbol_set other)
+
+    public virtual int Count => _all.Count;
+
+
+
+    public virtual bool Equals(symbol_set other)
 	{
 		//Discarded unreachable code: IL_001c
-		if (other == null || other.Count != size())
+		if (other == null || other.Count != Count)
 		{
 			return false;
 		}
@@ -108,7 +94,7 @@ public class symbol_set
 		}
 		catch (internal_error x)
 		{
-			internal_error2 = ByteCodeHelper.MapException<internal_error>(x, ByteCodeHelper.MapFlags.NoRemapping);
+			internal_error2 = x;
 		}
 		internal_error internal_error3 = internal_error2;
 		internal_error3.crash();

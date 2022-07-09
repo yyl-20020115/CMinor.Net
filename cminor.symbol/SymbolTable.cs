@@ -12,7 +12,7 @@ public class SymbolTable
 	internal class Scope
 	{
 		
-		private Dictionary<string,string> symbols;
+		private Dictionary<string,Symbol> symbols =new();
 
 		private Scope m_parentScope;
 
@@ -25,7 +25,7 @@ public class SymbolTable
 			Symbol symbol = probe(P_0);
 			if (symbol == null)
 			{
-				symbols.put(P_0, P_1);
+				symbols.Add(P_0, P_1);
 			}
 			else
 			{
@@ -49,7 +49,7 @@ public class SymbolTable
 		{
 			this_00240 = P_0;
 			
-			symbols = new HashMap();
+			symbols = new ();
 			this.m_parentScope = null;
 		}
 
@@ -65,9 +65,9 @@ public class SymbolTable
 
 		
 		
-		public virtual bool containsKey(string P_0)
+		public virtual bool ContainsKey(string P_0)
 		{
-			bool result = symbols.containsKey(P_0);
+			bool result = symbols.ContainsKey(P_0);
 			
 			return result;
 		}

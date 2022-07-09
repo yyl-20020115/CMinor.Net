@@ -235,7 +235,7 @@ public class TypeCheckVisitor : Visitor
 			Expression expression = (Expression)iterator.next();
 			expression.Accept(formatStringVisitor);
 		}
-		formatStringVisitor.finish();
+		formatStringVisitor.Finish();
 		P_0.ActualArguments = arrayList;
 		string result = stringBuffer;
 		
@@ -405,15 +405,6 @@ public class TypeCheckVisitor : Visitor
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		104,
-		108,
-		116,
-		byte.MaxValue,
-		5,
-		69
-	})]
 	public override void Visit(Initialization n)
 	{
 		n.Value.Accept(this);

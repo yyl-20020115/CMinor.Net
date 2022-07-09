@@ -2,6 +2,7 @@ using CMinor.Parser;
 using CMinor.Symbol;
 using CMinor.Visit;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace CMinor.AST;
 
@@ -21,7 +22,7 @@ public class PrintStatement : Statement
 
     public const string STRING_FORMAT = "%s";
 
-    private IList arguments;
+    private List<AstNode> arguments;
 
     private StringSymbol symbol;
 
@@ -29,13 +30,13 @@ public class PrintStatement : Statement
 
     public static int OFFSET => offset;
 
-    public PrintStatement(LocationInfo info, IList arguments)
+    public PrintStatement(LocationInfo info, List<AstNode> arguments)
         : base(info)
     {
         this.arguments = arguments;
     }
 
-    public virtual IList Arguments => arguments;
+    public virtual List<AstNode> Arguments => arguments;
 
     public virtual StringSymbol Symbol { get => symbol; set => this.symbol = value; }
 

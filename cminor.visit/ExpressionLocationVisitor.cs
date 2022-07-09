@@ -1,7 +1,4 @@
-
 using CMinor.AST;
-
-
 
 namespace CMinor.Visit;
 

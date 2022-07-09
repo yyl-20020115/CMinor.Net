@@ -20,7 +20,9 @@ public class StringLiteral : ConstantExpression
         v.Visit(this);
     }
 
-    public static string escape(string s)
+    public static string Escape(char c)
+        => Escape(c.ToString());
+    public static string Escape(string s)
         => s.Replace("\\", "\\\\")
         .Replace("\"", "\\\"")
         .Replace("'", "\\'")

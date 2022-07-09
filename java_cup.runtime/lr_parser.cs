@@ -118,22 +118,22 @@ public abstract class lr_parser
 	
 	public virtual void report_error(string message, object info)
 	{
-		Console.System.Exception.WriteLine(message);
+		Console.Error.WriteLine(message);
 		if (info is Symbol)
 		{
 			if (((Symbol)info).left != -1)
 			{
-				Console.System.Exception.WriteLine((" at character ")+(((Symbol)info).left)+(" of input")
+				Console.Error.WriteLine((" at character ")+(((Symbol)info).left)+(" of input")
 					);
 			}
 			else
 			{
-				Console.System.Exception.WriteLine("");
+				Console.Error.WriteLine("");
 			}
 		}
 		else
 		{
-			Console.System.Exception.WriteLine("");
+			Console.Error.WriteLine("");
 		}
 	}
 
@@ -304,7 +304,7 @@ public abstract class lr_parser
 	
 	public virtual void debug_message(string mess)
 	{
-		Console.System.Exception.WriteLine(mess);
+		Console.Error.WriteLine(mess);
 	}
 
 	
@@ -567,8 +567,8 @@ public abstract class lr_parser
 		debug_message("============ Parse Stack Dump ============");
 		for (int i = 0; i < stack.Count; i++)
 		{
-			debug_message(("Symbol: ")+(((Symbol)stack.elementAt(i)).sym)+(" State: ")
-				+(((Symbol)stack.elementAt(i)).parse_state)
+			debug_message(("Symbol: ")+(((Symbol)stack[i]).sym)+(" State: ")
+				+(((Symbol)stack[i]).parse_state)
 				);
 		}
 		debug_message("==========================================");
@@ -588,7 +588,7 @@ public abstract class lr_parser
 			int num = i;
 			if (((3 != -1) ? (num % 3) : 0) == 2 || i == stack.Count - 1)
 			{
-				debug_message(stringBuffer);
+				debug_message(stringBuffer.ToString());
 				stringBuffer = new StringBuilder("         ");
 			}
 		}

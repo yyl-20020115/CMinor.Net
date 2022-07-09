@@ -1,6 +1,4 @@
-
 using CMinor.AST;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace CMinor.Visit;
@@ -10,8 +8,6 @@ public class ChildVisitor : Visitor
 	
 	private List<AstNode> children;
 
-	
-	
 	public ChildVisitor()
 	{
 	}
@@ -22,8 +18,6 @@ public class ChildVisitor : Visitor
 	{
 		children.AddRange(n.Declarations);
 	}
-
-	
 	
 	public override void Visit(Parameter n)
 	{
@@ -32,12 +26,11 @@ public class ChildVisitor : Visitor
 	}
 
 	
-	
 	public override void Visit(FunctionDefinition n)
 	{
 		children.Add(n.ReturnType);
 		children.Add(n.Identifier);
-		children.addAll(n.Parameters);
+		children.AddRange(n.Parameters);
 		children.Add(n.Body);
 	}
 
@@ -79,15 +72,15 @@ public class ChildVisitor : Visitor
 	
 	public override void visit(PrintStatement n)
 	{
-		children.addAll(n.Arguments);
+		children.AddRange(n.Arguments);
 	}
 
 	
 	
 	public override void Visit(BlockStatement n)
 	{
-		children.addall(n.Declarations);
-		children.addAll(n.Statements);
+		children.AddRange(n.Declarations);
+		children.AddRange(n.Statements);
 	}
 
 	
@@ -135,7 +128,7 @@ public class ChildVisitor : Visitor
 	public override void Visit(FunctionCall n)
 	{
 		children.Add(n.Identifier);
-		children.addAll(n.Arguments);
+		children.AddRange(n.Arguments);
 	}
 
 	

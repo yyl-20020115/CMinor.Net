@@ -1,14 +1,10 @@
-
-
-using IKVM.Runtime;
-
-
+using System.Collections.Generic;
 
 namespace JavaCUP;
 
 public class production
 {
-	protected internal static Hashtable _all;
+	protected internal static Dictionary<int, production> _all = new();
 
 	protected internal static int next_index;
 
@@ -35,28 +31,6 @@ public class production
 	protected internal terminal_set _first_set;
 
 	
-	
-	public static void ___003Cclinit_003E()
-	{
-	}
-
-	
-	[LineNumberTable(new byte[]
-	{
-		161,
-		50,
-		230,
-		71,
-		137,
-		138,
-		169,
-		136,
-		byte.MaxValue,
-		19,
-		55,
-		233,
-		79
-	})]
 	protected internal virtual string declare_labels(production_part[] rhs, int rhs_len, string final_action)
 	{
 		string text = "";
@@ -65,9 +39,9 @@ public class production
 			if (!rhs[i].is_action())
 			{
 				symbol_part symbol_part2 = (symbol_part)rhs[i];
-				if (symbol_part2.label() != null)
+				if (symbol_part2.Label!= null)
 				{
-					text = (text)+(make_declaration(symbol_part2.label(), symbol_part2.the_symbol().stack_type(), rhs_len - i - 1));
+					text = (text)+(make_declaration(symbol_part2.Label, symbol_part2.the_symbol().stack_type(), rhs_len - i - 1));
 				}
 			}
 		}
@@ -75,11 +49,6 @@ public class production
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		161, 89, 136, 98, 98, 169, 216, 164, 200, 167,
-		217, 191, 23, 230, 69, 230, 35, 233, 99
-	})]
 	protected internal virtual int merge_adjacent_actions(production_part[] rhs_parts, int len)
 	{
 		if (rhs_parts == null || len == 0)
@@ -133,11 +102,6 @@ public class production
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		161, 187, 110, 209, 179, 102, 167, 223, 22, 238,
-		48, 233, 82
-	})]
 	protected internal virtual void remove_embedded_actions()
 	{
 		for (int i = 0; i < rhs_length(); i++)
@@ -147,7 +111,6 @@ public class production
 				string str = declare_labels(_rhs, i, "");
 				non_terminal non_terminal2 = non_terminal.create_new();
 				non_terminal2.is_embedded_action = true;
-				action_production.___003Cclinit_003E();
 				new action_production(this, non_terminal2, null, 0, (str)+(((action_part)rhs(i)).code_string()));
 				_rhs[i] = new symbol_part(non_terminal2);
 			}
@@ -156,71 +119,6 @@ public class production
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		12,
-		232,
-		160,
-		191,
-		103,
-		231,
-		124,
-		231,
-		75,
-		231,
-		72,
-		231,
-		74,
-		235,
-		158,
-		235,
-		162,
-		100,
-		105,
-		99,
-		138,
-		167,
-		99,
-		240,
-		77,
-		100,
-		108,
-		134,
-		226,
-		69,
-		171,
-		100,
-		133,
-		185,
-		166,
-		172,
-		179,
-		110,
-		241,
-		72,
-		113,
-		112,
-		109,
-		115,
-		120,
-		122,
-		159,
-		4,
-		byte.MaxValue,
-		4,
-		57,
-		235,
-		79,
-		107,
-		107,
-		191,
-		9,
-		173,
-		166,
-		179,
-		188,
-		105
-	})]
 	public production(non_terminal lhs_sym, production_part[] rhs_parts, int rhs_l, string action_str)
 	{
 		_rhs_prec = -1;
@@ -289,7 +187,7 @@ public class production
 		_index = next_index++;
 		var hashtable = _all;
 		
-		hashtable.put((_index), this);
+		hashtable.Add((_index), this);
 		lhs_sym.add_production(this);
 	}
 
@@ -309,17 +207,6 @@ public class production
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		161,
-		22,
-		106,
-		byte.MaxValue,
-		160,
-		102,
-		70,
-		166
-	})]
 	protected internal virtual string make_declaration(string labelname, string stack_type, int offset)
 	{
 		string str = ((!emit.lr_values()) ? "" : ("\t\tint ")+(labelname)+("left = ((java_cup.runtime.Symbol)")
@@ -452,11 +339,9 @@ public class production
 
 	
 	
-	public static Enumeration all()
+	public static IEnumerable<production> all()
 	{
-		Enumeration result = _all.elements();
-		
-		return result;
+		return _all.Values;
 	}
 
 	
@@ -505,11 +390,6 @@ public class production
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		161, 221, 177, 168, 202, 139, 168, 136, 172, 104,
-		138, 141, 226, 49, 230, 84
-	})]
 	public virtual bool check_nullable()
 	{
 		if (nullable_known())
@@ -592,35 +472,6 @@ public class production
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		162,
-		88,
-		127,
-		11,
-		127,
-		17,
-		123,
-		107,
-		63,
-		8,
-		134,
-		123,
-		117,
-		159,
-		22,
-		104,
-		104,
-		157,
-		byte.MaxValue,
-		14,
-		70,
-		226,
-		59,
-		161,
-		102,
-		162
-	})]
 	public override string ToString()
 	{
 		internal_error internal_error2;
@@ -654,7 +505,7 @@ public class production
 		}
 		catch (internal_error x)
 		{
-			internal_error2 = ByteCodeHelper.MapException<internal_error>(x, ByteCodeHelper.MapFlags.NoRemapping);
+			internal_error2 = x;// ByteCodeHelper.MapException<internal_error>(x, ByteCodeHelper.MapFlags.NoRemapping);
 		}
 		internal_error internal_error3 = internal_error2;
 		internal_error3.crash();
@@ -677,11 +528,5 @@ public class production
 			}
 		}
 		return str;
-	}
-
-	
-	static production()
-	{
-		_all = new Hashtable();
 	}
 }

@@ -2,6 +2,7 @@ using CMinor.Parser;
 using CMinor.Symbol;
 using CMinor.Visit;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace CMinor.AST;
 
@@ -9,7 +10,7 @@ public class FunctionDefinition : ExternalDeclaration
 {
     private TypeSpecifier returnType;
 
-    private IList parameters;
+    private List<Parameter> parameters;
 
     private BlockStatement body;
 
@@ -19,7 +20,7 @@ public class FunctionDefinition : ExternalDeclaration
 
     private int numLocals;
 
-    public FunctionDefinition(LocationInfo info, TypeSpecifier returnType, Identifier name, IList parameters, BlockStatement body)
+    public FunctionDefinition(LocationInfo info, TypeSpecifier returnType, Identifier name, List<Parameter> parameters, BlockStatement body)
         : base(info, name)
     {
         this.returnType = returnType;
@@ -29,7 +30,7 @@ public class FunctionDefinition : ExternalDeclaration
     }
 
     public virtual TypeSpecifier ReturnType => returnType;
-    public virtual IList Parameters => parameters;
+    public virtual List<Parameter> Parameters => parameters;
     public virtual BlockStatement Body => body;
     public virtual FunctionSymbol Symbol { get => symbol; set => this.symbol = value; }
 

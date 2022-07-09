@@ -9,20 +9,20 @@ namespace CMinor.AST;
 public class Program : AstNode
 {
     public const string MAIN_FUNCTION_NAME = "main";
-    private List<Declaration> declarations;
+    private List<ExternalDeclaration> declarations;
     private FunctionDefinition mainFunction;
     private IList functions;
     private IList globalVariables;
     private IList stringSymbols;
     private StringSymbol boolStringSymbol;
 
-    public Program(LocationInfo info, List<Declaration> declarations)
+    public Program(LocationInfo info, List<ExternalDeclaration> declarations)
         : base(info)
     {
         this.declarations = declarations;
     }
 
-    public virtual List<Declaration> Declarations => declarations;
+    public virtual List<ExternalDeclaration> Declarations => declarations;
     public virtual FunctionDefinition MainFunction { get => mainFunction; set => this.mainFunction = value; }
     public virtual IList GlobalVariables { get => globalVariables; set => this.globalVariables = value; }
     public virtual IList Functions { get => functions; set => this.functions = value; }

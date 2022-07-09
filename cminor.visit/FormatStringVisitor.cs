@@ -1,4 +1,3 @@
-
 using CMinor.AST;
 using CMinor.Semantic;
 using CMinor.Symbol;
@@ -9,26 +8,22 @@ namespace CMinor.Visit;
 
 internal class FormatStringVisitor : Visitor
 {
-	private StringBuilder result;
+	private StringBuilder result = new();
 
-	private StringBuilder literalContent;
+	private StringBuilder literalContent = new();
 
-	
 	private IList actualArguments;
 
-	private StringTable stringTable;
+	private StringTable stringTable = new();
 
 	private Program program;
 
 	private ErrorLogger logger;
-
 	
 	
 	private string escape(string P_0)
-	{
-		string text = String.instancehelper_replace(P_0, "%%", "%");
-		
-		return text;
+	{		
+		return P_0.Replace("%%","%");
 	}
 
 	
@@ -46,56 +41,53 @@ internal class FormatStringVisitor : Visitor
 
 	
 	
-	public override void Visit(AstNode P_0)
+	public override void Visit(AstNode node)
 	{
-		logger.log(P_0.getLocation(), ("format string visitor in ")+(P_0.DotLabel)+(" is a stub")
-			);
+		logger.log(node.getLocation(), ("format string visitor in ")+(node.DotLabel)+(" is a stub"));
 	}
 
 	
-	public override void Visit(Expression P_0)
+	public override void Visit(Expression exp)
 	{
-		actualArguments.Add(P_0);
-		result.Append(escape(literalContent));
+		actualArguments.Add(exp);
+		result.Append(escape(literalContent.ToString()));
 		literalContent.Length = 0;
-		Types type = P_0.Type;
+		Types type = exp.Type;
 		if (type == Types.char_type)
 		{
 			result.Append("%c");
 		}
 		else if (type == Types.boolean_type)
 		{
-			result+("%s");
+			result.Append("%s");
 			program.BooleanStringSymbol = stringTable.getSymbol("false\0true");
 		}
 		else if (type == Types.integer_type)
 		{
-			result+("%d");
+			result.Append("%d");
 		}
 		else if (type == Types.string_type)
 		{
-			result+("%s");
+			result.Append("%s");
 		}
 	}
 
 	
-	
-	public override void Visit(ConstantExpression P_0)
+	public override void Visit(ConstantExpression exp)
 	{
-		literalContent+(P_0.Value);
+		literalContent.Append(exp.Value);
 	}
 
 	
 	
 	public override void Visit(BooleanLiteral P_0)
 	{
-		literalContent+((!(P_0.Value)) ? "false" : "true");
+		literalContent.Append((!(P_0.Value)) ? "false" : "true");
 	}
 
 	
-	
-	public virtual void finish()
+	public virtual void Finish()
 	{
-		result+(escape(literalContent));
+		result.Append(escape(literalContent.ToString()));
 	}
 }

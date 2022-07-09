@@ -18,9 +18,9 @@ internal class CUP_0024parser_0024actions
 
 	protected internal string multipart_name;
 
-	protected internal Hashtable symbols;
+	protected internal Dictionary<string, symbol_part> symbols =new();
 
-	protected internal Hashtable non_terms;
+	protected internal Dictionary<string,non_terminal> non_terms= new();
 
 	protected internal non_terminal start_nt;
 
@@ -38,11 +38,11 @@ internal class CUP_0024parser_0024actions
 	protected internal virtual void append_multipart(string P_0)
 	{
 		string str = "";
-		if (String.instancehelper_length(multipart_name) != 0)
+		if (multipart_name.Length != 0)
 		{
 			str = ".";
 		}
-		multipart_name = String.instancehelper_concat(multipart_name, (str)+(P_0));
+		multipart_name +=((str)+(P_0));
 	}
 
 	
@@ -86,10 +86,9 @@ internal class CUP_0024parser_0024actions
 			Console.Error.WriteLine("Unable to add precedence to nonexistent terminal");
 			return;
 		}
-		symbol_part symbol_part2 = (symbol_part)symbols.get(P_0);
-		if (symbol_part2 == null)
+		if (!symbols.TryGetValue(P_0,out var symbol_part2))
 		{
-			Console.System.Exception.WriteLine(("Could find terminal ")+(P_0)+(" while declaring precedence")
+			Console.Error.WriteLine(("Could find terminal ")+(P_0)+(" while declaring precedence")
 				);
 			return;
 		}
@@ -100,7 +99,7 @@ internal class CUP_0024parser_0024actions
 		}
 		else
 		{
-			Console.System.Exception.WriteLine(("Precedence declaration: Can't find terminal ")+(P_0));
+			Console.Error.WriteLine(("Precedence declaration: Can't find terminal ")+(P_0));
 		}
 	}
 
@@ -117,7 +116,7 @@ internal class CUP_0024parser_0024actions
 		MAX_RHS = 200;
 		rhs_parts = new production_part[200];
 		rhs_pos = 0;
-		multipart_name = new();
+		multipart_name = "";
 		symbols = new ();
 		non_terms = new ();
 		start_nt = null;
@@ -127,279 +126,278 @@ internal class CUP_0024parser_0024actions
 	}
 
 	
-	public Symbol CUP_0024parser_0024do_action(int P_0, lr_parser P_1, Stack<Symbol> P_2, int P_3)
+	public Symbol CUP_0024parser_0024do_action(int P_0, lr_parser P_1, Stack<Symbol> _P_2, int P_3)
 	{
+		var P_2 = _P_2.ToArray();
 		switch (P_0)
 		{
 		case 106:
 			
-			return new Symbol(29, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(29, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 105:
 			
-			return new Symbol(7, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(7, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 104:
 			
-			return new Symbol(7, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(7, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 103:
 			
-			return new Symbol(8, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(8, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 102:
 			
-			return new Symbol(8, ((Symbol)P_2.elementAt(P_3 - 1)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(8, ((Symbol)P_2[P_3 - 1]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 101:
 		{
 			
 			lexer.emit_error("Illegal use of reserved word");
 			string o2 = "ILLEGAL";
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 100:
 		{
 			
 			string o2 = "nonassoc";
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 99:
 		{
 			
 			string o2 = "right";
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 98:
 		{
 			
 			string o2 = "left";
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 97:
 		{
 			
 			string o2 = "precedence";
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 96:
 		{
 			
 			string o2 = "start";
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 95:
 		{
 			
 			string o2 = "with";
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 94:
 		{
 			
 			string o2 = "scan";
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 93:
 		{
 			
 			string o2 = "init";
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 92:
 		{
 			
 			string o2 = "nonterminal";
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 91:
 		{
 			
 			string o2 = "non";
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 90:
 		{
 			
 			string o2 = "terminal";
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 89:
 		{
 			
 			string o2 = "parser";
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 88:
 		{
 			
 			string o2 = "action";
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 87:
 		{
 			
 			string o2 = "code";
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 86:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text = (string)((Symbol)P_2[P_3-0]).value;
 			string o2 = text;
-			return new Symbol(42, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(42, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 85:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text = (string)((Symbol)P_2[P_3-0]).value;
 			string o2 = text;
-			return new Symbol(38, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(38, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 84:
 		{
 			
 			lexer.emit_error("Illegal use of reserved word");
 			string o2 = "ILLEGAL";
-			return new Symbol(37, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(37, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 83:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text = (string)((Symbol)P_2[P_3-0]).value;
 			string o2 = text;
-			return new Symbol(37, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(37, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 82:
 		{
 			
 			lexer.emit_error("Illegal use of reserved word");
 			string o2 = "ILLEGAL";
-			return new Symbol(36, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(36, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 81:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text = (string)((Symbol)P_2[P_3-0]).value;
 			string o2 = text;
-			return new Symbol(36, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(36, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 80:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
-			if (symbols.get(text) != null)
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text = (string)((Symbol)P_2[P_3-0]).value;
+			if (symbols.ContainsKey(text))
 			{
 				lexer.emit_error(("java_cup.runtime.Symbol \"")+(text)+("\" has already been declared")
 					);
 			}
 			else
 			{
-				if (String.instancehelper_equals(multipart_name, ""))
+				if (string.Equals(multipart_name, ""))
 				{
 					append_multipart("Object");
 				}
 				non_terminal.___003Cclinit_003E();
 				non_terminal value2 = new non_terminal(text, multipart_name);
-				non_terms.put(text, value2);
-				symbols.put(text, new symbol_part(value2));
+				non_terms.Add(text, value2);
+				symbols.Add(text, new symbol_part(value2));
 			}
-			return new Symbol(26, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(26, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		}
 		case 79:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
-			if (symbols.get(text) != null)
-			{
-				lexer.emit_error(("java_cup.runtime.Symbol \"")+(text)+("\" has already been declared")
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text = (string)((Symbol)P_2[P_3-0]).value;
+					if (symbols.ContainsKey(text))
+					{
+						lexer.emit_error(("java_cup.runtime.Symbol \"")+(text)+("\" has already been declared")
 					);
 			}
 			else
 			{
-				if (String.instancehelper_equals(multipart_name, ""))
+				if (string.Equals(multipart_name, ""))
 				{
 					append_multipart("Object");
 				}
-				Hashtable hashtable = symbols;
+				var hashtable = symbols;
 				string key = text;
-				terminal.___003Cclinit_003E();
-				hashtable.put(key, new symbol_part(new terminal(text, multipart_name)));
+				hashtable.Add(key, new symbol_part(new terminal(text, multipart_name)));
 			}
-			return new Symbol(25, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(25, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		}
 		case 78:
 			
-			multipart_name = String.instancehelper_concat(multipart_name, "[]");
-			return new Symbol(19, ((Symbol)P_2.elementAt(P_3 - 2)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			multipart_name+="[]";
+			return new Symbol(19, ((Symbol)P_2[P_3-2]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 77:
 			
-			return new Symbol(19, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(19, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 76:
 			
-			return new Symbol(15, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(15, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 75:
 			
 			append_multipart("*");
-			return new Symbol(15, ((Symbol)P_2.elementAt(P_3 - 2)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(15, ((Symbol)P_2[P_3-2]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 74:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text = (string)((Symbol)P_2[P_3-0]).value;
 			append_multipart(text);
-			return new Symbol(13, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(13, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		}
 		case 73:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text = (string)((Symbol)P_2[P_3-0]).value;
 			append_multipart(text);
-			return new Symbol(13, ((Symbol)P_2.elementAt(P_3 - 2)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(13, ((Symbol)P_2[P_3-2]).left, ((Symbol)P_2[P_3-0]).right, null);
 		}
 		case 72:
 			
 			
-			return new Symbol(39, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(39, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 71:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text = (string)((Symbol)P_2[P_3-0]).value;
 			string o2 = text;
-			return new Symbol(39, ((Symbol)P_2.elementAt(P_3 - 1)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(39, ((Symbol)P_2[P_3 - 1]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 70:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text = (string)((Symbol)P_2[P_3-0]).value;
 			add_rhs_part(new action_part(text));
-			return new Symbol(24, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(24, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		}
 		case 69:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 1)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 1)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 1)).value;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text2 = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
-			production_part production_part2 = (production_part)symbols.get(text);
-			if (production_part2 == null)
+			_ = ((Symbol)P_2[P_3 - 1]).left;
+			_ = ((Symbol)P_2[P_3 - 1]).right;
+			string text = (string)((Symbol)P_2[P_3 - 1]).value;
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text2 = (string)((Symbol)P_2[P_3-0]).value;
+			if (!symbols.TryGetValue(text,out var production_part2))
 			{
 				if (lexer.error_count == 0)
 				{
@@ -411,19 +409,19 @@ internal class CUP_0024parser_0024actions
 			{
 				add_rhs_part(add_lab(production_part2, text2));
 			}
-			return new Symbol(24, ((Symbol)P_2.elementAt(P_3 - 1)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(24, ((Symbol)P_2[P_3 - 1]).left, ((Symbol)P_2[P_3-0]).right, null);
 		}
 		case 68:
 			
-			return new Symbol(23, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(23, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 67:
 			
-			return new Symbol(23, ((Symbol)P_2.elementAt(P_3 - 1)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(23, ((Symbol)P_2[P_3 - 1]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 66:
 			
 			if (lhs_nt != null)
 			{
-				production.___003Cclinit_003E();
+				
 				new production(lhs_nt, rhs_parts, rhs_pos);
 				if (start_nt == null)
 				{
@@ -432,26 +430,26 @@ internal class CUP_0024parser_0024actions
 					add_rhs_part(add_lab(new symbol_part(start_nt), "start_val"));
 					add_rhs_part(new symbol_part(terminal.___003C_003EEOF));
 					add_rhs_part(new action_part("RESULT = start_val;"));
-					production.___003Cclinit_003E();
+					
 					emit.start_production = new production(non_terminal.___003C_003ESTART_nt, rhs_parts, rhs_pos);
 					new_rhs();
 				}
 			}
 			new_rhs();
-			return new Symbol(28, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(28, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 65:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text = (string)((Symbol)P_2[P_3-0]).value;
 			
 			if (lhs_nt != null)
 			{
 				symbol symbol2;
 				if (text == null)
 				{
-					Console.System.Exception.WriteLine("No terminal for contextual precedence");
+					Console.Error.WriteLine("No terminal for contextual precedence");
 					symbol2 = null;
 				}
 				else
@@ -460,15 +458,15 @@ internal class CUP_0024parser_0024actions
 				}
 				if (symbol2 != null && symbol2 is terminal)
 				{
-					production.___003Cclinit_003E();
+					
 					new production(lhs_nt, rhs_parts, rhs_pos, ((terminal)symbol2).precedence_num(), ((terminal)symbol2).precedence_side());
 					((symbol_part)symbols.get(text)).the_symbol().note_use();
 				}
 				else
 				{
-					Console.System.Exception.WriteLine(("Invalid terminal ")+(text)+(" for contextual precedence assignment")
+					Console.Error.WriteLine(("Invalid terminal ")+(text)+(" for contextual precedence assignment")
 						);
-					production.___003Cclinit_003E();
+					
 					new production(lhs_nt, rhs_parts, rhs_pos);
 				}
 				if (start_nt == null)
@@ -480,67 +478,67 @@ internal class CUP_0024parser_0024actions
 					add_rhs_part(new action_part("RESULT = start_val;"));
 					if (symbol2 != null && symbol2 is terminal)
 					{
-						production.___003Cclinit_003E();
+						
 						emit.start_production = new production(non_terminal.___003C_003ESTART_nt, rhs_parts, rhs_pos, ((terminal)symbol2).precedence_num(), ((terminal)symbol2).precedence_side());
 					}
 					else
 					{
-						production.___003Cclinit_003E();
+						
 						emit.start_production = new production(non_terminal.___003C_003ESTART_nt, rhs_parts, rhs_pos);
 					}
 					new_rhs();
 				}
 			}
 			new_rhs();
-			return new Symbol(28, ((Symbol)P_2.elementAt(P_3 - 2)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(28, ((Symbol)P_2[P_3-2]).left, ((Symbol)P_2[P_3-0]).right, null);
 		}
 		case 64:
 			
-			return new Symbol(27, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(27, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 63:
 			
-			return new Symbol(27, ((Symbol)P_2.elementAt(P_3 - 2)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(27, ((Symbol)P_2[P_3-2]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 62:
 		{
 			object o = null;
-			if (((Symbol)P_2.elementAt(P_3 - 1)).value != null)
+			if (((Symbol)P_2[P_3 - 1]).value != null)
 			{
-				o = ((Symbol)P_2.elementAt(P_3 - 1)).value;
+				o = ((Symbol)P_2[P_3 - 1]).value;
 			}
-			return new Symbol(22, ((Symbol)P_2.elementAt(P_3 - 2)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o);
+			return new Symbol(22, ((Symbol)P_2[P_3-2]).left, ((Symbol)P_2[P_3-0]).right, o);
 		}
 		case 61:
 			
 			lexer.emit_error("Syntax System.Exception");
-			return new Symbol(56, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(56, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 60:
 		{
 			object o = null;
-			if (((Symbol)P_2.elementAt(P_3 - 4)).value != null)
+			if (((Symbol)P_2[P_3 - 4]).value != null)
 			{
-				o = ((Symbol)P_2.elementAt(P_3 - 4)).value;
+				o = ((Symbol)P_2[P_3 - 4]).value;
 			}
-			if (((Symbol)P_2.elementAt(P_3 - 2)).value != null)
+			if (((Symbol)P_2[P_3-2]).value != null)
 			{
-				o = ((Symbol)P_2.elementAt(P_3 - 2)).value;
+				o = ((Symbol)P_2[P_3-2]).value;
 			}
-			_ = ((Symbol)P_2.elementAt(P_3 - 5)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 5)).right;
-			_ = (string)((Symbol)P_2.elementAt(P_3 - 5)).value;
-			return new Symbol(22, ((Symbol)P_2.elementAt(P_3 - 5)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o);
+			_ = ((Symbol)P_2[P_3-5]).left;
+			_ = ((Symbol)P_2[P_3-5]).right;
+			_ = (string)((Symbol)P_2[P_3-5]).value;
+			return new Symbol(22, ((Symbol)P_2[P_3-5]).left, ((Symbol)P_2[P_3-0]).right, o);
 		}
 		case 59:
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 2)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 2)).right;
-			_ = (string)((Symbol)P_2.elementAt(P_3 - 2)).value;
-			return new Symbol(55, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			_ = ((Symbol)P_2[P_3-2]).left;
+			_ = ((Symbol)P_2[P_3-2]).right;
+			_ = (string)((Symbol)P_2[P_3-2]).value;
+			return new Symbol(55, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 58:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text = (string)((Symbol)P_2[P_3-0]).value;
 			lhs_nt = (non_terminal)non_terms.get(text);
 			if (lhs_nt == null && lexer.error_count == 0)
 			{
@@ -548,35 +546,35 @@ internal class CUP_0024parser_0024actions
 					);
 			}
 			new_rhs();
-			return new Symbol(54, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(54, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		}
 		case 57:
 			
-			return new Symbol(12, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(12, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 56:
 			
-			return new Symbol(12, ((Symbol)P_2.elementAt(P_3 - 1)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(12, ((Symbol)P_2[P_3 - 1]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 55:
 			
-			return new Symbol(11, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(11, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 54:
 		{
 			object o = null;
-			if (((Symbol)P_2.elementAt(P_3 - 1)).value != null)
+			if (((Symbol)P_2[P_3 - 1]).value != null)
 			{
-				o = ((Symbol)P_2.elementAt(P_3 - 1)).value;
+				o = ((Symbol)P_2[P_3 - 1]).value;
 			}
-			_ = ((Symbol)P_2.elementAt(P_3 - 2)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 2)).right;
-			_ = (string)((Symbol)P_2.elementAt(P_3 - 2)).value;
-			return new Symbol(11, ((Symbol)P_2.elementAt(P_3 - 4)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o);
+			_ = ((Symbol)P_2[P_3-2]).left;
+			_ = ((Symbol)P_2[P_3-2]).right;
+			_ = (string)((Symbol)P_2[P_3-2]).value;
+			return new Symbol(11, ((Symbol)P_2[P_3 - 4]).left, ((Symbol)P_2[P_3-0]).right, o);
 		}
 		case 53:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text = (string)((Symbol)P_2[P_3-0]).value;
 			non_terminal value2 = (non_terminal)non_terms.get(text);
 			if (value2 == null)
 			{
@@ -590,181 +588,181 @@ internal class CUP_0024parser_0024actions
 				add_rhs_part(add_lab(new symbol_part(start_nt), "start_val"));
 				add_rhs_part(new symbol_part(terminal.___003C_003EEOF));
 				add_rhs_part(new action_part("RESULT = start_val;"));
-				production.___003Cclinit_003E();
+				
 				emit.start_production = new production(non_terminal.___003C_003ESTART_nt, rhs_parts, rhs_pos);
 				new_rhs();
 			}
-			return new Symbol(53, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(53, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		}
 		case 52:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text = (string)((Symbol)P_2[P_3-0]).value;
 			if (symbols.get(text) == null)
 			{
 				lexer.emit_error(("Terminal \"")+(text)+("\" has not been declared")
 					);
 			}
 			string o2 = text;
-			return new Symbol(41, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(41, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 51:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 0)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 0)).value;
+			_ = ((Symbol)P_2[P_3-0]).left;
+			_ = ((Symbol)P_2[P_3-0]).right;
+			string text = (string)((Symbol)P_2[P_3-0]).value;
 			add_precedence(text);
 			string o2 = text;
-			return new Symbol(40, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o2);
+			return new Symbol(40, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, o2);
 		}
 		case 50:
 			
-			return new Symbol(32, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(32, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 49:
 			
-			return new Symbol(32, ((Symbol)P_2.elementAt(P_3 - 2)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(32, ((Symbol)P_2[P_3-2]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 48:
 		{
 			object o = null;
-			if (((Symbol)P_2.elementAt(P_3 - 2)).value != null)
+			if (((Symbol)P_2[P_3-2]).value != null)
 			{
-				o = ((Symbol)P_2.elementAt(P_3 - 2)).value;
+				o = ((Symbol)P_2[P_3-2]).value;
 			}
-			return new Symbol(31, ((Symbol)P_2.elementAt(P_3 - 4)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o);
+			return new Symbol(31, ((Symbol)P_2[P_3 - 4]).left, ((Symbol)P_2[P_3-0]).right, o);
 		}
 		case 47:
 			
 			update_precedence(2);
-			return new Symbol(52, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(52, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 46:
 		{
 			object o = null;
-			if (((Symbol)P_2.elementAt(P_3 - 2)).value != null)
+			if (((Symbol)P_2[P_3-2]).value != null)
 			{
-				o = ((Symbol)P_2.elementAt(P_3 - 2)).value;
+				o = ((Symbol)P_2[P_3-2]).value;
 			}
-			return new Symbol(31, ((Symbol)P_2.elementAt(P_3 - 4)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o);
+			return new Symbol(31, ((Symbol)P_2[P_3 - 4]).left, ((Symbol)P_2[P_3-0]).right, o);
 		}
 		case 45:
 			
 			update_precedence(1);
-			return new Symbol(51, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(51, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 44:
 		{
 			object o = null;
-			if (((Symbol)P_2.elementAt(P_3 - 2)).value != null)
+			if (((Symbol)P_2[P_3-2]).value != null)
 			{
-				o = ((Symbol)P_2.elementAt(P_3 - 2)).value;
+				o = ((Symbol)P_2[P_3-2]).value;
 			}
-			return new Symbol(31, ((Symbol)P_2.elementAt(P_3 - 4)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o);
+			return new Symbol(31, ((Symbol)P_2[P_3 - 4]).left, ((Symbol)P_2[P_3-0]).right, o);
 		}
 		case 43:
 			
 			update_precedence(0);
-			return new Symbol(50, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(50, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 42:
 			
-			return new Symbol(33, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(33, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 41:
 			
-			return new Symbol(33, ((Symbol)P_2.elementAt(P_3 - 1)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(33, ((Symbol)P_2[P_3 - 1]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 40:
 			
-			return new Symbol(30, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(30, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 39:
 			
-			return new Symbol(30, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(30, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 38:
 			
-			return new Symbol(21, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(21, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 37:
 			
-			return new Symbol(21, ((Symbol)P_2.elementAt(P_3 - 2)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(21, ((Symbol)P_2[P_3-2]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 36:
 			
-			return new Symbol(20, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(20, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 35:
 			
-			return new Symbol(20, ((Symbol)P_2.elementAt(P_3 - 2)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(20, ((Symbol)P_2[P_3-2]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 34:
 		{
 			object o = null;
-			if (((Symbol)P_2.elementAt(P_3 - 1)).value != null)
+			if (((Symbol)P_2[P_3 - 1]).value != null)
 			{
-				o = ((Symbol)P_2.elementAt(P_3 - 1)).value;
+				o = ((Symbol)P_2[P_3 - 1]).value;
 			}
-			return new Symbol(35, ((Symbol)P_2.elementAt(P_3 - 2)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o);
+			return new Symbol(35, ((Symbol)P_2[P_3-2]).left, ((Symbol)P_2[P_3-0]).right, o);
 		}
 		case 33:
 			
-			multipart_name = String.newhelper();
-			return new Symbol(49, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			multipart_name = "";
+			return new Symbol(49, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 32:
 		{
 			object o = null;
-			if (((Symbol)P_2.elementAt(P_3 - 1)).value != null)
+			if (((Symbol)P_2[P_3 - 1]).value != null)
 			{
-				o = ((Symbol)P_2.elementAt(P_3 - 1)).value;
+				o = ((Symbol)P_2[P_3 - 1]).value;
 			}
-			return new Symbol(34, ((Symbol)P_2.elementAt(P_3 - 2)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o);
+			return new Symbol(34, ((Symbol)P_2[P_3-2]).left, ((Symbol)P_2[P_3-0]).right, o);
 		}
 		case 31:
 			
-			multipart_name = String.newhelper();
-			return new Symbol(48, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			multipart_name = "";
+			return new Symbol(48, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 30:
 		{
 			object o = null;
-			if (((Symbol)P_2.elementAt(P_3 - 1)).value != null)
+			if (((Symbol)P_2[P_3 - 1]).value != null)
 			{
-				o = ((Symbol)P_2.elementAt(P_3 - 1)).value;
+				o = ((Symbol)P_2[P_3 - 1]).value;
 			}
-			return new Symbol(18, ((Symbol)P_2.elementAt(P_3 - 3)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o);
+			return new Symbol(18, ((Symbol)P_2[P_3 - 3]).left, ((Symbol)P_2[P_3-0]).right, o);
 		}
 		case 29:
 			
-			multipart_name = String.newhelper();
-			return new Symbol(47, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			multipart_name = "";
+			return new Symbol(47, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 28:
 		{
 			object o = null;
-			if (((Symbol)P_2.elementAt(P_3 - 1)).value != null)
+			if (((Symbol)P_2[P_3 - 1]).value != null)
 			{
-				o = ((Symbol)P_2.elementAt(P_3 - 1)).value;
+				o = ((Symbol)P_2[P_3 - 1]).value;
 			}
-			return new Symbol(18, ((Symbol)P_2.elementAt(P_3 - 3)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o);
+			return new Symbol(18, ((Symbol)P_2[P_3 - 3]).left, ((Symbol)P_2[P_3-0]).right, o);
 		}
 		case 27:
 			
-			multipart_name = String.newhelper();
-			return new Symbol(46, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			multipart_name = "";
+			return new Symbol(46, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 26:
 			
-			return new Symbol(18, ((Symbol)P_2.elementAt(P_3 - 1)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(18, ((Symbol)P_2[P_3 - 1]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 25:
 			
-			return new Symbol(18, ((Symbol)P_2.elementAt(P_3 - 2)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(18, ((Symbol)P_2[P_3-2]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 24:
 			
-			return new Symbol(18, ((Symbol)P_2.elementAt(P_3 - 1)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(18, ((Symbol)P_2[P_3 - 1]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 23:
 			
-			return new Symbol(18, ((Symbol)P_2.elementAt(P_3 - 2)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(18, ((Symbol)P_2[P_3-2]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 22:
 			
-			return new Symbol(10, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(10, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 21:
 			
-			return new Symbol(10, ((Symbol)P_2.elementAt(P_3 - 1)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(10, ((Symbol)P_2[P_3 - 1]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 20:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 1)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 1)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 1)).value;
+			_ = ((Symbol)P_2[P_3 - 1]).left;
+			_ = ((Symbol)P_2[P_3 - 1]).right;
+			string text = (string)((Symbol)P_2[P_3 - 1]).value;
 			if (emit.scan_code != null)
 			{
 				lexer.emit_error("Redundant scan code (skipping)");
@@ -773,14 +771,14 @@ internal class CUP_0024parser_0024actions
 			{
 				emit.scan_code = text;
 			}
-			return new Symbol(17, ((Symbol)P_2.elementAt(P_3 - 3)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(17, ((Symbol)P_2[P_3 - 3]).left, ((Symbol)P_2[P_3-0]).right, null);
 		}
 		case 19:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 1)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 1)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 1)).value;
+			_ = ((Symbol)P_2[P_3 - 1]).left;
+			_ = ((Symbol)P_2[P_3 - 1]).right;
+			string text = (string)((Symbol)P_2[P_3 - 1]).value;
 			if (emit.init_code != null)
 			{
 				lexer.emit_error("Redundant init code (skipping)");
@@ -789,14 +787,14 @@ internal class CUP_0024parser_0024actions
 			{
 				emit.init_code = text;
 			}
-			return new Symbol(16, ((Symbol)P_2.elementAt(P_3 - 3)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(16, ((Symbol)P_2[P_3 - 3]).left, ((Symbol)P_2[P_3-0]).right, null);
 		}
 		case 18:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 1)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 1)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 1)).value;
+			_ = ((Symbol)P_2[P_3 - 1]).left;
+			_ = ((Symbol)P_2[P_3 - 1]).right;
+			string text = (string)((Symbol)P_2[P_3 - 1]).value;
 			if (emit.parser_code != null)
 			{
 				lexer.emit_error("Redundant parser code (skipping)");
@@ -805,14 +803,14 @@ internal class CUP_0024parser_0024actions
 			{
 				emit.parser_code = text;
 			}
-			return new Symbol(9, ((Symbol)P_2.elementAt(P_3 - 3)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(9, ((Symbol)P_2[P_3 - 3]).left, ((Symbol)P_2[P_3-0]).right, null);
 		}
 		case 17:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 1)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 1)).right;
-			string text = (string)((Symbol)P_2.elementAt(P_3 - 1)).value;
+			_ = ((Symbol)P_2[P_3 - 1]).left;
+			_ = ((Symbol)P_2[P_3 - 1]).right;
+			string text = (string)((Symbol)P_2[P_3 - 1]).value;
 			if (emit.action_code != null)
 			{
 				lexer.emit_error("Redundant action code (skipping)");
@@ -821,66 +819,66 @@ internal class CUP_0024parser_0024actions
 			{
 				emit.action_code = text;
 			}
-			return new Symbol(4, ((Symbol)P_2.elementAt(P_3 - 3)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(4, ((Symbol)P_2[P_3 - 3]).left, ((Symbol)P_2[P_3-0]).right, null);
 		}
 		case 16:
 			
-			return new Symbol(5, ((Symbol)P_2.elementAt(P_3 - 1)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(5, ((Symbol)P_2[P_3 - 1]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 15:
 			
-			return new Symbol(5, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(5, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 14:
 			
-			return new Symbol(6, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(6, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 13:
 			
-			return new Symbol(6, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(6, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 12:
 			
-			return new Symbol(6, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(6, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 11:
 			
-			return new Symbol(6, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(6, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 10:
 		{
 			object o = null;
-			if (((Symbol)P_2.elementAt(P_3 - 1)).value != null)
+			if (((Symbol)P_2[P_3 - 1]).value != null)
 			{
-				o = ((Symbol)P_2.elementAt(P_3 - 1)).value;
+				o = ((Symbol)P_2[P_3 - 1]).value;
 			}
-			return new Symbol(14, ((Symbol)P_2.elementAt(P_3 - 3)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o);
+			return new Symbol(14, ((Symbol)P_2[P_3 - 3]).left, ((Symbol)P_2[P_3-0]).right, o);
 		}
 		case 9:
 			
-			emit.import_list.push(multipart_name);
-			multipart_name = String.newhelper();
-			return new Symbol(45, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			emit.import_list.Push(multipart_name);
+			multipart_name = "";
+			return new Symbol(45, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 8:
 			
-			return new Symbol(3, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(3, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 7:
 			
-			return new Symbol(3, ((Symbol)P_2.elementAt(P_3 - 1)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(3, ((Symbol)P_2[P_3 - 1]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 6:
 			
-			return new Symbol(2, ((Symbol)P_2.elementAt(P_3 - 0)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(2, ((Symbol)P_2[P_3-0]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 5:
 		{
 			object o = null;
-			if (((Symbol)P_2.elementAt(P_3 - 1)).value != null)
+			if (((Symbol)P_2[P_3 - 1]).value != null)
 			{
-				o = ((Symbol)P_2.elementAt(P_3 - 1)).value;
+				o = ((Symbol)P_2[P_3 - 1]).value;
 			}
-			return new Symbol(2, ((Symbol)P_2.elementAt(P_3 - 3)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o);
+			return new Symbol(2, ((Symbol)P_2[P_3 - 3]).left, ((Symbol)P_2[P_3-0]).right, o);
 		}
 		case 4:
 			
 			emit.package_name = multipart_name;
-			multipart_name = String.newhelper();
-			return new Symbol(44, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			multipart_name = "";
+			return new Symbol(44, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 3:
 			
-			return new Symbol(1, ((Symbol)P_2.elementAt(P_3 - 4)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(1, ((Symbol)P_2[P_3 - 4]).left, ((Symbol)P_2[P_3-0]).right, null);
 		case 2:
 		{
 			object o = null;
@@ -888,21 +886,21 @@ internal class CUP_0024parser_0024actions
 			{
 				o = ((Symbol)P_2.elementAt(P_3 - 7)).value;
 			}
-			return new Symbol(1, ((Symbol)P_2.elementAt(P_3 - 7)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o);
+			return new Symbol(1, ((Symbol)P_2.elementAt(P_3 - 7)).left, ((Symbol)P_2[P_3-0]).right, o);
 		}
 		case 1:
 			
 			symbols.put("error", new symbol_part(terminal.___003C_003Eerror));
 			non_terms.put("$START", non_terminal.___003C_003ESTART_nt);
-			return new Symbol(43, ((Symbol)P_2.elementAt(P_3 - 0)).right, ((Symbol)P_2.elementAt(P_3 - 0)).right, null);
+			return new Symbol(43, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 0:
 		{
 			
-			_ = ((Symbol)P_2.elementAt(P_3 - 1)).left;
-			_ = ((Symbol)P_2.elementAt(P_3 - 1)).right;
-			object value = ((Symbol)P_2.elementAt(P_3 - 1)).value;
+			_ = ((Symbol)P_2[P_3 - 1]).left;
+			_ = ((Symbol)P_2[P_3 - 1]).right;
+			object value = ((Symbol)P_2[P_3 - 1]).value;
 			object o = value;
-			Symbol result = new Symbol(0, ((Symbol)P_2.elementAt(P_3 - 1)).left, ((Symbol)P_2.elementAt(P_3 - 0)).right, o);
+			Symbol result = new Symbol(0, ((Symbol)P_2[P_3 - 1]).left, ((Symbol)P_2[P_3-0]).right, o);
 			P_1.done_parsing();
 			return result;
 		}

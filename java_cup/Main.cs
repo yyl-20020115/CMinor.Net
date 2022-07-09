@@ -1,9 +1,5 @@
 using System;
 using System.IO;
-using IKVM.Runtime;
-using java.io;
-
-
 
 namespace JavaCUP;
 
@@ -61,7 +57,7 @@ public class Main
 
 	protected internal static long final_time = 0L;
 
-	protected internal static BufferedInputStream input_file;
+	protected internal static TextReader input_file;
 
 	protected internal static TextWriter parser_class_file;
 
@@ -254,7 +250,7 @@ public class Main
 				emit.unused_term++;
 				if (!emit.nowarn)
 				{
-					Console.System.Exception.WriteLine(("Warning: Terminal \"")+(terminal2.name())+("\" was declared but never used")
+					Console.Error.WriteLine(("Warning: Terminal \"")+(terminal2.name())+("\" was declared but never used")
 						);
 					lexer.warning_count++;
 				}
@@ -269,7 +265,7 @@ public class Main
 				emit.unused_term++;
 				if (!emit.nowarn)
 				{
-					Console.System.Exception.WriteLine(("Warning: Non terminal \"")+(non_terminal2.name())+("\" was declared but never used")
+					Console.Error.WriteLine(("Warning: Non terminal \"")+(non_terminal2.name())+("\" was declared but never used")
 						);
 					lexer.warning_count++;
 				}
@@ -283,25 +279,25 @@ public class Main
 	{
 		if (opt_do_debug || print_progress)
 		{
-			Console.System.Exception.WriteLine("  Computing non-terminal nullability...");
+			Console.Error.WriteLine("  Computing non-terminal nullability...");
 		}
 		non_terminal.compute_nullability();
 		nullability_end = java.lang.System.currentTimeMillis();
 		if (opt_do_debug || print_progress)
 		{
-			Console.System.Exception.WriteLine("  Computing first sets...");
+			Console.Error.WriteLine("  Computing first sets...");
 		}
 		non_terminal.compute_first_sets();
 		first_end = java.lang.System.currentTimeMillis();
 		if (opt_do_debug || print_progress)
 		{
-			Console.System.Exception.WriteLine("  Building state machine...");
+			Console.Error.WriteLine("  Building state machine...");
 		}
 		start_state = lalr_state.build_machine(emit.start_production);
 		machine_end = java.lang.System.currentTimeMillis();
 		if (opt_do_debug || print_progress)
 		{
-			Console.System.Exception.WriteLine("  Filling in tables...");
+			Console.Error.WriteLine("  Filling in tables...");
 		}
 		action_table = new parse_action_table();
 		reduce_table = new parse_reduce_table();
@@ -314,13 +310,13 @@ public class Main
 		table_end = java.lang.System.currentTimeMillis();
 		if (opt_do_debug || print_progress)
 		{
-			Console.System.Exception.WriteLine("  Checking for non-reduced productions...");
+			Console.Error.WriteLine("  Checking for non-reduced productions...");
 		}
 		action_table.check_reductions();
 		reduce_check_end = java.lang.System.currentTimeMillis();
 		if (emit.num_conflicts > expect_conflicts)
 		{
-			Console.System.Exception.WriteLine("*** More conflicts encountered than expected -- parser generation aborted");
+			Console.Error.WriteLine("*** More conflicts encountered than expected -- parser generation aborted");
 			lexer.error_count++;
 		}
 	}
@@ -332,7 +328,7 @@ public class Main
 		File file = new File(text);
 		try
 		{
-			parser_class_file = new TextWriter(new BufferedOutputStream(new FileOutputStream(file), 4096));
+			parser_class_file = new TextWriter(new BufferedOutputStream(new FileStream(file), 4096));
 		}
 		catch (System.Exception x)
 		{
@@ -345,7 +341,7 @@ public class Main
 		goto IL_008c;
 		IL_0052:
 		
-		Console.System.Exception.WriteLine(("Can't open \"")+(text)+("\" for output")
+		Console.Error.WriteLine(("Can't open \"")+(text)+("\" for output")
 			);
 		Environment.Exit(3);
 		goto IL_008c;
@@ -354,7 +350,7 @@ public class Main
 		file = new File(text);
 		try
 		{
-			symbol_class_file = new TextWriter(new BufferedOutputStream(new FileOutputStream(file), 4096));
+			symbol_class_file = new TextWriter(new BufferedOutputStream(new FileStream(file), 4096));
 			return;
 		}
 		catch (System.Exception x2)
@@ -365,7 +361,7 @@ public class Main
 			}
 		}
 		
-		Console.System.Exception.WriteLine(("Can't open \"")+(text)+("\" for output")
+		Console.Error.WriteLine(("Can't open \"")+(text)+("\" for output")
 			);
 		Environment.Exit(4);
 	}
@@ -380,95 +376,51 @@ public class Main
 	}
 
 	
-	
-	[LineNumberTable(new byte[]
-	{
-		162,
-		156,
-		111,
-		143,
-		127,
-		41,
-		250,
-		61,
-		237,
-		69,
-		106,
-		138,
-		111,
-		143,
-		127,
-		41,
-		250,
-		61,
-		237,
-		69,
-		106,
-		170,
-		111,
-		141,
-		103,
-		127,
-		46,
-		107,
-		110,
-		145,
-		byte.MaxValue,
-		26,
-		60,
-		233,
-		70,
-		234,
-		54,
-		233,
-		76,
-		108
-	})]
 	public static void dump_grammar()
-	{
-		Console.System.Exception.WriteLine("===== Terminals =====");
+    {
+		Console.Error.WriteLine("===== Terminals =====");
 		int num = 0;
 		int num2 = 0;
 		while (num < terminal.number())
 		{
-			Console.System.Exception.Write(("[")+(num)+("]")
+			Console.Error.Write(("[")+(num)+("]")
 				+(terminal.find(num).name())
 				+(" ")
 				);
 			int num3 = num2 + 1;
 			if (5 == -1 || num3 % 5 == 0)
 			{
-				Console.System.Exception.WriteLine();
+				Console.Error.WriteLine();
 			}
 			num++;
 			num2++;
 		}
-		Console.System.Exception.WriteLine();
-		Console.System.Exception.WriteLine();
-		Console.System.Exception.WriteLine("===== Non terminals =====");
+		Console.Error.WriteLine();
+		Console.Error.WriteLine();
+		Console.Error.WriteLine("===== Non terminals =====");
 		num = 0;
 		num2 = 0;
 		while (num < non_terminal.number())
 		{
-			Console.System.Exception.Write(("[")+(num)+("]")
+			Console.Error.Write(("[")+(num)+("]")
 				+(non_terminal.find(num).name())
 				+(" ")
 				);
 			int num4 = num2 + 1;
 			if (5 == -1 || num4 % 5 == 0)
 			{
-				Console.System.Exception.WriteLine();
+				Console.Error.WriteLine();
 			}
 			num++;
 			num2++;
 		}
-		Console.System.Exception.WriteLine();
-		Console.System.Exception.WriteLine();
-		Console.System.Exception.WriteLine("===== Productions =====");
+		Console.Error.WriteLine();
+		Console.Error.WriteLine();
+		Console.Error.WriteLine("===== Productions =====");
 		for (num = 0; num < production.number(); num++)
 		{
 			production production2 = production.find(num);
-			Console.System.Exception.Write(("[")+(num)+("] ")
+			Console.Error.Write(("[")+(num)+("] ")
 				+(production2.lhs().the_symbol().name())
 				+(" ::= ")
 				);
@@ -476,24 +428,19 @@ public class Main
 			{
 				if (production2.rhs(i).is_action())
 				{
-					Console.System.Exception.Write("{action} ");
+					Console.Error.Write("{action} ");
 				}
 				else
 				{
-					Console.System.Exception.Write((((symbol_part)production2.rhs(i)).the_symbol().name())+(" "));
+					Console.Error.Write((((symbol_part)production2.rhs(i)).the_symbol().name())+(" "));
 				}
 			}
-			Console.System.Exception.WriteLine();
+			Console.Error.WriteLine();
 		}
-		Console.System.Exception.WriteLine();
+		Console.Error.WriteLine();
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		162, 198, 171, 142, 108, 105, 130, 111, 138, 121,
-		109, 239, 60, 230, 70
-	})]
 	public static void dump_machine()
 	{
 		lalr_state[] array = new lalr_state[lalr_state.number()];
@@ -503,15 +450,15 @@ public class Main
 			lalr_state lalr_state2 = (lalr_state)enumeration.nextElement();
 			array[lalr_state2.index()] = lalr_state2;
 		}
-		Console.System.Exception.WriteLine("===== Viable Prefix Recognizer =====");
+		Console.Error.WriteLine("===== Viable Prefix Recognizer =====");
 		for (int i = 0; i < lalr_state.number(); i++)
 		{
 			if (array[i] == start_state)
 			{
-				Console.System.Exception.Write("START ");
+				Console.Error.Write("START ");
 			}
-			Console.System.Exception.WriteLine(array[i]);
-			Console.System.Exception.WriteLine("-------------------");
+			Console.Error.WriteLine(array[i]);
+			Console.Error.WriteLine("-------------------");
 		}
 	}
 
@@ -519,8 +466,8 @@ public class Main
 	
 	public static void dump_tables()
 	{
-		Console.System.Exception.WriteLine(action_table);
-		Console.System.Exception.WriteLine(reduce_table);
+		Console.Error.WriteLine(action_table);
+		Console.Error.WriteLine(reduce_table);
 	}
 
 	
@@ -543,79 +490,44 @@ public class Main
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		158,
-		243,
-		66,
-		138,
-		136,
-		207,
-		byte.MaxValue,
-		79,
-		69,
-		159,
-		44,
-		159,
-		34,
-		159,
-		34,
-		223,
-		19,
-		159,
-		44,
-		223,
-		44,
-		223,
-		44,
-		byte.MaxValue,
-		74,
-		69,
-		99,
-		191,
-		41,
-		143,
-		140,
-		177
-	})]
 	protected internal static void emit_summary(bool output_produced)
 	{
 		final_time = java.lang.System.currentTimeMillis();
 		if (!no_summary)
 		{
-			Console.System.Exception.WriteLine("------- CUP v0.10k Parser Generation Summary -------");
-			Console.System.Exception.WriteLine(("  ")+(lexer.error_count)+(" error")
+			Console.Error.WriteLine("------- CUP v0.10k Parser Generation Summary -------");
+			Console.Error.WriteLine(("  ")+(lexer.error_count)+(" error")
 				+(plural(lexer.error_count))
 				+(" and ")
 				+(lexer.warning_count)
 				+(" warning")
 				+(plural(lexer.warning_count))
 				);
-			Console.System.Exception.Write(("  ")+(terminal.number())+(" terminal")
+			Console.Error.Write(("  ")+(terminal.number())+(" terminal")
 				+(plural(terminal.number()))
 				+(", ")
 				);
-			Console.System.Exception.Write((non_terminal.number())+(" non-terminal")+(plural(non_terminal.number()))
+			Console.Error.Write((non_terminal.number())+(" non-terminal")+(plural(non_terminal.number()))
 				+(", and ")
 				);
-			Console.System.Exception.WriteLine((production.number())+(" production")+(plural(production.number()))
+			Console.Error.WriteLine((production.number())+(" production")+(plural(production.number()))
 				+(" declared, ")
 				);
-			Console.System.Exception.WriteLine(("  producing ")+(lalr_state.number())+(" unique parse states.")
+			Console.Error.WriteLine(("  producing ")+(lalr_state.number())+(" unique parse states.")
 				);
-			Console.System.Exception.WriteLine(("  ")+(emit.unused_term)+(" terminal")
+			Console.Error.WriteLine(("  ")+(emit.unused_term)+(" terminal")
 				+(plural(emit.unused_term))
 				+(" declared but not used.")
 				);
-			Console.System.Exception.WriteLine(("  ")+(emit.unused_non_term)+(" non-terminal")
+			Console.Error.WriteLine(("  ")+(emit.unused_non_term)+(" non-terminal")
 				+(plural(emit.unused_term))
 				+(" declared but not used.")
 				);
-			Console.System.Exception.WriteLine(("  ")+(emit.not_reduced)+(" production")
+			Console.Error.WriteLine(("  ")+(emit.not_reduced)+(" production")
 				+(plural(emit.not_reduced))
 				+(" never reduced.")
 				);
-			Console.System.Exception.WriteLine(("  ")+(emit.num_conflicts)+(" conflict")
+			Console.Error.WriteLine(("  ")+(emit.num_conflicts)+(" conflict")
 				+(plural(emit.num_conflicts))
 				+(" detected")
 				+(" (")
@@ -624,20 +536,20 @@ public class Main
 				);
 			if (output_produced)
 			{
-				Console.System.Exception.WriteLine(("  Code written to \"")+(emit.parser_class_name)+(".java\", and \"")
+				Console.Error.WriteLine(("  Code written to \"")+(emit.parser_class_name)+(".java\", and \"")
 					+(emit.symbol_const_class_name)
 					+(".java\".")
 					);
 			}
 			else
 			{
-				Console.System.Exception.WriteLine("  No code produced.");
+				Console.Error.WriteLine("  No code produced.");
 			}
 			if (opt_show_timing)
 			{
 				show_times();
 			}
-			Console.System.Exception.WriteLine("---------------------------------------------------- (v0.10k)");
+			Console.Error.WriteLine("---------------------------------------------------- (v0.10k)");
 		}
 	}
 
@@ -645,10 +557,10 @@ public class Main
 	
 	protected internal static void usage(string message)
 	{
-		Console.System.Exception.WriteLine();
-		Console.System.Exception.WriteLine(message);
-		Console.System.Exception.WriteLine();
-		Console.System.Exception.WriteLine("Usage: java_cup [options] [filename]\n  and expects a specification file on standard input if no filename is given.\n  Legal options include:\n    -package name  specify package generated classes go in [default none]\n    -parser name   specify parser class name [default \"parser\"]\n    -symbols name  specify name for symbol constant class [default \"sym\"]\n    -interface     put symbols in an interface, rather than a class\n    -nonterms      put non terminals in symbol constant class\n    -expect #      number of conflicts expected/allowed [default 0]\n    -compact_red   compact tables by defaulting to most frequent reduce\n    -nowarn        don't warn about useless productions, etc.\n    -nosummary     don't Write the usual summary of parse states, etc.\n    -nopositions   don't propagate the left and right token position values\n    -noscanner     don't refer to java_cup.runtime.Scanner\n    -progress      Write messages to indicate progress of the system\n    -time          Write time usage summary\n    -dump_grammar  produce a human readable dump of the symbols and grammar\n    -dump_states   produce a dump of parse state machine\n    -dump_tables   produce a dump of the parse tables\n    -dump          produce a dump of all of the above\n    -version       Write the version information for CUP and exit\n");
+		Console.Error.WriteLine();
+		Console.Error.WriteLine(message);
+		Console.Error.WriteLine();
+		Console.Error.WriteLine("Usage: java_cup [options] [filename]\n  and expects a specification file on standard input if no filename is given.\n  Legal options include:\n    -package name  specify package generated classes go in [default none]\n    -parser name   specify parser class name [default \"parser\"]\n    -symbols name  specify name for symbol constant class [default \"sym\"]\n    -interface     put symbols in an interface, rather than a class\n    -nonterms      put non terminals in symbol constant class\n    -expect #      number of conflicts expected/allowed [default 0]\n    -compact_red   compact tables by defaulting to most frequent reduce\n    -nowarn        don't warn about useless productions, etc.\n    -nosummary     don't Write the usual summary of parse states, etc.\n    -nopositions   don't propagate the left and right token position values\n    -noscanner     don't refer to java_cup.runtime.Scanner\n    -progress      Write messages to indicate progress of the system\n    -time          Write time usage summary\n    -dump_grammar  produce a human readable dump of the symbols and grammar\n    -dump_states   produce a dump of parse state machine\n    -dump_tables   produce a dump of the parse tables\n    -dump          produce a dump of all of the above\n    -version       Write the version information for CUP and exit\n");
 		Environment.Exit(1);
 	}
 
@@ -662,88 +574,74 @@ public class Main
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		162, 50, 140, 111, 111, 159, 21, 159, 21, 159,
-		21, 105, 159, 21, 114, 159, 21, 114, 159, 21,
-		114, 159, 21, 114, 159, 21, 114, 159, 21, 114,
-		159, 21, 114, 159, 21, 105, 159, 15, 105, 159,
-		15, 105, 159, 15, 105, 159, 15, 105, 159, 15,
-		105, 191, 15, 159, 23
-	})]
 	protected internal static void show_times()
 	{
 		long total_time = final_time - start_time;
-		Console.System.Exception.WriteLine(". . . . . . . . . . . . . . . . . . . . . . . . . ");
-		Console.System.Exception.WriteLine("  Timing Summary");
-		Console.System.Exception.WriteLine(("    Total time       ")+(timestr(final_time - start_time, total_time)));
-		Console.System.Exception.WriteLine(("      Startup        ")+(timestr(prelim_end - start_time, total_time)));
-		Console.System.Exception.WriteLine(("      Parse          ")+(timestr(parse_end - prelim_end, total_time)));
+		Console.Error.WriteLine(". . . . . . . . . . . . . . . . . . . . . . . . . ");
+		Console.Error.WriteLine("  Timing Summary");
+		Console.Error.WriteLine(("    Total time       ")+(timestr(final_time - start_time, total_time)));
+		Console.Error.WriteLine(("      Startup        ")+(timestr(prelim_end - start_time, total_time)));
+		Console.Error.WriteLine(("      Parse          ")+(timestr(parse_end - prelim_end, total_time)));
 		if (check_end != 0)
 		{
-			Console.System.Exception.WriteLine(("      Checking       ")+(timestr(check_end - parse_end, total_time)));
+			Console.Error.WriteLine(("      Checking       ")+(timestr(check_end - parse_end, total_time)));
 		}
 		if (check_end != 0 && build_end != 0)
 		{
-			Console.System.Exception.WriteLine(("      Parser Build   ")+(timestr(build_end - check_end, total_time)));
+			Console.Error.WriteLine(("      Parser Build   ")+(timestr(build_end - check_end, total_time)));
 		}
 		if (nullability_end != 0 && check_end != 0)
 		{
-			Console.System.Exception.WriteLine(("        Nullability  ")+(timestr(nullability_end - check_end, total_time)));
+			Console.Error.WriteLine(("        Nullability  ")+(timestr(nullability_end - check_end, total_time)));
 		}
 		if (first_end != 0 && nullability_end != 0)
 		{
-			Console.System.Exception.WriteLine(("        First sets   ")+(timestr(first_end - nullability_end, total_time)));
+			Console.Error.WriteLine(("        First sets   ")+(timestr(first_end - nullability_end, total_time)));
 		}
 		if (machine_end != 0 && first_end != 0)
 		{
-			Console.System.Exception.WriteLine(("        State build  ")+(timestr(machine_end - first_end, total_time)));
+			Console.Error.WriteLine(("        State build  ")+(timestr(machine_end - first_end, total_time)));
 		}
 		if (table_end != 0 && machine_end != 0)
 		{
-			Console.System.Exception.WriteLine(("        Table build  ")+(timestr(table_end - machine_end, total_time)));
+			Console.Error.WriteLine(("        Table build  ")+(timestr(table_end - machine_end, total_time)));
 		}
 		if (reduce_check_end != 0 && table_end != 0)
 		{
-			Console.System.Exception.WriteLine(("        Checking     ")+(timestr(reduce_check_end - table_end, total_time)));
+			Console.Error.WriteLine(("        Checking     ")+(timestr(reduce_check_end - table_end, total_time)));
 		}
 		if (emit_end != 0 && build_end != 0)
 		{
-			Console.System.Exception.WriteLine(("      Code Output    ")+(timestr(emit_end - build_end, total_time)));
+			Console.Error.WriteLine(("      Code Output    ")+(timestr(emit_end - build_end, total_time)));
 		}
 		if (emit.symbols_time != 0)
 		{
-			Console.System.Exception.WriteLine(("        Symbols      ")+(timestr(emit.symbols_time, total_time)));
+			Console.Error.WriteLine(("        Symbols      ")+(timestr(emit.symbols_time, total_time)));
 		}
 		if (emit.parser_time != 0)
 		{
-			Console.System.Exception.WriteLine(("        Parser class ")+(timestr(emit.parser_time, total_time)));
+			Console.Error.WriteLine(("        Parser class ")+(timestr(emit.parser_time, total_time)));
 		}
 		if (emit.action_code_time != 0)
 		{
-			Console.System.Exception.WriteLine(("          Actions    ")+(timestr(emit.action_code_time, total_time)));
+			Console.Error.WriteLine(("          Actions    ")+(timestr(emit.action_code_time, total_time)));
 		}
 		if (emit.production_table_time != 0)
 		{
-			Console.System.Exception.WriteLine(("          Prod table ")+(timestr(emit.production_table_time, total_time)));
+			Console.Error.WriteLine(("          Prod table ")+(timestr(emit.production_table_time, total_time)));
 		}
 		if (emit.action_table_time != 0)
 		{
-			Console.System.Exception.WriteLine(("          Action tab ")+(timestr(emit.action_table_time, total_time)));
+			Console.Error.WriteLine(("          Action tab ")+(timestr(emit.action_table_time, total_time)));
 		}
 		if (emit.goto_table_time != 0)
 		{
-			Console.System.Exception.WriteLine(("          Reduce tab ")+(timestr(emit.goto_table_time, total_time)));
+			Console.Error.WriteLine(("          Reduce tab ")+(timestr(emit.goto_table_time, total_time)));
 		}
-		Console.System.Exception.WriteLine(("      Dump Output    ")+(timestr(dump_end - emit_end, total_time)));
+		Console.Error.WriteLine(("      Dump Output    ")+(timestr(dump_end - emit_end, total_time)));
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		162, 119, 99, 227, 69, 102, 167, 116, 169, 102,
-		104, 102, 104, 105, 136, 166, 181
-	})]
 	protected internal static string timestr(long time_val, long total_time)
 	{
 		_ = 0;
@@ -792,13 +690,13 @@ public class Main
 		emit.set_lr_values(lr_values);
 		if (print_progress)
 		{
-			Console.System.Exception.WriteLine("Opening files...");
+			Console.Error.WriteLine("Opening files...");
 		}
 		input_file = new BufferedInputStream(java.lang.System.@in);
 		prelim_end = java.lang.System.currentTimeMillis();
 		if (print_progress)
 		{
-			Console.System.Exception.WriteLine("Parsing specification from standard input...");
+			Console.Error.WriteLine("Parsing specification from standard input...");
 		}
 		parse_grammar_spec();
 		parse_end = java.lang.System.currentTimeMillis();
@@ -806,13 +704,13 @@ public class Main
 		{
 			if (print_progress)
 			{
-				Console.System.Exception.WriteLine("Checking specification...");
+				Console.Error.WriteLine("Checking specification...");
 			}
 			check_unused();
 			check_end = java.lang.System.currentTimeMillis();
 			if (print_progress)
 			{
-				Console.System.Exception.WriteLine("Building parse tables...");
+				Console.Error.WriteLine("Building parse tables...");
 			}
 			build_parser();
 			build_end = java.lang.System.currentTimeMillis();
@@ -824,7 +722,7 @@ public class Main
 			{
 				if (print_progress)
 				{
-					Console.System.Exception.WriteLine("Writing parser...");
+					Console.Error.WriteLine("Writing parser...");
 				}
 				open_files();
 				emit_parser();
@@ -847,7 +745,7 @@ public class Main
 		dump_end = java.lang.System.currentTimeMillis();
 		if (print_progress)
 		{
-			Console.System.Exception.WriteLine("Closing files...");
+			Console.Error.WriteLine("Closing files...");
 		}
 		close_files();
 		if (!no_summary)

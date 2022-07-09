@@ -1,7 +1,4 @@
-
-
-
-
+using System.Collections.Generic;
 
 namespace JavaCUP;
 
@@ -11,9 +8,9 @@ public class terminal : symbol
 
 	private int _precedence_side;
 
-	protected internal static Hashtable _all;
+	protected internal static Dictionary<string,terminal> _all =new();
 
-	protected internal static Hashtable _all_by_index;
+	protected internal static Dictionary<int,terminal> _all_by_index = new();
 
 	protected internal static int next_index;
 
@@ -41,12 +38,6 @@ public class terminal : symbol
 		}
 	}
 
-	
-	
-	public static void ___003Cclinit_003E()
-	{
-	}
-
 	public virtual int precedence_num()
 	{
 		return _precedence_num;
@@ -72,11 +63,9 @@ public class terminal : symbol
 
 	
 	
-	public static Enumeration all()
+	public static IEnumerable<terminal> all()
 	{
-		Enumeration result = _all.elements();
-		
-		return result;
+		return _all.Values;
 	}
 
 	
@@ -90,22 +79,16 @@ public class terminal : symbol
 
 	
 	
-	public static terminal find(int indx)
+	public static terminal find(int idx)
 	{
-		int key = (indx);
-		return (terminal)_all_by_index.get(key);
+		return _all_by_index.TryGetValue(idx, out var t)?t: null;
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		159, 171, 170, 109, 227, 69, 191, 15, 179, 104,
-		167, 124
-	})]
 	public terminal(string nm, string tp, int precedence_side, int precedence_num)
 		: base(nm, tp)
 	{
-		object obj = _all.put(nm, this);
+		object obj = _all.Add(nm, this);
 		if (obj != null)
 		{
 			new internal_error(("Duplicate terminal (")+(nm)+(") created")
@@ -114,9 +97,9 @@ public class terminal : symbol
 		_index = next_index++;
 		_precedence_num = precedence_num;
 		_precedence_side = precedence_side;
-		Hashtable all_by_index = _all_by_index;
+		var all_by_index = _all_by_index;
 		
-		all_by_index.put((_index), this);
+		all_by_index.Add((_index), this);
 	}
 
 	
@@ -130,11 +113,8 @@ public class terminal : symbol
 	
 	public static terminal find(string with_name)
 	{
-		if (with_name == null)
-		{
-			return null;
-		}
-		return (terminal)_all.get(with_name);
+		return with_name!=null && _all.TryGetValue(with_name, out var t)?t: null;
+
 	}
 
 	public override bool is_non_term()
@@ -146,7 +126,7 @@ public class terminal : symbol
 	
 	public override string ToString()
 	{
-		string result = (base)+("[")+(index())
+		string result = (base.ToString())+("[")+(index())
 			+("]")
 			;
 		
@@ -156,8 +136,8 @@ public class terminal : symbol
 	
 	static terminal()
 	{
-		_all = new Hashtable();
-		_all_by_index = new Hashtable();
+		_all = new ();
+		_all_by_index = new ();
 		next_index = 0;
 		___003C_003EEOF = new terminal("EOF");
 		___003C_003Eerror = new terminal("error");

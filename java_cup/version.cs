@@ -1,10 +1,6 @@
-
-
-
-
 namespace JavaCUP;
 
-public class version
+public static class Version
 {
 	public const int major = 0;
 
@@ -20,9 +16,4 @@ public class version
 
 	public const string program_name = "java_cup";
 
-	
-	
-	public version()
-	{
-	}
 }

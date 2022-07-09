@@ -1,33 +1,26 @@
-
-
-
-
 namespace JavaCUP;
 
 public abstract class production_part
 {
 	protected internal string _label;
 
-	public virtual string label()
-	{
-		return _label;
-	}
+    public virtual string Label => _label;
 
-	
-	
-	public virtual bool Equals(production_part other)
+
+
+    public virtual bool Equals(production_part other)
 	{
 		if (other == null)
 		{
 			return false;
 		}
-		if (label() != null)
+		if (Label!= null)
 		{
-			bool result = String.instancehelper_equals(label(), other.label());
+			bool result = string.Equals(Label, other.Label);
 			
 			return result;
 		}
-		return other.label() == null;
+		return other.Label== null;
 	}
 
 	
@@ -56,7 +49,7 @@ public abstract class production_part
 	
 	public override int GetHashCode()
 	{
-		int result = ((label() != null) ? String.instancehelper_hashCode(label()) : 0);
+		int result = ((Label!= null) ? (Label.GetHashCode()) : 0);
 		
 		return result;
 	}
@@ -65,9 +58,9 @@ public abstract class production_part
 	
 	public override string ToString()
 	{
-		if (label() != null)
+		if (Label!= null)
 		{
-			string result = (label())+(":");
+			string result = (Label)+(":");
 			
 			return result;
 		}

@@ -112,7 +112,7 @@ public class CodeGenerationVisitor : Visitor
 		while (iterator.hasNext())
 		{
 			StringSymbol stringSymbol = (StringSymbol)iterator.next();
-			output.WriteLine((stringSymbol.Label)+(": .asciz \"")+(StringLiteral.escape(stringSymbol.Value))
+			output.WriteLine((stringSymbol.Label)+(": .asciz \"")+(StringLiteral.Escape(stringSymbol.Value))
 				+("\"")
 				);
 		}

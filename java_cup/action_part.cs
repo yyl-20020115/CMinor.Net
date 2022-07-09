@@ -17,7 +17,7 @@ public class action_part : production_part
 	
 	public virtual bool Equals(action_part other)
 	{
-		return (other != null && base.Equals(other) && String.instancehelper_equals(other.code_string(), code_string())) ? true : false;
+		return (other != null && base.Equals(other) && string.Equals(other.code_string(), code_string())) ? true : false;
 	}
 
 	

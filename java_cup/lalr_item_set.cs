@@ -1,16 +1,13 @@
-
-
-using IKVM.Runtime;
-
-
+using System.Collections.Generic;
+using System.Text;
 
 namespace JavaCUP;
 
 public class lalr_item_set
 {
-	protected internal Hashtable _all;
+	protected internal Dictionary<lalr_item, lalr_item> _all=new();
 
-	protected internal int hashcode_cache;
+	protected internal int? hashcode_cache;
 
 	
 	
@@ -26,20 +23,16 @@ public class lalr_item_set
 
 	
 	
-	public virtual Enumeration all()
+	public virtual IEnumerable<lalr_item> all()
 	{
-		Enumeration result = _all.elements();
-		
-		return result;
+		return _all.Values;
 	}
 
 	
 	
-	public virtual bool contains(lalr_item itm)
+	public virtual bool Contains(lalr_item itm)
 	{
-		bool result = _all.containsKey(itm);
-		
-		return result;
+		return _all.ContainsKey(itm);
 	}
 
 	
@@ -51,7 +44,7 @@ public class lalr_item_set
 		Enumeration enumeration = all();
 		while (enumeration.hasMoreElements())
 		{
-			if (!other.contains((lalr_item)enumeration.nextElement()))
+			if (!other.Contains((lalr_item)enumeration.nextElement()))
 			{
 				return false;
 			}
@@ -72,7 +65,7 @@ public class lalr_item_set
 			return lalr_item2;
 		}
 		hashcode_cache = null;
-		_all.put(itm, itm);
+		_all.Add(itm, itm);
 		return itm;
 	}
 
@@ -83,7 +76,7 @@ public class lalr_item_set
 	{
 		not_null(itm);
 		hashcode_cache = null;
-		_all.remove(itm);
+		_all.Remove(itm);
 	}
 
 	
@@ -91,7 +84,7 @@ public class lalr_item_set
 	
 	public lalr_item_set(lalr_item_set other)
 	{
-		_all = new Hashtable(11);
+		_all = new (11);
 		hashcode_cache = null;
 		not_null(other);
 		_all = (Hashtable)other._all.clone();
@@ -137,7 +130,8 @@ public class lalr_item_set
 		}
 		catch (internal_error x)
 		{
-			internal_error2 = ByteCodeHelper.MapException<internal_error>(x, ByteCodeHelper.MapFlags.NoRemapping);
+			internal_error2 = x;
+
 		}
 		internal_error internal_error3 = internal_error2;
 		internal_error3.crash();
@@ -148,7 +142,7 @@ public class lalr_item_set
 	
 	public lalr_item_set()
 	{
-		_all = new Hashtable(11);
+		_all = new (11);
 		hashcode_cache = null;
 	}
 
@@ -196,13 +190,6 @@ public class lalr_item_set
 		}
 	}
 
-	
-	
-	[LineNumberTable(new byte[]
-	{
-		160, 138, 167, 167, 172, 167, 103, 163, 173, 168,
-		145, 174, 207, 138, 100, 168, 166, 235, 69
-	})]
 	public virtual void compute_closure()
 	{
 		hashcode_cache = null;
@@ -229,7 +216,7 @@ public class lalr_item_set
 				}
 				if (lalr_item3 == lalr_item2)
 				{
-					lalr_item_set2.Add(lalr_item2);
+					lalr_item_set2.add(lalr_item2);
 				}
 			}
 		}
@@ -264,7 +251,7 @@ public class lalr_item_set
 			}
 			hashcode_cache = (num);
 		}
-		int result = hashcode_cache.intValue();
+		int result = hashcode_cache.GetValueOrDefault();
 		
 		return result;
 	}
@@ -273,17 +260,15 @@ public class lalr_item_set
 	
 	public override string ToString()
 	{
-		StringBuilder stringBuffer = new StringBuilder();
-		stringBuffer+("{\n");
+		var stringBuffer = new StringBuilder();
+		stringBuffer.Append("{\n");
 		Enumeration enumeration = all();
 		while (enumeration.hasMoreElements())
 		{
-			stringBuffer+(("  ")+((lalr_item)enumeration.nextElement())+("\n")
+			stringBuffer.Append(("  ")+((lalr_item)enumeration.nextElement())+("\n")
 				);
 		}
-		stringBuffer+("}");
-		string result = stringBuffer;
-		
-		return result;
+		stringBuffer.Append("}");
+		return stringBuffer.ToString();
 	}
 }

@@ -144,7 +144,7 @@ public class SymbolResolutionVisitor : Visitor
 		FunctionSymbol symbol = new FunctionSymbol(n.getLocation(), @string, n.ReturnType.Type, arrayList);
 		table.declareSymbol(n.Identifier, symbol);
 		n.Symbol = symbol;
-		if (String.instancehelper_equals(@string, "main"))
+		if (string.Equals(@string, "main"))
 		{
 			mainFunction = n;
 		}

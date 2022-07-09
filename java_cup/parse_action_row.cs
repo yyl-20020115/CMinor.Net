@@ -14,12 +14,6 @@ public class parse_action_row
 
 	public int default_reduce;
 
-	
-	[LineNumberTable(new byte[]
-	{
-		25, 103, 175, 106, 40, 134, 98, 162, 109, 208,
-		120, 118, 138, 104, 226, 54, 233, 79, 103
-	})]
 	public virtual void compute_default()
 	{
 		if (reduction_count == null)

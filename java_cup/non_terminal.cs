@@ -1,15 +1,12 @@
-
-
-
-
+using System.Collections.Generic;
 
 namespace JavaCUP;
 
 public class non_terminal : symbol
 {
-	protected internal static Hashtable _all;
+	protected internal static Dictionary<string, non_terminal> _all = new();
 
-	protected internal static Hashtable _all_by_index;
+	protected internal static Dictionary<int,non_terminal> _all_by_index = new();
 
 	protected internal static int next_index;
 
@@ -19,7 +16,7 @@ public class non_terminal : symbol
 
 	public bool is_embedded_action;
 
-	protected internal Hashtable _productions;
+	protected internal Dictionary<production, production> _productions = new();
 
 	protected internal bool _nullable;
 
@@ -74,46 +71,37 @@ public class non_terminal : symbol
 		return _first_set;
 	}
 
-	
-	[LineNumberTable(new byte[]
-	{
-		159, 170, 234, 160, 85, 231, 160, 114, 237, 99,
-		235, 159, 25, 109, 227, 69, 191, 15, 179, 124
-	})]
 	public non_terminal(string nm, string tp)
 		: base(nm, tp)
 	{
 		is_embedded_action = false;
-		_productions = new Hashtable(11);
+		_productions = new (11);
 		_first_set = new terminal_set();
-		object obj = _all.put(nm, this);
+		object obj = _all.Add(nm, this);
 		if (obj != null)
 		{
 			new internal_error(("Duplicate non-terminal (")+(nm)+(") created")
 				).crash();
 		}
 		_index = next_index++;
-		Hashtable all_by_index = _all_by_index;
+		var all_by_index = _all_by_index;
 		
-		all_by_index.put((_index), this);
+		all_by_index.Add((_index), this);
 	}
 
 	
 	
-	public static Enumeration all()
+	public static IEnumerable<non_terminal> all()
 	{
-		Enumeration result = _all.elements();
+		return _all.Values;
 		
-		return result;
 	}
 
 	
 	
-	public virtual Enumeration productions()
+	public virtual IEnumerable<production> productions()
 	{
-		Enumeration result = _productions.elements();
-		
-		return result;
+		return _productions.Values;		
 	}
 
 	
@@ -145,11 +133,6 @@ public class non_terminal : symbol
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		160, 71, 226, 72, 166, 162, 142, 172, 143, 173,
-		169, 143, 98, 240, 69
-	})]
 	public static void compute_first_sets()
 	{
 		int num = 1;
@@ -165,7 +148,7 @@ public class non_terminal : symbol
 				{
 					production production2 = (production)enumeration2.nextElement();
 					terminal_set terminal_set2 = production2.check_first_set();
-					if (!terminal_set2.is_subset_of(non_terminal2._first_set))
+					if (!terminal_set2.IsSubsetOf(non_terminal2._first_set))
 					{
 						num = 1;
 						non_terminal2._first_set.Add(terminal_set2);

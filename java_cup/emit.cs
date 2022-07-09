@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+
 namespace JavaCUP;
 
 public class emit
@@ -20,7 +25,7 @@ public class emit
 
 	public static production start_production;
 
-	public static Stack import_list;
+	public static Stack<string> import_list =new();
 
 	public static int num_conflicts;
 
@@ -81,12 +86,6 @@ public class emit
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		162, 72, 107, 107, 100, 111, 105, 114, 105, 106,
-		113, 105, 116, 105, 169, 113, 233, 60, 230, 59,
-		233, 76, 109
-	})]
 	protected internal static void do_table_as_string(TextWriter @out, short[][] sa)
 	{
 		@out.WriteLine("new String[] {");
@@ -112,33 +111,27 @@ public class emit
 		@out.Write("\" }");
 	}
 
-	
-	[LineNumberTable(new byte[]
-	{
-		158, 216, 66, 102, 104, 109, 149, 109, 117, 138,
-		106, 172, 101, 107, 114
-	})]
 	protected internal static int do_escaped(TextWriter @out, char c)
 	{
 		StringBuilder stringBuffer = new StringBuilder();
 		if (c <= 'ÿ')
 		{
-			stringBuffer+(int.toOctalString(c));
+			stringBuffer.Append(int.toOctalString(c));
 			while (stringBuffer.Length < 3)
 			{
-				stringBuffer.insert(0, '0');
+				stringBuffer.Insert(0, '0');
 			}
 		}
 		else
 		{
-			stringBuffer+(int.toHexString(c));
+			stringBuffer.Append(int.toHexString(c));
 			while (stringBuffer.Length < 4)
 			{
-				stringBuffer.insert(0, '0');
+				stringBuffer.Insert(0, '0');
 			}
-			stringBuffer.insert(0, 'u');
+			stringBuffer.Insert(0, 'u');
 		}
-		stringBuffer.insert(0, '\\');
+		stringBuffer.Insert(0, '\\');
 		@out.Write(stringBuffer);
 		if (c == '\0')
 		{
@@ -177,12 +170,6 @@ public class emit
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		161, 121, 166, 107, 142, 108, 203, 127, 18, 140,
-		133, 120, 238, 59, 232, 72, 102, 107, 107, 107,
-		104, 171, 102, 107, 171, 108
-	})]
 	protected internal static void emit_production_table(TextWriter @out)
 	{
 		long num = java.lang.System.currentTimeMillis();
@@ -218,63 +205,6 @@ public class emit
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		159,
-		6,
-		66,
-		166,
-		140,
-		174,
-		170,
-		99,
-		137,
-		168,
-		113,
-		163,
-		178,
-		172,
-		236,
-		69,
-		170,
-		110,
-		byte.MaxValue,
-		5,
-		69,
-		170,
-		115,
-		142,
-		110,
-		147,
-		236,
-		70,
-		byte.MaxValue,
-		22,
-		29,
-		235,
-		105,
-		108,
-		174,
-		109,
-		106,
-		153,
-		237,
-		159,
-		191,
-		233,
-		160,
-		69,
-		102,
-		107,
-		107,
-		107,
-		103,
-		171,
-		102,
-		107,
-		139,
-		108
-	})]
 	protected internal static void do_action_table(TextWriter @out, parse_action_table act_tab, bool compact_reduces)
 	{
 		long num = java.lang.System.currentTimeMillis();
@@ -330,7 +260,7 @@ public class emit
 				}
 			}
 			array[i] = new short[num2 + 2];
-			ByteCodeHelper.arraycopy_primitive_2(array2, 0, array[i], 0, num2);
+			Array.Copy(array2, 0, array[i], 0, num2);
 			short[] obj = array[i];
 			int num8 = num2;
 			num2++;
@@ -363,13 +293,6 @@ public class emit
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		162, 20, 166, 140, 174, 118, 131, 181, 178, 164,
-		109, 242, 54, 232, 78, 108, 173, 109, 237, 39,
-		233, 93, 102, 107, 107, 107, 103, 171, 102, 107,
-		107, 134, 108
-	})]
 	protected internal static void do_reduce_table(TextWriter @out, parse_reduce_table red_tab)
 	{
 		long num = java.lang.System.currentTimeMillis();
@@ -401,7 +324,7 @@ public class emit
 				num3++;
 			}
 			array[i] = new short[num2 + 2];
-			ByteCodeHelper.arraycopy_primitive_2(array2, 0, array[i], 0, num2);
+			Array.Copy(array2, 0, array[i], 0, num2);
 			short[] obj = array[i];
 			int num7 = num2;
 			num2++;
@@ -426,112 +349,6 @@ public class emit
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		160,
-		203,
-		166,
-		102,
-		171,
-		191,
-		20,
-		135,
-		102,
-		203,
-		191,
-		15,
-		102,
-		107,
-		127,
-		40,
-		107,
-		171,
-		102,
-		107,
-		159,
-		20,
-		127,
-		10,
-		127,
-		10,
-		127,
-		10,
-		127,
-		10,
-		107,
-		235,
-		69,
-		107,
-		127,
-		20,
-		166,
-		107,
-		127,
-		20,
-		171,
-		145,
-		172,
-		107,
-		223,
-		27,
-		235,
-		70,
-		byte.MaxValue,
-		26,
-		71,
-		142,
-		115,
-		115,
-		174,
-		147,
-		108,
-		159,
-		7,
-		191,
-		62,
-		byte.MaxValue,
-		103,
-		49,
-		233,
-		86,
-		159,
-		8,
-		241,
-		72,
-		170,
-		99,
-		159,
-		58,
-		104,
-		134,
-		105,
-		191,
-		57,
-		223,
-		126,
-		101,
-		byte.MaxValue,
-		92,
-		71,
-		171,
-		132,
-		107,
-		223,
-		20,
-		127,
-		20,
-		203,
-		107,
-		107,
-		107,
-		139,
-		102,
-		171,
-		171,
-		107,
-		134,
-		108
-	})]
 	protected internal static void emit_action_code(TextWriter @out, production start_prod)
 	{
 		long num = java.lang.System.currentTimeMillis();
@@ -695,43 +512,6 @@ public class emit
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		159,
-		80,
-		132,
-		144,
-		166,
-		102,
-		107,
-		139,
-		127,
-		5,
-		107,
-		102,
-		166,
-		159,
-		11,
-		191,
-		31,
-		171,
-		144,
-		174,
-		byte.MaxValue,
-		41,
-		69,
-		134,
-		102,
-		171,
-		144,
-		174,
-		byte.MaxValue,
-		41,
-		70,
-		107,
-		134,
-		108
-	})]
 	public static void symbols(TextWriter @out, bool emit_non_terms, bool sym_interface)
 	{
 		string str = ((!sym_interface) ? "class" : "interface");
@@ -780,105 +560,6 @@ public class emit
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		158,
-		206,
-		70,
-		166,
-		102,
-		107,
-		139,
-		127,
-		5,
-		107,
-		102,
-		166,
-		111,
-		63,
-		21,
-		198,
-		102,
-		107,
-		127,
-		5,
-		107,
-		223,
-		15,
-		102,
-		107,
-		127,
-		15,
-		99,
-		102,
-		107,
-		byte.MaxValue,
-		15,
-		69,
-		102,
-		104,
-		167,
-		107,
-		127,
-		20,
-		166,
-		107,
-		107,
-		107,
-		127,
-		20,
-		107,
-		166,
-		107,
-		107,
-		107,
-		107,
-		107,
-		107,
-		107,
-		107,
-		107,
-		159,
-		20,
-		107,
-		203,
-		107,
-		191,
-		11,
-		107,
-		159,
-		20,
-		166,
-		107,
-		159,
-		20,
-		102,
-		107,
-		159,
-		20,
-		166,
-		135,
-		102,
-		107,
-		107,
-		107,
-		107,
-		203,
-		135,
-		102,
-		107,
-		107,
-		107,
-		107,
-		107,
-		203,
-		135,
-		102,
-		203,
-		171,
-		136,
-		108
-	})]
 	public static void parser(TextWriter @out, parse_action_table action_table, parse_reduce_table reduce_table, int start_st, production start_prod, bool compact_reduces, bool suppress_scanner)
 	{
 		long num = java.lang.System.currentTimeMillis();
@@ -891,7 +572,7 @@ public class emit
 		emit_package(@out);
 		for (int i = 0; i < import_list.Count; i++)
 		{
-			@out.WriteLine(("import ")+(import_list.elementAt(i))+(";")
+			@out.WriteLine(("import ")+(import_list[i])+(";")
 				);
 		}
 		@out.WriteLine();
@@ -982,13 +663,6 @@ public class emit
 		parser_time = java.lang.System.currentTimeMillis() - num;
 	}
 
-	[LineNumberTable(new byte[]
-	{
-		62, 234, 69, 230, 69, 234, 69, 234, 69, 230,
-		69, 230, 69, 230, 69, 230, 69, 230, 69, 234,
-		69, 230, 69, 230, 69, 230, 69, 230, 69, 230,
-		71, 167, 167, 167, 167, 167
-	})]
 	static emit()
 	{
 		prefix = "CUP$";
@@ -1000,7 +674,7 @@ public class emit
 		init_code = null;
 		scan_code = null;
 		start_production = null;
-		import_list = new Stack();
+		import_list = new ();
 		num_conflicts = 0;
 		nowarn = false;
 		not_reduced = 0;

@@ -3,24 +3,24 @@
 
 
 
+using System.Collections.Generic;
+
 namespace JavaCUP;
 
 public class lalr_item : lr_item_core
 {
 	protected internal terminal_set _lookahead;
 
-	protected internal Stack _propagate_items;
+	protected internal Stack<terminal_set> _propagate_items;
 
 	protected internal bool needs_propagation;
 
-	
-	
 	
 	public lalr_item(production prod, int pos, terminal_set look)
 		: base(prod, pos)
 	{
 		_lookahead = look;
-		_propagate_items = new Stack();
+		_propagate_items = new ();
 		needs_propagation = true;
 	}
 
@@ -29,22 +29,16 @@ public class lalr_item : lr_item_core
 		return _lookahead;
 	}
 
-	public virtual Stack propagate_items()
+	public virtual Stack<terminal_set> propagate_items()
 	{
 		return _propagate_items;
 	}
 
 	
-	
-	[LineNumberTable(new byte[]
-	{
-		67, 162, 115, 161, 163, 205, 171, 167, 112, 60,
-		198
-	})]
 	public virtual void propagate_lookaheads(terminal_set incoming)
 	{
 		int num = 0;
-		if (!needs_propagation && (incoming == null || incoming.empty()))
+		if (!needs_propagation && (incoming == null || incoming.IsEmpty))
 		{
 			return;
 		}
@@ -57,7 +51,7 @@ public class lalr_item : lr_item_core
 			needs_propagation = false;
 			for (int i = 0; i < propagate_items().Count; i++)
 			{
-				((lalr_item)propagate_items().elementAt(i)).propagate_lookaheads(lookahead());
+				((lalr_item)propagate_items()[i]).propagate_lookaheads(lookahead());
 			}
 		}
 	}
@@ -118,11 +112,6 @@ public class lalr_item : lr_item_core
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		160, 68, 104, 208, 166, 154, 173, 136, 172, 136,
-		109, 226, 69, 178, 109, 226, 42, 233, 93, 104
-	})]
 	public virtual terminal_set calc_lookahead(terminal_set lookahead_after)
 	{
 		if (dot_at_end())
@@ -155,11 +144,6 @@ public class lalr_item : lr_item_core
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		160, 125, 170, 151, 173, 136, 172, 170, 239, 51,
-		230, 82
-	})]
 	public virtual bool lookahead_visible()
 	{
 		if (dot_at_end())
@@ -208,23 +192,18 @@ public class lalr_item : lr_item_core
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		160, 187, 198, 123, 124, 123, 139, 123, 106, 110,
-		31, 12, 166, 189, 123, 251, 73
-	})]
 	public override string ToString()
 	{
 		string str = "";
 		str = (str)+("[");
-		str = (str)+(base);
+		str = (str)+(base.ToString());
 		str = (str)+(", ");
 		if (lookahead() != null)
 		{
 			str = (str)+("{");
 			for (int i = 0; i < terminal.number(); i++)
 			{
-				if (lookahead().contains(i))
+				if (lookahead().Contains(i))
 				{
 					str = (str)+(terminal.find(i).name())+(" ")
 						;

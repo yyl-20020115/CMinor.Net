@@ -156,7 +156,7 @@ public class parser : lr_parser
 	{
 		done_parsing();
 		lexer.emit_error(message);
-		Console.System.Exception.WriteLine("Can't recover from previous error(s), giving up.");
+		Console.Error.WriteLine("Can't recover from previous error(s), giving up.");
 		Environment.Exit(1);
 	}
 

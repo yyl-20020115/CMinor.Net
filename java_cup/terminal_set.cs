@@ -1,202 +1,115 @@
 
-
-
-
+using System.Collections.Generic;
 
 namespace JavaCUP;
 
 public class terminal_set
 {
-	internal static terminal_set ___003C_003EEMPTY;
+	internal static terminal_set empty_set = new();
 
-	protected internal BitSet _elements;
+	protected internal BitSet _elements = new();
 
-	
-	public static terminal_set EMPTY
-	{
-		
-		get
-		{
-			return ___003C_003EEMPTY;
-		}
-	}
+    public static terminal_set EMPTY => empty_set;
 
-	
-	
-	public terminal_set()
+
+    public terminal_set()
 	{
 		_elements = new BitSet(terminal.number());
 	}
 
 	
-	public virtual bool add(terminal_set other)
+	public virtual bool Add(terminal_set other)
 	{
-		not_null(other);
-		BitSet obj = (BitSet)_elements.clone();
-		_elements.or(other._elements);
+		IsNotNull(other);
+		var obj = _elements.Clone();
+		_elements.Or(other._elements);
 		return (!_elements.Equals(obj)) ? true : false;
 	}
 
 	
 	
 	
-	public virtual bool add(terminal sym)
+	public virtual bool Add(terminal sym)
 	{
-		not_null(sym);
-		int num = (_elements.get(sym.index()) ? 1 : 0);
+		IsNotNull(sym);
+		int num = (_elements.Get(sym.index()) ? 1 : 0);
 		if (num == 0)
 		{
-			_elements.set(sym.index());
+			_elements.Set(sym.index());
 		}
-		return (byte)num != 0;
+		return num != 0;
 	}
 
-	
-	
-	public virtual bool empty()
+    public virtual bool IsEmpty => Equals(empty_set);
+
+    public terminal_set(terminal_set other)
 	{
-		bool result = Equals(___003C_003EEMPTY);
-		
-		return result;
+		IsNotNull(other);
+		_elements = other._elements.Clone();
 	}
 
-	
-	
-	
-	public terminal_set(terminal_set other)
+
+
+    public virtual bool Contains(int indx) => _elements.Get(indx);
+
+    public virtual bool InterestWith(terminal_set other)
 	{
-		not_null(other);
-		_elements = (BitSet)other._elements.clone();
+		IsNotNull(other);
+		var bitSet = other._elements.Clone();
+		bitSet.Xor(this._elements);
+		return !bitSet.Equals(other._elements);
 	}
 
 	
 	
-	public virtual bool contains(int indx)
+	
+	public virtual bool IsSubsetOf(terminal_set other)
 	{
-		bool result = _elements.get(indx);
-		
-		return result;
+		IsNotNull(other);
+		var bitSet = other._elements.Clone();
+		bitSet.Or(_elements);
+		return bitSet.Equals(other._elements);
 	}
 
 	
 	
 	
-	public virtual bool intersects(terminal_set other)
-	{
-		not_null(other);
-		BitSet bitSet = (BitSet)other._elements.clone();
-		bitSet.xor(_elements);
-		return (!bitSet.Equals(other._elements)) ? true : false;
-	}
-
-	
-	
-	
-	public virtual bool is_subset_of(terminal_set other)
-	{
-		not_null(other);
-		BitSet bitSet = (BitSet)other._elements.clone();
-		bitSet.or(_elements);
-		bool result = bitSet.Equals(other._elements);
-		
-		return result;
-	}
-
-	
-	
-	
-	protected internal virtual void not_null(object obj)
+	protected internal virtual bool IsNotNull(object obj)
 	{
 		if (obj == null)
-		{
-			
+		{	
 			throw new internal_error("Null object used in set operation");
 		}
+		return true;
 	}
 
-	
-	
-	public virtual bool Equals(terminal_set other)
+
+
+    public virtual bool Equals(terminal_set other) => other != null && _elements.Equals(other._elements);
+
+
+    public virtual bool Contains(terminal sym) => IsNotNull(sym) && _elements.Get(sym.index());
+
+    public virtual bool IsSuperSetOf(terminal_set other) => IsNotNull(other) && other.IsSubsetOf(this);
+
+
+
+
+    public virtual void Remove(terminal sym)
 	{
-		if (other == null)
-		{
-			return false;
-		}
-		bool result = _elements.Equals(other._elements);
-		
-		return result;
+		IsNotNull(sym);
+		_elements.Clear(sym.index());
 	}
 
-	
-	
-	
-	public virtual bool contains(terminal sym)
-	{
-		not_null(sym);
-		bool result = _elements.get(sym.index());
-		
-		return result;
-	}
+    public override bool Equals(object other) => other is terminal_set t && Equals(t);
 
-	
-	
-	
-	public virtual bool is_superset_of(terminal_set other)
-	{
-		not_null(other);
-		bool result = other.is_subset_of(this);
-		
-		return result;
-	}
-
-	
-	
-	
-	public virtual void remove(terminal sym)
-	{
-		not_null(sym);
-		_elements.clear(sym.index());
-	}
-
-	
-	
-	public override bool Equals(object other)
-	{
-		if (!(other is terminal_set))
-		{
-			return false;
-		}
-		bool result = Equals((terminal_set)other);
-		
-		return result;
-	}
-
-	
-	[LineNumberTable(new byte[]
-	{
-		160,
-		117,
-		102,
-		98,
-		141,
-		142,
-		99,
-		157,
-		130,
-		byte.MaxValue,
-		2,
-		55,
-		233,
-		76,
-		155
-	})]
-	public override string ToString()
+    public override string ToString()
 	{
 		string str = "{";
 		int num = 0;
 		for (int i = 0; i < terminal.number(); i++)
 		{
-			if (_elements.get(i))
+			if (_elements.Get(i))
 			{
 				if (num != 0)
 				{
@@ -212,9 +125,11 @@ public class terminal_set
 		return (str)+("}");
 	}
 
-	
-	static terminal_set()
-	{
-		___003C_003EEMPTY = new terminal_set();
-	}
+    public override int GetHashCode()
+    {
+        int hashCode = -1660102523;
+        hashCode = hashCode * -1521134295 + EqualityComparer<BitSet>.Default.GetHashCode(_elements);
+        hashCode = hashCode * -1521134295 + IsEmpty.GetHashCode();
+        return hashCode;
+    }
 }

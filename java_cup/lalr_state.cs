@@ -1,12 +1,13 @@
 using System;
+using System.Collections.Generic;
 
 namespace JavaCUP;
 
 public class lalr_state
 {
-	protected internal static Hashtable _all;
+	protected internal static Dictionary<lalr_item_set, lalr_state> _all = new();
 
-	protected internal static Hashtable _all_kernels;
+	protected internal static Dictionary<lalr_item_set, lalr_state> _all_kernels = new();
 
 	protected internal static int next_index;
 
@@ -45,11 +46,9 @@ public class lalr_state
 
 	
 	
-	public static Enumeration all()
+	public static IEnumerable<lalr_state> all()
 	{
-		Enumeration result = _all.elements();
-		
-		return result;
+		return _all.Values;
 	}
 
 	
@@ -171,14 +170,14 @@ public class lalr_state
 				{
 					num = 1;
 				}
-				if (lalr_item2 != lalr_item3 && lalr_item3.dot_at_end() && num != 0 && lalr_item3.lookahead().intersects(lalr_item2.lookahead()))
+				if (lalr_item2 != lalr_item3 && lalr_item3.dot_at_end() && num != 0 && lalr_item3.lookahead().InterestWith(lalr_item2.lookahead()))
 				{
 					report_reduce_reduce(lalr_item2, lalr_item3);
 				}
 			}
 			for (int i = 0; i < terminal.number(); i++)
 			{
-				if (conflict_set.contains(i))
+				if (conflict_set.Contains(i))
 				{
 					report_shift_reduce(lalr_item2, i);
 				}
@@ -239,7 +238,7 @@ public class lalr_state
 		Console.Error.Write("  under symbols: {");
 		for (int i = 0; i < terminal.number(); i++)
 		{
-			if (itm1.lookahead().contains(i) && itm2.lookahead().contains(i))
+			if (itm1.lookahead().Contains(i) && itm2.lookahead().Contains(i))
 			{
 				if (num != 0)
 				{
@@ -418,7 +417,7 @@ public class lalr_state
 						lalr_item lalr_item3 = (lalr_item)enumeration3.nextElement();
 						for (int i = 0; i < lalr_item3.propagate_items().Count; i++)
 						{
-							lalr_item itm = (lalr_item)lalr_item3.propagate_items().elementAt(i);
+							lalr_item itm = (lalr_item)lalr_item3.propagate_items()[i];
 							lalr_item lalr_item4 = lalr_state4.items().find(itm);
 							if (lalr_item4 != null)
 							{
@@ -451,7 +450,7 @@ public class lalr_state
 			reduce_action reduce_action2 = new reduce_action(lalr_item2.the_production());
 			for (int i = 0; i < terminal.number(); i++)
 			{
-				if (!lalr_item2.lookahead().contains(i))
+				if (!lalr_item2.lookahead().Contains(i))
 				{
 					continue;
 				}
@@ -504,7 +503,7 @@ public class lalr_state
 				parse_reduce_row2.under_non_term[symbol2.index()] = lalr_transition2.to_state();
 			}
 		}
-		if (!terminal_set2.empty())
+		if (!terminal_set2.IsEmpty)
 		{
 			report_conflicts(terminal_set2);
 		}

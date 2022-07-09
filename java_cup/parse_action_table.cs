@@ -30,11 +30,7 @@ public class parse_action_table
 
 	
 	
-	[LineNumberTable(new byte[]
-	{
-		17, 142, 179, 112, 172, 240, 57, 6, 233, 79,
-		142, 173, 233, 70, 135, 159, 21, 206
-	})]
+	
 	public virtual void check_reductions()
 	{
 		for (int i = 0; i < num_states(); i++)
@@ -62,7 +58,7 @@ public class parse_action_table
 			production production2 = (production)enumeration.nextElement();
 			if (production2.num_reductions() == 0 && !emit.nowarn)
 			{
-				Console.System.Exception.WriteLine(("*** Production \"")+(production2.to_simple_string())+("\" never reduced")
+				Console.Error.WriteLine(("*** Production \"")+(production2.to_simple_string())+("\" never reduced")
 					);
 				lexer.warning_count++;
 			}
@@ -70,12 +66,7 @@ public class parse_action_table
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		61, 102, 142, 127, 12, 98, 182, 153, 191, 42,
-		100, 132, 123, 226, 52, 233, 81, 254, 43, 233,
-		87, 155
-	})]
+	
 	public override string ToString()
 	{
 		string str = "-------- ACTION_TABLE --------\n";

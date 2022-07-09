@@ -28,12 +28,6 @@ public class parse_reduce_table
 	}
 
 	
-	[LineNumberTable(new byte[]
-	{
-		13, 102, 142, 127, 12, 98, 182, 177, 135, 127,
-		12, 191, 18, 100, 132, 123, 226, 48, 233, 85,
-		254, 39, 233, 91, 155
-	})]
 	public override string ToString()
 	{
 		string str = "-------- REDUCE_TABLE --------\n";

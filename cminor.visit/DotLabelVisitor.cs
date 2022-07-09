@@ -95,7 +95,7 @@ public class DotLabelVisitor : Visitor
 	
 	public override void Visit(CharacterLiteral n)
 	{
-		label = ("\\'")+(StringLiteral.escape(StringLiteral.escape(((char)n.Value))))+("\\'")
+		label = ("\\'")+(StringLiteral.Escape(StringLiteral.Escape(n.Value)))+("\\'")
 			;
 	}
 
@@ -103,14 +103,14 @@ public class DotLabelVisitor : Visitor
 	
 	public override void Visit(IntegerLiteral n)
 	{
-		label = n.Value;
+		label = n.Value.ToString();
 	}
 
 	
 	
 	public override void Visit(StringLiteral n)
 	{
-		label = ("\\\"")+(StringLiteral.escape(StringLiteral.escape((string)n.Value)))+("\\\"")
+		label = ("\\\"")+(StringLiteral.Escape(StringLiteral.Escape((string)n.Value)))+("\\\"")
 			;
 	}
 

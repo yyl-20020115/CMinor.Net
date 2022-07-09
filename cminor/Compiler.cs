@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 
@@ -66,7 +67,15 @@ public class Compiler
 
 	
 	
-	private static HashSet flags;
+	private static HashSet<string> flags = new()
+		{
+			"-o",
+			"-h",
+			"-t",
+			"-s",
+			"-l"
+		};
+
 
 	private bool helpMode;
 
@@ -182,7 +191,7 @@ public class Compiler
 				
 				throw new UsageError("-o flag missing argument");
 			}
-			outputName = (string)((IList)arrayList).get(0);
+			outputName = (string)((IList)arrayList)[0];
 		}
 		if (num2 != 0 && num3 != 0)
 		{
@@ -205,7 +214,7 @@ public class Compiler
 	
 	private static bool isFlag(string P_0)
 	{
-		bool result = flags.contains(P_0);
+		bool result = flags.Contains(P_0);
 		
 		return result;
 	}
@@ -228,7 +237,7 @@ public class Compiler
 	
 	public static void printUsage()
 	{
-		printUsage(java.lang.System.@out);
+		printUsage(Console.Out);
 	}
 
 	
@@ -238,19 +247,19 @@ public class Compiler
 		Lexer lexer = new Lexer(P_0);
 		lexer.setFilename(P_1);
 		lexer.setErrorLogger(P_2);
-		Parser parser = new Parser(lexer);
+		CMinor.Parser.Parser parser = new (lexer);
 		AstNode result;
 		System.Exception ex2;
 		try
 		{
 			try
 			{
-				AstNode astNode = (AstNode)parser.parse().value;
+				AstNode astNode = (AstNode)parser.Parse().value;
 				result = astNode;
 			}
 			catch (System.Exception x)
 			{
-				System.Exception ex = ByteCodeHelper.MapException<System.Exception>(x, ByteCodeHelper.MapFlags.None);
+				System.Exception ex = x;
 				if (ex == null)
 				{
 					throw;
@@ -272,7 +281,7 @@ public class Compiler
 		try
 		{
 			System.Exception @this = ex3;
-			string msg = ((Throwable.instancehelper_getMessage(@this) != null) ? Throwable.instancehelper_getMessage(@this) : "parsing error");
+			string msg = ((@this.Message != null) ? @this.Message : "parsing error");
 			
 			throw new ParsingError(msg);
 		}
@@ -288,9 +297,7 @@ public class Compiler
 	
 	private static string replaceSuffix(string P_0, string P_1)
 	{
-		string result = (java.lang.String.instancehelper_substring(P_0, 0, java.lang.String.instancehelper_lastIndexOf(P_0, 46) + 1))+(P_1);
-		
-		return result;
+		return (P_0.Substring(0, (P_0.LastIndexOf((char)46)) + 1))+(P_1);
 	}
 
 	
@@ -319,9 +326,9 @@ public class Compiler
 			num2 = 1;
 		}
 		string text = ((num == 0) ? inputName : "stdin");
-		StreamReader fileReader = ((num == 0) ? new StreamReader(inputName) : new StreamReader(FileDescriptor.@in));
-		ErrorLogger errorLogger = new ErrorLogger();
-		AstNode rootNode = getRootNode(fileReader, text, errorLogger);
+		var fileReader = ((num == 0) ? new StreamReader(inputName) : Console.In);
+		var errorLogger = new ErrorLogger();
+		var rootNode = getRootNode(fileReader, text, errorLogger);
 		if (checkMode)
 		{
 			if (errorLogger.HasErrors)
@@ -352,14 +359,14 @@ public class Compiler
 		TextWriter output;
 		if (treeMode)
 		{
-			output = ((num2 == 0) ? new TextWriter(new FileOutputStream(name)) : java.lang.System.@out);
+			output = ((num2 == 0) ? new StreamWriter((name)) : Console.Out);
 			rootNode.printDotCode(output);
 			return;
 		}
 		if (symbolMode)
 		{
 			rootNode.resolveSymbols(errorLogger);
-			output = ((num2 == 0) ? new TextWriter(new FileOutputStream(name)) : java.lang.System.@out);
+			output = ((num2 == 0) ? new StreamWriter((name)) : Console.Out);
 			rootNode.printDotCode(output);
 			output.Close();
 			return;
@@ -376,7 +383,7 @@ public class Compiler
 			
 			throw new CompilationError("compilation aborted");
 		}
-		output = ((num2 == 0) ? new TextWriter(new FileOutputStream(name)) : java.lang.System.@out);
+		output = ((num2 == 0) ? new StreamWriter((name)) : Console.Out);
 		rootNode.generateCode(output);
 		output.Close();
 	}
@@ -384,13 +391,11 @@ public class Compiler
 	
 	
 	private static bool hasSuffix(string P_0, string P_1)
-	{
-		bool result = java.lang.String.instancehelper_endsWith(P_0, (".")+(P_1));
-		
-		return result;
+	{		
+		return P_0.EndsWith("."+P_1);
 	}
 
-	public static void main(string[] args)
+	public static void Mmain(string[] args)
 	{
 		UsageError usageError;
 		CompilationError compilationError;
@@ -413,30 +418,30 @@ public class Compiler
 						}
 						catch (UsageError x)
 						{
-							usageError = ByteCodeHelper.MapException<UsageError>(x, ByteCodeHelper.MapFlags.NoRemapping);
+							usageError = x;
 						}
 					}
 					catch (CompilationError x2)
 					{
-						compilationError = ByteCodeHelper.MapException<CompilationError>(x2, ByteCodeHelper.MapFlags.NoRemapping);
+						compilationError = x2;
 						goto IL_004a;
 					}
 				}
 				catch (ParsingError x3)
 				{
-					parsingError = ByteCodeHelper.MapException<ParsingError>(x3, ByteCodeHelper.MapFlags.NoRemapping);
+					parsingError = x3;
 					goto IL_004d;
 				}
 			}
 			catch (FileNotFoundException x4)
 			{
-				ex = ByteCodeHelper.MapException<FileNotFoundException>(x4, ByteCodeHelper.MapFlags.NoRemapping);
+				ex = x4;
 				goto IL_0050;
 			}
 		}
 		catch (System.Exception x5)
 		{
-			System.Exception ex2 = ByteCodeHelper.MapException<System.Exception>(x5, ByteCodeHelper.MapFlags.None);
+			System.Exception ex2 = x5;
 			if (ex2 == null)
 			{
 				throw;
@@ -445,19 +450,19 @@ public class Compiler
 			goto IL_0054;
 		}
 		UsageError @this = usageError;
-		Console.System.Exception.WriteLine(Throwable.instancehelper_getMessage(@this));
+		Console.Error.WriteLine(@this.Message);
 		printUsage();
 		Environment.Exit(1);
 		return;
 		IL_0054:
 		System.Exception this2 = ex3;
-		Console.System.Exception.WriteLine(("internal compiler error (crap!): ")+(Throwable.instancehelper_getMessage(this2)));
-		Throwable.instancehelper_printStackTrace(this2, java.lang.System.err);
+		Console.Error.WriteLine(("internal compiler error (crap!): ")+(@this2.Message));
+		
 		Environment.Exit(1);
 		return;
 		IL_0050:
 		FileNotFoundException this3 = ex;
-		Console.System.Exception.WriteLine(("error when using file: ")+(Throwable.instancehelper_getMessage(this3)));
+		Console.Error.WriteLine(("error when using file: ")+(@this3.Message));
 		Environment.Exit(1);
 		return;
 		IL_004d:
@@ -468,18 +473,8 @@ public class Compiler
 		goto IL_0083;
 		IL_0083:
 		this2 = (System.Exception)obj;
-		Console.System.Exception.WriteLine(Throwable.instancehelper_getMessage(this2));
+		Console.Error.WriteLine(@this2.Message);
 		Environment.Exit(1);
 	}
 
-	
-	static Compiler()
-	{
-		flags = new ();
-		flags.Add("-o");
-		flags.Add("-h");
-		flags.Add("-t");
-		flags.Add("-s");
-		flags.Add("-l");
-	}
 }

@@ -1,10 +1,9 @@
-using System;
+using CMinor.AST;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace CMinor.Parser;
 
-internal class ArgumentList : LinkedList<object>
+internal class ArgumentList : List<AstNode>
 {	
 	internal ArgumentList()
 	{
