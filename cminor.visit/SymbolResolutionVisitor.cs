@@ -1,4 +1,3 @@
-
 using CMinor.AST;
 using CMinor.Semantic;
 using CMinor.Symbol;
@@ -14,11 +13,11 @@ public class SymbolResolutionVisitor : Visitor
 
 	private FunctionDefinition mainFunction;
 
-	
-	private IList<object> globalVariables;
+
+	private List<GlobalVariableDeclaration> globalVariables = new();
 
 	
-	private IList<object> functions;
+	private List<FunctionDefinition> functions = new();
 
 	private int numLocals;
 

@@ -40,7 +40,7 @@ public class SymbolTable
 		
 		public virtual Symbol probe(string P_0)
 		{
-			return (Symbol)symbols.get(P_0);
+			return this.symbols.TryGetValue(P_0, out var s) ? s : null;
 		}
 
 		

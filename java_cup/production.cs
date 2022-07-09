@@ -41,7 +41,7 @@ public class production
 				symbol_part symbol_part2 = (symbol_part)rhs[i];
 				if (symbol_part2.Label!= null)
 				{
-					text = (text)+(make_declaration(symbol_part2.Label, symbol_part2.the_symbol().stack_type(), rhs_len - i - 1));
+					text = (text)+(make_declaration(symbol_part2.Label, symbol_part2.the_symbol().StackType, rhs_len - i - 1));
 				}
 			}
 		}
@@ -151,7 +151,7 @@ public class production
 		}
 		string text = declare_labels(rhs_parts, rhs_len, action_str);
 		action_str = ((action_str != null) ? (text)+(action_str).ToString() : text);
-		lhs_sym.note_use();
+		lhs_sym.NoteUse();
 		_lhs = new symbol_part(lhs_sym);
 		_rhs_length = merge_adjacent_actions(rhs_parts, _rhs_length);
 		action_part action_part2 = strip_trailing_action(rhs_parts, _rhs_length);
@@ -165,7 +165,7 @@ public class production
 			_rhs[i] = rhs_parts[i];
 			if (!_rhs[i].is_action())
 			{
-				((symbol_part)_rhs[i]).the_symbol().note_use();
+				((symbol_part)_rhs[i]).the_symbol().NoteUse();
 				if (((symbol_part)_rhs[i]).the_symbol() is terminal)
 				{
 					_rhs_prec = ((terminal)((symbol_part)_rhs[i]).the_symbol()).precedence_num();
@@ -348,7 +348,7 @@ public class production
 	
 	public static production find(int indx)
 	{
-		return (production)_all.get((indx));
+		return _all.TryGetValue(indx, out var p) ? p : null;
 	}
 
 	
@@ -409,8 +409,8 @@ public class production
 			production_part production_part2 = rhs(i);
 			if (!production_part2.is_action())
 			{
-				symbol symbol2 = ((symbol_part)production_part2).the_symbol();
-				if (!symbol2.is_non_term())
+				_Symbol symbol2 = ((symbol_part)production_part2).the_symbol();
+				if (!symbol2.IsNonTerminal)
 				{
 					bool result3 = set_nullable(false);
 					
@@ -435,8 +435,8 @@ public class production
 		{
 			if (!rhs(i).is_action())
 			{
-				symbol symbol2 = ((symbol_part)rhs(i)).the_symbol();
-				if (!symbol2.is_non_term())
+				_Symbol symbol2 = ((symbol_part)rhs(i)).the_symbol();
+				if (!symbol2.IsNonTerminal)
 				{
 					_first_set.Add((terminal)symbol2);
 					break;
@@ -517,13 +517,13 @@ public class production
 	
 	public virtual string to_simple_string()
 	{
-		string str = ((lhs() == null) ? "NULL_LHS" : lhs().the_symbol().name());
+		string str = ((lhs() == null) ? "NULL_LHS" : lhs().the_symbol().Name);
 		str = (str)+(" ::= ");
 		for (int i = 0; i < rhs_length(); i++)
 		{
 			if (!rhs(i).is_action())
 			{
-				str = (str)+(((symbol_part)rhs(i)).the_symbol().name())+(" ")
+				str = (str)+(((symbol_part)rhs(i)).the_symbol().Name)+(" ")
 					;
 			}
 		}

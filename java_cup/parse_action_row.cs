@@ -26,7 +26,7 @@ public class parse_action_row
 		}
 		int num = -1;
 		int num2 = 0;
-		for (int i = 0; i < size(); i++)
+		for (int i = 0; i < Count; i++)
 		{
 			if (under_term[i].kind() == 2)
 			{
@@ -45,10 +45,7 @@ public class parse_action_row
 		default_reduce = num;
 	}
 
-	public static int size()
-	{
-		return _size;
-	}
+	public static int Count => _size;
 
 	
 	
@@ -58,7 +55,7 @@ public class parse_action_row
 		{
 			_size = terminal.number();
 		}
-		under_term = new parse_action[size()];
+		under_term = new parse_action[Count];
 		for (int i = 0; i < _size; i++)
 		{
 			under_term[i] = new parse_action();

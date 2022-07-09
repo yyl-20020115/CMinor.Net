@@ -3,6 +3,8 @@
 
 
 
+using System;
+
 namespace JavaCUP;
 
 public class parse_action_table

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace JavaCUP;
 
-public class non_terminal : symbol
+public class non_terminal : _Symbol
 {
 	protected internal static Dictionary<string, non_terminal> _all = new();
 
@@ -12,7 +12,7 @@ public class non_terminal : symbol
 
 	protected internal static int next_nt;
 
-	internal static non_terminal ___003C_003ESTART_nt;
+	internal static non_terminal _START_SYMBOL;
 
 	public bool is_embedded_action;
 
@@ -28,19 +28,10 @@ public class non_terminal : symbol
 		
 		get
 		{
-			return ___003C_003ESTART_nt;
+			return _START_SYMBOL;
 		}
 	}
 
-	
-	
-	public static void ___003Cclinit_003E()
-	{
-	}
-
-	
-	
-	
 	public virtual void add_production(production prod)
 	{
 		if (prod == null || prod.lhs() == null || prod.lhs().the_symbol() != this)
@@ -48,7 +39,7 @@ public class non_terminal : symbol
 			
 			throw new internal_error("Attempt to add invalid production to non terminal production table");
 		}
-		_productions.put(prod, prod);
+		_productions.Add(prod, prod);
 	}
 
 	
@@ -77,8 +68,9 @@ public class non_terminal : symbol
 		is_embedded_action = false;
 		_productions = new (11);
 		_first_set = new terminal_set();
-		object obj = _all.Add(nm, this);
-		if (obj != null)
+		var b = _all.ContainsKey(nm);
+		_all.Add(nm, this);
+		if (b)
 		{
 			new internal_error(("Duplicate non-terminal (")+(nm)+(") created")
 				).crash();
@@ -232,30 +224,23 @@ public class non_terminal : symbol
 		return result;
 	}
 
-	public override bool is_non_term()
-	{
-		return true;
-	}
+    public override bool IsNonTerminal => true;
 
-	
-	
-	public override string ToString()
+
+
+    public override string ToString()
 	{
-		string result = (base)+("[")+(index())
+		return (base.ToString())+("[")+(Index)
 			+("]")
 			+((!nullable()) ? "" : "*")
 			;
-		
-		return result;
 	}
 
 	
 	static non_terminal()
 	{
-		_all = new Hashtable();
-		_all_by_index = new Hashtable();
 		next_index = 0;
 		next_nt = 0;
-		___003C_003ESTART_nt = new non_terminal("$START");
+		_START_SYMBOL = new non_terminal("$START");
 	}
 }

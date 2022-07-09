@@ -92,7 +92,7 @@ internal class CUP_0024parser_0024actions
 				);
 			return;
 		}
-		symbol symbol2 = symbol_part2.the_symbol();
+		_Symbol symbol2 = symbol_part2.the_symbol();
 		if (symbol2 is terminal)
 		{
 			((terminal)symbol2).set_precedence(_cur_side, _cur_prec);
@@ -304,7 +304,6 @@ internal class CUP_0024parser_0024actions
 				{
 					append_multipart("Object");
 				}
-				non_terminal.___003Cclinit_003E();
 				non_terminal value2 = new non_terminal(text, multipart_name);
 				non_terms.Add(text, value2);
 				symbols.Add(text, new symbol_part(value2));
@@ -431,7 +430,7 @@ internal class CUP_0024parser_0024actions
 					add_rhs_part(new symbol_part(terminal.___003C_003EEOF));
 					add_rhs_part(new action_part("RESULT = start_val;"));
 					
-					emit.start_production = new production(non_terminal.___003C_003ESTART_nt, rhs_parts, rhs_pos);
+					emit.start_production = new production(non_terminal._START_SYMBOL, rhs_parts, rhs_pos);
 					new_rhs();
 				}
 			}
@@ -446,7 +445,7 @@ internal class CUP_0024parser_0024actions
 			
 			if (lhs_nt != null)
 			{
-				symbol symbol2;
+				_Symbol symbol2;
 				if (text == null)
 				{
 					Console.Error.WriteLine("No terminal for contextual precedence");
@@ -460,7 +459,7 @@ internal class CUP_0024parser_0024actions
 				{
 					
 					new production(lhs_nt, rhs_parts, rhs_pos, ((terminal)symbol2).precedence_num(), ((terminal)symbol2).precedence_side());
-					((symbol_part)symbols.get(text)).the_symbol().note_use();
+					((symbol_part)symbols.get(text)).the_symbol().NoteUse();
 				}
 				else
 				{
@@ -479,12 +478,12 @@ internal class CUP_0024parser_0024actions
 					if (symbol2 != null && symbol2 is terminal)
 					{
 						
-						emit.start_production = new production(non_terminal.___003C_003ESTART_nt, rhs_parts, rhs_pos, ((terminal)symbol2).precedence_num(), ((terminal)symbol2).precedence_side());
+						emit.start_production = new production(non_terminal._START_SYMBOL, rhs_parts, rhs_pos, ((terminal)symbol2).precedence_num(), ((terminal)symbol2).precedence_side());
 					}
 					else
 					{
 						
-						emit.start_production = new production(non_terminal.___003C_003ESTART_nt, rhs_parts, rhs_pos);
+						emit.start_production = new production(non_terminal._START_SYMBOL, rhs_parts, rhs_pos);
 					}
 					new_rhs();
 				}
@@ -589,7 +588,7 @@ internal class CUP_0024parser_0024actions
 				add_rhs_part(new symbol_part(terminal.___003C_003EEOF));
 				add_rhs_part(new action_part("RESULT = start_val;"));
 				
-				emit.start_production = new production(non_terminal.___003C_003ESTART_nt, rhs_parts, rhs_pos);
+				emit.start_production = new production(non_terminal._START_SYMBOL, rhs_parts, rhs_pos);
 				new_rhs();
 			}
 			return new Symbol(53, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
@@ -891,7 +890,7 @@ internal class CUP_0024parser_0024actions
 		case 1:
 			
 			symbols.put("error", new symbol_part(terminal.___003C_003Eerror));
-			non_terms.put("$START", non_terminal.___003C_003ESTART_nt);
+			non_terms.put("$START", non_terminal._START_SYMBOL);
 			return new Symbol(43, ((Symbol)P_2[P_3-0]).right, ((Symbol)P_2[P_3-0]).right, null);
 		case 0:
 		{

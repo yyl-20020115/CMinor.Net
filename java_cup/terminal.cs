@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace JavaCUP;
 
-public class terminal : symbol
+public class terminal : _Symbol
 {
 	private int _precedence_num;
 
@@ -88,8 +88,9 @@ public class terminal : symbol
 	public terminal(string nm, string tp, int precedence_side, int precedence_num)
 		: base(nm, tp)
 	{
-		object obj = _all.Add(nm, this);
-		if (obj != null)
+		var c = _all.ContainsKey(nm);
+		_all.Add(nm, this);
+		if (c)
 		{
 			new internal_error(("Duplicate terminal (")+(nm)+(") created")
 				).crash();
@@ -117,20 +118,16 @@ public class terminal : symbol
 
 	}
 
-	public override bool is_non_term()
-	{
-		return false;
-	}
+    public override bool IsNonTerminal => false;
 
-	
-	
-	public override string ToString()
+
+
+    public override string ToString()
 	{
-		string result = (base.ToString())+("[")+(index())
+		return (base.ToString())+("[")+(Index)
 			+("]")
 			;
 		
-		return result;
 	}
 
 	

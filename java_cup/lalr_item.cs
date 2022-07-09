@@ -125,8 +125,8 @@ public class lalr_item : lr_item_core
 			production_part production_part2 = the_production().rhs(i);
 			if (!production_part2.is_action())
 			{
-				symbol symbol2 = ((symbol_part)production_part2).the_symbol();
-				if (!symbol2.is_non_term())
+				_Symbol symbol2 = ((symbol_part)production_part2).the_symbol();
+				if (!symbol2.IsNonTerminal)
 				{
 					terminal_set2.Add((terminal)symbol2);
 					return terminal_set2;
@@ -155,8 +155,8 @@ public class lalr_item : lr_item_core
 			production_part production_part2 = the_production().rhs(i);
 			if (!production_part2.is_action())
 			{
-				symbol symbol2 = ((symbol_part)production_part2).the_symbol();
-				if (!symbol2.is_non_term())
+				_Symbol symbol2 = ((symbol_part)production_part2).the_symbol();
+				if (!symbol2.IsNonTerminal)
 				{
 					return false;
 				}
@@ -205,7 +205,7 @@ public class lalr_item : lr_item_core
 			{
 				if (lookahead().Contains(i))
 				{
-					str = (str)+(terminal.find(i).name())+(" ")
+					str = (str)+(terminal.find(i).Name)+(" ")
 						;
 				}
 			}

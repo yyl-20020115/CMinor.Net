@@ -8,7 +8,7 @@ public class lr_item_core
 
 	protected internal int _core_hash_cache;
 
-	protected internal symbol _symbol_after_dot;
+	protected internal _Symbol _symbol_after_dot;
 
 	public lr_item_core(production prod, int pos)
 	{
@@ -37,7 +37,7 @@ public class lr_item_core
 		}
 	}
 
-	public virtual symbol symbol_after_dot()
+	public virtual _Symbol symbol_after_dot()
 	{
 		return _symbol_after_dot;
 	}
@@ -68,7 +68,7 @@ public class lr_item_core
 	
 	public virtual string to_simple_string()
 	{
-		string str = ((_the_production.lhs() == null || _the_production.lhs().the_symbol() == null || _the_production.lhs().the_symbol().name() == null) ? "$$NULL$$" : _the_production.lhs().the_symbol().name());
+		string str = ((_the_production.lhs() == null || _the_production.lhs().the_symbol() == null || _the_production.lhs().the_symbol().Name== null) ? "$$NULL$$" : _the_production.lhs().the_symbol().Name);
 		str = (str)+(" ::= ");
 		for (int i = 0; i < _the_production.rhs_length(); i++)
 		{
@@ -82,7 +82,7 @@ public class lr_item_core
 				continue;
 			}
 			production_part production_part2 = _the_production.rhs(i);
-			str = ((production_part2 != null) ? ((!production_part2.is_action()) ? ((((symbol_part)production_part2).the_symbol() == null || ((symbol_part)production_part2).the_symbol().name() == null) ? (str)+("$$NULL$$ ").ToString() : (str)+(((symbol_part)production_part2).the_symbol().name())+(" ")
+			str = ((production_part2 != null) ? ((!production_part2.is_action()) ? ((((symbol_part)production_part2).the_symbol() == null || ((symbol_part)production_part2).the_symbol().Name== null) ? (str)+("$$NULL$$ ").ToString() : (str)+(((symbol_part)production_part2).the_symbol().Name)+(" ")
 				) : (str)+("{ACTION} ")) : (str)+("$$NULL$$ "));
 		}
 		if (_dot_pos == _the_production.rhs_length())
@@ -114,8 +114,8 @@ public class lr_item_core
 	
 	public virtual non_terminal dot_before_nt()
 	{
-		symbol symbol2 = symbol_after_dot();
-		if (symbol2 != null && symbol2.is_non_term())
+		_Symbol symbol2 = symbol_after_dot();
+		if (symbol2 != null && symbol2.IsNonTerminal)
 		{
 			return (non_terminal)symbol2;
 		}

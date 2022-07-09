@@ -7,11 +7,11 @@ namespace CMinor.AST;
 
 public class BlockStatement : Statement
 {
-    private IList declarations;
+    private DeclarationList declarations;
 
-    private IList statements;
+    private StatementList statements;
 
-    public BlockStatement(LocationInfo info, IList declarations, IList statements)
+    public BlockStatement(LocationInfo info, DeclarationList declarations, StatementList statements)
         : base(info)
     {
         this.declarations = declarations;
@@ -19,8 +19,8 @@ public class BlockStatement : Statement
     }
 
 
-    public virtual IList Declarations => declarations;
-    public virtual IList Statements => statements;
+    public virtual DeclarationList Declarations => declarations;
+    public virtual StatementList Statements => statements;
 
     public override void Accept(Visitor v)
     {

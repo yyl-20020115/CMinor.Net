@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -172,7 +173,7 @@ public class emit
 	
 	protected internal static void emit_production_table(TextWriter @out)
 	{
-		long num = java.lang.System.currentTimeMillis();
+		long num = Stopwatch.GetTimestamp();
 		production[] array = new production[production.number()];
 		Enumeration enumeration = production.all();
 		while (enumeration.hasMoreElements())
@@ -188,7 +189,7 @@ public class emit
 		for (int i = 0; i < production.number(); i++)
 		{
 			production production2 = array[i];
-			array3[i][0] = (short)production2.lhs().the_symbol().index();
+			array3[i][0] = (short)production2.lhs().the_symbol().Index;
 			array3[i][1] = (short)production2.rhs_length();
 		}
 		@out.WriteLine();
@@ -200,14 +201,14 @@ public class emit
 		@out.WriteLine();
 		@out.WriteLine("  /** Access to production table. */");
 		@out.WriteLine("  public short[][] production_table() {return _production_table;}");
-		production_table_time = java.lang.System.currentTimeMillis() - num;
+		production_table_time =  Stopwatch.GetTimestamp() - num;
 	}
 
 	
 	
 	protected internal static void do_action_table(TextWriter @out, parse_action_table act_tab, bool compact_reduces)
 	{
-		long num = java.lang.System.currentTimeMillis();
+		long num = Stopwatch.GetTimestamp();
 		short[][] array = new short[act_tab.num_states()][];
 		for (int i = 0; i < act_tab.num_states(); i++)
 		{
@@ -289,13 +290,13 @@ public class emit
 		@out.WriteLine();
 		@out.WriteLine("  /** Access to parse-action table. */");
 		@out.WriteLine("  public short[][] action_table() {return _action_table;}");
-		action_table_time = java.lang.System.currentTimeMillis() - num;
+		action_table_time = Stopwatch.GetTimestamp() - num;
 	}
 
 	
 	protected internal static void do_reduce_table(TextWriter @out, parse_reduce_table red_tab)
 	{
-		long num = java.lang.System.currentTimeMillis();
+		long num = Stopwatch.GetTimestamp();
 		short[][] array = new short[red_tab.num_states()][];
 		for (int i = 0; i < red_tab.num_states(); i++)
 		{
@@ -344,14 +345,14 @@ public class emit
 		@out.WriteLine("  /** Access to <code>reduce_goto</code> table. */");
 		@out.WriteLine("  public short[][] reduce_table() {return _reduce_table;}");
 		@out.WriteLine();
-		goto_table_time = java.lang.System.currentTimeMillis() - num;
+		goto_table_time = Stopwatch.GetTimestamp() - num;
 	}
 
 	
 	
 	protected internal static void emit_action_code(TextWriter @out, production start_prod)
 	{
-		long num = java.lang.System.currentTimeMillis();
+		long num = Stopwatch.GetTimestamp();
 		@out.WriteLine();
 		@out.WriteLine("/** Cup generated class to encapsulate user supplied action code.*/");
 		@out.WriteLine(("class ")+(pre("actions"))+(" {")
@@ -398,24 +399,24 @@ public class emit
 				+(production2.to_simple_string())
 				);
 			@out.WriteLine("            {");
-			@out.WriteLine(("              ")+(production2.lhs().the_symbol().stack_type())+(" RESULT = null;")
+			@out.WriteLine(("              ")+(production2.lhs().the_symbol().StackType)+(" RESULT = null;")
 				);
 			for (int i = 0; i < production2.rhs_length(); i++)
 			{
 				if (production2.rhs(i) is symbol_part)
 				{
-					symbol symbol2 = ((symbol_part)production2.rhs(i)).the_symbol();
+					_Symbol symbol2 = ((symbol_part)production2.rhs(i)).the_symbol();
 					if (symbol2 is non_terminal && ((non_terminal)symbol2).is_embedded_action)
 					{
 						int i2 = production2.rhs_length() - i - 1;
-						@out.WriteLine(("              // propagate RESULT from ")+(symbol2.name()));
+						@out.WriteLine(("              // propagate RESULT from ")+(symbol2.Name));
 						@out.WriteLine(("              if ( ((java_cup.runtime.Symbol) ")+(pre("stack"))+(".elementAt(")
 							+(pre("top"))
 							+("-")
 							+(i2)
 							+(")).value != null )")
 							);
-						@out.WriteLine(("                RESULT = (")+(production2.lhs().the_symbol().stack_type())+(") ")
+						@out.WriteLine(("                RESULT = (")+(production2.lhs().the_symbol().StackType)+(") ")
 							+("((java_cup.runtime.Symbol) ")
 							+(pre("stack"))
 							+(".elementAt(")
@@ -456,9 +457,9 @@ public class emit
 						;
 				}
 				@out.WriteLine(("              ")+(pre("result"))+(" = new java_cup.runtime.Symbol(")
-					+(production2.lhs().the_symbol().index())
+					+(production2.lhs().the_symbol().Index)
 					+("/*")
-					+(production2.lhs().the_symbol().name())
+					+(production2.lhs().the_symbol().Name)
 					+("*/")
 					+(", ")
 					+(str)
@@ -470,9 +471,9 @@ public class emit
 			else
 			{
 				@out.WriteLine(("              ")+(pre("result"))+(" = new java_cup.runtime.Symbol(")
-					+(production2.lhs().the_symbol().index())
+					+(production2.lhs().the_symbol().Index)
 					+("/*")
-					+(production2.lhs().the_symbol().name())
+					+(production2.lhs().the_symbol().Name)
 					+("*/")
 					+(", RESULT);")
 					);
@@ -497,7 +498,7 @@ public class emit
 		@out.WriteLine("    }");
 		@out.WriteLine("}");
 		@out.WriteLine();
-		action_code_time = java.lang.System.currentTimeMillis() - num;
+		action_code_time = Stopwatch.GetTimestamp() - num;
 	}
 
 	
@@ -515,7 +516,7 @@ public class emit
 	public static void symbols(TextWriter @out, bool emit_non_terms, bool sym_interface)
 	{
 		string str = ((!sym_interface) ? "class" : "interface");
-		long num = java.lang.System.currentTimeMillis();
+		long num = Stopwatch.GetTimestamp();
 		@out.WriteLine();
 		@out.WriteLine("//----------------------------------------------------");
 		@out.WriteLine("// The following code was generated by CUP v0.10k");
@@ -534,8 +535,8 @@ public class emit
 		while (enumeration.hasMoreElements())
 		{
 			terminal terminal2 = (terminal)enumeration.nextElement();
-			@out.WriteLine(("  public static final int ")+(terminal2.name())+(" = ")
-				+(terminal2.index())
+			@out.WriteLine(("  public static final int ")+(terminal2.Name)+(" = ")
+				+(terminal2.Index)
 				+(";")
 				);
 		}
@@ -547,22 +548,22 @@ public class emit
 			while (enumeration.hasMoreElements())
 			{
 				non_terminal non_terminal2 = (non_terminal)enumeration.nextElement();
-				@out.WriteLine(("  static final int ")+(non_terminal2.name())+(" = ")
-					+(non_terminal2.index())
+				@out.WriteLine(("  static final int ")+(non_terminal2.Name)+(" = ")
+					+(non_terminal2.Index)
 					+(";")
 					);
 			}
 		}
 		@out.WriteLine("}");
 		@out.WriteLine();
-		symbols_time = java.lang.System.currentTimeMillis() - num;
+		symbols_time = Stopwatch.GetTimestamp() - num;
 	}
 
 	
 	
 	public static void parser(TextWriter @out, parse_action_table action_table, parse_reduce_table reduce_table, int start_st, production start_prod, bool compact_reduces, bool suppress_scanner)
 	{
-		long num = java.lang.System.currentTimeMillis();
+		long num = Stopwatch.GetTimestamp();
 		@out.WriteLine();
 		@out.WriteLine("//----------------------------------------------------");
 		@out.WriteLine("// The following code was generated by CUP v0.10k");
@@ -627,11 +628,11 @@ public class emit
 			);
 		@out.WriteLine();
 		@out.WriteLine("  /** <code>EOF</code> Symbol index. */");
-		@out.WriteLine(("  public int EOF_sym() {return ")+(terminal.___003C_003EEOF.index())+(";}")
+		@out.WriteLine(("  public int EOF_sym() {return ")+(terminal.___003C_003EEOF.Index)+(";}")
 			);
 		@out.WriteLine();
 		@out.WriteLine("  /** <code>error</code> Symbol index. */");
-		@out.WriteLine(("  public int error_sym() {return ")+(terminal.___003C_003Eerror.index())+(";}")
+		@out.WriteLine(("  public int error_sym() {return ")+(terminal.___003C_003Eerror.Index)+(";}")
 			);
 		@out.WriteLine();
 		if (init_code != null)
@@ -660,7 +661,7 @@ public class emit
 		}
 		@out.WriteLine("}");
 		emit_action_code(@out, start_prod);
-		parser_time = java.lang.System.currentTimeMillis() - num;
+		parser_time = Stopwatch.GetTimestamp() - num;
 	}
 
 	static emit()

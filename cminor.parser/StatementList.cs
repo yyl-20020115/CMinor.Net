@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace CMinor.Parser;
 
-internal class StatementList : List<Statement>
+public class StatementList : List<Statement>
 {	
-	internal StatementList()
+	public StatementList()
 	{
 	}
 }

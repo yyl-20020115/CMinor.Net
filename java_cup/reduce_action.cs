@@ -55,9 +55,7 @@ public class reduce_action : parse_action
 	
 	public override int GetHashCode()
 	{
-		int result = reduce_with().hashCode();
-		
-		return result;
+		return reduce_with().GetHashCode();
 	}
 
 	

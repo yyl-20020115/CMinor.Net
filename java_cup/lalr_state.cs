@@ -86,7 +86,7 @@ public class lalr_state
 	
 	
 	
-	public virtual void add_transition(symbol on_sym, lalr_state to_st)
+	public virtual void add_transition(_Symbol on_sym, lalr_state to_st)
 	{
 		lalr_transition lalr_transition2 = (_transitions = new lalr_transition(on_sym, to_st, _transitions));
 	}
@@ -248,7 +248,7 @@ public class lalr_state
 				{
 					num = 1;
 				}
-				Console.Error.Write(terminal.find(i).name());
+				Console.Error.Write(terminal.find(i).Name);
 			}
 		}
 		Console.Error.WriteLine("}");
@@ -277,14 +277,14 @@ public class lalr_state
 			lalr_item lalr_item2 = (lalr_item)enumeration.nextElement();
 			if (lalr_item2 != red_itm && !lalr_item2.dot_at_end())
 			{
-				symbol symbol2 = lalr_item2.symbol_after_dot();
-				if (!symbol2.is_non_term() && symbol2.index() == conflict_sym)
+				_Symbol symbol2 = lalr_item2.symbol_after_dot();
+				if (!symbol2.IsNonTerminal&& symbol2.Index== conflict_sym)
 				{
 					Console.Error.WriteLine(("  and     ")+(lalr_item2.to_simple_string()));
 				}
 			}
 		}
-		Console.Error.WriteLine(("  under symbol ")+(terminal.find(conflict_sym).name()));
+		Console.Error.WriteLine(("  under symbol ")+(terminal.find(conflict_sym).Name));
 		Console.Error.WriteLine("  Resolved in favor of shifting.\n");
 		emit.num_conflicts++;
 		lexer.warning_count++;
@@ -324,7 +324,7 @@ public class lalr_state
 			lalr_item lalr_item2 = (lalr_item)enumeration.nextElement();
 			Console.Out.Write("  [");
 			Console.Out.Write(lalr_item2.the_production().lhs().the_symbol()
-				.name());
+				.Name);
 			Console.Out.Write(" ::= ");
 			for (int i = 0; i < lalr_item2.the_production().rhs_length(); i++)
 			{
@@ -339,7 +339,7 @@ public class lalr_state
 				}
 				else
 				{
-					Console.Out.Write((((symbol_part)production_part2).the_symbol().name())+(" "));
+					Console.Out.Write((((symbol_part)production_part2).the_symbol().Name)+(" "));
 				}
 			}
 			if (lalr_item2.dot_at_end())
@@ -377,7 +377,7 @@ public class lalr_state
 			while (enumeration.hasMoreElements())
 			{
 				lalr_item2 = (lalr_item)enumeration.nextElement();
-				symbol symbol2 = lalr_item2.symbol_after_dot();
+				_Symbol symbol2 = lalr_item2.symbol_after_dot();
 				if (symbol2 != null)
 				{
 					symbol_set2.Add(symbol2);
@@ -386,14 +386,14 @@ public class lalr_state
 			Enumeration enumeration2 = symbol_set2.all();
 			while (enumeration2.hasMoreElements())
 			{
-				symbol symbol2 = (symbol)enumeration2.nextElement();
+				_Symbol symbol2 = (_Symbol)enumeration2.nextElement();
 				lalr_item_set lalr_item_set3 = new lalr_item_set();
 				lalr_item_set lalr_item_set4 = new lalr_item_set();
 				enumeration = lalr_state3.items().all();
 				while (enumeration.hasMoreElements())
 				{
 					lalr_item2 = (lalr_item)enumeration.nextElement();
-					symbol obj = lalr_item2.symbol_after_dot();
+					_Symbol obj = lalr_item2.symbol_after_dot();
 					if (Object.instancehelper_equals(symbol2, obj))
 					{
 						lalr_item_set4.Add(lalr_item2.shift());
@@ -480,27 +480,27 @@ public class lalr_state
 		}
 		for (lalr_transition lalr_transition2 = transitions(); lalr_transition2 != null; lalr_transition2 = lalr_transition2.next())
 		{
-			symbol symbol2 = lalr_transition2.on_symbol();
-			if (!symbol2.is_non_term())
+			_Symbol symbol2 = lalr_transition2.on_symbol();
+			if (!symbol2.IsNonTerminal)
 			{
 				shift_action shift_action2 = new shift_action(lalr_transition2.to_state());
-				if (parse_action_row2.under_term[symbol2.index()].kind() == 0)
+				if (parse_action_row2.under_term[symbol2.Index].kind() == 0)
 				{
-					parse_action_row2.under_term[symbol2.index()] = shift_action2;
+					parse_action_row2.under_term[symbol2.Index] = shift_action2;
 				}
 				else
 				{
-					production p = ((reduce_action)parse_action_row2.under_term[symbol2.index()]).reduce_with();
-					if (!fix_with_precedence(p, symbol2.index(), parse_action_row2, shift_action2))
+					production p = ((reduce_action)parse_action_row2.under_term[symbol2.Index]).reduce_with();
+					if (!fix_with_precedence(p, symbol2.Index, parse_action_row2, shift_action2))
 					{
-						parse_action_row2.under_term[symbol2.index()] = shift_action2;
-						terminal_set2.Add(terminal.find(symbol2.index()));
+						parse_action_row2.under_term[symbol2.Index] = shift_action2;
+						terminal_set2.Add(terminal.find(symbol2.Index));
 					}
 				}
 			}
 			else
 			{
-				parse_reduce_row2.under_non_term[symbol2.index()] = lalr_transition2.to_state();
+				parse_reduce_row2.under_non_term[symbol2.Index] = lalr_transition2.to_state();
 			}
 		}
 		if (!terminal_set2.IsEmpty)

@@ -6,17 +6,17 @@ namespace JavaCUP;
 
 public class symbol_part : production_part
 {
-	protected internal symbol _the_symbol;
+	protected internal _Symbol _the_symbol;
 
 	
 	
 	
-	public symbol_part(symbol sym)
+	public symbol_part(_Symbol sym)
 		: this(sym, null)
 	{
 	}
 
-	public virtual symbol the_symbol()
+	public virtual _Symbol the_symbol()
 	{
 		return _the_symbol;
 	}
@@ -39,7 +39,7 @@ public class symbol_part : production_part
 	
 	
 	
-	public symbol_part(symbol sym, string lab)
+	public symbol_part(_Symbol sym, string lab)
 		: base(lab)
 	{
 		if (sym == null)

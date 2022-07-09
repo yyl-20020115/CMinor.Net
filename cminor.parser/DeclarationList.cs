@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace CMinor.Parser;
 
-internal class DeclarationList : List<Declaration>
+public class DeclarationList : List<Declaration>
 {
-	internal DeclarationList()
+	public DeclarationList()
 	{
 	}
 }

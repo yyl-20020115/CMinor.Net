@@ -4,25 +4,27 @@ namespace JavaCUP;
 
 public class symbol_set
 {
-	protected internal Dictionary<string, symbol> _all = new(11);
+	protected internal Dictionary<string, _Symbol> _all = new(11);
 
 	public symbol_set()
 	{
 	}
-
 	
-	
-	
-	public virtual bool add(symbol sym)
+	public symbol_set Clone()
+    {
+		return new symbol_set() { _all = new Dictionary<string, _Symbol>(this._all) };
+    }
+	public virtual bool add(_Symbol sym)
 	{
 		not_null(sym);
-		object obj = _all.Add(sym.name(), sym);
-		return obj == null;
+		var b = _all.ContainsKey(sym.Name);
+		_all.Add(sym.Name, sym);
+		return !b;
 	}
 
 	
 	
-	public virtual IEnumerable<symbol> all()
+	public virtual IEnumerable<_Symbol> all()
 	{
 		return _all.Values;
 	}
@@ -41,11 +43,9 @@ public class symbol_set
 
 	
 	
-	public virtual bool contains(symbol sym)
+	public virtual bool contains(_Symbol sym)
 	{
-		bool result = _all.containsKey(sym.name());
-		
-		return result;
+		return _all.ContainsKey(sym.Name);
 	}
 
 	
@@ -54,24 +54,21 @@ public class symbol_set
 	public virtual bool is_subset_of(symbol_set other)
 	{
 		not_null(other);
-		Enumeration enumeration = all();
-		while (enumeration.hasMoreElements())
-		{
-			if (!other.contains((symbol)enumeration.nextElement()))
-			{
+		foreach(var s in this.all())
+        {
+			if (!other.contains(s))
 				return false;
-			}
-		}
+        }
 		return true;
 	}
 
 	
 	
 	
-	public virtual void remove(symbol sym)
+	public virtual void remove(_Symbol sym)
 	{
 		not_null(sym);
-		_all.Remove(sym.name());
+		_all.Remove(sym.Name);
 	}
 
 
@@ -106,9 +103,9 @@ public class symbol_set
 	
 	public symbol_set(symbol_set other)
 	{
-		_all = new Hashtable(11);
+		_all = new (11);
 		not_null(other);
-		_all = (Hashtable)other._all.clone();
+		_all = new Dictionary<string, _Symbol>(other._all);// other._all.clone();
 	}
 
 	
@@ -129,12 +126,11 @@ public class symbol_set
 	{
 		int num = 0;
 		not_null(other);
-		Enumeration enumeration = other.all();
-		while (enumeration.hasMoreElements())
+		foreach (var s in other.all())
 		{
-			num = ((add((symbol)enumeration.nextElement()) || num != 0) ? 1 : 0);
+			num = (this.add(s)||num!=0)?1:0;
 		}
-		return (byte)num != 0;
+		return num != 0;
 	}
 
 	
@@ -143,11 +139,10 @@ public class symbol_set
 	public virtual void remove(symbol_set other)
 	{
 		not_null(other);
-		Enumeration enumeration = other.all();
-		while (enumeration.hasMoreElements())
-		{
-			remove((symbol)enumeration.nextElement());
-		}
+		foreach(var s in other.all())
+        {
+			this.remove(s);
+        }
 	}
 
 	
@@ -168,13 +163,12 @@ public class symbol_set
 	public override int GetHashCode()
 	{
 		int num = 0;
-		Enumeration enumeration = all();
 		int num2 = 0;
-		while (enumeration.hasMoreElements() && num2 < 5)
-		{
-			num ^= Object.instancehelper_hashCode((symbol)enumeration.nextElement());
-			num2++;
-		}
+		foreach(var s in this.all())
+        {
+			if (num2++ >= 5) break;
+			num ^= s.GetHashCode();
+        }
 		return num;
 	}
 
@@ -183,8 +177,8 @@ public class symbol_set
 	{
 		string str = "{";
 		int num = 0;
-		Enumeration enumeration = all();
-		while (enumeration.hasMoreElements())
+		
+		foreach(var symbol in this.all())
 		{
 			if (num != 0)
 			{
@@ -194,7 +188,7 @@ public class symbol_set
 			{
 				num = 1;
 			}
-			str = (str)+(((symbol)enumeration.nextElement()).name());
+			str = (str)+symbol.Name;
 		}
 		return (str)+("}");
 	}

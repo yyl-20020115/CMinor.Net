@@ -32,10 +32,10 @@ public class terminal_set
 	public virtual bool Add(terminal sym)
 	{
 		IsNotNull(sym);
-		int num = (_elements.Get(sym.index()) ? 1 : 0);
+		int num = (_elements.Get(sym.Index) ? 1 : 0);
 		if (num == 0)
 		{
-			_elements.Set(sym.index());
+			_elements.Set(sym.Index);
 		}
 		return num != 0;
 	}
@@ -88,7 +88,7 @@ public class terminal_set
     public virtual bool Equals(terminal_set other) => other != null && _elements.Equals(other._elements);
 
 
-    public virtual bool Contains(terminal sym) => IsNotNull(sym) && _elements.Get(sym.index());
+    public virtual bool Contains(terminal sym) => IsNotNull(sym) && _elements.Get(sym.Index);
 
     public virtual bool IsSuperSetOf(terminal_set other) => IsNotNull(other) && other.IsSubsetOf(this);
 
@@ -98,7 +98,7 @@ public class terminal_set
     public virtual void Remove(terminal sym)
 	{
 		IsNotNull(sym);
-		_elements.Clear(sym.index());
+		_elements.Clear(sym.Index);
 	}
 
     public override bool Equals(object other) => other is terminal_set t && Equals(t);
@@ -119,7 +119,7 @@ public class terminal_set
 				{
 					num = 1;
 				}
-				str = (str)+(terminal.find(i).name());
+				str = (str)+(terminal.find(i).Name);
 			}
 		}
 		return (str)+("}");

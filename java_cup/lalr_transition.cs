@@ -6,7 +6,7 @@ namespace JavaCUP;
 
 public class lalr_transition
 {
-	protected internal symbol _on_symbol;
+	protected internal _Symbol _on_symbol;
 
 	protected internal lalr_state _to_state;
 
@@ -15,7 +15,7 @@ public class lalr_transition
 	
 	
 	
-	public lalr_transition(symbol on_sym, lalr_state to_st, lalr_transition nxt)
+	public lalr_transition(_Symbol on_sym, lalr_state to_st, lalr_transition nxt)
 	{
 		if (on_sym == null)
 		{
@@ -32,7 +32,7 @@ public class lalr_transition
 		_next = nxt;
 	}
 
-	public virtual symbol on_symbol()
+	public virtual _Symbol on_symbol()
 	{
 		return _on_symbol;
 	}
@@ -50,7 +50,7 @@ public class lalr_transition
 	
 	
 	
-	public lalr_transition(symbol on_sym, lalr_state to_st)
+	public lalr_transition(_Symbol on_sym, lalr_state to_st)
 		: this(on_sym, to_st, null)
 	{
 	}
@@ -59,7 +59,7 @@ public class lalr_transition
 	
 	public override string ToString()
 	{
-		string str = ("transition on ")+(on_symbol().name())+(" to state [")
+		string str = ("transition on ")+(on_symbol().Name)+(" to state [")
 			;
 		str = (str)+(_to_state.index());
 		return (str)+("]");

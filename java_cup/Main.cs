@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace JavaCUP;
@@ -245,12 +246,12 @@ public class Main
 		while (enumeration.hasMoreElements())
 		{
 			terminal terminal2 = (terminal)enumeration.nextElement();
-			if (terminal2 != terminal.___003C_003EEOF && terminal2 != terminal.___003C_003Eerror && terminal2.use_count() == 0)
+			if (terminal2 != terminal.___003C_003EEOF && terminal2 != terminal.___003C_003Eerror && terminal2.UseCount== 0)
 			{
 				emit.unused_term++;
 				if (!emit.nowarn)
 				{
-					Console.Error.WriteLine(("Warning: Terminal \"")+(terminal2.name())+("\" was declared but never used")
+					Console.Error.WriteLine(("Warning: Terminal \"")+(terminal2.Name)+("\" was declared but never used")
 						);
 					lexer.warning_count++;
 				}
@@ -260,12 +261,12 @@ public class Main
 		while (enumeration.hasMoreElements())
 		{
 			non_terminal non_terminal2 = (non_terminal)enumeration.nextElement();
-			if (non_terminal2.use_count() == 0)
+			if (non_terminal2.UseCount== 0)
 			{
 				emit.unused_term++;
 				if (!emit.nowarn)
 				{
-					Console.Error.WriteLine(("Warning: Non terminal \"")+(non_terminal2.name())+("\" was declared but never used")
+					Console.Error.WriteLine(("Warning: Non terminal \"")+(non_terminal2.Name)+("\" was declared but never used")
 						);
 					lexer.warning_count++;
 				}
@@ -282,19 +283,19 @@ public class Main
 			Console.Error.WriteLine("  Computing non-terminal nullability...");
 		}
 		non_terminal.compute_nullability();
-		nullability_end = java.lang.System.currentTimeMillis();
+		nullability_end = Stopwatch.GetTimestamp();
 		if (opt_do_debug || print_progress)
 		{
 			Console.Error.WriteLine("  Computing first sets...");
 		}
 		non_terminal.compute_first_sets();
-		first_end = java.lang.System.currentTimeMillis();
+		first_end = Stopwatch.GetTimestamp();
 		if (opt_do_debug || print_progress)
 		{
 			Console.Error.WriteLine("  Building state machine...");
 		}
 		start_state = lalr_state.build_machine(emit.start_production);
-		machine_end = java.lang.System.currentTimeMillis();
+		machine_end = Stopwatch.GetTimestamp();
 		if (opt_do_debug || print_progress)
 		{
 			Console.Error.WriteLine("  Filling in tables...");
@@ -307,13 +308,13 @@ public class Main
 			lalr_state lalr_state2 = (lalr_state)enumeration.nextElement();
 			lalr_state2.build_table_entries(action_table, reduce_table);
 		}
-		table_end = java.lang.System.currentTimeMillis();
+		table_end = Stopwatch.GetTimestamp();
 		if (opt_do_debug || print_progress)
 		{
 			Console.Error.WriteLine("  Checking for non-reduced productions...");
 		}
 		action_table.check_reductions();
-		reduce_check_end = java.lang.System.currentTimeMillis();
+		reduce_check_end = Stopwatch.GetTimestamp();
 		if (emit.num_conflicts > expect_conflicts)
 		{
 			Console.Error.WriteLine("*** More conflicts encountered than expected -- parser generation aborted");
@@ -384,7 +385,7 @@ public class Main
 		while (num < terminal.number())
 		{
 			Console.Error.Write(("[")+(num)+("]")
-				+(terminal.find(num).name())
+				+(terminal.find(num).Name)
 				+(" ")
 				);
 			int num3 = num2 + 1;
@@ -403,7 +404,7 @@ public class Main
 		while (num < non_terminal.number())
 		{
 			Console.Error.Write(("[")+(num)+("]")
-				+(non_terminal.find(num).name())
+				+(non_terminal.find(num).Name)
 				+(" ")
 				);
 			int num4 = num2 + 1;
@@ -421,7 +422,7 @@ public class Main
 		{
 			production production2 = production.find(num);
 			Console.Error.Write(("[")+(num)+("] ")
-				+(production2.lhs().the_symbol().name())
+				+(production2.lhs().the_symbol().Name)
 				+(" ::= ")
 				);
 			for (int i = 0; i < production2.rhs_length(); i++)
@@ -432,7 +433,7 @@ public class Main
 				}
 				else
 				{
-					Console.Error.Write((((symbol_part)production2.rhs(i)).the_symbol().name())+(" "));
+					Console.Error.Write((((symbol_part)production2.rhs(i)).the_symbol().Name)+(" "));
 				}
 			}
 			Console.Error.WriteLine();
@@ -492,7 +493,7 @@ public class Main
 	
 	protected internal static void emit_summary(bool output_produced)
 	{
-		final_time = java.lang.System.currentTimeMillis();
+		final_time = Stopwatch.GetTimestamp();
 		if (!no_summary)
 		{
 			Console.Error.WriteLine("------- CUP v0.10k Parser Generation Summary -------");
@@ -685,21 +686,21 @@ public class Main
 	public static void main(string[] argv)
 	{
 		int output_produced = 0;
-		start_time = java.lang.System.currentTimeMillis();
+		start_time = Stopwatch.GetTimestamp();
 		parse_args(argv);
 		emit.set_lr_values(lr_values);
 		if (print_progress)
 		{
 			Console.Error.WriteLine("Opening files...");
 		}
-		input_file = new BufferedInputStream(java.lang.System.@in);
-		prelim_end = java.lang.System.currentTimeMillis();
+		input_file = Console.In;
+		prelim_end = Stopwatch.GetTimestamp();
 		if (print_progress)
 		{
 			Console.Error.WriteLine("Parsing specification from standard input...");
 		}
 		parse_grammar_spec();
-		parse_end = java.lang.System.currentTimeMillis();
+		parse_end = Stopwatch.GetTimestamp();
 		if (lexer.error_count == 0)
 		{
 			if (print_progress)
@@ -707,13 +708,13 @@ public class Main
 				Console.Error.WriteLine("Checking specification...");
 			}
 			check_unused();
-			check_end = java.lang.System.currentTimeMillis();
+			check_end = Stopwatch.GetTimestamp();
 			if (print_progress)
 			{
 				Console.Error.WriteLine("Building parse tables...");
 			}
 			build_parser();
-			build_end = java.lang.System.currentTimeMillis();
+			build_end = Stopwatch.GetTimestamp();
 			if (lexer.error_count != 0)
 			{
 				opt_dump_tables = false;
@@ -729,7 +730,7 @@ public class Main
 				output_produced = 1;
 			}
 		}
-		emit_end = java.lang.System.currentTimeMillis();
+		emit_end = Stopwatch.GetTimestamp();
 		if (opt_dump_grammar)
 		{
 			dump_grammar();
@@ -742,7 +743,7 @@ public class Main
 		{
 			dump_tables();
 		}
-		dump_end = java.lang.System.currentTimeMillis();
+		dump_end = Stopwatch.GetTimestamp();
 		if (print_progress)
 		{
 			Console.Error.WriteLine("Closing files...");
