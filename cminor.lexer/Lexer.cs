@@ -86,11 +86,11 @@ public class Lexer : JavaCUP.Runtime.Scanner
 
 	private int yycolumn;
 
-	private bool zzAtBOL;
+	//private bool zzAtBOL = false;
 
-	private bool zzAtEOF;
+	private bool zzAtEOF = false;
 
-	private bool zzEOFDone;
+	private bool zzEOFDone = false;
 
 	private const int MAX_STRING_LITERAL_LENGTH = 64;
 
@@ -114,7 +114,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	{
 		zzLexicalState = 0;
 		zzBuffer = new char[16384];
-		zzAtBOL = true;
+		//zzAtBOL = true;
 		stringBuilder = new StringBuilder(64);
 		stringTable = new ();
 		yyline = 1;
@@ -301,7 +301,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 		{
 			text = ZZ_ERROR_MSG[P_0];
 		}
-		catch (System.Exception x)
+		catch
 		{
 			goto IL_001a;
 		}
@@ -568,7 +568,7 @@ public class Lexer : JavaCUP.Runtime.Scanner
 	private void yyreset(TextReader P_0)
 	{
 		zzReader = P_0;
-		zzAtBOL = true;
+		//zzAtBOL = true;
 		zzAtEOF = false;
 		zzEOFDone = false;
 		int num = 0;

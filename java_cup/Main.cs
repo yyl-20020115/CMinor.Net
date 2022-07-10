@@ -310,7 +310,7 @@ public class MainProgram
 		{
 			parser_class_file = new StreamWriter(file.FullName);
 		}
-		catch (System.Exception x)
+		catch
 		{
 			goto IL_0052;
 		}
@@ -329,7 +329,7 @@ public class MainProgram
 			symbol_class_file = new StreamWriter(file.FullName);
 			return;
 		}
-		catch (System.Exception x2)
+		catch
 		{
 		}
 		

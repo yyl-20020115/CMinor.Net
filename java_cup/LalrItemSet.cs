@@ -83,7 +83,7 @@ public class LalrItemSet
 		_all = new (11);
 		hashcode_cache = null;
 		not_null(other);
-		_all = other._all.clone();
+		_all = new(other._all);
 	}
 
 
@@ -188,12 +188,11 @@ public class LalrItemSet
 			{
 				continue;
 			}
-			TerminalSet other = one.calc_lookahead(one.lookahead());
+			var other = one.calc_lookahead(one.lookahead());
 			int num = (one.lookahead_visible() ? 1 : 0);
-			Enumeration enumeration = non_terminal2.productions();
-			while (enumeration.hasMoreElements())
+
+			foreach(var prod in non_terminal2.productions())
 			{
-				Production prod = (Production)enumeration.nextElement();
 				LalrItem lalr_item2 = new LalrItem(prod, new TerminalSet(other));
 				LalrItem lalr_item3 = Add(lalr_item2);
 				if (num != 0)

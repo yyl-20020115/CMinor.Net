@@ -1,5 +1,3 @@
-
-
 using JavaCUP.Runtime;
 using System;
 using System.Collections.Generic;
@@ -453,15 +451,23 @@ internal class CUP_0024parser_0024actions
                         }
                         else
                         {
-                            //					symbol2 = ((SymbolPart)symbols.Get(text)).the_symbol();
-                            symbols.TryGetValue(text, out symbol2);
+                            //symbol2 = ((SymbolPart)symbols.Get(text)).the_symbol();
+                            if(symbols.TryGetValue(text, out var s2))
+                            {
+                                symbol2 = s2.the_symbol();
+                            }
                         }
                         if (symbol2 != null && symbol2 is Terminal t)
                         {
-
                             new Production(lhs_nt, rhs_parts, rhs_pos, ((Terminal)symbol2).precedence_num(), ((Terminal)symbol2).precedence_side());
-                            symbols.TryGetValue(text, out symbol2);
-                            ((SymbolPart)symbols.Get(text)).the_symbol().NoteUse();
+                            if (symbols.TryGetValue(text, out var s2))
+                            {
+                                symbol2 = s2.the_symbol();
+                            }
+                            if (symbols.TryGetValue(text,out var s))
+                            {
+                                s.the_symbol().NoteUse();
+                            }
                         }
                         else
                         {
@@ -575,7 +581,7 @@ internal class CUP_0024parser_0024actions
                     _ = ((Symbol)P_2[P_3 - 0]).left;
                     _ = ((Symbol)P_2[P_3 - 0]).right;
                     string text = (string)((Symbol)P_2[P_3 - 0]).value;
-                    if (!non_terms.TryGetValue(text,out var value2))
+                    if (!non_terms.TryGetValue(text, out var value2))
                     {
                         Lexer.emit_error(("Start non terminal \"") + (text) + ("\" has not been declared")
                             );

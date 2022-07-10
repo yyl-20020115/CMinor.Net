@@ -8,9 +8,7 @@ public class SymbolPart : ProductionPart
 {
 	protected internal _Symbol _the_symbol;
 
-	
-	
-	
+
 	public SymbolPart(_Symbol sym)
 		: this(sym, null)
 	{

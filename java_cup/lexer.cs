@@ -192,22 +192,13 @@ public class Lexer
 		return result8;
 	}
 
-	
-	
-	protected internal static int find_single_char(int ch)
-	{
-		int integer = (int)char_symbols[(((char)ch))];
-		if (integer == null)
-		{
-			return -1;
-		}
-		int result = integer;
-		
-		return result;
-	}
 
-	
-	protected internal static void swallow_comment()
+
+    protected internal static int find_single_char(int ch) 
+		=> !char_symbols.TryGetValue((char)ch, out var i) ? -1 : i;
+
+
+    protected internal static void swallow_comment()
 	{
 		if (next_char2 == 42)
 		{
@@ -282,19 +273,8 @@ public class Lexer
 			advance();
 		}
 		string text = stringBuilder.ToString();
-		int integer = keywords[text];
-		if (integer != null)
-		{
-			Symbol result = new Symbol(integer);
-			
-			return result;
-		}
-		Symbol result2 = new Symbol(28, text);
-		
-		return result2;
-	}
-
-	
+        return keywords.TryGetValue(text,out var i) ? new Symbol(i) : new Symbol(28, text);
+    }
 	
 	public static void emit_warn(string message)
 	{

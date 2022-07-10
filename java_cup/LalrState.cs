@@ -26,11 +26,7 @@ public class LalrState
 	
 	public static LalrState find_state(LalrItemSet itms)
 	{
-		if (itms == null)
-		{
-			return null;
-		}
-		return (LalrState)_all.get(itms);
+		return itms != null && _all.TryGetValue(itms, out var r) ? r : null;
 	}
 
 	public virtual LalrItemSet items()
@@ -145,19 +141,15 @@ public class LalrState
 
 	protected internal virtual void report_conflicts(TerminalSet conflict_set)
 	{
-		Enumeration enumeration = items().all();
-		while (enumeration.hasMoreElements())
+		foreach(var lalr_item2 in items().all())
 		{
-			LalrItem lalr_item2 = (LalrItem)enumeration.nextElement();
 			if (!lalr_item2.dot_at_end())
 			{
 				continue;
 			}
 			int num = 0;
-			Enumeration enumeration2 = items().all();
-			while (enumeration2.hasMoreElements())
+			foreach(var lalr_item3 in items().all())
 			{
-				LalrItem lalr_item3 = (LalrItem)enumeration2.nextElement();
 				if (lalr_item2 == lalr_item3)
 				{
 					num = 1;
@@ -398,12 +390,11 @@ public class LalrState
 						var ts = tp.ToArray();
 						for (int i = 0; i < tp.Count; i++)
 						{
-
 							LalrItem itm = ts[i];
 							LalrItem lalr_item4 = lalr_state4.items().find(itm);
 							if (lalr_item4 != null)
 							{
-								lalr_item3.propagate_items().setElementAt(lalr_item4, i);
+                                tp[i]=lalr_item4;
 							}
 						}
 					}

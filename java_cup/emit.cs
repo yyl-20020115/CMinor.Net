@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using utils;
 
 namespace JavaCUP;
 
@@ -117,7 +118,7 @@ public class emit
 		var stringBuilder = new StringBuilder();
 		if (c <= 'ÿ')
 		{
-			stringBuilder.Append(int.toOctalString(c));
+			stringBuilder.Append(IntUtils.ToOctalString(c));
 			while (stringBuilder.Length < 3)
 			{
 				stringBuilder.Insert(0, '0');
@@ -125,7 +126,7 @@ public class emit
 		}
 		else
 		{
-			stringBuilder.Append(int.toHexString(c));
+			stringBuilder.Append(IntUtils.ToHexString(c));
 			while (stringBuilder.Length < 4)
 			{
 				stringBuilder.Insert(0, '0');
@@ -183,10 +184,14 @@ public class emit
 		int[] array2 = new int[2];
 		int num3 = (array2[1] = 2);
 		num3 = (array2[0] = num2);
-		short[][] array3 = (short[][])ByteCodeHelper.multianewarray(typeof(short[][]).TypeHandle, array2);
+		short[][] array3 = new short[array2[0]][];// (short[][])ByteCodeHelper.multianewarray(typeof(short[][]).TypeHandle, array2);
+		for(int i = 0; i < array3.Length; i++)
+        {
+			array3[i] = new short[array2[1]];
+        }
 		for (int i = 0; i < Production.number(); i++)
 		{
-			Production production2 = array[i];
+			var production2 = array[i];
 			array3[i][0] = (short)production2.lhs().the_symbol().Index;
 			array3[i][1] = (short)production2.rhs_length();
 		}

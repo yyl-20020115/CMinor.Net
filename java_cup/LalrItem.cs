@@ -4,6 +4,7 @@
 
 
 using System.Collections.Generic;
+using utils;
 
 namespace JavaCUP;
 
@@ -11,7 +12,7 @@ public class LalrItem : LRItemCore
 {
 	protected internal TerminalSet _lookahead;
 
-	protected internal Stack<LalrItem> _propagate_items = new();
+	protected internal ListStack<LalrItem> _propagate_items = new();
 
 	protected internal bool needs_propagation;
 
@@ -29,7 +30,7 @@ public class LalrItem : LRItemCore
 		return _lookahead;
 	}
 
-	public virtual Stack<LalrItem> propagate_items()
+	public virtual ListStack<LalrItem> propagate_items()
 	{
 		return _propagate_items;
 	}
