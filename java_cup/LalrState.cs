@@ -50,10 +50,9 @@ public class LalrState
 	
 	protected internal virtual void propagate_lookaheads()
 	{
-		Enumeration enumeration = items().all();
-		while (enumeration.hasMoreElements())
+		foreach(var item in items().all())
 		{
-			((LalrItem)enumeration.nextElement()).propagate_lookaheads(null);
+			item.propagate_lookaheads(null);
 		}
 	}
 
@@ -90,10 +89,9 @@ public class LalrState
 	
 	protected internal static void propagate_all_lookaheads()
 	{
-		Enumeration enumeration = all();
-		while (enumeration.hasMoreElements())
+		foreach(var item in all())
 		{
-			((LalrState)enumeration.nextElement()).propagate_lookaheads();
+			item.propagate_lookaheads();
 		}
 	}
 

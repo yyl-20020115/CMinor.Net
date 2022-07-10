@@ -228,11 +228,10 @@ public class LalrItemSet
 		int num = 0;
 		if (hashcode_cache == null)
 		{
-			Enumeration enumeration = all();
 			int num2 = 0;
-			while (enumeration.hasMoreElements())
+			foreach(var i in all())
 			{
-				num ^= ((LalrItem)enumeration.nextElement()).GetHashCode();
+				num ^= (i).GetHashCode();
 				num2++;
 			}
 			hashcode_cache = (num);
@@ -248,10 +247,9 @@ public class LalrItemSet
 	{
 		var stringBuilder = new StringBuilder();
 		stringBuilder.Append("{\n");
-		Enumeration enumeration = all();
-		while (enumeration.hasMoreElements())
+		foreach(var v in all())
 		{
-			stringBuilder.Append(("  ")+((LalrItem)enumeration.nextElement())+("\n")
+			stringBuilder.Append(("  ")+(v)+("\n")
 				);
 		}
 		stringBuilder.Append("}");

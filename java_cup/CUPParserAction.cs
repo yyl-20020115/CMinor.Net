@@ -456,7 +456,7 @@ internal class CUP_0024parser_0024actions
                             //					symbol2 = ((SymbolPart)symbols.Get(text)).the_symbol();
                             symbols.TryGetValue(text, out symbol2);
                         }
-                        if (symbol2 != null && symbol2 is Terminal)
+                        if (symbol2 != null && symbol2 is Terminal t)
                         {
 
                             new Production(lhs_nt, rhs_parts, rhs_pos, ((Terminal)symbol2).precedence_num(), ((Terminal)symbol2).precedence_side());
@@ -540,8 +540,7 @@ internal class CUP_0024parser_0024actions
                     _ = ((Symbol)P_2[P_3 - 0]).left;
                     _ = ((Symbol)P_2[P_3 - 0]).right;
                     string text = (string)((Symbol)P_2[P_3 - 0]).value;
-                    lhs_nt = (NonTerminal)non_terms.get(text);
-                    if (lhs_nt == null && Lexer.error_count == 0)
+                    if (!non_terms.TryGetValue(text, out lhs_nt) && Lexer.error_count == 0)
                     {
                         Lexer.emit_error(("LHS non terminal \"") + (text) + ("\" has not been declared")
                             );
@@ -576,8 +575,7 @@ internal class CUP_0024parser_0024actions
                     _ = ((Symbol)P_2[P_3 - 0]).left;
                     _ = ((Symbol)P_2[P_3 - 0]).right;
                     string text = (string)((Symbol)P_2[P_3 - 0]).value;
-                    NonTerminal value2 = (NonTerminal)non_terms.get(text);
-                    if (value2 == null)
+                    if (!non_terms.TryGetValue(text,out var value2))
                     {
                         Lexer.emit_error(("Start non terminal \"") + (text) + ("\" has not been declared")
                             );

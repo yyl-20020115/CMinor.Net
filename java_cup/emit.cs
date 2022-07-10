@@ -175,10 +175,8 @@ public class emit
 	{
 		long num = Stopwatch.GetTimestamp();
 		Production[] array = new Production[Production.number()];
-		Enumeration enumeration = Production.all();
-		while (enumeration.hasMoreElements())
+		foreach( var production2 in Production.all())
 		{
-			Production production2 = (Production)enumeration.nextElement();
 			array[production2.index()] = production2;
 		}
 		int num2 = Production.number();
@@ -390,10 +388,8 @@ public class emit
 		@out.WriteLine(("      switch (")+(pre("act_num"))+(")")
 			);
 		@out.WriteLine("        {");
-		Enumeration enumeration = Production.all();
-		while (enumeration.hasMoreElements())
+		foreach(var production2 in Production.all())	
 		{
-			Production production2 = (Production)enumeration.nextElement();
 			@out.WriteLine("          /*. . . . . . . . . . . . . . . . . . . .*/");
 			@out.WriteLine(("          case ")+(production2.index())+(": // ")
 				+(production2.to_simple_string())
@@ -531,10 +527,9 @@ public class emit
 			+(" {")
 			);
 		@out.WriteLine("  /* terminals */");
-		Enumeration enumeration = Terminal.all();
-		while (enumeration.hasMoreElements())
+
+		foreach(var terminal2 in Terminal.all())
 		{
-			Terminal terminal2 = (Terminal)enumeration.nextElement();
 			@out.WriteLine(("  public static final int ")+(terminal2.Name)+(" = ")
 				+(terminal2.Index)
 				+(";")
@@ -544,10 +539,8 @@ public class emit
 		{
 			@out.WriteLine();
 			@out.WriteLine("  /* non terminals */");
-			enumeration = NonTerminal.all();
-			while (enumeration.hasMoreElements())
+			foreach(var non_terminal2 in NonTerminal.all())
 			{
-				NonTerminal non_terminal2 = (NonTerminal)enumeration.nextElement();
 				@out.WriteLine(("  static final int ")+(non_terminal2.Name)+(" = ")
 					+(non_terminal2.Index)
 					+(";")
